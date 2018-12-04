@@ -43,3 +43,6 @@ class ErrorCatch:
             return False
         else:
             return True
+
+    def check_date(date):
+        return True

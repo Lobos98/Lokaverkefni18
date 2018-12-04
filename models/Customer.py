@@ -1,5 +1,5 @@
 class Customer:
-	def __innit__(self, email, name, card_no, phone_no, ssn):
+	def __init__(self, email, name, card_no, phone_no, ssn = 0):
 		self.__email = email
 		self.__name = name
 		self.__card_no = card_no
@@ -50,3 +50,14 @@ class Customer:
 
 	def add_history(self, old_order):
 		self.__history[old_order.get_order_no()] = old_order
+
+	def __str__(self):
+		if(self.__ssn == 0):
+			return "{},{},{},{}".format(self.__email, self.__name,\
+				self.__card_no, self.__phone_no)
+		else:
+			return "{},{},{},{},{}".format(self.__email, self.__name,\
+				self.__card_no, self.__phone_no, self.__ssn)
+
+
+

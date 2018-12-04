@@ -29,3 +29,24 @@ class Customer:
 
 	def get_banned(self):
 		return self.__banned
+
+	def set_name(self, new_name):
+		self.__name = new_name
+
+	def set_email(self, new_email):
+		self.__email = new_email
+
+	def set_phone_no(self, new_phone_no):
+		self.__phone_no = new_phone_no
+
+	def set_card_no(self, new_card_no):
+		self.__card_no = new_card_no
+
+	def set_ban(self, ban_bool):
+		self.__banned = ban_bool
+
+	def add_order(self, new_order):
+		self.__orders.append(new_order)
+
+	def add_history(self, old_order):
+		self.__history[old_order.get_order_no()] = old_order

@@ -44,3 +44,8 @@ class Order:
     def set_bonus_insurance(self, insurance_bool):
         self.__bonus_insurance = insurance_bool
         
+    def __str__(self):
+        return "Pöntunarnr: {} Bílnr: {}\nLeigudagsetning: {} \
+        Skiladagsetning: {}\n Netfang: {} Viðbótartrygging: {} "\
+        .format(self.__order_no, self.__car_reg_num, self.get_pickup_date,\
+        self.get_return_date, self.__customer_email, self.__bonus_insurance)

@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from Order import Order
 
 
 class Car:
@@ -58,6 +59,8 @@ class Car:
             self.__broken = True
     
     def add_reservation(self, order):
+        ###Tekur inn pöntun og skráir allar dagsetningarnar sem bíllinn\
+        ###er frátekinn í mengi sem eigindi bílsins
         pickup_date = order.get_pickup_date()
         return_date = order.get_return_date()
         while pickup_date <= return_date:
@@ -65,6 +68,8 @@ class Car:
             pickup_date += timedelta(1)
     
     def add_to_history(self, order):
+        ###Tekur inn pöntun þegar henni er lokið og bætir henni í\
+        ###notkunarsögu bílsins
         renter = order.get_customer_email()
         pickup_date = order.get_pickup_date()
         return_date = order.get_return_date()
@@ -72,11 +77,3 @@ class Car:
         while pickup_date <= return_date:
             self.__reserved_dates.remove(pickup_date)
             pickup_date += timedelta(1)
-
-
-
-
-a = Car("BX-463", "jeppi", "rauður", "1998",\
-history = {"robertelis98@gmail.com": [(datetime(2018, 6, 10), datetime(2018, 6, 20))],\
-"liljag18@ru.is": [(datetime(2018, 6, 1), datetime(2018, 6, 9))]})
-

@@ -16,7 +16,7 @@ class Car:
             self.__reserved_dates = dict()
         else:
             self.__reserved_dates = reserved_dates
-            
+
 
 a = Car("BX-463", "Jeppi", "Rauður", "1998")
 

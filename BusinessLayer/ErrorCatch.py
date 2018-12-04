@@ -1,32 +1,32 @@
 class ErrorCatch:
 
-    def check_SSN(SSN):
+    def check_SSN(self, SSN):
         if SSN[0] in ['0','1','2','3'] and int(SSN[2] + SSN[3]) in range(1,13):
             return True
         else: 
             return False
 
-    def check_email(email):
+    def check_email(self, email):
         if email[0] != '@' and '@' in email and email[-1] != '.' and '.' in email:
             return True
         else:
             return False
 
-    def check_phone_no(phone_number):
+    def check_phone_no(self, phone_number):
         phone_number = phone_number.replace('-', '').replace(' ', '')
         if len(phone_number) == 7:
             return True
         else:
             return False
 
-    def check_card_number(card_number):
+    def check_card_number(self, card_number):
         card_number.replace('-', '').replace(' ', '')
         if len(card_number) in [13,15,16,19]:
             return True
         else:
             return False
     
-    def check_reg_num(reg_num):
+    def check_reg_num(self, reg_num):
         try:
             int(reg_num[3] + reg_num[4])
         except ValueError:
@@ -36,7 +36,7 @@ class ErrorCatch:
         except ValueError:
             return True
 
-    def check_int(integer):
+    def check_int(self, integer):
         try:
             int(integer)
         except:
@@ -44,5 +44,5 @@ class ErrorCatch:
         else:
             return True
 
-    def check_date(date):
+    def check_date(self, date):
         return True

@@ -33,11 +33,8 @@ class OrderRepo:
                 order_list.append(order)
         return order_list
 
-    def get_order(self, order_to_get):
-        if self.__order_list == []:
-            self.get_all_orders()
-            index = self.__order_list.index(order_to_get)
-            return self.__order_list[index]
-        else:
-            index = self.__order_list.index(order_to_get)
-            return self.__order_list[index]
+    def get_order(self, email):
+        for order in self.__order_list:
+            if order[2] == email:
+                return order
+        

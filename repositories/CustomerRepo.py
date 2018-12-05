@@ -26,7 +26,7 @@ class CustomerRepo:
 		for customer in self.__customers:
 			if(take_out == customer.get_email()):
 				self.__customers.remove(customer)
-		with open("./Data?testcustomer.csv", "w") as customer_file:
+		with open("./Data/testcustomer.csv", "w") as customer_file:
 			csv_writer = csv.writer(customer_file)
 			for customer in self.__customers:
 				csv_writer.writerow(customer)

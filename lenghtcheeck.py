@@ -1,0 +1,1 @@
+print(len("Viðskiptavinur  hefur verið skráður"))

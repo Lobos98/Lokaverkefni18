@@ -69,7 +69,7 @@ class Car:
     
     def add_to_history(self, order):
         ###Tekur inn pöntun þegar henni er lokið og bætir henni í\
-        ###notkunarsögu bílsins
+        ###notkunarsögu bílsins og af-frátekur dagsetningarnar
         renter = order.get_customer_email()
         pickup_date = order.get_pickup_date()
         return_date = order.get_return_date()

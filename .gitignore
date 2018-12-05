@@ -120,3 +120,9 @@ test.py
 
 # vscode
 .vscode
+
+# csv files
+test.csv
+
+# data
+data/

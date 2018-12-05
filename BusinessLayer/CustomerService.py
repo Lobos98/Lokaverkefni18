@@ -4,7 +4,17 @@ class CustomerService:
 	def __init__(self):
 		self.__customers = CustomerRepo.get_customer_list()
 
-	def edit_customer(self):
+	def edit_customer_email(self, customer_email, new_email):
+		customer = find_customer(customer_email)
+		customer.set_email(new_email)
+
+	def edit_customer_phone_no(self, customer_email, new_phone_no):
+		customer = find_customer(customer_email)
+		customer.set_phone_no(new_phone_no)
+
+	def edit_customer_card_no(self, customer_email, new_card_no):
+		customer = find_customer(customer_email)
+		customer.set_card_no(new_card_no)
 
 	def delete_customer(self):
 		self.__customers.remove_customer()

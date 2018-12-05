@@ -1,9 +1,17 @@
+from models.Car import Car
 import csv
 
 
 class CarRepo:
+    def __init__(self):
+        self.get_all_cars()
+        self.car_object_list = []
+        for line in self.data:
+            interim_car = Car(*line)
+            self.car_object_list.append(interim_car)   
+
     def get_all_cars(self):
-        file_path = "list_of_cars.csv"
+        file_path = "Data\list_of_cars.csv"
         file = open(file_path, newline='')
         file_contents = csv.reader(file)
         self.__header = next(file_contents)
@@ -37,6 +45,7 @@ class CarRepo:
             self.data.append([reg_number, model, car_type, color, broken, \
             history_dict, reserved_dates_dict])
         file.close()
+        return self.data
 
     def add_car(self, reg_number, model, car_type, color):
         file_path = "list_of_cars.csv"

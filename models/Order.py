@@ -3,11 +3,13 @@ from datetime import timedelta, datetime
 class Order:
     def __init__(self, order_no, car_reg_num, pickup_and_return_date,\
     customer_email, bonus_insurance):
-        self.__order_no = order_no #gera fall til að gera pöntunarnr
+        self.__order_no = order_no 
         self.__car_reg_num = car_reg_num
         self.__pickup_and_return_date = pickup_and_return_date 
         self.__customer_email = customer_email
         self.__bonus_insurance = bonus_insurance
+        self.__pickup_date = self.get_pickup_date()
+        self.__return_date = self.get_return_date()
 
 
     def get_order_no(self):
@@ -46,6 +48,10 @@ class Order:
         
     def __str__(self):
         return "Pöntunarnr: {} Bílnr: {}\nLeigudagsetning: {} \
-        Skiladagsetning: {}\n Netfang: {} Viðbótartrygging: {} "\
-        .format(self.__order_no, self.__car_reg_num, self.get_pickup_date,\
-        self.get_return_date, self.__customer_email, self.__bonus_insurance)
+        Skiladagsetning: {}\nNetfang: {} Viðbótartrygging: {} "\
+        .format(self.__order_no, self.__car_reg_num, self.__pickup_date,\
+        self.__return_date, self.__customer_email, self.__bonus_insurance) 
+        
+    def __repr__(self):
+        return "{},{},{}--{},{},{}".format(self.__order_no, self.__car_reg_num,\
+         self.__pickup_date,self.__return_date, self.__customer_email, self.__bonus_insurance)

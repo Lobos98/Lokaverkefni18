@@ -8,6 +8,7 @@ class Customer:
 		self.__banned = False
 		self.__history = {}
 		self.__orders = []
+		self.__fine = 0
 
 	def get_name(self):
 		return self.__name
@@ -30,6 +31,11 @@ class Customer:
 	def get_banned(self):
 		return self.__banned
 
+	def get_attribute_list(self):
+		attribute_list = [self.__email, self.__name, self.__card_no,\
+		self.__phone_no, self.__ssn]
+		return attribute_list
+
 	def set_name(self, new_name):
 		self.__name = new_name
 
@@ -45,11 +51,22 @@ class Customer:
 	def set_ban(self, ban_bool):
 		self.__banned = ban_bool
 
+	def set_fine(self, fine):
+		self.__fine = fine
+
 	def add_order(self, new_order):
 		self.__orders.append(new_order)
 
 	def add_history(self, old_order):
 		self.__history[old_order.get_order_no()] = old_order
+
+	def __repr__(self):
+		if(self.__ssn == 0):
+			return "{},{},{},{}".format(self.__email, self.__name,\
+				self.__card_no, self.__phone_no)
+		else:
+			return "{},{},{},{},{}".format(self.__email, self.__name,\
+				self.__card_no, self.__phone_no, self.__ssn)
 
 	def __str__(self):
 		if(self.__ssn == 0):

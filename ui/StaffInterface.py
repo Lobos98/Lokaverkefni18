@@ -1,5 +1,6 @@
 import os
 from BusinessLayer.ErrorCatch import ErrorCatch
+from BusinessLayer.CustomerService import CustomerService
 
 def cls():
     os.system('cls')
@@ -76,7 +77,7 @@ class StaffInterface:
         cls()
         name = input("Nafn: ")
         phone = input("Símanúmer: ")
-        eamil = input("Netfang: ")
+        email = input("Netfang: ")
         card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
         ssn_check = input("Er viðskiptavinur með kennitölu? (j/n): ")
         if ssn_check.lower() == "j":
@@ -86,9 +87,10 @@ class StaffInterface:
                 print("Kennitala er gild")
             else:
                 print("Kennitala er ógild")
-        
+        print("-"*57)
+        CustomerService.add_customer(email, name, card_number, phone, ssn)
         print("Viðskiptavinur {} hefur verið skráður".format(name))
-        print("-"*52)
+        print("-"*57)
 
         staff.go_to_menu()
 

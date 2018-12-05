@@ -8,7 +8,7 @@ class OrderRepo:
     def add_order(self, new_order):
         with open("./Data/testorder.csv", "a") as order_file:
             writer = csv.writer(order_file)
-            writer.writerow(new_order) 
+            writer.writerow(new_order.__repr__()) 
             self.__order_list.append(new_order)
 
     def remove_order(self, order_to_remove): 
@@ -16,7 +16,7 @@ class OrderRepo:
             self.__order_list.remove(order_to_remove)
         with open("./Data/testorder.csv", "w") as order_file:
             for order in self.__order_list:
-                writer = csv.writer(order_file)
+                writer = csv.writer(order_file.__repr__())
                 writer.writerow(order) 
 
     def get_all_orders(self): 
@@ -33,11 +33,8 @@ class OrderRepo:
                 order_list.append(order)
         return order_list
 
-    def get_order(self, order_to_get):
-        if self.__order_list == []:
-            self.get_all_orders()
-            index = self.__order_list.index(order_to_get)
-            return self.__order_list[index]
-        else:
-            index = self.__order_list.index(order_to_get)
-            return self.__order_list[index]
+    def get_order(self, email):
+        for order in self.__order_list:
+            if order[2] == email:
+                return order
+        

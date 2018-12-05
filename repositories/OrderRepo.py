@@ -8,16 +8,22 @@ class OrderRepo:
     def add_order(self, new_order):
         with open("./Data/testorder.csv", "a") as order_file:
             writer = csv.writer(order_file)
-            writer.writerow(new_order.__repr__()) 
+            order_file.write(new_order.__repr__()) 
             self.__order_list.append(new_order)
 
-    def remove_order(self, order_to_remove): 
-        if order_to_remove in self.__order_list:
-            self.__order_list.remove(order_to_remove)
-        with open("./Data/testorder.csv", "w") as order_file:
-            for order in self.__order_list:
-                writer = csv.writer(order_file.__repr__())
-                writer.writerow(order) 
+    def remove_order(self, order_to_remove):
+        file_path = "./Data/testorder.csv"
+        file = open(file_path, newline='')
+        file_contents = csv.reader(file)
+        r_string = ''
+        for line in file_contents:
+            if line[0] != order_to_remove:
+                r_string += ",".join(line) + "\n"
+        r_string = r_string.strip("\n")
+        file.close()
+        file = open(file_path, "w")
+        file.write(r_string)
+        file.close()
 
     def get_all_orders(self): 
         order_list = []
@@ -35,6 +41,6 @@ class OrderRepo:
 
     def get_order(self, email):
         for order in self.__order_list:
-            if order[2] == email:
+            if order.get_customer_email() == email:
                 return order
         

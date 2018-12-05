@@ -86,6 +86,7 @@ class StaffInterface:
                 print("Kennitala er gild")
             else:
                 print("Kennitala er ógild")
+        
         print("Viðskiptavinur {} hefur verið skráður".format(name))
         print("-"*52)
 

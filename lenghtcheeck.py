@@ -1,1 +1,1 @@
-print(len("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): 9999-9999-9999"))
+print(len("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): 8989-9999-9999-9999"))

@@ -73,7 +73,10 @@ class Car:
         renter = order.get_customer_email()
         pickup_date = order.get_pickup_date()
         return_date = order.get_return_date()
-        self.__history[renter].append((pickup_date, return_date))
+        if renter in self.__history:
+            self.__history[renter].append((pickup_date, return_date))
+        else:
+            self.__history[renter] = [(pickup_date, return_date)]
         while pickup_date <= return_date:
             self.__reserved_dates.remove(pickup_date)
             pickup_date += timedelta(1)

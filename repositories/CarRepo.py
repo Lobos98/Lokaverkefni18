@@ -50,12 +50,18 @@ class CarRepo:
         return self.data
 
     def add_car(self, car):
-    #def add_car(self, reg_number, model, car_type, color):
+    #ATH HÉR ÞARF AÐ MEÐHÖNDLA AÐ HISTORY OG RESERVED DATES ERU DICTS
         file_path = "./data/list_of_cars.csv"
         file = open(file_path, "a")
-        attributes = (car.get_reg_num(), car.get_model(), car.get_type(),\
-        car.get_color(), str(car.get_broken()), car.get_history(),\
-        car.get_reserved_dates())
+        reg_num = car.get_reg_num()
+        model = car.get_model()
+        type = car.get_type
+        color = car.get_color
+        broken = str(car.get_broken())
+        history = ""
+        #for key in 
+        reserved_dates = ""
+        attributes = (reg_num, model, type, color, broken, history, reserved_dates)
         line_to_append = ",".join(attributes)
         file.write("\n" + line_to_append)
         file.close()

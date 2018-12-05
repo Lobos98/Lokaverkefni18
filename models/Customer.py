@@ -31,6 +31,11 @@ class Customer:
 	def get_banned(self):
 		return self.__banned
 
+	def get_attribute_list(self):
+		attribute_list = [self.__email, self.__name, self.__card_no,\
+		self.__phone_no, self.__ssn]
+		return attribute_list
+
 	def set_name(self, new_name):
 		self.__name = new_name
 
@@ -56,20 +61,12 @@ class Customer:
 		self.__history[old_order.get_order_no()] = old_order
 
 	def __repr__(self):
-		if(self.__ssn == 0):
-			return "{},{},{},{}".format(self.__email, self.__name,\
-				self.__card_no, self.__phone_no)
-		else:
-			return "{},{},{},{},{}".format(self.__email, self.__name,\
-				self.__card_no, self.__phone_no, self.__ssn)
+		return "{},{},{},{},{}".format(self.__email, self.__name,\
+			self.__card_no, self.__phone_no, self.__ssn)
 
 	def __str__(self):
-		if(self.__ssn == 0):
-			return "{},{},{},{}".format(self.__email, self.__name,\
-				self.__card_no, self.__phone_no)
-		else:
-			return "{},{},{},{},{}".format(self.__email, self.__name,\
-				self.__card_no, self.__phone_no, self.__ssn)
+		return "{},{},{},{},{}".format(self.__email, self.__name,\
+			self.__card_no, self.__phone_no, self.__ssn)
 
 
 

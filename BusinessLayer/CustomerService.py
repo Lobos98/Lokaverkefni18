@@ -3,8 +3,7 @@ from models.Customer import Customer
 
 class CustomerService:
 	def __init__(self):
-		self.customer_repo = CustomerRepo()
-		self.__customers = self.customer_repo.get_customer_list()
+		self.__customers = customer_repo.get_customer_list()
 
 	def edit_customer_email(self, customer_email, new_email):
 		customer = find_customer(customer_email)
@@ -19,7 +18,7 @@ class CustomerService:
 		customer.set_card_no(new_card_no)
 
 	def delete_customer(self, customer_email):
-		self.customer_repo.remove_customer(customer_email)
+		customer_repo.remove_customer(customer_email)
 
 	def find_customer(self, customer_email):
 		for customer in self.__customers:
@@ -43,5 +42,7 @@ class CustomerService:
 
 	def add_customer(self, email, name, card_no, phone_no, ssn = "0"):
 		new_customer = Customer(email, name, card_no, phone_no, ssn)
-		customer_list = [email, name, card_no, phone_no, ssn]
-		customer.add_customer(new_customer, customer_list)
+		customer_list = new_customer.get_attribute_list()
+		customer_repo.add_customer(new_customer, customer_list)
+		
+customer_repo = CustomerRepo()

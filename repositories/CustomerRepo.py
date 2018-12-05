@@ -9,6 +9,7 @@ class CustomerRepo:
 		if self.__customers == []:
 			with open("./Data/testcustomer.csv", "r") as customer_file:
 				csv_reader = csv.DictReader(customer_file)
+				self.__customers.append(["Email","Nafn", "Kort", "Simi", "Kennitala"])
 				for line in csv_reader:
 					new_customer = Customer(line["Email"], line["Nafn"],\
 						line["Kort"], line["Simi"], line["Kennitala"])
@@ -17,19 +18,29 @@ class CustomerRepo:
 		return self.__customers
 
 	def add_customer(self, new_customer, customer_list):
-		with open("./Data/testcustomer.csv", "a") as customer_file:
+		with open("./Data/testcustomer.csv", "a+", newline="") as customer_file:
 			csv_writer = csv.writer(customer_file)
-			csv_writer.writerow(customer_list + "\n")
+			csv_writer.writerow(customer_list)
 			self.__customers.append(new_customer)
 
 	def remove_customer(self, take_out):
+		#index = 0
 		for customer in self.__customers:
-			if(take_out == customer.get_email()):
-				self.__customers.remove(customer)
+			try:
+				if(take_out == customer.get_email()):
+					self.__customers.remove(customer)
+			except AttributeError:
+				pass
 		with open("./Data/testcustomer.csv", "w") as customer_file:
-			csv_writer = csv.writer(customer_file)
+			index = 0
 			for customer in self.__customers:
-				csv_writer.writerow(customer)
+				if index == 0:
+					customer_file.write(','.join(customer))
+					index += 1
+				else:
+					attribute_list = customer.get_attribute_list()
+					customer_file.write('\n' + ','.join(attribute_list))
+		
 
 	def __str__(self):
 		return self.__customers

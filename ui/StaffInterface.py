@@ -88,7 +88,7 @@ class StaffInterface:
             else:
                 print("Kennitala er ógild")
         print("-"*57)
-        CustomerService.add_customer(email, name, card_number, phone, ssn)
+        cust.add_customer(email, name, card_number, phone, ssn)
         print("Viðskiptavinur {} hefur verið skráður".format(name))
         print("-"*57)
         staff.go_to_menu()
@@ -100,6 +100,7 @@ class StaffInterface:
         svar = input("Afskrá: Jóhanna Einarsdóttir, {}? (j/n): ".format(email))
         print("-"*50)
         if svar.lower() == "j":
+            #customer_delete = cust.find_customer(email)
             cust.delete_customer(email)
             print("Jóhanna Einarsdóttir afskráð")
         else:

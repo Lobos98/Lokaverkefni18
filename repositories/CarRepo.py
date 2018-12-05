@@ -2,15 +2,15 @@ import csv
 
 
 class CarRepo:
-    def get_all_cars():
+    def get_all_cars(self):
         file_path = "list_of_cars.csv"
         file = open(file_path, newline='')
         file_contents = csv.reader(file)
-        header = next(file_contents)
-        data = []
+        self.__header = next(file_contents)
+        self.data = []
         # row = [reg_number, model, type, color, 
         # broken, history, reserved_dates]
-        data.append(header)
+        self.data.append(self.__header)
         for line in file_contents:
             reg_number = line[0]
             model = line[1]
@@ -34,12 +34,11 @@ class CarRepo:
             except:
                 reserved_dates_dict = line[6]
 
-            data.append([reg_number, model, car_type, color, broken, \
+            self.data.append([reg_number, model, car_type, color, broken, \
             history_dict, reserved_dates_dict])
         file.close()
-        print(("{}\n"*len(data)).format(*data))
 
-    def add_car(reg_number, model, car_type, color):
+    def add_car(self, reg_number, model, car_type, color):
         file_path = "list_of_cars.csv"
         file = open(file_path, "a")
         attributes = (reg_number, model, car_type, color, "", "None", "None")
@@ -47,7 +46,7 @@ class CarRepo:
         file.write("\n" + line_to_append)
         file.close()
 
-    def delete_car(reg_number):
+    def delete_car(self, reg_number):
         file_path = "list_of_cars.csv"
         file = open(file_path, newline='')
         file_contents = csv.reader(file)
@@ -59,3 +58,4 @@ class CarRepo:
         file.close()
         file = open(file_path, "w")
         file.write(r_string)
+        file.close()

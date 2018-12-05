@@ -18,9 +18,9 @@ class CustomerRepo:
 
 	def add_customer(self, new_customer):
 		with open("./Data/testcustomer.csv", "a") as customer_file:
-			csv_writer = csv_writer(customer_file)
-			for customer in new_customer:
-				csv_writer.writerow(customer)
+			csv_writer = csv.writer(customer_file)
+			csv_writer.writerow(new_customer)
+			self.__customers.append(new_customer)
 
 	def remove_customer(self, take_out):
 		for customer in self.__customers:

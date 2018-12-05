@@ -26,7 +26,11 @@ class CarRepo:
             model = line[1]
             car_type = line[2]
             color = line[3]
-            broken = bool(line[4])
+            if line[4] == "True":
+                broken = True
+            elif line[4] == "False":
+                broken = False
+            #ATH Ef None stendur í skrá f history lendum við í villumeðhöndlun
             try:
                 history_list = line[5].split("--")
                 history_list = [pair.split(":") for pair in history_list]
@@ -37,15 +41,13 @@ class CarRepo:
 
             try:
                 reserved_dates_list = line[6].split("--")
-                reserved_dates_list = [pair.split(":") \
+                reserved_dates_list = [tuple(pair.split(":")) \
                 for pair in reserved_dates_list]
-                reserved_dates_dict = {date_rented: date_returned \
-                for (date_rented, date_returned) in reserved_dates_list}
             except:
-                reserved_dates_dict = line[6]
+                reserved_dates_list = line[6]
 
             self.data.append([reg_number, model, car_type, color, broken, \
-            history_dict, reserved_dates_dict])
+            history_dict, reserved_dates_list])
         file.close()
         return self.data
 

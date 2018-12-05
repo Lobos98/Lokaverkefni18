@@ -7,6 +7,7 @@ class CarService:
 
     def find_car(self, reg_num):
         """ finnur bíl og skilar tilviki af Car klasanum"""
+        # Ath bug - returnar none ef bíllinn finnst ekki
         cars = self.__car_repo.get_all_cars()
         for car in cars:
             if car[0] == reg_num:

@@ -31,6 +31,11 @@ class Customer:
 	def get_banned(self):
 		return self.__banned
 
+	def get_attribute_list(self):
+		attribute_list = [self.__email, self.__name, self.__card_no,\
+		self.__phone_no, self.__ssn]
+		return attribute_list
+
 	def set_name(self, new_name):
 		self.__name = new_name
 

@@ -1,4 +1,5 @@
 from repositories.CustomerRepo import CustomerRepo
+from models.Customer import Customer
 
 class CustomerService:
 	def __init__(self):
@@ -39,6 +40,8 @@ class CustomerService:
 		customer = self.find_customer(customer_email)
 		customer.set_fine(fine_amount)
 
-	def add_customer(self):
-		new_customer = Customer(email, name, card_no, phone_no, kt)
-		self.__customers.add_customer(new_customer)
+	def add_customer(self, email, name, card_no, phone_no, ssn = "0"):
+		new_customer = Customer(email, name, card_no, phone_no, ssn)
+		customer = CustomerRepo()
+		customer_list = [email, name, card_no, phone_no, ssn]
+		customer.add_customer(new_customer, customer_list)

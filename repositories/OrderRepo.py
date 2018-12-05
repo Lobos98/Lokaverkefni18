@@ -21,13 +21,23 @@ class OrderRepo:
 
     def get_all_orders(self): 
         order_list = []
+        self.largest_ordernr = 0
         with open("./Data/testorder.csv", "r") as order_file:
             reader = csv.DictReader(order_file)
             for line in reader: 
+                if int(line["Pontunarnr"]) > self.largest_ordernr:
+                    self.largest_ordernr = int(line["Pontunarnr"])
                 order = Order(int(line["Pontunarnr"]), line["Bilnr"],\
-                tuple(line["Dagsetning"].split("--")), line["Email"], bool(line["Aukatrygging"])) 
+                tuple(line["Dagsetning"].split("--")), line["Email"],\
+                bool(line["Aukatrygging"])) 
                 order_list.append(order)
         return order_list
 
     def get_order(self, order_to_get):
-        pass
+        if self.__order_list == []:
+            self.get_all_orders()
+            index = self.__order_list.index(order_to_get)
+            return self.__order_list[index]
+        else:
+            index = self.__order_list.index(order_to_get)
+            return self.__order_list[index]

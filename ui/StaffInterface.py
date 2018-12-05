@@ -91,35 +91,32 @@ class StaffInterface:
         CustomerService.add_customer(email, name, card_number, phone, ssn)
         print("Viðskiptavinur {} hefur verið skráður".format(name))
         print("-"*57)
-
         staff.go_to_menu()
 
-    def afskra_vidskiptavin():
+    def deregister_customer(self):
         cls()
-        ssn = input("Hvern a að afskrá? (kennitala/netfang): ")
-        print("-"*len("Afskrá: Jóhanna Einarsdóttir, 1506992669? (y/n):") + "\n")
-        svar = input("Afskrá: Jóhanna Einarsdóttir, {}? (j/n): ".format(kt))
-        print("-"*len("Afskrá: Jóhanna Einarsdóttir, 1506992669? (y/n):") + "\n")
+        email = input("Hvern á að afskrá? (netfang): ")
+        print("-"*50)
+        svar = input("Afskrá: Jóhanna Einarsdóttir, {}? (j/n): ".format(email))
+        print("-"*50)
         if svar.lower() == "j":
+            cust.delete_customer(email)
             print("Jóhanna Einarsdóttir afskráð")
         else:
             print("Hætt við")
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        print("-"*50 + "\n")
+        staff.go_to_menu()
 
-    def fletta_vidskiptavin():
+    def fletta_vidskiptavin(self):
         cls()
-        print("Fletta upp viðskiptavini eftir:")
-        print("-"*len("Fletta upp viðskiptavini eftir:"))
+        print("Fletta upp viðskiptavini eftir: ")
+        print("-"*33)
         print("1. Kennitölu")
         print("2. Nafni")   
         print("3. Símanúmeri")
         print("4. Netfangi")
         print("5. Til baka")
-        print("-"*len("Fletta upp viðskiptavini eftir:"))
+        print("-"*33)
         val = input("Val: ")
         if val == "1":
             fletta_vidskiptavin_kt()
@@ -737,5 +734,6 @@ class StaffInterface:
 
 staff = StaffInterface()
 error = ErrorCatch()
+cust = CustomerService()
 
 

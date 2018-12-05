@@ -22,8 +22,11 @@ class CarService:
         self.__car_repo.add_car(car_to_be_changed)
         pass
 
-    def log_new_car(self):
-        pass
+    def log_new_car(self, reg_num, model, type, color):
+        ###Býr til nýtt instance af Car klasanum og sendir til CarRepo
+        new_car = Car(reg_num, model, type, color)
+        self.__car_repo.add_car(new_car)
 
-    def delete_car(self):
-        pass
+    def delete_car(self, reg_num):
+        car_to_be_deleted = self.find_car(reg_num)
+        self.__car_repo.delete_car(car_to_be_deleted)

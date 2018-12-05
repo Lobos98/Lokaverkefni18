@@ -61,20 +61,12 @@ class Customer:
 		self.__history[old_order.get_order_no()] = old_order
 
 	def __repr__(self):
-		if(self.__ssn == 0):
-			return "{},{},{},{}".format(self.__email, self.__name,\
-				self.__card_no, self.__phone_no)
-		else:
-			return "{},{},{},{},{}".format(self.__email, self.__name,\
-				self.__card_no, self.__phone_no, self.__ssn)
+		return "{},{},{},{},{}".format(self.__email, self.__name,\
+			self.__card_no, self.__phone_no, self.__ssn)
 
 	def __str__(self):
-		if(self.__ssn == 0):
-			return "{},{},{},{}".format(self.__email, self.__name,\
-				self.__card_no, self.__phone_no)
-		else:
-			return "{},{},{},{},{}".format(self.__email, self.__name,\
-				self.__card_no, self.__phone_no, self.__ssn)
+		return "{},{},{},{},{}".format(self.__email, self.__name,\
+			self.__card_no, self.__phone_no, self.__ssn)
 
 
 

@@ -8,6 +8,7 @@ class Customer:
 		self.__banned = False
 		self.__history = {}
 		self.__orders = []
+		self.__fine = 0
 
 	def get_name(self):
 		return self.__name
@@ -44,6 +45,9 @@ class Customer:
 
 	def set_ban(self, ban_bool):
 		self.__banned = ban_bool
+
+	def set_fine(self, fine):
+		self.__fine = fine
 
 	def add_order(self, new_order):
 		self.__orders.append(new_order)

@@ -39,6 +39,6 @@ class CustomerService:
 		customer = self.find_customer(customer_email)
 		customer.set_fine(fine_amount)
 
-	def add_customer(self):
+	def add_customer(self, email, name, card_no, phone_no, kt = 0):
 		new_customer = Customer(email, name, card_no, phone_no, kt)
 		self.__customers.add_customer(new_customer)

@@ -81,14 +81,19 @@ class StaffInterface:
         ssn_check = input("Er viðskiptavinur með kennitölu? (j/n): ")
         if ssn_check.lower() == "j":
             ssn = input("Kennitala: ")
-            # Hér þarf svo að checka á kennitölunni
-        print("-"*(35 + name))
+            print("-"*52)
+            if error.check_SSN(ssn):
+                print("Kennitala er gild")
+            else:
+                print("Kennitala er ógild")
+        print("Viðskiptavinur {} hefur verið skráður".format(name))
+        print("-"*52)
 
         staff.go_to_menu()
 
     def afskra_vidskiptavin():
         cls()
-        kt = input("Hvern a að afskrá? (kennitala/netfang): ")
+        ssn = input("Hvern a að afskrá? (kennitala/netfang): ")
         print("-"*len("Afskrá: Jóhanna Einarsdóttir, 1506992669? (y/n):") + "\n")
         svar = input("Afskrá: Jóhanna Einarsdóttir, {}? (j/n): ".format(kt))
         print("-"*len("Afskrá: Jóhanna Einarsdóttir, 1506992669? (y/n):") + "\n")
@@ -728,5 +733,6 @@ class StaffInterface:
             pass
 
 staff = StaffInterface()
+error = ErrorCatch()
 
 

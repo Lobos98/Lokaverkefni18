@@ -1,1 +1,1 @@
-print(len("Viðskiptavinur  hefur verið skráður"))
+print(len("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): 9999-9999-9999"))

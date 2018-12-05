@@ -1,10 +1,21 @@
 from repositories.CustomerRepo import CustomerRepo
+from models.Customer import Customer
 
 class CustomerService:
 	def __init__(self):
 		self.__customers = CustomerRepo.get_customer_list()
 
-	def edit_customer(self):
+	def edit_customer_email(self, customer_email, new_email):
+		customer = find_customer(customer_email)
+		customer.set_email(new_email)
+
+	def edit_customer_phone_no(self, customer_email, new_phone_no):
+		customer = find_customer(customer_email)
+		customer.set_phone_no(new_phone_no)
+
+	def edit_customer_card_no(self, customer_email, new_card_no):
+		customer = find_customer(customer_email)
+		customer.set_card_no(new_card_no)
 
 	def delete_customer(self):
 		self.__customers.remove_customer()
@@ -29,4 +40,8 @@ class CustomerService:
 		customer = self.find_customer(customer_email)
 		customer.set_fine(fine_amount)
 
-	def add_customer(self):
+	def add_customer(self, email, name, card_no, phone_no, ssn = "0"):
+		new_customer = Customer(email, name, card_no, phone_no, ssn)
+		customer = CustomerRepo()
+		customer_list = [email, name, card_no, phone_no, ssn]
+		customer.add_customer(new_customer, customer_list)

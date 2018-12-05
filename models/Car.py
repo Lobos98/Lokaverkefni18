@@ -3,7 +3,7 @@ from models.Order import Order
 
 
 class Car:
-    def __init__(self, reg_num, type, color, model, broken=False,\
+    def __init__(self, reg_num, model, type, color, broken=False,\
     history=None, reserved_dates=None):
         self.__reg_num = reg_num
         self.__type = type
@@ -21,7 +21,7 @@ class Car:
 
     def __repr__(self):
         return "Car({}, {}, {}, {}, {}, {}, {})".format(self.__reg_num,\
-        self.__type, self.__color, self.__model, self.__broken,\
+        self.__model, self.__type, self.__color, self.__broken,\
         self.__history.__repr__(), self.__reserved_dates.__repr__())
 
     def __str__(self):
@@ -69,7 +69,7 @@ class Car:
     
     def add_to_history(self, order):
         ###Tekur inn pöntun þegar henni er lokið og bætir henni í\
-        ###notkunarsögu bílsins
+        ###notkunarsögu bílsins og af-frátekur dagsetningarnar
         renter = order.get_customer_email()
         pickup_date = order.get_pickup_date()
         return_date = order.get_return_date()

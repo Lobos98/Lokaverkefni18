@@ -1,9 +1,19 @@
+from models.Car import Car
 import csv
 
 
 class CarRepo:
+    def __init__(self):
+        self.get_all_cars()
+        self.car_object_list = []
+        for line in self.data:
+            if line[0] == "Bilnumer":
+                pass
+            interim_car = Car(*line)
+            self.car_object_list.append(interim_car)   
+
     def get_all_cars(self):
-        file_path = "list_of_cars.csv"
+        file_path = "Data\list_of_cars.csv"
         file = open(file_path, newline='')
         file_contents = csv.reader(file)
         self.__header = next(file_contents)
@@ -37,22 +47,26 @@ class CarRepo:
             self.data.append([reg_number, model, car_type, color, broken, \
             history_dict, reserved_dates_dict])
         file.close()
+        return self.data
 
-    def add_car(self, reg_number, model, car_type, color):
-        file_path = "list_of_cars.csv"
+    def add_car(self, car):
+    #def add_car(self, reg_number, model, car_type, color):
+        file_path = "./data/list_of_cars.csv"
         file = open(file_path, "a")
-        attributes = (reg_number, model, car_type, color, "", "None", "None")
+        attributes = (car.get_reg_num(), car.get_model(), car.get_type(),\
+        car.get_color(), str(car.get_broken()), car.get_history(),\
+        car.get_reserved_dates())
         line_to_append = ",".join(attributes)
         file.write("\n" + line_to_append)
         file.close()
 
-    def delete_car(self, reg_number):
-        file_path = "list_of_cars.csv"
+    def delete_car(self, car):
+        file_path = "./data/list_of_cars.csv"
         file = open(file_path, newline='')
         file_contents = csv.reader(file)
         r_string = ''
         for line in file_contents:
-            if line[0] != reg_number:
+            if line[0] != car.get_reg_num():
                 r_string += ",".join(line) + "\n"
         r_string = r_string.strip("\n")
         file.close()

@@ -1,12 +1,4 @@
 from ui.StaffInterface import StaffInterface
-from services.CarService import CarService
-
-service = CarService()
-car = service.find_car("MAT69")
-print(car.__repr__())
-service.log_broken_car("MAT69")
-car = service.find_car("MAT69")
-print(car.__repr__())
 
 def main():
     print()

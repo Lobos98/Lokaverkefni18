@@ -15,7 +15,7 @@ class Car:
         else:
             self.__history = history
         if reserved_dates == None:
-            self.__reserved_dates = set()
+            self.__reserved_dates = []
         else:
             self.__reserved_dates = reserved_dates
 
@@ -44,12 +44,13 @@ class Car:
         return self.__broken
 
     def get_history(self):
-        ###Skilar uppflettitöflu þar sem hver lykill er tilgreindur með
-        ###tölvupóstfangi og gildi lykilsins er listi af túplum, þar sem
-        ###hver túpla inniheldur leigudag og skiladag.
+        """Skilar uppflettitöflu þar sem hver lykill er tilgreindur með
+        tölvupóstfangi og gildi lykilsins er listi af túplum, þar sem
+        hver túpla inniheldur leigudag og skiladag."""
         return self.__history
 
     def get_reserved_dates(self):
+        """Skilar lista af túplum með leigudagsetningu og skiladagsetningu"""
         return self.__reserved_dates
 
     def change_broken_status(self):
@@ -59,24 +60,23 @@ class Car:
             self.__broken = True
     
     def add_reservation(self, order):
-        ###Tekur inn pöntun og skráir allar dagsetningarnar sem bíllinn\
-        ###er frátekinn í mengi sem eigindi bílsins
+        """Tekur inn pöntun og skráir allar dagsetningarnar sem bíllinn\
+        er frátekinn í mengi sem eigindi bílsins"""
         pickup_date = order.get_pickup_date()
         return_date = order.get_return_date()
-        while pickup_date <= return_date:
-            self.__reserved_dates.add(pickup_date)
-            pickup_date += timedelta(1)
+        reservation = (pickup_date, return_date)
+        self.__reserved_dates().append(reservation)
     
     def add_to_history(self, order):
-        ###Tekur inn pöntun þegar henni er lokið og bætir henni í\
-        ###notkunarsögu bílsins og af-frátekur dagsetningarnar
+        """Tekur inn pöntun þegar henni er lokið og bætir henni í\
+        notkunarsögu bílsins og af-frátekur dagsetningarnar"""
         renter = order.get_customer_email()
         pickup_date = order.get_pickup_date()
         return_date = order.get_return_date()
+        reservation = (pickup_date, return_date)
         if renter in self.__history:
-            self.__history[renter].append((pickup_date, return_date))
+            self.__history[renter].append(reservation)
         else:
-            self.__history[renter] = [(pickup_date, return_date)]
-        while pickup_date <= return_date:
-            self.__reserved_dates.remove(pickup_date)
-            pickup_date += timedelta(1)
+            self.__history[renter] = [reservation]
+        self.__reserved_dates.remove(reservation)
+        

@@ -50,17 +50,50 @@ class CarRepo:
         return self.data
 
     def add_car(self, car):
-    #ATH HÉR ÞARF AÐ MEÐHÖNDLA AÐ HISTORY OG RESERVED DATES ERU DICTS
         file_path = "./data/list_of_cars.csv"
         file = open(file_path, "a")
         reg_num = car.get_reg_num()
         model = car.get_model()
-        type = car.get_type
-        color = car.get_color
+        type = car.get_type()
+        color = car.get_color()
         broken = str(car.get_broken())
+        history_dict = car.get_history()
         history = ""
-        #for key in 
+        for key in history_dict:
+            history += key
+            history += ":"
+            for pickup_return_date_tuple in history_dict[key]:
+                pickup_date = pickup_return_date_tuple[0]
+                return_date = pickup_return_date_tuple[1]
+                history += str(pickup_date.day())
+                history += str(pickup_date.month())
+                history += str(pickup_date.year())
+                history += "/"
+                history += str(return_date.day())
+                history += str(return_date.month())
+                history += str(return_date.year())
+                history += ":"
+            history = history[:-1] 
+            #Þetta er til að fjarlægja síðasta : delimiterinn
+            history += "--"
+        history = history[:-2]
+        #Þetta er til að fjarlægja síðasta -- delimiterinn
+        reserved_dates_list = car.get_reserved_dates()
         reserved_dates = ""
+        for reservation in reserved_dates_list:
+            pickup_date = reservation[0]
+            return_date = reservation[1]
+            reserved_dates += pickup_date.day()
+            reserved_dates += pickup_date.month()
+            reserved_dates += pickup_date.year()
+            reserved_dates += ":"
+            reserved_dates += return_date.day()
+            reserved_dates += return_date.month()
+            reserved_dates += return_date.year()
+            reserved_dates += "--"
+        reserved_dates = reserved_dates[:-2]
+        
+
         attributes = (reg_num, model, type, color, broken, history, reserved_dates)
         line_to_append = ",".join(attributes)
         file.write("\n" + line_to_append)

@@ -1,6 +1,6 @@
 Bilnumer,argerd,Tegund,Litur,Biladur,Notkunarsaga,FrateknarDagsetningar
-BB111,2008,Folksbill,Graenn,,None,None
-CC222,2009,Smabill,Gulur,,None,None
-DD444,2018,Smabill,Svartur,,None,None
-AA000,1999,Jeppi,Raudur,,None,None
+BB111,2008,Folksbill,Graenn,True,None,None
+CC222,2009,Smabill,Gulur,False,None,None
+DD444,2018,Smabill,Svartur,False,None,None
+AA000,1999,Jeppi,Raudur,False,None,None
 MAT69,2018,Jeppi,Svartur,True,None,None

@@ -6,7 +6,7 @@ class CarService:
         self.__car_repo = CarRepo()
 
     def find_car(self, reg_num):
-        ###finnur bíl og skilar tilviki af Car klasanum
+        """ finnur bíl og skilar tilviki af Car klasanum"""
         cars = self.__car_repo.get_all_cars()
         for car in cars:
             if car[0] == reg_num:
@@ -14,8 +14,8 @@ class CarService:
                 return found_car
     
     def log_broken_car(self, reg_num):
-        ###Finnur bíl, fjarlægir hann úr gagnagrunni,\
-        ###breytir ástandinu og skrifar hann aftur í gagnagunninn
+        """ Finnur bíl, fjarlægir hann úr gagnagrunni,\
+        breytir ástandinu og skrifar hann aftur í gagnagunninn """
         car_to_be_changed = self.find_car(reg_num)
         self.__car_repo.delete_car(car_to_be_changed)
         car_to_be_changed.change_broken_status()
@@ -23,7 +23,7 @@ class CarService:
         pass
 
     def log_new_car(self, reg_num, model, type, color):
-        ###Býr til nýtt instance af Car klasanum og sendir til CarRepo
+        """Býr til nýtt instance af Car klasanum og sendir til CarRepo """
         new_car = Car(reg_num, model, type, color)
         self.__car_repo.add_car(new_car)
 

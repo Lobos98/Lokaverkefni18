@@ -1,5 +1,5 @@
 class Customer:
-	def __init__(self, email, name, card_no, phone_no, ssn = 0, ban = "false", fine = 0):
+	def __init__(self, email, name, card_no, phone_no, ssn = 0, ban = "false", fine = "0"):
 		self.__email = email
 		self.__name = name
 		self.__card_no = card_no
@@ -33,7 +33,7 @@ class Customer:
 
 	def get_attribute_list(self):
 		attribute_list = [self.__email, self.__name, self.__card_no,\
-		self.__phone_no, self.__ssn]
+		self.__phone_no, self.__ssn, self.__banned, self.__fine]
 		return attribute_list
 
 	def set_name(self, new_name):

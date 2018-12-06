@@ -4,8 +4,9 @@ import datetime
 class ErrorCatch:
 
     def check_SSN(self, SSN):
-        if SSN[0] in ['0','1','2','3'] and int(SSN[2] + SSN[3]) in range(1,13):
-            return True
+        if len(SSN) == 10:
+            if SSN[0] in ['0','1','2','3'] and int(SSN[2] + SSN[3]) in range(1,13):
+                return True
         else: 
             return False
 

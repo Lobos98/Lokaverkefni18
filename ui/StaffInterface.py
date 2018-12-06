@@ -80,20 +80,66 @@ class StaffInterface:
         else:
             self.main_menu()
     
-    def register_customer(self):
-        cls()
-        name = input("Nafn: ")
-        phone = input("Símanúmer: ")
-        email = input("Netfang: ")
+    def card_input(self):
         card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
+        while not error.check_card_number(card_number):
+            if card_number.lower() == "q":
+                staff.go_to_menu()
+            else:
+                print("Rangt kortanúmer, reyndu aftur eða 'q' til að hætta")
+                card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
+        return card_number
+    
+    def phone_input(self):
+        phone = input("Símanúmer: ")
+        while not error.check_phone_no(phone):
+            if phone.lower() == "q":
+                staff.go_to_menu()
+            else:
+                print("Rangt símanúmer, reyndu aftur eða 'q' til að hætta")
+                phone = input("Símanúmer: ")
+        return phone
+    
+    def email_input(self):
+        email = input("Netfang: ")
+        while not error.check_email(email):
+            if email.lower() == "q":
+                staff.go_to_menu()
+            else:
+                print("Rangt netfang, reyndu aftur eða 'q' til að hætta")
+                email = input("Netfang: ")
+        return email
+    
+    def ssn_checker(self):
         ssn_check = input("Er viðskiptavinur með kennitölu? (j/n): ")
         if ssn_check.lower() == "j":
             ssn = input("Kennitala: ")
             print("-"*52)
+<<<<<<< HEAD
+            while not error.check_SSN(ssn):
+                if ssn_check.lower() == "q":
+                    staff.go_to_menu()
+                else:
+                    print("Kennitala er ógild, reyndu aftur eða 'q' til að hætta")
+                    ssn = input("Kennitala: ")
+            print("Kennitala er gild")
+
+        return ssn
+    
+    def register_customer(self):
+        cls()
+        name = input("Nafn: ")
+        phone = self.phone_input()
+        email = self.email_input()
+        card_number = self.card_input()
+        ssn = self.ssn_checker()
+        
+=======
             if self.__error_catch.check_SSN(ssn):
                 print("Kennitala er gild")
             else:
                 print("Kennitala er ógild")
+>>>>>>> 0a93faed4577871dfccaf3d30887a39082ec6ba0
         print("-"*57)
         self.__customer_service.add_customer(email, name, card_number, phone, ssn)
         print("Viðskiptavinur {} hefur verið skráður".format(name))
@@ -262,7 +308,7 @@ class StaffInterface:
         customer = self.__customer_service.find_customer(email)
         print("-")
         stadfesta = input("Setja á bannlista: {}, {}? (j/n): ".format(customer.get_name(), email))
-        
+        cust.ban_customer(email)
         if stadfesta == "j":
             print("Jón Ólafsson hefur verið færður á bannlista.")
         else:

@@ -26,10 +26,18 @@ class CarService:
         pass
 
     def log_new_car(self, reg_num, model, type, color):
-        """Býr til nýtt instance af Car klasanum og sendir til CarRepo """
-        new_car = Car(reg_num, model, type, color)
-        self.__car_repo.add_car(new_car)
+        """Býr til nýtt instance af Car klasanum og sendir til CarRepo.\
+        Skilar False ef bíllinn er þegar til"""
+        if self.find_car(reg_num) == False:
+            new_car = Car(reg_num, model, type, color)
+            self.__car_repo.add_car(new_car)
+        else:
+            return False
 
     def delete_car(self, reg_num):
+        """Leitar að bíl eftir bílnúmeri og eyðir honum
+        skilar False ef bíllinn er ekki í skránni"""
         car_to_be_deleted = self.find_car(reg_num)
+        if car_to_be_deleted == False:
+            return False
         self.__car_repo.delete_car(car_to_be_deleted)

@@ -37,7 +37,7 @@ class StaffInterface:
     def go_to_menu(self):
         choice = input("Fara aftur á valmynd? (j/n): ")
         if choice.lower() == "j":
-            staff.main_menu
+            staff.main_menu()
         else:
             pass
         
@@ -222,24 +222,31 @@ class StaffInterface:
         print("-"*(6+len(customer.get_email())))
 
         if val == "1":
+            cls()
             simanr = input("Nýtt Símanúmer: ")
+            print("-"*30)
             cust.edit_customer_phone_no(customer.get_email(), simanr)
             print("Símanúmeri hefur verið breytt.")
+            print("-"*30)
         elif val == "2":
+            cls()
             netfang = input("Nýtt netfang: ")
+            print("-"*(14+len(netfang)))
+            cust.edit_customer_email(customer.get_email(), netfang)
             print("Netfangi hefur verið breytt.")
+            print("-"*(14+len(netfang)))
         elif val == "3":
+            cls()
             kortanumer = input("Nýtt kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
+            print("-"*(62))
+            cust.edit_customer_card_no(customer.get_email(), kortanumer)
             print("Kortanúmeri hefur verið breytt.")
+            print("-"*(62))
         elif val == "4":
-            vidskiptavinir_options()
+            print("----------------------------")
+            staff.go_to_menu()
 
-        print("-"*len("4. Kreditkortanúmeri"))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        staff.go_to_menu()
         
 
     def setja_a_bannlista():

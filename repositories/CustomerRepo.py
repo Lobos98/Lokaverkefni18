@@ -41,6 +41,7 @@ class CustomerRepo:
 				else:
 					attribute_list = customer.get_attribute_list()
 					customer_file.write('\n' + ','.join(attribute_list))
+			customer_file.write("\n")
 		
 
 	def __str__(self):

@@ -1,7 +1,6 @@
 from models.Order import Order
 from repositories.OrderRepo import OrderRepo
 
-Order_instance = Order()
 Order_repo_instance = OrderRepo()
 
 
@@ -14,7 +13,7 @@ class OrderService:
         Order_repo_instance.add_order(self.new_order)
 
     def change_order(self, email, choice, date1=0, date2=0, reg_number=0):
-        order_to_change = Order_instance.get_order(email)
+        order_to_change = Order_repo_instance.get_order(email)
         original_reg_number = order_to_change.get_car_reg_num()
         original_date1 = order_to_change.get_pickup_date()
         original_date2 = order_to_change.get_return_date()

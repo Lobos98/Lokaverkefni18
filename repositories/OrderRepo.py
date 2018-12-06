@@ -35,7 +35,7 @@ class OrderRepo:
                     self.largest_ordernr = int(line["Pontunarnr"])
                 order = Order(int(line["Pontunarnr"]), line["Bilnr"],\
                 tuple(line["Dagsetning"].split("--")), line["Email"],\
-                bool(line["Aukatrygging"])) 
+                bool(int(line["Aukatrygging"]))) 
                 order_list.append(order)
         return order_list
 

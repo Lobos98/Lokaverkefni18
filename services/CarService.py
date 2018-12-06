@@ -20,6 +20,8 @@ class CarService:
         """ Finnur bíl, fjarlægir hann úr gagnagrunni,\
         breytir ástandinu og skrifar hann aftur í gagnagunninn """
         car_to_be_changed = self.find_car(reg_num)
+        if car_to_be_changed == False:
+            return False
         self.__car_repo.delete_car(car_to_be_changed)
         car_to_be_changed.change_broken_status()
         self.__car_repo.add_car(car_to_be_changed)

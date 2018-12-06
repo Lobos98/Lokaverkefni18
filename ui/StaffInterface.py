@@ -429,13 +429,13 @@ class StaffInterface:
         input_num = input("Val: ")
 
         if input_num == "1":
-            log_broken_car()
+            self.log_broken_car()
         elif input_num == "2":
-            log_car_as_fixed()
+            self.log_car_as_fixed()
         elif input_num == "3":
-            print_broken_cars()
+            self.print_broken_cars()
         else:
-            vehicle_menu()
+            self.vehicle_menu()
 
     def log_broken_car(self):
         cls()

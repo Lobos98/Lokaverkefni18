@@ -79,6 +79,7 @@ jeppi, folksbill eða smabill\nog skal skrifa án íslenskra sérstafa")
         check = False
         while check == False:
             pass
+        return datetime.datetime.today()
 
 
     def check_SSN(self, SSN):

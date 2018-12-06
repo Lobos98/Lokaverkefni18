@@ -215,16 +215,20 @@ class StaffInterface:
 
     def ban_customer(self):
         cls()
-        email = input("Netfang: ")
+        print("Setja á bannlista")
+        print("-"*60)
+        email = self.email_input()
         customer = self.__customer_service.find_customer(email)
-        print("-")
+        cls()
+        print("Setja á bannlista")
+        print("-"*(31 + len(customer.get_name()) + len(email)))
         stadfesta = input("Setja á bannlista: {}, {}? (j/n): ".format(customer.get_name(), email))
-        cust.ban_customer(email)
+        self.__customer_service.ban_customer(email)
         if stadfesta == "j":
             print("Jón Ólafsson hefur verið færður á bannlista.")
         else:
             print("Hætt við.")
-        print("-")
+        print("-"*(31 + len(customer.get_name()) + len(email)))
     
         self.go_to_menu()
         

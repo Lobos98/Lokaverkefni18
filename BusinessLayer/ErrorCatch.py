@@ -3,6 +3,21 @@ import datetime
 
 class ErrorCatch:
 
+    def __init__(self):
+        pass
+
+    def input_reg_num(self):
+        check = False
+        while check == False:
+        reg_num = input("Bílnúmer: ")
+            if len(reg_num) == 5:
+                if reg_num[0:2].isalpha()== True:
+                    if reg_num[2].isalnum() == True:
+                        if reg_num[3:5].isdigit() == True:
+                            return reg_num.upper()
+            print("Athugið að bílnúmer skal skrifa inn á forminu AAXTT\n\
+    þar sem A er bókstafur, T er tölustafur og X er annaðhvort")
+
     def check_SSN(self, SSN):
         if len(SSN) == 10:
             if SSN[0] in ['0','1','2','3'] and int(SSN[2] + SSN[3]) in range(1,13):

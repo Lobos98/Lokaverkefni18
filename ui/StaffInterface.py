@@ -374,7 +374,7 @@ class StaffInterface:
 
     def add_car(self):
         cls()
-        bilnumer = input("Bílnúmer: ")
+        bilnumer = self.__error_catch.input_reg_num()
         print("-"*len("Bílnum {} hefur verið skráður!".format(bilnumer)))
         print("Bíllinn {} hefur verið skráður!".format(bilnumer))
         print("-"*len("Bílnum {} hefur verið skráður!".format(bilnumer)))

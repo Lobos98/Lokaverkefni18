@@ -8,14 +8,23 @@ class CustomerService:
 	def edit_customer_email(self, customer_email, new_email):
 		customer = find_customer(customer_email)
 		customer.set_email(new_email)
+		customer_repo.remove_customer(customer_email)
+		attribute_list = customer.get_attribute_list()
+		customer_repo.add_customer(customer, attribute_list)
 
 	def edit_customer_phone_no(self, customer_email, new_phone_no):
 		customer = find_customer(customer_email)
 		customer.set_phone_no(new_phone_no)
+		customer_repo.remove_customer(customer_email)
+		attribute_list = customer.get_attribute_list()
+		customer_repo.add_customer(customer, attribute_list)
 
 	def edit_customer_card_no(self, customer_email, new_card_no):
 		customer = find_customer(customer_email)
 		customer.set_card_no(new_card_no)
+		customer_repo.remove_customer(customer_email)
+		attribute_list = customer.get_attribute_list()
+		customer_repo.add_customer(customer, attribute_list)
 
 	def delete_customer(self, customer_email):
 		customer_repo.remove_customer(customer_email)

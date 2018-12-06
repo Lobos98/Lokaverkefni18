@@ -1,13 +1,19 @@
 from repositories.CarRepo import CarRepo
 from models.Car import Car
+from datetime import datetime
 
 class CarService:
     def __init__(self):
         self.__car_repo = CarRepo()
+        self.__price_list = {"jeppi": 5000, "folksbill": 4000, "smabill": 3000}
+
+    def get_price(self, car):
+        """Tekur við Car object og skilar verðinu á bílnum"""
+        return self.__price_list[car.get_type()]
 
     def find_car(self, reg_num):
-        """ finnur bíl og skilar tilviki af Car klasanum"""
-        # Ath bug - returnar none ef bíllinn finnst ekki
+        """ tekur við bílnúmeri AAX99, finnur bíl og skilar\
+        tilviki af Car klasanum"""
         cars = self.__car_repo.get_all_cars()
         for car in cars:
             if car.get_reg_num() == reg_num:
@@ -43,3 +49,32 @@ class CarService:
         if car_to_be_deleted == False:
             return False
         self.__car_repo.delete_car(car_to_be_deleted)
+
+    def find_free_cars(self, date_string_1, date_string_2):
+        """Tekur við 2 dags.str. á forminu ddmmáááá og skilar lista\
+        af lausum bílum á tímabilinu """
+        pickup_date = datetime.strptime(date_string_1, "%d%m%Y")
+        return_date = datetime.strptime(date_string_2, "%d%m%Y")
+        car_list = self.__car_repo.get_all_cars()
+        free_car_list = [car for car in car_list]
+        for car in car_list:
+            reservations = car.get_reserved_dates()
+            for date_tuple in reservations:
+                if  date_tuple[0] <= pickup_date <= date_tuple[1]:
+                    free_car_list.remove(car)
+                elif date_tuple[0] <= return_date <= date_tuple[1]:
+                    free_car_list.remove(car)
+                elif pickup_date <= date_tuple[0] and date_tuple[1] <= return_date:
+                    free_car_list.remove(car)
+        return free_car_list
+
+    def get_rented_cars(self):
+        """Skilar lista af bílum sem eru í útleigu í augnablikinu"""
+        list_of_cars = self.__car_repo.get_all_cars()
+        rented_cars = []
+        for car in list_of_cars:
+            reserved_dates = car.get_reserved_dates()
+            for date_tuple in reserved_dates:
+                if date_tuple[0]< datetime.today() < date_tuple[1]:
+                    rented_cars.append(car)
+        return rented_cars

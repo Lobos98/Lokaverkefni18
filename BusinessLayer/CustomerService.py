@@ -58,7 +58,7 @@ class CustomerService:
 
 	def fine_customer(self, customer_email, fine_amount):
 		customer = self.find_customer(customer_email)
-		customer.set_fine(fine_amount)
+		customer.set_fine(str(fine_amount))
 		customer_repo.remove_customer(customer_email)
 		attribute_list = customer.get_attribute_list()
 		customer_repo.add_customer(customer, attribute_list)
@@ -67,5 +67,12 @@ class CustomerService:
 		new_customer = Customer(email, name, card_no, phone_no, ssn)
 		customer_list = new_customer.get_attribute_list()
 		customer_repo.add_customer(new_customer, customer_list)
+
+	def list_of_banned_customers(self):
+		banned_customer_list = []
+		for customer in self.customers:
+			if customer.get_banned() == "true":
+				banned_customer_list.append(customer)
+		return banned_customer_list
 		
 customer_repo = CustomerRepo()

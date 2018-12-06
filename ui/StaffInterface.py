@@ -83,9 +83,9 @@ class StaffInterface:
     
     def card_input(self):
         card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
-        while not error.check_card_number(card_number):
+        while not self.__error_catch.check_card_number(card_number):
             if card_number.lower() == "q":
-                staff.go_to_menu()
+                self.go_to_menu()
             else:
                 print("Rangt kortanúmer, reyndu aftur eða 'q' til að hætta")
                 card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
@@ -93,9 +93,9 @@ class StaffInterface:
     
     def phone_input(self):
         phone = input("Símanúmer: ")
-        while not error.check_phone_no(phone):
+        while not self.__error_catch.check_phone_no(phone):
             if phone.lower() == "q":
-                staff.go_to_menu()
+                self.go_to_menu()
             else:
                 print("Rangt símanúmer, reyndu aftur eða 'q' til að hætta")
                 phone = input("Símanúmer: ")
@@ -103,9 +103,9 @@ class StaffInterface:
     
     def email_input(self):
         email = input("Netfang: ")
-        while not error.check_email(email):
+        while not self.__error_catch.check_email(email):
             if email.lower() == "q":
-                staff.go_to_menu()
+                self.go_to_menu()
             else:
                 print("Rangt netfang, reyndu aftur eða 'q' til að hætta")
                 email = input("Netfang: ")
@@ -116,14 +116,13 @@ class StaffInterface:
         if ssn_check.lower() == "j":
             ssn = input("Kennitala: ")
             print("-"*52)
-            while not error.check_SSN(ssn):
+            while not self.__error_catch.check_SSN(ssn):
                 if ssn_check.lower() == "q":
-                    staff.go_to_menu()
+                    self.go_to_menu()
                 else:
                     print("Kennitala er ógild, reyndu aftur eða 'q' til að hætta")
                     ssn = input("Kennitala: ")
             print("Kennitala er gild")
-
         return ssn
     
     def register_customer(self):
@@ -142,17 +141,19 @@ class StaffInterface:
 
     def deregister_customer(self):
         cls()
-        email = input("Hvern á að afskrá? (netfang): ")
-        print("-"*50)
-        svar = input("Afskrá: Jóhanna Einarsdóttir, {}? (j/n): ".format(email))
-        print("-"*50)
+        print("Afskrá viðskiptavin")
+        print("-"*60)
+        email = self.email_input()
+        print("-"*60)
+        cust = self.__customer_service.find_customer(email)
+        svar = input("Afskrá: {}, {}? (j/n): ".format(cust.get_name(), email))
+        print("-"*60)
         if svar.lower() == "j":
-            #customer_delete = self.__customer_service.find_customer(email)
             self.__customer_service.delete_customer(email)
-            print("Jóhanna Einarsdóttir afskráð")
+            print("{} afskráð".format(cust.get_name()))
         else:
             print("Hætt við")
-        print("-"*50 + "\n")
+        print("-"*60)
         self.go_to_menu()
 
     def find_customer(self):
@@ -169,89 +170,6 @@ class StaffInterface:
             self.edit_customer(customer_found)
         else:
             self.go_to_menu()
-
-        #print("1. Kennitölu")
-        #print("2. Nafni")   
-        #print("3. Símanúmeri")
-        #print("4. Netfangi")
-        #print("5. Til baka")
-        #print("-"*33)
-        #val = input("Val: ")
-        #if val == "1":
-        #    fletta_vidskiptavin_kt()
-        #elif val == "2":
-        #    fletta_vidskiptavin_nafn()
-        #elif val == "3":
-        #    fletta_vidskiptavin_simanr()
-        #elif val == "4":
-        #    fletta_vidskiptavin_netfang()
-        #else:
-        #    vidskiptavinir_options()
-
-    # def fletta_vidskiptavin_netfang():
-    #     cls()
-    #     netfang = input("Netfang: ")
-    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-    #     print("Nafn: Jón Ólafsson")
-    #     print("Kennitala: 2903983209")
-    #     print("Símanr: 8886785")
-    #     print("Netfang: " + netfang)
-    #     print("Kreditkortanúmer: 1234-1234-1234-1234")
-    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-    #     svar = input("Fara aftur á valmynd? (j/n): ")
-    #     if svar.lower() == "j":
-    #         print_options()
-    #     else:
-    #         pass
-
-    # def fletta_vidskiptavin_kt():
-    #     cls()
-    #     kennitala = input("Kennitala: ")
-    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-    #     print("Nafn: Jón Ólafsson")
-    #     print("Kennitala: " + kennitala)
-    #     print("Símanr: 8886785")
-    #     print("Netfang: JohnnyBoy23@internet.is")
-    #     print("Kreditkortanúmer: 1234-1234-1234-1234")
-    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-    #     svar = input("Fara aftur á valmynd? (j/n): ")
-    #     if svar.lower() == "j":
-    #         print_options()
-    #     else:
-    #         pass
-
-    # def fletta_vidskiptavin_nafn():
-    #     cls()
-    #     nafn = input("Nafn: ")
-    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-    #     print("Nafn: " + nafn)
-    #     print("Kennitala: 0303782289")
-    #     print("Símanúmer: 8886785")
-    #     print("Netfang: JohnnyBoy23@internet.is")
-    #     print("Kreditkortanúmer: 1234-1234-1234-1234")
-    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-    #     svar = input("Fara aftur á valmynd? (j/n): ")
-    #     if svar.lower() == "j":
-    #         print_options()
-    #     else:
-    #         pass
-
-    # def fletta_vidskiptavin_simanr():
-    #     cls()
-    #     simanr = input("Símanúmer: ")
-    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-    #     print("Nafn: Jón Ólafsson")
-    #     print("Kennitala: 0303782289")
-    #     print("Símanr: " + simanr)
-    #     print("Netfang: JohnnyBoy23@internet.is")
-    #     print("Kreditkortanúmer: 1234-1234-1234-1234")
-    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-
-    #     svar = input("Fara aftur á valmynd? (j/n): ")
-    #     if svar.lower() == "j":
-    #         print_options()
-    #     else:
-    #         pass
 
     def edit_customer(self, customer):
         cls()
@@ -298,54 +216,62 @@ class StaffInterface:
 
     def ban_customer(self):
         cls()
-        email = input("Netfang: ")
+        print("Setja á bannlista")
+        print("-"*60)
+        email = self.email_input()
         customer = self.__customer_service.find_customer(email)
-        print("-")
+        cls()
+        print("Setja á bannlista")
+        print("-"*(31 + len(customer.get_name()) + len(email)))
         stadfesta = input("Setja á bannlista: {}, {}? (j/n): ".format(customer.get_name(), email))
-        cust.ban_customer(email)
+        self.__customer_service.ban_customer(email)
         if stadfesta == "j":
-            print("Jón Ólafsson hefur verið færður á bannlista.")
+            print("{} hefur verið færður á bannlista.".format(customer.get_name()))
         else:
             print("Hætt við.")
-        print("-")
+        print("-"*(31 + len(customer.get_name()) + len(email)))
     
         self.go_to_menu()
         
-    def taka_af_bannlista():
+    def unban_customer(self):
         cls()
-        kennitala = input("Kennitala/netfang: ")
-        print("-"*len("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala)))
-        stadfesta = input("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala))
-        print("-"*len("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala)))
+        print("Taka af bannlista")
+        print("-"*60)
+        email = self.email_input()
+        customer = self.__customer_service.find_customer(email)
+        cls()
+        print("Taka af bannlista")
+        print("-"*(31 + len(customer.get_name()) + len(email)))
+        stadfesta = input("Taka af bannlista: {}, {}? (j/n): ".format(customer.get_name(), email))
+        print("-"*(31 + len(customer.get_name()) + len(email)))
+        self.__customer_service.unban_customer(email)
         if stadfesta == "j":
-            print("Jón Ólafsson hefur verið tekinn af bannlista.")
+            print("{} hefur verið tekinn af bannlista.".format(customer.get_name()))
         else:
             print("Hætt við.")
-        print("-"*len("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala)))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        print("-"*(31 + len(customer.get_name()) + len(email)))
+
+        self.go_to_menu()
         
-    def sekta_vidskiptavini():
+    def fine_customer(self):
         cls()
-        kennitala = input("Kennitala/netfang: ")
-        print("-"*len("Sekta: Jón Ólafsson, {}? (y/n)  ".format(kennitala)))
-        stadfesta = input("Sekta: Jón Ólafsson, {}? (j/n): ".format(kennitala))
-        print("-"*len("Sekta: Jón Ólafsson, {}? (y/n)  ".format(kennitala)))
+        print("Sekta viðskiptavin")
+        print("-"*60)
+        email = self.email_input()
+        customer = self.__customer_service.find_customer(email)
+        cls()
+        print("Sekta viðskiptavin")
+        print("-"*len("Sekta: {}, {}? (y/n)  ".format(customer.get_name(), email)))
+        stadfesta = input("Sekta: {}, {}? (j/n): ".format(customer.get_name(),email))
+        print("-"*len("Sekta: {}, {}? (y/n)  ".format(customer.get_name(), email)))
         if(stadfesta == "j"):
-            upphaed_sektar = input("Upphæð sektar: ")
-            print("-"*len("Sekta: Jón Ólafsson, {}? (y/n)  ".format(kennitala)))
-            print("Jón Ólafsson hefur verið sektaður um {} kr.".format(upphaed_sektar))
+            fine_amount = input("Upphæð sektar: ")
+            self.__customer_service.fine_customer(email, fine_amount)
+            print("Jón Ólafsson hefur verið sektaður um {} kr.".format(fine_amount))
         else:
             print("Hætt við.") 
-        print("-"*len("Sekta: Jón Ólafsson, {}? (y/n)  ".format(kennitala)))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        print("-"*len("Sekta: {}, {}? (y/n)  ".format(customer.get_name(), email)))
+        self.go_to_menu()
 
     def vehicle_menu(self):
         cls()
@@ -541,7 +467,7 @@ class StaffInterface:
         else:
             pass
 
-    def afgreidsla_options(self):
+    def help_options(self):
         cls()
         print("Afgreiðsla")
         print("-"*len("2.  Skrá nýjan viðskiptavin"))
@@ -559,109 +485,88 @@ class StaffInterface:
         input_num = input("Val: ")
         print()
         if input_num == "1":
-            display_free_cars()
+            self.display_free_cars()
         elif input_num == "2":
-            skra_vidskiptavin()
+            self.register_customer()
         elif input_num == "3":
-            skra_pontun()
+            self.create_order()
         elif input_num == "4":
-            kostnadarmat()
+            self.cost_amount()
         elif input_num == "5":
-            return_car()
+            self.return_car()
         elif input_num == "6":
-            afskra_vidskiptavin()
+            self.deregister_customer()
         elif input_num == "7":
-            bakfaera_pontun()
+            self.delete_order()
         elif input_num == "8":
-            breyta_vidskiptavin()
+            self.edit_customer()
         elif input_num == "9":
-            breyta_pontun()
+            self.change_order()
         else:
-            print_options()
+            self.go_to_menu()
 
-    def skra_pontun(self):
+    def create_order(self):
         cls()
-        kt = input("Kennitala/netfang: ")
-        print("-"*len("Kennitala/netfang: 1506992669"))
+        email = input("Netfang: ")
+        print("-"*len("Netfang: 1506992669"))
         print("Leigutímabil?")
-        print("-"*len("Kennitala/netfang: 1506992669"))
-        fra = input("Frá (YYYY, MM, DD): ")
-        til = input("Til (YYYY, MM, DD): ")
+        print("-"*len("Netfang: 1506992669"))
+        pickup = input("Frá (YYYY, MM, DD): ")
+        dropoff = input("Til (YYYY, MM, DD): ")
         cls()
-        print("Lausir bílar á leigutímabili ({}) - ({})".format(fra, til))
+        print("Lausir bílar á leigutímabili ({}) - ({})".format(pickup, dropoff))
         print(60*"-")
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
         print(60*"-")
-        bilnumer = input("Veldu bíl (AA-X99) eða n til að hætta við: ")
+        car_num = input("Veldu bíl (AA-X99) eða n til að hætta við: ")
         print(60*"-")
         
-        if bilnumer.lower() == "n":
+        if car_num.lower() == "n":
             print("Þú hefur hætt við að leigja út bíl.")
             print("-"*len("Þú hefur hætt við að leigja út bíl."))
-
-            svar = input("Fara aftur á valmynd? (j/n): ")
-            if svar.lower() == "j":
-                print_options()
-            else:
-                pass
+            self.go_to_menu()
         else:
             print("Áætlaður kostnaður án tryggingar: 45.000 kr.")
             print(60*"-")
-            val = input("Samþykkja? (j/n): ")
+            choice = input("Samþykkja? (j/n): ")
             print(60*"-")
 
-            if val.lower() == "j":
-                trygging_check = input("Má bjóða þér aukatryggingu fyrir 500 kr. aukalega pr. dag? (j/n): ")
+            if choice.lower() == "j":
+                insurance_check = input("Má bjóða þér aukatryggingu fyrir 500 kr. aukalega pr. dag? (j/n): ")
                 print(60*"-")
-                if trygging_check.lower() == "j":
+                if insurance_check.lower() == "j":
                     print("Lokaverð 50.000 kr.")
-                    val = input("Samþykkja? (j/n): ")
+                    choice = input("Samþykkja? (j/n): ")
                     print(60*"-")
-                    if val.lower() == "j":
-                        print("Bíllinn",bilnumer,"hefur verið leigður út ({}) - ({})".format(fra, til))
-                        print("-"*len("Bíllinn " + bilnumer + " hefur verið leigður út ({}) - ({})".format(fra, til)))
-                        svar = input("Fara aftur á valmynd? (j/n): ")
-                        if svar.lower() == "j":
-                            print_options()
-                        else:
-                            pass
+                    if choice.lower() == "j":
+                        print("Bíllinn",car_num,"hefur verið leigður út ({}) - ({})".format(pickup, dropoff))
+                        print("-"*len("Bíllinn " + car_num + " hefur verið leigður út ({}) - ({})".format(pickup, dropoff)))
+                        self.go_to_menu()
                     else:
                         print("Þú hefur hætt við að leigja út bíl")
                         print(60*"-")
 
-                        svar = input("Fara aftur á valmynd? (j/n): ")
-                        if svar.lower() == "j":
-                            print_options()
-                        else:
-                            pass
+                        self.go_to_menu()
                 else:
-                    print("Bíllinn",bilnumer,"hefur verið leigður út ({}) - ({})".format(fra, til))
+                    print("Bíllinn",car_num,"hefur verið leigður út ({}) - ({})".format(pickup, dropoff))
                     print(60*"-")
 
-                    svar = input("Fara aftur á valmynd? (j/n): ")
-                    if svar.lower() == "j":
-                        print_options()
-                    else:
-                        pass
+                    self.go_to_menu()
             else:
                 print("Þú hefur hætt við að leigja út bíl")
                 print(60*"-")
-                svar = input("Fara aftur á valmynd? (j/n): ")
-                if svar.lower() == "j":
-                    print_options()
-                else:
-                    pass
+                self.go_to_menu()
 
-    def kostnadarmat(self):
+    def cost_amount(self):
         cls()
-        fra = input("Frá (YYYY, MM, DD): ")
-        til = input("Til (YYYY, MM, DD): ")
+        pickup = input("Frá (YYYY, MM, DD): ")
+        dropoff = input("Til (YYYY, MM, DD): ")
         cls()
         # Hér er sett inn copy úr fallinu display_free_cars()
-        print("Eftirfarandi bílar eru lausir frá {} til {}:".format(fra, til))
+        print("Eftirfarandi bílar eru lausir frá {} til {}:".format(pickup, dropoff))
         print(60*"-")
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")
@@ -669,29 +574,25 @@ class StaffInterface:
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "4500 kr/dag"))
         print(60*"-")
         dummy_input = input("Bílnúmer: ")
-        bill_verd = 4500
-        dagur_a = fra.split(",")[2]
-        dagur_a = int(dagur_a.strip())
-        dagur_b = til.split(",")[2]
-        dagur_b = int(dagur_b.strip())
+        car_price = 4500
+        day_a = fra.split(",")[2]
+        day_a = int(day_a.strip())
+        day_b = til.split(",")[2]
+        day_b = int(day_b.strip())
         # vantar með mán en erum ekki með date svo læt þetta duga
         # display_free_cars(fra, til) # fá hvaða bílar eru lausir
         # val = input("Veldu bíl (AA-X99): ")
         # við fáum tímabil frá fletta_pontun og mínusum fyrra tímabilið frá því seinna
         # þá fáum við hve marga daga viðkomandi hefur bílinn og margföldum dagana við dagskostnaðinn
-        dagar = dagur_b - dagur_a + 1
-        verd_samtals = dagar*bill_verd
+        days = day_b - day_a + 1
+        total_price = days*car_price
         cls()
-        print("Kostnaðarmat:", verd_samtals, "Kr.")
-        print("-"*len("Kostnaðarmat: "+ str(verd_samtals) + " Kr."))
+        print("Kostnaðarmat:", total_price, "Kr.")
+        print("-"*len("Kostnaðarmat: "+ str(total_price) + " Kr."))
 
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
 
-    def pantanir_options(self):
+    def order_options(self):
         cls()
         print("Pantanir")
         print("-"*len("3.  Fletta upp pöntun"))
@@ -704,17 +605,17 @@ class StaffInterface:
         input_num = input("Val: ")
         print()
         if input_num == "1":
-            skra_pontun()
+            self.create_order()
         elif input_num == "2":
-            breyta_pontun()
+            self.change_order()
         elif input_num == "3":
-            fletta_pontun()
+            self.find_order()
         elif input_num == "4":
-            bakfaera_pontun()
+            self.delete_order()
         else:
-            print_options()
+            self.go_to_menu()
 
-    def breyta_pontun(self):
+    def change_order(self):
         cls()
         kennitala = input("Hver er kennitalan/netfangið? ")
         cls()
@@ -748,33 +649,21 @@ class StaffInterface:
             print("Nýr bíll hefur verið valinn.")
 
         else:
-            svar = input("Fara aftur á valmynd? (j/n): ")
-            if svar.lower() == "j":
-                print_options()
-            else:
-                pass
+            self.go_to_menu()
         
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
         
 
-    def fletta_pontun(self):
+    def find_order(self):
         cls()
         kt = input("Kennitala/netfang pöntunar: ")
         cls()
         print("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt))
         print("SB-463 á tímabilinu 10/12/18 til 14/12/18")
         print("-"*len("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt)))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
 
-    def bakfaera_pontun(self):
+    def delete_order(self):
         # fletta_pontun()
         cls()
         kt = input("Kennitala/netfang pöntunar: ")
@@ -791,10 +680,6 @@ class StaffInterface:
             print("Hætt við")
             print("--------")
         
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
 
 

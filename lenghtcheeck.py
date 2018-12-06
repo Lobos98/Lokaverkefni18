@@ -1,1 +1,1 @@
-print(len("Nýtt kreditkortanr. (xxxx-xxxx-xxxx-xxxx): 7777-7777-7777-7777"))
+print(len("Setja á bannlista: , ? (j/n): "))

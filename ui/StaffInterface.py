@@ -249,22 +249,20 @@ class StaffInterface:
         staff.go_to_menu()
         
 
-    def setja_a_bannlista():
+    def ban_customer(self):
         cls()
-        netfang = input("Netfang: ")
-        print("-"*len("Setja á bannlista: Jón Ólafsson, {}? (j/n): ".format(netfang)))
-        stadfesta = input("Setja á bannlista: Jón Ólafsson, {}? (j/n): ".format(netfang))
-        print("-"*len("Setja á bannlista: Jón Ólafsson, {}? (j/n): ".format(netfang)))
+        email = input("Netfang: ")
+        customer = cust.find_customer(email)
+        print("-")
+        stadfesta = input("Setja á bannlista: {}, {}? (j/n): ".format(customer.get_name(), email))
+        
         if stadfesta == "j":
             print("Jón Ólafsson hefur verið færður á bannlista.")
         else:
             print("Hætt við.")
-        print("-"*len("Setja á bannlista: Jón Ólafsson, {}? (j/n): ".format(netfang)))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        print("-")
+    
+        staff.go_to_menu()
         
     def taka_af_bannlista():
         cls()

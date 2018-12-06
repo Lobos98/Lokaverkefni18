@@ -1,1 +1,1 @@
-print(len("Fletta upp viðskiptavini eftir:  "))
+print(len("Nýtt kreditkortanr. (xxxx-xxxx-xxxx-xxxx): 7777-7777-7777-7777"))

@@ -247,7 +247,7 @@ class StaffInterface:
 
         self.go_to_menu()
         
-    def fine_customer():
+    def fine_customer(self):
         cls()
         email = input("Kennitala/netfang: ")
         print("-"*len("Sekta: Jón Ólafsson, {}? (y/n)  ".format(kennitala)))

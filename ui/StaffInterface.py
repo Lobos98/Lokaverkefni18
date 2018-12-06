@@ -354,10 +354,7 @@ class StaffInterface:
         og sendir emailið svo í CarService til að skila viðkomandi bíl"""
         #Ath hér vantar að fjarlægja order úr future orders í past orders
         cls()
-        email = input("Netfang: ")
-        if self.__error_catch.check_email(email) == False:
-            print("Athugið eftirfarandi:\n\
-            Netfang skal skrifa inn á forminu nafn@lén.is")
+        email = self.__error_catch.input_email()
         order = self.__order_service.find_order(email)
         if order == False:
             print("Pöntun finnst ekki á þessu netfangi.")
@@ -374,104 +371,99 @@ class StaffInterface:
 
     def add_car(self):
         cls()
-        bilnumer = input("Bílnúmer: ")
-        print("-"*len("Bílnum {} hefur verið skráður!".format(bilnumer)))
-        print("Bíllinn {} hefur verið skráður!".format(bilnumer))
-        print("-"*len("Bílnum {} hefur verið skráður!".format(bilnumer)))
+        reg_num = self.__error_catch.input_reg_num()
+        model = self.__error_catch.input_model()
+        type = self.__error_catch.input_type()
+        color = self.__error_catch.input_color()
+        self.__car_service.add_car(reg_num, model, type, color)
+        print("-"*len("Bíllinn {} hefur verið skráður!".format(reg_num)))
+        print("Bíllinn {} hefur verið skráður!".format(reg_num))
+        print("-"*len("Bílnum {} hefur verið skráður!".format(reg_num)))
 
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
         #Hér eigum við eftir að bæta við virkni til þess að geyma lit, gerð, verð
         # og fleiri upplýsingar um bílinn sem myndu vera attributes í klasa
 
     def delete_car(self):
         cls()
-        bilnumer = input("Bílnúmer: ")
-        print("-"*len("Bílnum {} hefur verið afskráður!".format(bilnumer)))
-        print("Bíllinn {} hefur verið afskráður!".format(bilnumer))
-        print("-"*len("Bílnum {} hefur verið afskráður!".format(bilnumer)))
+        reg_num = self.__error_catch.input_reg_num()
+        car = False
+        while car == False:
+            car = self.__car_service.find_car(reg_num)
+            if car == False:
+                print("Bíllinn {} finnst ekki.".format(reg_num.upper()))
+        self.__car_service.delete_car(reg_num)
 
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+
+        print("-"*len("Bíllinn {} hefur verið afskráður!".format(reg_num)))
+        print("Bíllinn {} hefur verið afskráður!".format(reg_num))
+        print("-"*len("Bíllinn {} hefur verið afskráður!".format(reg_num)))
+
+        self.go_to_menu()
 
     def find_car(self):
         cls()
-        bilnumer = input("Bílnúmer: ")
+        car = False
+        while car == False:
+            reg_num = self.__error_catch.input_reg_num()
+            car = self.__car_service.find_car(reg_num)
+            if car == False:
+                print("Bíllinn {} finnst ekki.".format(reg_num.upper()))
         cls()
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(bilnumer, "2003", "Jeppi", "Grænn", "3000 kr/dag"))
+        print(car)
         print(60*"-")
 
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
 
     def broken_cars(self):
         cls()
         print("Bilaðir bílar")
         print("-"*len("3.  Birta bilaða bíla"))
-        print("1.  Skrá bíl")
-        print("2.  Afskrá bíl")
+        print("1.  Skrá bilaðan bíl")
+        print("2.  Afskrá bilaðan bíl")
         print("3.  Birta bilaða bíla")
         print("4.  Til baka")
         print("-"*len("3.  Birta bilaða bíla"))
         input_num = input("Val: ")
 
         if input_num == "1":
-            add_carada_bil()
+            self.log_broken_car()
         elif input_num == "2":
-            delete_carada_bil()
+            self.log_car_as_fixed()
         elif input_num == "3":
-            skoda_bil()
+            self.print_broken_cars()
         else:
-            print_options()
+            self.vehicle_menu()
 
-    def add_car(self):
+    def log_broken_car(self):
         cls()
         bilnumer = input("Bílnúmer: ")
         reason = input("Af hverju er hann bilaður? ")
         cls()
         print("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer))
         print("-"*len("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer)))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        
+        self.go_to_menu()
 
-    def delete_car(self):
+    def log_car_as_fixed(self):
         cls()
         bilnumer = input("Bílnúmer: ")
         cls()
         print("Bíllinn {} hefur verið skráður á ný.".format(bilnumer))
         print("-"*len("Bíllinn {} hefur verið skráður á ný.".format(bilnumer)))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        
+        self.go_to_menu()
 
-    def skoda_bil(self):
+    def print_broken_cars(self):
         cls()
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("GHY-234", "Fólksbíll", "2009", "Blár", "Vélarbilun"))
         print(60*"-")
 
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
 
     def service_menu(self):
         cls()

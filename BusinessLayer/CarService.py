@@ -89,4 +89,8 @@ class CarService:
         self.__car_repo.add_car(car_to_be_returned)
         return reg_num
 
+    def add_car(self, reg_num, model, type, color):
+        new_car = Car(reg_num, model, type, color)
+        self.__car_repo.add_car(new_car)
+
         

@@ -230,7 +230,7 @@ class StaffInterface:
         
     def unban_customer():
         cls()
-        kennitala = input("Netfang: ")
+        email = input("Netfang: ")
         print("-"*len("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala)))
         stadfesta = input("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala))
         print("-"*len("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala)))
@@ -240,17 +240,18 @@ class StaffInterface:
         else:
             print("Hætt við.")
         print("-"*len("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala)))
-        
+
         self.go_to_menu()
         
-    def sekta_vidskiptavini():
+    def fine_customer():
         cls()
-        kennitala = input("Kennitala/netfang: ")
+        email = input("Kennitala/netfang: ")
         print("-"*len("Sekta: Jón Ólafsson, {}? (y/n)  ".format(kennitala)))
         stadfesta = input("Sekta: Jón Ólafsson, {}? (j/n): ".format(kennitala))
         print("-"*len("Sekta: Jón Ólafsson, {}? (y/n)  ".format(kennitala)))
         if(stadfesta == "j"):
-            upphaed_sektar = input("Upphæð sektar: ")
+            fine_amount = input("Upphæð sektar: ")
+            self.__customer_service.fine_customer(email, fine_amount)
             print("-"*len("Sekta: Jón Ólafsson, {}? (y/n)  ".format(kennitala)))
             print("Jón Ólafsson hefur verið sektaður um {} kr.".format(upphaed_sektar))
         else:

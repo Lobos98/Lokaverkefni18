@@ -1,4 +1,5 @@
 import datetime
+import string
 
 
 class ErrorCatch:
@@ -9,14 +10,69 @@ class ErrorCatch:
     def input_reg_num(self):
         check = False
         while check == False:
-        reg_num = input("Bílnúmer: ")
+            reg_num = input("Bílnúmer: ")
             if len(reg_num) == 5:
                 if reg_num[0:2].isalpha()== True:
                     if reg_num[2].isalnum() == True:
                         if reg_num[3:5].isdigit() == True:
                             return reg_num.upper()
             print("Athugið að bílnúmer skal skrifa inn á forminu AAXTT\n\
-    þar sem A er bókstafur, T er tölustafur og X er annaðhvort")
+        þar sem A er bókstafur, T er tölustafur og X er annaðhvort")
+
+    def input_email(self):
+        check = False
+        while check == False:
+            email = input("Netfang: ")
+            if "@" in email:
+                two_parts = email.split("@")
+                if len(two_parts) == 2:
+                    if "." in two_parts[1]:
+                        domain_list = two_parts[1].split(".")
+                        three_parts = [two_parts[0], domain_list[0], domain_list[1]]
+                        check2 = True
+                        for item in three_parts:
+                            if len(item) == 0:
+                                check2 =False 
+                        if check2 == True:
+                            if email.isascii() == True:
+                                return email.lower()
+
+            print("Athugið að netfang skal skrifa inn á forminu\n\
+nafn@lén.is og má ekki innihalda íslenska sérstafi")
+
+    def input_model(self):
+        check = False
+        while check == False:
+            model = input("Árgerð: ")
+            if len(model) == 4:
+                if model.isdigit() == True:
+                    if int(model) - 1 < datetime.datetime.today.year:
+                        return model
+            print("Athugið að árgerð skal skrifa inn á forminu\n\
+TTTT þar sem T er tölustafur")
+
+    def input_type(self):
+        check = False
+        model_list = ["jeppi", "folksbill", "smabill"]
+        while check == False:
+            model = input("Tegund bíls: ")
+            if model.isalpha():
+                if model.isascii():
+                    for item in model_list:
+                        if model.lower() == item:
+                            return model.lower()
+            print("Athugið að tegund bíls getur verið \
+jeppi, folksbill eða smabill\nog skal skrifa án íslenskra sérstafa")
+
+    def input_color(self):
+        check = False
+        while check == False:
+            color = input("Litur: ")
+            if len(color) < 15:
+                if color.isalpha() == True:
+                    return color.lower()
+            print("Vinsamlegast skrifið inn lit. Tölustafir eru ekki leyfðir")
+
 
     def check_SSN(self, SSN):
         if len(SSN) == 10:

@@ -354,10 +354,7 @@ class StaffInterface:
         og sendir emailið svo í CarService til að skila viðkomandi bíl"""
         #Ath hér vantar að fjarlægja order úr future orders í past orders
         cls()
-        email = input("Netfang: ")
-        if self.__error_catch.check_email(email) == False:
-            print("Athugið eftirfarandi:\n\
-            Netfang skal skrifa inn á forminu nafn@lén.is")
+        email = self.__error_catch.input_email()
         order = self.__order_service.find_order(email)
         if order == False:
             print("Pöntun finnst ekki á þessu netfangi.")
@@ -374,16 +371,16 @@ class StaffInterface:
 
     def add_car(self):
         cls()
-        bilnumer = self.__error_catch.input_reg_num()
-        print("-"*len("Bílnum {} hefur verið skráður!".format(bilnumer)))
-        print("Bíllinn {} hefur verið skráður!".format(bilnumer))
-        print("-"*len("Bílnum {} hefur verið skráður!".format(bilnumer)))
+        reg_num = self.__error_catch.input_reg_num()
+        model = self.__error_catch.input_model()
+        type = self.__error_catch.input_type()
+        color = self.__error_catch.input_color()
+        self.__car_service.add_car(reg_num, model, type, color)
+        print("-"*len("Bíllinn {} hefur verið skráður!".format(reg_num)))
+        print("Bíllinn {} hefur verið skráður!".format(reg_num))
+        print("-"*len("Bílnum {} hefur verið skráður!".format(reg_num)))
 
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
         #Hér eigum við eftir að bæta við virkni til þess að geyma lit, gerð, verð
         # og fleiri upplýsingar um bílinn sem myndu vera attributes í klasa
 

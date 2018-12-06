@@ -17,7 +17,7 @@ class ErrorCatch:
                         if reg_num[3:5].isdigit() == True:
                             return reg_num.upper()
             print("Athugið að bílnúmer skal skrifa inn á forminu AAXTT\n\
-        þar sem A er bókstafur, T er tölustafur og X er annaðhvort")
+þar sem A er bókstafur, T er tölustafur og X er annaðhvort")
 
     def input_email(self):
         check = False
@@ -46,10 +46,10 @@ nafn@lén.is og má ekki innihalda íslenska sérstafi")
             model = input("Árgerð: ")
             if len(model) == 4:
                 if model.isdigit() == True:
-                    if int(model) - 1 < datetime.datetime.today.year:
+                    if int(model) - 1 < datetime.datetime.today().year:
                         return model
             print("Athugið að árgerð skal skrifa inn á forminu\n\
-TTTT þar sem T er tölustafur")
+TTTT þar sem T er tölustafur og skal vera lögleg árgerð á bíl")
 
     def input_type(self):
         check = False
@@ -70,8 +70,10 @@ jeppi, folksbill eða smabill\nog skal skrifa án íslenskra sérstafa")
             color = input("Litur: ")
             if len(color) < 15:
                 if color.isalpha() == True:
-                    return color.lower()
-            print("Vinsamlegast skrifið inn lit. Tölustafir eru ekki leyfðir")
+                    if color.isascii() == True:
+                        return color.lower()
+            print("Vinsamlegast skrifið inn lit.\
+ Tölustafir og íslenskir sérstafir eru ekki leyfðir")
 
 
     def check_SSN(self, SSN):

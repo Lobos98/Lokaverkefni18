@@ -432,18 +432,18 @@ class StaffInterface:
         else:
             print_options()
 
-    def add_car(self):
-        cls()
-        bilnumer = input("Bílnúmer: ")
-        reason = input("Af hverju er hann bilaður? ")
-        cls()
-        print("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer))
-        print("-"*len("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer)))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+#    def add_car(self):
+#        cls()
+#        bilnumer = input("Bílnúmer: ")
+#        reason = input("Af hverju er hann bilaður? ")
+#        cls()
+#        print("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer))
+#        print("-"*len("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer)))
+#        svar = input("Fara aftur á valmynd? (j/n): ")
+#        if svar.lower() == "j":
+#            print_options()
+#        else:
+#            pass
 
     def delete_car(self):
         cls()

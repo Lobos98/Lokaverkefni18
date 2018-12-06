@@ -3,6 +3,7 @@ from BusinessLayer.ErrorCatch import ErrorCatch
 from BusinessLayer.CarService import CarService
 from BusinessLayer.OrderService import OrderService
 from BusinessLayer.CustomerService import CustomerService
+from models.Car import Car
 
 def cls():
     os.system('cls')
@@ -384,31 +385,38 @@ class StaffInterface:
         return_date_string = input("Dagsetning skila: ")
         if self.__error_catch.check_rental_date(\
         pickup_date_string, return_date_string) == False:
-            print("Ath að dagsetningar skal stimpla inn á forminu ddmmáááá")
+            print("Athugið eftirfarandi:\n\
+            Dagsetningar skal skrifa inn á forminu ddmmáááá\n\
+            Hámarksleigutími er eitt ár\n\
+            Ekki er hægt að velja leigutímabil sem er liðið")
         else:
             cls()
             free_car_list = self.__car_service.find_free_cars(\
             pickup_date_string, return_date_string)
-            print("Eftirfarandi bílar eru lausir frá {} til {}:".format(dags_fyrri_string, dags_seinni_string))
+            pickup_date_string = pickup_date_string[0:2] + "."\
+            + pickup_date_string[2:4] + "." + pickup_date_string[4:8]
+            return_date_string = return_date_string[0:2] + "."\
+            + return_date_string[2:4] + "." + return_date_string[4:8]
+            print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
+            pickup_date_string, return_date_string))
             print(60*"-")
             print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
             print(60*"-")
-            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
-            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
+            for car in free_car_list:
+                print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
+                car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), str(self.__car_service.get_price(car)) + "kr/dag"))
+            #print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
+            #print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
             print(60*"-")
 
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
         
 
     def display_reserved_cars(self):
         cls()
-        dags_fyrri_string = input("Dagsetning leigu: ")
-        print("-"*len("Dagsetning leigu: "))
-        dags_seinni_string = input("Dagsetning skila: ")
+        dags_fyrri_string = input("Fyrri dagsetning: ")
+        print("-"*len("Fyrri leigu: "))
+        dags_seinni_string = input("Seinni dagsetning: ")
         cls()
         print("Eftirfarandi bílar eru í útleigu á tímabilinu frá {} til {}:".format(dags_fyrri_string, dags_seinni_string))
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))

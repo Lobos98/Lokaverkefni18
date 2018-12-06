@@ -21,9 +21,14 @@ class CustomerService:
 		customer_repo.remove_customer(customer_email)
 
 	def find_customer(self, customer_email):
+		index = 0
 		for customer in self.__customers:
-			if(customer_email == customer.get_email()):
-				return customer
+			if index > 0:
+				#print(customer)
+				if(customer_email == customer.get_email()):
+					return customer
+			else:
+				index += 1
 		return None
 
 	def ban_customer(self, banned_customer):

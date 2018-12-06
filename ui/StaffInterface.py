@@ -108,27 +108,33 @@ class StaffInterface:
         print("-"*50 + "\n")
         staff.go_to_menu()
 
-    def fletta_vidskiptavin(self):
+    def find_customer(self):
         cls()
-        print("Fletta upp viðskiptavini eftir: ")
+        #print("Fletta upp viðskiptavini eftir: ")
+        email = input("Sláðu inn netfang viðskiptavins: ")
         print("-"*33)
-        print("1. Kennitölu")
-        print("2. Nafni")   
-        print("3. Símanúmeri")
-        print("4. Netfangi")
-        print("5. Til baka")
-        print("-"*33)
-        val = input("Val: ")
-        if val == "1":
-            fletta_vidskiptavin_kt()
-        elif val == "2":
-            fletta_vidskiptavin_nafn()
-        elif val == "3":
-            fletta_vidskiptavin_simanr()
-        elif val == "4":
-            fletta_vidskiptavin_netfang()
-        else:
-            vidskiptavinir_options()
+        customer_found = cust.find_customer(email)
+        print(customer_found)
+        choice = input("Viltu breyta upplysingum? (j/n): ")
+        if choice.lower() == "j":
+        self.main_menu()
+        #print("1. Kennitölu")
+        #print("2. Nafni")   
+        #print("3. Símanúmeri")
+        #print("4. Netfangi")
+        #print("5. Til baka")
+        #print("-"*33)
+        #val = input("Val: ")
+        #if val == "1":
+        #    fletta_vidskiptavin_kt()
+        #elif val == "2":
+        #    fletta_vidskiptavin_nafn()
+        #elif val == "3":
+        #    fletta_vidskiptavin_simanr()
+        #elif val == "4":
+        #    fletta_vidskiptavin_netfang()
+        #else:
+        #    vidskiptavinir_options()
 
     def fletta_vidskiptavin_netfang():
         cls()

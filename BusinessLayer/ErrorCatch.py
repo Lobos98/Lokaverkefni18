@@ -1,3 +1,6 @@
+import datetime
+
+
 class ErrorCatch:
 
     def check_SSN(self, SSN):
@@ -44,5 +47,22 @@ class ErrorCatch:
         else:
             return True
 
-    def check_date(self, date):
-        return True
+    def check_rental_date(date1, date2):
+            first_date = datetime.datetime.strptime(date1, "%d%m%Y").date()
+            second_date = datetime.datetime.strptime(date2, "%d%m%Y").date()
+            todays_date = datetime.datetime.today().date()
+            # If the inputted date is before today return false
+            if first_date < todays_date:
+                return False
+            # Longest rental-time is one year.
+            elif todays_date - first_date > datetime.timedelta(days=365):
+                return False
+            if second_date - first_date > datetime.timedelta(days=365):
+                return False
+            # If the second date is before the first date
+            # or the difference is less than 1 day, return False
+            if second_date < first_date:
+                return False
+            elif  (second_date - first_date) < datetime.timedelta(days=1):
+                return False
+            return True

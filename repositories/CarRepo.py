@@ -26,7 +26,11 @@ class CarRepo:
             model = line[1]
             car_type = line[2]
             color = line[3]
-            broken = bool(line[4])
+            if line[4] == "True":
+                broken = True
+            elif line[4] == "False":
+                broken = False
+            #ATH Ef None stendur í skrá f history lendum við í villumeðhöndlun
             try:
                 history_list = line[5].split("--")
                 history_list = [pair.split(":") for pair in history_list]
@@ -37,25 +41,62 @@ class CarRepo:
 
             try:
                 reserved_dates_list = line[6].split("--")
-                reserved_dates_list = [pair.split(":") \
+                reserved_dates_list = [tuple(pair.split(":")) \
                 for pair in reserved_dates_list]
-                reserved_dates_dict = {date_rented: date_returned \
-                for (date_rented, date_returned) in reserved_dates_list}
             except:
-                reserved_dates_dict = line[6]
+                reserved_dates_list = line[6]
 
             self.data.append([reg_number, model, car_type, color, broken, \
-            history_dict, reserved_dates_dict])
+            history_dict, reserved_dates_list])
         file.close()
         return self.data
 
     def add_car(self, car):
-    #def add_car(self, reg_number, model, car_type, color):
         file_path = "./data/list_of_cars.csv"
         file = open(file_path, "a")
-        attributes = (car.get_reg_num(), car.get_model(), car.get_type(),\
-        car.get_color(), str(car.get_broken()), car.get_history(),\
-        car.get_reserved_dates())
+        reg_num = car.get_reg_num()
+        model = car.get_model()
+        type = car.get_type()
+        color = car.get_color()
+        broken = str(car.get_broken())
+        history_dict = car.get_history()
+        history = ""
+        for key in history_dict:
+            history += key
+            history += ":"
+            for pickup_return_date_tuple in history_dict[key]:
+                pickup_date = pickup_return_date_tuple[0]
+                return_date = pickup_return_date_tuple[1]
+                history += str(pickup_date.day())
+                history += str(pickup_date.month())
+                history += str(pickup_date.year())
+                history += "/"
+                history += str(return_date.day())
+                history += str(return_date.month())
+                history += str(return_date.year())
+                history += ":"
+            history = history[:-1] 
+            #Þetta er til að fjarlægja síðasta : delimiterinn
+            history += "--"
+        history = history[:-2]
+        #Þetta er til að fjarlægja síðasta -- delimiterinn
+        reserved_dates_list = car.get_reserved_dates()
+        reserved_dates = ""
+        for reservation in reserved_dates_list:
+            pickup_date = reservation[0]
+            return_date = reservation[1]
+            reserved_dates += pickup_date.day()
+            reserved_dates += pickup_date.month()
+            reserved_dates += pickup_date.year()
+            reserved_dates += ":"
+            reserved_dates += return_date.day()
+            reserved_dates += return_date.month()
+            reserved_dates += return_date.year()
+            reserved_dates += "--"
+        reserved_dates = reserved_dates[:-2]
+        
+
+        attributes = (reg_num, model, type, color, broken, history, reserved_dates)
         line_to_append = ",".join(attributes)
         file.write("\n" + line_to_append)
         file.close()

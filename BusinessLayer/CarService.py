@@ -11,7 +11,6 @@ class CarService:
         """Tekur við Car object og skilar verðinu á bílnum"""
         return self.__price_list[car.get_type()]
 
-
     def find_car(self, reg_num):
         """ tekur við bílnúmeri AAX99, finnur bíl og skilar\
         tilviki af Car klasanum"""
@@ -68,3 +67,14 @@ class CarService:
                 elif pickup_date <= date_tuple[0] and date_tuple[1] <= return_date:
                     free_car_list.remove(car)
         return free_car_list
+
+    def get_rented_cars(self):
+        """Skilar lista af bílum sem eru í útleigu í augnablikinu"""
+        list_of_cars = self.__car_repo.get_all_cars()
+        rented_cars = []
+        for car in list_of_cars:
+            reserved_dates = car.get_reserved_dates()
+            for date_tuple in reserved_dates:
+                if date_tuple[0]< datetime.today() < date_tuple[1]:
+                    rented_cars.append(car)
+        return rented_cars

@@ -386,89 +386,80 @@ class StaffInterface:
 
     def delete_car(self):
         cls()
-        bilnumer = input("Bílnúmer: ")
-        print("-"*len("Bílnum {} hefur verið afskráður!".format(bilnumer)))
-        print("Bíllinn {} hefur verið afskráður!".format(bilnumer))
-        print("-"*len("Bílnum {} hefur verið afskráður!".format(bilnumer)))
+        reg_num = self.__error_catch.input_reg_num()
+        car = False
+        while car == False:
+            car = self.__car_service.find_car(reg_num)
+            if car == False:
+                print("Bíllinn {} finnst ekki.".format(reg_num.upper()))
+        self.__car_service.delete_car(reg_num)
 
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+
+        print("-"*len("Bíllinn {} hefur verið afskráður!".format(reg_num)))
+        print("Bíllinn {} hefur verið afskráður!".format(reg_num))
+        print("-"*len("Bíllinn {} hefur verið afskráður!".format(reg_num)))
+
+        self.go_to_menu()
 
     def find_car(self):
         cls()
-        bilnumer = input("Bílnúmer: ")
+        reg_num = self.__error_catch.input_reg_num()
+        car = self.__car_service.find_car(reg_num)
         cls()
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(bilnumer, "2003", "Jeppi", "Grænn", "3000 kr/dag"))
+        print(car)
         print(60*"-")
 
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
 
     def broken_cars(self):
         cls()
         print("Bilaðir bílar")
         print("-"*len("3.  Birta bilaða bíla"))
-        print("1.  Skrá bíl")
-        print("2.  Afskrá bíl")
+        print("1.  Skrá bilaðan bíl")
+        print("2.  Afskrá bilaðan bíl")
         print("3.  Birta bilaða bíla")
         print("4.  Til baka")
         print("-"*len("3.  Birta bilaða bíla"))
         input_num = input("Val: ")
 
         if input_num == "1":
-            add_carada_bil()
+            log_broken_car()
         elif input_num == "2":
-            delete_carada_bil()
+            log_car_as_fixed()
         elif input_num == "3":
-            skoda_bil()
+            print_broken_cars()
         else:
-            print_options()
+            vehicle_menu()
 
-#    def add_car(self):
-#        cls()
-#        bilnumer = input("Bílnúmer: ")
-#        reason = input("Af hverju er hann bilaður? ")
-#        cls()
-#        print("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer))
-#        print("-"*len("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer)))
-#        svar = input("Fara aftur á valmynd? (j/n): ")
-#        if svar.lower() == "j":
-#            print_options()
-#        else:
-#            pass
+    def log_broken_car(self):
+        cls()
+        bilnumer = input("Bílnúmer: ")
+        reason = input("Af hverju er hann bilaður? ")
+        cls()
+        print("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer))
+        print("-"*len("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer)))
+        
+        self.go_to_menu()
 
-    def delete_car(self):
+    def log_car_as_fixed(self):
         cls()
         bilnumer = input("Bílnúmer: ")
         cls()
         print("Bíllinn {} hefur verið skráður á ný.".format(bilnumer))
         print("-"*len("Bíllinn {} hefur verið skráður á ný.".format(bilnumer)))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        
+        self.go_to_menu()
 
-    def skoda_bil(self):
+    def print_broken_cars(self):
         cls()
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("GHY-234", "Fólksbíll", "2009", "Blár", "Vélarbilun"))
         print(60*"-")
 
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
 
     def service_menu(self):
         cls()

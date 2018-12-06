@@ -75,6 +75,11 @@ jeppi, folksbill eða smabill\nog skal skrifa án íslenskra sérstafa")
             print("Vinsamlegast skrifið inn lit.\
  Tölustafir og íslenskir sérstafir eru ekki leyfðir")
 
+    def input_date(self):
+        check = False
+        while check == False:
+            pass
+
 
     def check_SSN(self, SSN):
         if len(SSN) == 10:

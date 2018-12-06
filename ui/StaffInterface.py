@@ -254,23 +254,23 @@ class StaffInterface:
         
     def fine_customer(self):
         cls()
-        email = input("Kennitala/netfang: ")
-        print("-"*len("Sekta: Jón Ólafsson, {}? (y/n)  ".format(kennitala)))
-        stadfesta = input("Sekta: Jón Ólafsson, {}? (j/n): ".format(kennitala))
-        print("-"*len("Sekta: Jón Ólafsson, {}? (y/n)  ".format(kennitala)))
+        print("Sekta viðskiptavin")
+        print("-"*60)
+        email = self.email_input()
+        customer = self.__customer_service.find_customer(email)
+        cls()
+        print("Sekta viðskiptavin")
+        print("-"*len("Sekta: {}, {}? (y/n)  ".format(customer.get_name(), email)))
+        stadfesta = input("Sekta: {}, {}? (j/n): ".format(customer.get_name(),email))
+        print("-"*len("Sekta: {}, {}? (y/n)  ".format(customer.get_name(), email)))
         if(stadfesta == "j"):
             fine_amount = input("Upphæð sektar: ")
             self.__customer_service.fine_customer(email, fine_amount)
-            print("-"*len("Sekta: Jón Ólafsson, {}? (y/n)  ".format(kennitala)))
-            print("Jón Ólafsson hefur verið sektaður um {} kr.".format(upphaed_sektar))
+            print("Jón Ólafsson hefur verið sektaður um {} kr.".format(fine_amount))
         else:
             print("Hætt við.") 
-        print("-"*len("Sekta: Jón Ólafsson, {}? (y/n)  ".format(kennitala)))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        print("-"*len("Sekta: {}, {}? (y/n)  ".format(customer.get_name(), email)))
+        self.go_to_menu()
 
     def vehicle_menu(self):
         cls()

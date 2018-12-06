@@ -115,7 +115,6 @@ class StaffInterface:
         if ssn_check.lower() == "j":
             ssn = input("Kennitala: ")
             print("-"*52)
-<<<<<<< HEAD
             while not error.check_SSN(ssn):
                 if ssn_check.lower() == "q":
                     staff.go_to_menu()
@@ -134,12 +133,6 @@ class StaffInterface:
         card_number = self.card_input()
         ssn = self.ssn_checker()
         
-=======
-            if self.__error_catch.check_SSN(ssn):
-                print("Kennitala er gild")
-            else:
-                print("Kennitala er ógild")
->>>>>>> 0a93faed4577871dfccaf3d30887a39082ec6ba0
         print("-"*57)
         self.__customer_service.add_customer(email, name, card_number, phone, ssn)
         print("Viðskiptavinur {} hefur verið skráður".format(name))

@@ -38,11 +38,11 @@ class CustomerService:
 					return customer
 			else:
 				index += 1
-		return None
+		return False
 
 	def ban_customer(self, banned_customer):
 		customer = self.find_customer(banned_customer)
-		customer.set_ban(True)
+		customer.set_ban("True")
 		customer_repo.remove_customer(customer.get_email())
 		attribute_list = customer.get_attribute_list()
 		customer_repo.add_customer(customer_email)
@@ -50,7 +50,7 @@ class CustomerService:
 
 	def unban_customer(self, unbanned_customer):
 		customer = self.find_customer(unbanned_customer)
-		customer.set_ban(False)
+		customer.set_ban("False")
 		customer_repo.remove_customer(customer.get_email())
 		attribute_list = customer.get_attribute_list()
 		customer_repo.add_customer(customer_email)

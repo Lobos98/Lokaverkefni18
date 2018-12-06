@@ -228,22 +228,20 @@ class StaffInterface:
     
         self.go_to_menu()
         
-    def taka_af_bannlista():
+    def unban_customer():
         cls()
-        kennitala = input("Kennitala/netfang: ")
+        kennitala = input("Netfang: ")
         print("-"*len("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala)))
         stadfesta = input("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala))
         print("-"*len("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala)))
+        self.__customer_service.unban_customer(email)
         if stadfesta == "j":
             print("Jón Ólafsson hefur verið tekinn af bannlista.")
         else:
             print("Hætt við.")
         print("-"*len("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala)))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        
+        self.go_to_menu()
         
     def sekta_vidskiptavini():
         cls()

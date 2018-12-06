@@ -58,7 +58,7 @@ class CustomerService:
 
 	def fine_customer(self, customer_email, fine_amount):
 		customer = self.find_customer(customer_email)
-		customer.set_fine(fine_amount)
+		customer.set_fine(str(fine_amount))
 		customer_repo.remove_customer(customer_email)
 		attribute_list = customer.get_attribute_list()
 		customer_repo.add_customer(customer, attribute_list)

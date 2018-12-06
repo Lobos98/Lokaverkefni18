@@ -14,7 +14,7 @@ class CarService:
                 found_car = car
                 return found_car
             else:
-                pass
+                return False
     
     def log_broken_car(self, reg_num):
         """ Finnur bíl, fjarlægir hann úr gagnagrunni,\

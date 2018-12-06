@@ -60,5 +60,5 @@ class Order:
 
 
     def __repr__(self):
-        return "{},{},{}--{},{},{}\n".format(self.__order_no, self.__car_reg_num,\
+        return "{},{},{}--{},{},{}".format(self.__order_no, self.__car_reg_num,\
          self.__pickup_date, self.__return_date, self.__customer_email, self.__bonus_insurance)

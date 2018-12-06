@@ -38,7 +38,7 @@ class CustomerService:
 					return customer
 			else:
 				index += 1
-		return None
+		return False
 
 	def ban_customer(self, banned_customer):
 		customer = self.find_customer(banned_customer)

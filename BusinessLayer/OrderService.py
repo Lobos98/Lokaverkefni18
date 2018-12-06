@@ -57,3 +57,11 @@ class OrderService:
     def get_list_of_orders(self):
         '''Sækir lista yfir allar pantanir úr repoinu'''
         return self.__order_repo.get_all_orders()
+
+    def move_to_past(self, email):
+        old_order = self.__order_repo.get_order(email)
+        self.__order_repo.add_to_past_orders(old_order)
+        self.__order_repo.remove_order(old_order)
+
+    def get_list_of_past_orders(self):
+        return self.__order_repo.get_past_orders()

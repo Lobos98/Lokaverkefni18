@@ -307,7 +307,7 @@ class StaffInterface:
         else:
             pass
 
-    def bilafloti_options():
+    def vehicle_menu(self):
         cls()
         print("Bílafloti")
         print("-"*len("2.  Birta útleigða bíla"))
@@ -322,23 +322,23 @@ class StaffInterface:
         print("-"*len("2.  Birta útleigða bíla"))
         input_num = input("Val: ")
         if input_num == "1":
-            birta_lausa_bila()
+            self.display_free_cars()
         elif input_num == "2":
-            birta_utleigda_bila()
+            self.display_reserved_cars()
         elif input_num == "3":
-            skila_bil()
+            self.return_car()
         elif input_num == "4":
-            skra_bil()
+            self.add_car()
         elif input_num == "5":
-            afskra_bil()
+            self.delete_car()
         elif input_num == "6":
-            leita_ad_bil()
+            self.find_car()
         elif input_num == "7":
-            biladir_bilar()
+            self.broken_cars()
         else:
-            print_options()
+            self.print_options()
 
-    def birta_lausa_bila():
+    def display_free_cars(self):
         cls()
         dags_fyrri_string = input("Dagsetning leigu: ")
         print("-"*len("Dagsetning leigu: "))
@@ -359,7 +359,7 @@ class StaffInterface:
             pass
         
 
-    def birta_utleigda_bila():
+    def display_reserved_cars(self):
         cls()
         dags_fyrri_string = input("Dagsetning leigu: ")
         print("-"*len("Dagsetning leigu: "))
@@ -377,7 +377,7 @@ class StaffInterface:
         else:
             pass
 
-    def skila_bil():
+    def return_car(self):
         cls()
         bilnumer = input("Bílnúmer: ")
         print("-"*len("Bílnum {} hefur verið skilað!".format(bilnumer)))
@@ -390,7 +390,7 @@ class StaffInterface:
         else:
             pass
 
-    def skra_bil():
+    def add_car(self):
         cls()
         bilnumer = input("Bílnúmer: ")
         print("-"*len("Bílnum {} hefur verið skráður!".format(bilnumer)))
@@ -405,7 +405,7 @@ class StaffInterface:
         #Hér eigum við eftir að bæta við virkni til þess að geyma lit, gerð, verð
         # og fleiri upplýsingar um bílinn sem myndu vera attributes í klasa
 
-    def afskra_bil():
+    def delete_car(self):
         cls()
         bilnumer = input("Bílnúmer: ")
         print("-"*len("Bílnum {} hefur verið afskráður!".format(bilnumer)))
@@ -418,7 +418,7 @@ class StaffInterface:
         else:
             pass
 
-    def leita_ad_bil():
+    def find_car(self):
         cls()
         bilnumer = input("Bílnúmer: ")
         cls()
@@ -433,7 +433,7 @@ class StaffInterface:
         else:
             pass
 
-    def biladir_bilar():
+    def broken_cars(self):
         cls()
         print("Bilaðir bílar")
         print("-"*len("3.  Birta bilaða bíla"))
@@ -445,15 +445,15 @@ class StaffInterface:
         input_num = input("Val: ")
 
         if input_num == "1":
-            skra_bilada_bil()
+            add_carada_bil()
         elif input_num == "2":
-            afskra_bilada_bil()
+            delete_carada_bil()
         elif input_num == "3":
             skoda_bil()
         else:
             print_options()
 
-    def skra_bilada_bil():
+    def add_carada_bil(self):
         cls()
         bilnumer = input("Bílnúmer: ")
         reason = input("Af hverju er hann bilaður? ")
@@ -466,7 +466,7 @@ class StaffInterface:
         else:
             pass
 
-    def afskra_bilada_bil():
+    def delete_carada_bil(self):
         cls()
         bilnumer = input("Bílnúmer: ")
         cls()
@@ -478,7 +478,7 @@ class StaffInterface:
         else:
             pass
 
-    def skoda_bil():
+    def skoda_bil(self):
         cls()
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")
@@ -491,7 +491,7 @@ class StaffInterface:
         else:
             pass
 
-    def afgreidsla_options():
+    def afgreidsla_options(self):
         cls()
         print("Afgreiðsla")
         print("-"*len("2.  Skrá nýjan viðskiptavin"))
@@ -509,7 +509,7 @@ class StaffInterface:
         input_num = input("Val: ")
         print()
         if input_num == "1":
-            birta_lausa_bila()
+            display_free_cars()
         elif input_num == "2":
             skra_vidskiptavin()
         elif input_num == "3":
@@ -517,7 +517,7 @@ class StaffInterface:
         elif input_num == "4":
             kostnadarmat()
         elif input_num == "5":
-            skila_bil()
+            return_car()
         elif input_num == "6":
             afskra_vidskiptavin()
         elif input_num == "7":
@@ -529,7 +529,7 @@ class StaffInterface:
         else:
             print_options()
 
-    def skra_pontun():
+    def skra_pontun(self):
         cls()
         kt = input("Kennitala/netfang: ")
         print("-"*len("Kennitala/netfang: 1506992669"))
@@ -605,12 +605,12 @@ class StaffInterface:
                 else:
                     pass
 
-    def kostnadarmat():
+    def kostnadarmat(self):
         cls()
         fra = input("Frá (YYYY, MM, DD): ")
         til = input("Til (YYYY, MM, DD): ")
         cls()
-        # Hér er sett inn copy úr fallinu birta_lausa_bila()
+        # Hér er sett inn copy úr fallinu display_free_cars()
         print("Eftirfarandi bílar eru lausir frá {} til {}:".format(fra, til))
         print(60*"-")
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
@@ -625,7 +625,7 @@ class StaffInterface:
         dagur_b = til.split(",")[2]
         dagur_b = int(dagur_b.strip())
         # vantar með mán en erum ekki með date svo læt þetta duga
-        # birta_lausa_bila(fra, til) # fá hvaða bílar eru lausir
+        # display_free_cars(fra, til) # fá hvaða bílar eru lausir
         # val = input("Veldu bíl (AA-X99): ")
         # við fáum tímabil frá fletta_pontun og mínusum fyrra tímabilið frá því seinna
         # þá fáum við hve marga daga viðkomandi hefur bílinn og margföldum dagana við dagskostnaðinn
@@ -641,7 +641,7 @@ class StaffInterface:
         else:
             pass
 
-    def pantanir_options():
+    def pantanir_options(self):
         cls()
         print("Pantanir")
         print("-"*len("3.  Fletta upp pöntun"))
@@ -664,7 +664,7 @@ class StaffInterface:
         else:
             print_options()
 
-    def breyta_pontun():
+    def breyta_pontun(self):
         cls()
         kennitala = input("Hver er kennitalan/netfangið? ")
         cls()
@@ -711,7 +711,7 @@ class StaffInterface:
             pass
         
 
-    def fletta_pontun():
+    def fletta_pontun(self):
         cls()
         kt = input("Kennitala/netfang pöntunar: ")
         cls()
@@ -724,7 +724,7 @@ class StaffInterface:
         else:
             pass
 
-    def bakfaera_pontun():
+    def bakfaera_pontun(self):
         # fletta_pontun()
         cls()
         kt = input("Kennitala/netfang pöntunar: ")

@@ -225,25 +225,30 @@ class StaffInterface:
         stadfesta = input("Setja á bannlista: {}, {}? (j/n): ".format(customer.get_name(), email))
         self.__customer_service.ban_customer(email)
         if stadfesta == "j":
-            print("Jón Ólafsson hefur verið færður á bannlista.")
+            print("{} hefur verið færður á bannlista.".format(customer.get_name()))
         else:
             print("Hætt við.")
         print("-"*(31 + len(customer.get_name()) + len(email)))
     
         self.go_to_menu()
         
-    def unban_customer():
+    def unban_customer(self):
         cls()
-        email = input("Netfang: ")
-        print("-"*len("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala)))
-        stadfesta = input("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala))
-        print("-"*len("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala)))
+        print("Taka af bannlista")
+        print("-"*60)
+        email = self.email_input()
+        customer = self.__customer_service.find_customer(email)
+        cls()
+        print("Taka af bannlista")
+        print("-"*(31 + len(customer.get_name()) + len(email)))
+        stadfesta = input("Taka af bannlista: {}, {}? (j/n): ".format(customer.get_name(), email))
+        print("-"*(31 + len(customer.get_name()) + len(email)))
         self.__customer_service.unban_customer(email)
         if stadfesta == "j":
-            print("Jón Ólafsson hefur verið tekinn af bannlista.")
+            print("{} hefur verið tekinn af bannlista.".format(customer.get_name()))
         else:
             print("Hætt við.")
-        print("-"*len("Taka af bannlista: Jón Ólafsson, {}? (j/n): ".format(kennitala)))
+        print("-"*(31 + len(customer.get_name()) + len(email)))
 
         self.go_to_menu()
         

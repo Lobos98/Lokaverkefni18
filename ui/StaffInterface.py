@@ -115,7 +115,9 @@ class StaffInterface:
         print("-"*33)
         customer_found = cust.find_customer(email)
         print(customer_found)
-        vidskiptavinir_options()
+        choice = input("Viltu breyta upplysingum? (j/n): ")
+        if choice.lower() == "j":
+        self.main_menu()
         #print("1. Kennitölu")
         #print("2. Nafni")   
         #print("3. Símanúmeri")

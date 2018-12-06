@@ -315,6 +315,7 @@ class StaffInterface:
             Dagsetningar skal skrifa inn á forminu ddmmáááá\n\
             Hámarksleigutími er eitt ár\n\
             Ekki er hægt að velja leigutímabil sem er liðið")
+            self.display_free_cars()
         else:
             cls()
             free_car_list = self.__car_service.find_free_cars(\
@@ -354,17 +355,27 @@ class StaffInterface:
         self.go_to_menu()
 
     def return_car(self):
+        """Tekur við bílnúmeri AAX99, finnur hann og færir pöntunina sem
+        er í gangi í history og fjarlægir tilsvarandi reserved_dates eigindi
+        Skilar False ef bíll finnst ekki"""
         cls()
-        bilnumer = input("Bílnúmer: ")
-        print("-"*len("Bílnum {} hefur verið skilað!".format(bilnumer)))
-        print("Bílnum {} hefur verið skilað!".format(bilnumer))
-        print("-"*len("Bílnum {} hefur verið skilað!".format(bilnumer)))
-
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
+        reg_num = input("Bílnúmer: ")
+        if self.__error_catch.check_reg_num(reg_num) == False:
+            print("Athugið eftirfarandi:\n\
+            Bílnúmer skal skrifa inn á forminu AAXTT\n\
+            Þar sem A er tölustafur, T er tölustafur og X er annaðhvorts")
+        car_to_be_returned = self.__car_service.find_car(reg_num)
+        if car_to_be_returned == False:
+            print("Bíll finnst ekki.")
+            self.return_car()
         else:
-            pass
+            self.__car_service.return_car(car_to_be_returned)
+        
+        print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+        print("Bílnum {} hefur verið skilað!".format(reg_num))
+        print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+
+        self.go_to_menu()
 
     def add_car(self):
         cls()

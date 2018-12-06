@@ -12,8 +12,8 @@ class CarService:
         return self.__price_list[car.get_type()]
 
     def find_car(self, reg_num):
-        """ tekur við bílnúmeri AAX99, finnur bíl og skilar\
-        tilviki af Car klasanum"""
+        """ tekur við bílnúmeri AAX99, finnur bíl og skilar
+        tilviki af Car klasanum, skilar False ef bíll finnst ekki"""
         cars = self.__car_repo.get_all_cars()
         for car in cars:
             if car.get_reg_num() == reg_num:
@@ -23,8 +23,9 @@ class CarService:
                 return False
     
     def log_broken_car(self, reg_num):
-        """ Finnur bíl, fjarlægir hann úr gagnagrunni,\
-        breytir ástandinu og skrifar hann aftur í gagnagunninn """
+        """ Finnur bíl, fjarlægir hann úr gagnagrunni,
+        breytir ástandinu og skrifar hann aftur í gagnagunninn
+        skilar False ef bíllinn finnst ekki"""
         car_to_be_changed = self.find_car(reg_num)
         if car_to_be_changed == False:
             return False
@@ -34,7 +35,7 @@ class CarService:
         pass
 
     def log_new_car(self, reg_num, model, type, color):
-        """Býr til nýtt instance af Car klasanum og sendir til CarRepo.\
+        """Býr til nýtt instance af Car klasanum og sendir til CarRepo.
         Skilar False ef bíllinn er þegar til"""
         if self.find_car(reg_num) == False:
             new_car = Car(reg_num, model, type, color)
@@ -51,7 +52,7 @@ class CarService:
         self.__car_repo.delete_car(car_to_be_deleted)
 
     def find_free_cars(self, date_string_1, date_string_2):
-        """Tekur við 2 dags.str. á forminu ddmmáááá og skilar lista\
+        """Tekur við 2 dags.str. á forminu ddmmáááá og skilar lista
         af lausum bílum á tímabilinu """
         pickup_date = datetime.strptime(date_string_1, "%d%m%Y")
         return_date = datetime.strptime(date_string_2, "%d%m%Y")

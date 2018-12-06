@@ -71,7 +71,7 @@ class StaffInterface:
         elif input_num == "3":
             self.deregister_customer()
         elif input_num == "4":
-            self.edit_customer()
+            self.find_customer()
         elif input_num == "5":
             self.ban_customer()
         elif input_num == "6":
@@ -302,7 +302,7 @@ class StaffInterface:
         elif input_num == "7":
             self.broken_cars()
         else:
-            self.print_options()
+            self.main_menu()
 
     def display_free_cars(self):
         cls()
@@ -473,7 +473,7 @@ class StaffInterface:
         else:
             pass
 
-    def help_options(self):
+    def service_menu(self):
         cls()
         print("Afgreiðsla")
         print("-"*len("2.  Skrá nýjan viðskiptavin"))
@@ -505,11 +505,11 @@ class StaffInterface:
         elif input_num == "7":
             self.delete_order()
         elif input_num == "8":
-            self.edit_customer()
+            self.find_customer()
         elif input_num == "9":
             self.change_order()
         else:
-            self.go_to_menu()
+            self.main_menu()
 
     def create_order(self):
         cls()
@@ -598,7 +598,7 @@ class StaffInterface:
 
         self.go_to_menu()
 
-    def order_options(self):
+    def order_menu(self):
         cls()
         print("Pantanir")
         print("-"*len("3.  Fletta upp pöntun"))

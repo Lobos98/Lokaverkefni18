@@ -1,32 +1,35 @@
+import datetime
+
+
 class ErrorCatch:
 
-    def check_SSN(SSN):
+    def check_SSN(self, SSN):
         if SSN[0] in ['0','1','2','3'] and int(SSN[2] + SSN[3]) in range(1,13):
             return True
         else: 
             return False
 
-    def check_email(email):
+    def check_email(self, email):
         if email[0] != '@' and '@' in email and email[-1] != '.' and '.' in email:
             return True
         else:
             return False
 
-    def check_phone_no(phone_number):
+    def check_phone_no(self, phone_number):
         phone_number = phone_number.replace('-', '').replace(' ', '')
         if len(phone_number) == 7:
             return True
         else:
             return False
 
-    def check_card_number(card_number):
+    def check_card_number(self, card_number):
         card_number.replace('-', '').replace(' ', '')
         if len(card_number) in [13,15,16,19]:
             return True
         else:
             return False
     
-    def check_reg_num(reg_num):
+    def check_reg_num(self, reg_num):
         try:
             int(reg_num[3] + reg_num[4])
         except ValueError:
@@ -36,7 +39,7 @@ class ErrorCatch:
         except ValueError:
             return True
 
-    def check_int(integer):
+    def check_int(self, integer):
         try:
             int(integer)
         except:
@@ -44,5 +47,22 @@ class ErrorCatch:
         else:
             return True
 
-    def check_date(date):
-        return True
+    def check_rental_date(date1, date2):
+            first_date = datetime.datetime.strptime(date1, "%d%m%Y").date()
+            second_date = datetime.datetime.strptime(date2, "%d%m%Y").date()
+            todays_date = datetime.datetime.today().date()
+            # If the inputted date is before today return false
+            if first_date < todays_date:
+                return False
+            # Longest rental-time is one year.
+            elif todays_date - first_date > datetime.timedelta(days=365):
+                return False
+            if second_date - first_date > datetime.timedelta(days=365):
+                return False
+            # If the second date is before the first date
+            # or the difference is less than 1 day, return False
+            if second_date < first_date:
+                return False
+            elif  (second_date - first_date) < datetime.timedelta(days=1):
+                return False
+            return True

@@ -1,0 +1,1 @@
+print(len("Fletta upp viðskiptavini eftir:  "))

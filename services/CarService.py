@@ -10,9 +10,11 @@ class CarService:
         # Ath bug - returnar none ef bíllinn finnst ekki
         cars = self.__car_repo.get_all_cars()
         for car in cars:
-            if car[0] == reg_num:
-                found_car = Car(car[0], car[1], car[2], car[3], car[4], car[5], car[6])
+            if car.get_reg_num() == reg_num:
+                found_car = car
                 return found_car
+            else:
+                pass
     
     def log_broken_car(self, reg_num):
         """ Finnur bíl, fjarlægir hann úr gagnagrunni,\

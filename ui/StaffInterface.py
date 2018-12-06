@@ -352,6 +352,7 @@ class StaffInterface:
     def return_car(self):
         """Biður um email pöntunar í input, kallar á ErrorCheck
         og sendir emailið svo í CarService til að skila viðkomandi bíl"""
+        #Ath hér vantar að fjarlægja order úr future orders í past orders
         cls()
         email = input("Netfang: ")
         if self.__error_catch.check_email(email) == False:
@@ -363,13 +364,11 @@ class StaffInterface:
             self.return_car()
         else:
             reg_num = self.__car_service.return_car(order)
-            if reg_num == False:
-                print("Eitthvað hefur farið úrskeiðis!")
-                self.go_to_menu()
-            else:
-                print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
-                print("Bílnum {} hefur verið skilað!".format(reg_num))
-                print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+
+            print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+            print("Bílnum {} hefur verið skilað!".format(reg_num))
+            print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+        
 
         self.go_to_menu()
 

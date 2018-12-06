@@ -40,3 +40,6 @@ class OrderService:
 
     def delete_order(self, order_to_delete):
         self.__order_repo.remove_order(order_to_delete)
+
+    def get_list_of_orders(self):
+        return self.__order_repo.get_all_orders()

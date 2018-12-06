@@ -315,6 +315,7 @@ class StaffInterface:
             Dagsetningar skal skrifa inn á forminu ddmmáááá\n\
             Hámarksleigutími er eitt ár\n\
             Ekki er hægt að velja leigutímabil sem er liðið")
+            self.display_free_cars()
         else:
             cls()
             free_car_list = self.__car_service.find_free_cars(\
@@ -329,10 +330,7 @@ class StaffInterface:
             print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
             print(60*"-")
             for car in free_car_list:
-                print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
-                car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), str(self.__car_service.get_price(car)) + "kr/dag"))
-            #print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
-            #print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
+                print(car)
             print(60*"-")
 
         self.go_to_menu()
@@ -346,25 +344,33 @@ class StaffInterface:
         print(60*"-")
         rented_car_list = self.__car_service.get_rented_cars()
         for car in rented_car_list:
-            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
-            car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), str(self.__car_service.get_price(car)) + "kr/dag"))
-        #print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SX-452", "Jeppi", "2003", "Grænn", "3000 kr/dag"))
+            print(car)
         print(60*"-")
 
         self.go_to_menu()
 
     def return_car(self):
+        """Biður um email pöntunar í input, kallar á ErrorCheck
+        og sendir emailið svo í CarService til að skila viðkomandi bíl"""
+        #Ath hér vantar að fjarlægja order úr future orders í past orders
         cls()
-        bilnumer = input("Bílnúmer: ")
-        print("-"*len("Bílnum {} hefur verið skilað!".format(bilnumer)))
-        print("Bílnum {} hefur verið skilað!".format(bilnumer))
-        print("-"*len("Bílnum {} hefur verið skilað!".format(bilnumer)))
-
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
+        email = input("Netfang: ")
+        if self.__error_catch.check_email(email) == False:
+            print("Athugið eftirfarandi:\n\
+            Netfang skal skrifa inn á forminu nafn@lén.is")
+        order = self.__order_service.find_order(email)
+        if order == False:
+            print("Pöntun finnst ekki á þessu netfangi.")
+            self.return_car()
         else:
-            pass
+            reg_num = self.__car_service.return_car(order)
+
+            print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+            print("Bílnum {} hefur verið skilað!".format(reg_num))
+            print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+        
+
+        self.go_to_menu()
 
     def add_car(self):
         cls()

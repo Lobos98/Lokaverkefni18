@@ -456,7 +456,7 @@ class StaffInterface:
         else:
             pass
 
-    def afgreidsla_options(self):
+    def help_options(self):
         cls()
         print("Afgreiðsla")
         print("-"*len("2.  Skrá nýjan viðskiptavin"))
@@ -474,109 +474,88 @@ class StaffInterface:
         input_num = input("Val: ")
         print()
         if input_num == "1":
-            display_free_cars()
+            self.display_free_cars()
         elif input_num == "2":
-            skra_vidskiptavin()
+            self.register_customer()
         elif input_num == "3":
-            skra_pontun()
+            self.create_order()
         elif input_num == "4":
-            kostnadarmat()
+            self.cost_amount()
         elif input_num == "5":
-            return_car()
+            self.return_car()
         elif input_num == "6":
-            afskra_vidskiptavin()
+            self.deregister_customer()
         elif input_num == "7":
-            bakfaera_pontun()
+            self.delete_order()
         elif input_num == "8":
-            breyta_vidskiptavin()
+            self.edit_customer()
         elif input_num == "9":
-            breyta_pontun()
+            self.change_order()
         else:
-            print_options()
+            self.go_to_menu()
 
-    def skra_pontun(self):
+    def create_order(self):
         cls()
-        kt = input("Kennitala/netfang: ")
-        print("-"*len("Kennitala/netfang: 1506992669"))
+        email = input("Netfang: ")
+        print("-"*len("Netfang: 1506992669"))
         print("Leigutímabil?")
-        print("-"*len("Kennitala/netfang: 1506992669"))
-        fra = input("Frá (YYYY, MM, DD): ")
-        til = input("Til (YYYY, MM, DD): ")
+        print("-"*len("Netfang: 1506992669"))
+        pickup = input("Frá (YYYY, MM, DD): ")
+        dropoff = input("Til (YYYY, MM, DD): ")
         cls()
-        print("Lausir bílar á leigutímabili ({}) - ({})".format(fra, til))
+        print("Lausir bílar á leigutímabili ({}) - ({})".format(pickup, dropoff))
         print(60*"-")
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
         print(60*"-")
-        bilnumer = input("Veldu bíl (AA-X99) eða n til að hætta við: ")
+        car_num = input("Veldu bíl (AA-X99) eða n til að hætta við: ")
         print(60*"-")
         
-        if bilnumer.lower() == "n":
+        if car_num.lower() == "n":
             print("Þú hefur hætt við að leigja út bíl.")
             print("-"*len("Þú hefur hætt við að leigja út bíl."))
-
-            svar = input("Fara aftur á valmynd? (j/n): ")
-            if svar.lower() == "j":
-                print_options()
-            else:
-                pass
+            self.go_to_menu()
         else:
             print("Áætlaður kostnaður án tryggingar: 45.000 kr.")
             print(60*"-")
-            val = input("Samþykkja? (j/n): ")
+            choice = input("Samþykkja? (j/n): ")
             print(60*"-")
 
-            if val.lower() == "j":
-                trygging_check = input("Má bjóða þér aukatryggingu fyrir 500 kr. aukalega pr. dag? (j/n): ")
+            if choice.lower() == "j":
+                insurance_check = input("Má bjóða þér aukatryggingu fyrir 500 kr. aukalega pr. dag? (j/n): ")
                 print(60*"-")
-                if trygging_check.lower() == "j":
+                if insurance_check.lower() == "j":
                     print("Lokaverð 50.000 kr.")
-                    val = input("Samþykkja? (j/n): ")
+                    choice = input("Samþykkja? (j/n): ")
                     print(60*"-")
-                    if val.lower() == "j":
-                        print("Bíllinn",bilnumer,"hefur verið leigður út ({}) - ({})".format(fra, til))
-                        print("-"*len("Bíllinn " + bilnumer + " hefur verið leigður út ({}) - ({})".format(fra, til)))
-                        svar = input("Fara aftur á valmynd? (j/n): ")
-                        if svar.lower() == "j":
-                            print_options()
-                        else:
-                            pass
+                    if choice.lower() == "j":
+                        print("Bíllinn",car_num,"hefur verið leigður út ({}) - ({})".format(pickup, dropoff))
+                        print("-"*len("Bíllinn " + car_num + " hefur verið leigður út ({}) - ({})".format(pickup, dropoff)))
+                        self.go_to_menu()
                     else:
                         print("Þú hefur hætt við að leigja út bíl")
                         print(60*"-")
 
-                        svar = input("Fara aftur á valmynd? (j/n): ")
-                        if svar.lower() == "j":
-                            print_options()
-                        else:
-                            pass
+                        self.go_to_menu()
                 else:
-                    print("Bíllinn",bilnumer,"hefur verið leigður út ({}) - ({})".format(fra, til))
+                    print("Bíllinn",car_num,"hefur verið leigður út ({}) - ({})".format(pickup, dropoff))
                     print(60*"-")
 
-                    svar = input("Fara aftur á valmynd? (j/n): ")
-                    if svar.lower() == "j":
-                        print_options()
-                    else:
-                        pass
+                    self.go_to_menu()
             else:
                 print("Þú hefur hætt við að leigja út bíl")
                 print(60*"-")
-                svar = input("Fara aftur á valmynd? (j/n): ")
-                if svar.lower() == "j":
-                    print_options()
-                else:
-                    pass
+                self.go_to_menu()
 
-    def kostnadarmat(self):
+    def cost_amount(self):
         cls()
-        fra = input("Frá (YYYY, MM, DD): ")
-        til = input("Til (YYYY, MM, DD): ")
+        pickup = input("Frá (YYYY, MM, DD): ")
+        dropoff = input("Til (YYYY, MM, DD): ")
         cls()
         # Hér er sett inn copy úr fallinu display_free_cars()
-        print("Eftirfarandi bílar eru lausir frá {} til {}:".format(fra, til))
+        print("Eftirfarandi bílar eru lausir frá {} til {}:".format(pickup, dropoff))
         print(60*"-")
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")
@@ -584,29 +563,25 @@ class StaffInterface:
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "4500 kr/dag"))
         print(60*"-")
         dummy_input = input("Bílnúmer: ")
-        bill_verd = 4500
-        dagur_a = fra.split(",")[2]
-        dagur_a = int(dagur_a.strip())
-        dagur_b = til.split(",")[2]
-        dagur_b = int(dagur_b.strip())
+        car_price = 4500
+        day_a = fra.split(",")[2]
+        day_a = int(day_a.strip())
+        day_b = til.split(",")[2]
+        day_b = int(day_b.strip())
         # vantar með mán en erum ekki með date svo læt þetta duga
         # display_free_cars(fra, til) # fá hvaða bílar eru lausir
         # val = input("Veldu bíl (AA-X99): ")
         # við fáum tímabil frá fletta_pontun og mínusum fyrra tímabilið frá því seinna
         # þá fáum við hve marga daga viðkomandi hefur bílinn og margföldum dagana við dagskostnaðinn
-        dagar = dagur_b - dagur_a + 1
-        verd_samtals = dagar*bill_verd
+        days = day_b - day_a + 1
+        total_price = days*car_price
         cls()
-        print("Kostnaðarmat:", verd_samtals, "Kr.")
-        print("-"*len("Kostnaðarmat: "+ str(verd_samtals) + " Kr."))
+        print("Kostnaðarmat:", total_price, "Kr.")
+        print("-"*len("Kostnaðarmat: "+ str(total_price) + " Kr."))
 
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
 
-    def pantanir_options(self):
+    def order_options(self):
         cls()
         print("Pantanir")
         print("-"*len("3.  Fletta upp pöntun"))
@@ -619,17 +594,17 @@ class StaffInterface:
         input_num = input("Val: ")
         print()
         if input_num == "1":
-            skra_pontun()
+            self.create_order()
         elif input_num == "2":
-            breyta_pontun()
+            self.change_order()
         elif input_num == "3":
-            fletta_pontun()
+            self.find_order()
         elif input_num == "4":
-            bakfaera_pontun()
+            self.delete_order()
         else:
-            print_options()
+            self.go_to_menu()
 
-    def breyta_pontun(self):
+    def change_order(self):
         cls()
         kennitala = input("Hver er kennitalan/netfangið? ")
         cls()
@@ -663,33 +638,21 @@ class StaffInterface:
             print("Nýr bíll hefur verið valinn.")
 
         else:
-            svar = input("Fara aftur á valmynd? (j/n): ")
-            if svar.lower() == "j":
-                print_options()
-            else:
-                pass
+            self.go_to_menu()
         
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
         
 
-    def fletta_pontun(self):
+    def find_order(self):
         cls()
         kt = input("Kennitala/netfang pöntunar: ")
         cls()
         print("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt))
         print("SB-463 á tímabilinu 10/12/18 til 14/12/18")
         print("-"*len("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt)))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
 
-    def bakfaera_pontun(self):
+    def delete_order(self):
         # fletta_pontun()
         cls()
         kt = input("Kennitala/netfang pöntunar: ")
@@ -706,10 +669,6 @@ class StaffInterface:
             print("Hætt við")
             print("--------")
         
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        self.go_to_menu()
 
 

@@ -112,12 +112,17 @@ class StaffInterface:
         cls()
         #print("Fletta upp viðskiptavini eftir: ")
         email = input("Sláðu inn netfang viðskiptavins: ")
-        print("-"*33)
+        print("-"*(33+len(email)))
         customer_found = cust.find_customer(email)
         print(customer_found)
-        choice = input("Viltu breyta upplysingum? (j/n): ")
+        print("-"*(33+len(email)))
+        choice = input("Viltu breyta viðskiptavin? (j/n): ")
+        print("-"*(33+len(email)))
         if choice.lower() == "j":
-        self.main_menu()
+            staff.edit_customer(customer_found)
+        else:
+            staff.go_to_menu()
+
         #print("1. Kennitölu")
         #print("2. Nafni")   
         #print("3. Símanúmeri")
@@ -136,106 +141,97 @@ class StaffInterface:
         #else:
         #    vidskiptavinir_options()
 
-    def fletta_vidskiptavin_netfang():
+    # def fletta_vidskiptavin_netfang():
+    #     cls()
+    #     netfang = input("Netfang: ")
+    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
+    #     print("Nafn: Jón Ólafsson")
+    #     print("Kennitala: 2903983209")
+    #     print("Símanr: 8886785")
+    #     print("Netfang: " + netfang)
+    #     print("Kreditkortanúmer: 1234-1234-1234-1234")
+    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
+    #     svar = input("Fara aftur á valmynd? (j/n): ")
+    #     if svar.lower() == "j":
+    #         print_options()
+    #     else:
+    #         pass
+
+    # def fletta_vidskiptavin_kt():
+    #     cls()
+    #     kennitala = input("Kennitala: ")
+    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
+    #     print("Nafn: Jón Ólafsson")
+    #     print("Kennitala: " + kennitala)
+    #     print("Símanr: 8886785")
+    #     print("Netfang: JohnnyBoy23@internet.is")
+    #     print("Kreditkortanúmer: 1234-1234-1234-1234")
+    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
+    #     svar = input("Fara aftur á valmynd? (j/n): ")
+    #     if svar.lower() == "j":
+    #         print_options()
+    #     else:
+    #         pass
+
+    # def fletta_vidskiptavin_nafn():
+    #     cls()
+    #     nafn = input("Nafn: ")
+    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
+    #     print("Nafn: " + nafn)
+    #     print("Kennitala: 0303782289")
+    #     print("Símanúmer: 8886785")
+    #     print("Netfang: JohnnyBoy23@internet.is")
+    #     print("Kreditkortanúmer: 1234-1234-1234-1234")
+    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
+    #     svar = input("Fara aftur á valmynd? (j/n): ")
+    #     if svar.lower() == "j":
+    #         print_options()
+    #     else:
+    #         pass
+
+    # def fletta_vidskiptavin_simanr():
+    #     cls()
+    #     simanr = input("Símanúmer: ")
+    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
+    #     print("Nafn: Jón Ólafsson")
+    #     print("Kennitala: 0303782289")
+    #     print("Símanr: " + simanr)
+    #     print("Netfang: JohnnyBoy23@internet.is")
+    #     print("Kreditkortanúmer: 1234-1234-1234-1234")
+    #     print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
+
+    #     svar = input("Fara aftur á valmynd? (j/n): ")
+    #     if svar.lower() == "j":
+    #         print_options()
+    #     else:
+    #         pass
+
+    def edit_customer(self, customer):
         cls()
-        netfang = input("Netfang: ")
-        print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-        print("Nafn: Jón Ólafsson")
-        print("Kennitala: 2903983209")
-        print("Símanr: 8886785")
-        print("Netfang: " + netfang)
-        print("Kreditkortanúmer: 1234-1234-1234-1234")
-        print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
+        print("-"*(6+len(customer.get_email())))
+        print(customer)
+        print("-"*(6+len(customer.get_email())))
+        print("Hverju viltu breyta?: ")
+        print("-"*(6+len(customer.get_email())))
+        print("1. Símanúmeri")
+        print("2. Netfangi")
+        print("3. Kreditkortanúmeri")
+        print("4. Til baka")
+        print("-"*(6+len(customer.get_email())))
+        val = input("Val: ")
+        print("-"*(6+len(customer.get_email())))
 
-    def fletta_vidskiptavin_kt():
-        cls()
-        kennitala = input("Kennitala: ")
-        print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-        print("Nafn: Jón Ólafsson")
-        print("Kennitala: " + kennitala)
-        print("Símanr: 8886785")
-        print("Netfang: JohnnyBoy23@internet.is")
-        print("Kreditkortanúmer: 1234-1234-1234-1234")
-        print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
-
-    def fletta_vidskiptavin_nafn():
-        cls()
-        nafn = input("Nafn: ")
-        print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-        print("Nafn: " + nafn)
-        print("Kennitala: 0303782289")
-        print("Símanúmer: 8886785")
-        print("Netfang: JohnnyBoy23@internet.is")
-        print("Kreditkortanúmer: 1234-1234-1234-1234")
-        print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
-
-    def fletta_vidskiptavin_simanr():
-        cls()
-        simanr = input("Símanúmer: ")
-        print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-        print("Nafn: Jón Ólafsson")
-        print("Kennitala: 0303782289")
-        print("Símanr: " + simanr)
-        print("Netfang: JohnnyBoy23@internet.is")
-        print("Kreditkortanúmer: 1234-1234-1234-1234")
-        print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-
-        svar = input("Fara aftur á valmynd? (j/n): ")
-        if svar.lower() == "j":
-            print_options()
-        else:
-            pass
-
-    def breyta_vidskiptavin():
-        cls()
-        netfang = input("Netfang: ")
-        print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234"))
-        print("Viðskiptavinur fundinn.")
-        print("Nafn: Jón Ólafsson")
-        print("Kennitala: 2903983209")
-        print("Símanr: 8886785")
-        print("Netfang: " + netfang)
-        print("Kreditkortanúmer: 1234-1234-1234-1234")
-        print("-"*len("Kreditkortanúmer: 1234-1234-1234-1234") + "\n")
-
-        print("Breyta: ")
-        print("-"*len("4. Kreditkortanúmeri"))
-        print("1. Nafni")
-        print("2. Símanúmeri")
-        print("3. Netfangi")
-        print("4. Kreditkortanúmeri")
-        print("5. Til baka")
-        print("-"*len("4. Kreditkortanúmeri"))
-        val = input("Val:")
-        print("-"*len("4. Kreditkortanúmeri"))
         if val == "1":
-            nafn = input("Nýtt nafn: ")
-            print("Nafni hefur verið breytt.")
-        elif val == "2":
             simanr = input("Nýtt Símanúmer: ")
+            cust.edit_customer_phone_no(customer.get_email(), simanr)
             print("Símanúmeri hefur verið breytt.")
-        elif val == "3":
+        elif val == "2":
             netfang = input("Nýtt netfang: ")
             print("Netfangi hefur verið breytt.")
-        elif val == "4":
+        elif val == "3":
             kortanumer = input("Nýtt kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
             print("Kortanúmeri hefur verið breytt.")
-        elif val == "5":
+        elif val == "4":
             vidskiptavinir_options()
 
         print("-"*len("4. Kreditkortanúmeri"))

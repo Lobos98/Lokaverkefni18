@@ -19,8 +19,7 @@ class CarService:
             if car.get_reg_num() == reg_num:
                 found_car = car
                 return found_car
-            else:
-                return False
+        return False
     
     def log_broken_car(self, reg_num):
         """ Finnur bíl, fjarlægir hann úr gagnagrunni,
@@ -79,3 +78,15 @@ class CarService:
                 if date_tuple[0]< datetime.today() < date_tuple[1]:
                     rented_cars.append(car)
         return rented_cars
+
+    def return_car(self, order):
+        """Tekur við order object, finnur bílinn sem samsvarar pöntuninni og
+        færir pöntunina sem er í gangi í history. Skilar bílnúmerinu"""
+        reg_num = order.get_car_reg_num()
+        car_to_be_returned = self.find_car(reg_num)
+        self.__car_repo.delete_car(car_to_be_returned)
+        car_to_be_returned.add_to_history(order)
+        self.__car_repo.add_car(car_to_be_returned)
+        return reg_num
+
+        

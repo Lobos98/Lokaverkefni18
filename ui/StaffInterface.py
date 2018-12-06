@@ -330,10 +330,7 @@ class StaffInterface:
             print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
             print(60*"-")
             for car in free_car_list:
-                print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
-                car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), str(self.__car_service.get_price(car)) + "kr/dag"))
-            #print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
-            #print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
+                print(car)
             print(60*"-")
 
         self.go_to_menu()
@@ -347,33 +344,32 @@ class StaffInterface:
         print(60*"-")
         rented_car_list = self.__car_service.get_rented_cars()
         for car in rented_car_list:
-            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
-            car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), str(self.__car_service.get_price(car)) + "kr/dag"))
-        #print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SX-452", "Jeppi", "2003", "Grænn", "3000 kr/dag"))
+            print(car)
         print(60*"-")
 
         self.go_to_menu()
 
     def return_car(self):
-        """Tekur við bílnúmeri AAX99, finnur hann og færir pöntunina sem
-        er í gangi í history og fjarlægir tilsvarandi reserved_dates eigindi
-        Skilar False ef bíll finnst ekki"""
+        """Biður um email pöntunar í input, kallar á ErrorCheck
+        og sendir emailið svo í CarService til að skila viðkomandi bíl"""
         cls()
-        reg_num = input("Bílnúmer: ")
-        if self.__error_catch.check_reg_num(reg_num) == False:
+        email = input("Netfang: ")
+        if self.__error_catch.check_email(email) == False:
             print("Athugið eftirfarandi:\n\
-            Bílnúmer skal skrifa inn á forminu AAXTT\n\
-            Þar sem A er tölustafur, T er tölustafur og X er annaðhvorts")
-        car_to_be_returned = self.__car_service.find_car(reg_num)
-        if car_to_be_returned == False:
-            print("Bíll finnst ekki.")
+            Netfang skal skrifa inn á forminu nafn@lén.is")
+        order = self.__order_service.find_order(email)
+        if order == False:
+            print("Pöntun finnst ekki á þessu netfangi.")
             self.return_car()
         else:
-            self.__car_service.return_car(car_to_be_returned)
-        
-        print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
-        print("Bílnum {} hefur verið skilað!".format(reg_num))
-        print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+            reg_num = self.__car_service.return_car(order)
+            if reg_num == False:
+                print("Eitthvað hefur farið úrskeiðis!")
+                self.go_to_menu()
+            else:
+                print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+                print("Bílnum {} hefur verið skilað!".format(reg_num))
+                print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
 
         self.go_to_menu()
 

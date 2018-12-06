@@ -1,4 +1,5 @@
 import os
+import datetime
 from BusinessLayer.ErrorCatch import ErrorCatch
 from BusinessLayer.CarService import CarService
 from BusinessLayer.OrderService import OrderService
@@ -304,38 +305,45 @@ class StaffInterface:
         else:
             self.main_menu()
 
-    def display_free_cars(self):
-        cls()
-        pickup_date_string = input("Dagsetning leigu: ")
-        print("-"*len("Dagsetning leigu: "))
-        return_date_string = input("Dagsetning skila: ")
-        if self.__error_catch.check_rental_date(\
+    def date_input(self):
+        pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
+        return_date_string = input("Dagsetning skila (ddmmáááá): ")
+        while self.__error_catch.check_rental_date(\
         pickup_date_string, return_date_string) == False:
             print("Athugið eftirfarandi:\n\
             Dagsetningar skal skrifa inn á forminu ddmmáááá\n\
             Hámarksleigutími er eitt ár\n\
             Ekki er hægt að velja leigutímabil sem er liðið")
-        else:
-            cls()
-            free_car_list = self.__car_service.find_free_cars(\
-            pickup_date_string, return_date_string)
-            pickup_date_string = pickup_date_string[0:2] + "."\
-            + pickup_date_string[2:4] + "." + pickup_date_string[4:8]
-            return_date_string = return_date_string[0:2] + "."\
-            + return_date_string[2:4] + "." + return_date_string[4:8]
-            print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
-            pickup_date_string, return_date_string))
-            print(60*"-")
-            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
-            print(60*"-")
-            for car in free_car_list:
-                print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
-                car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), str(self.__car_service.get_price(car)) + "kr/dag"))
-            #print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
-            #print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
-            print(60*"-")
+            pickup_date_string = input("Dagsetning leigu: ")
+            return_date_string = input("Dagsetning skila: ")
+        return pickup_date_string, return_date_string
 
-        self.go_to_menu()
+    def display_free_cars(self):
+        cls()
+
+        pickup_date_string, return_date_string = self.date_input()
+
+        cls()
+        free_car_list = self.__car_service.find_free_cars(\
+        pickup_date_string, return_date_string)
+        pickup_date_string = pickup_date_string[0:2] + "."\
+        + pickup_date_string[2:4] + "." + pickup_date_string[4:8]
+        return_date_string = return_date_string[0:2] + "."\
+        + return_date_string[2:4] + "." + return_date_string[4:8]
+        print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
+        pickup_date_string, return_date_string))
+        print(60*"-")
+        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
+        "Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
+        print(60*"-")
+        for car in free_car_list:
+            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
+            car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), \
+            str(self.__car_service.get_price(car)) + "kr/dag"))
+        print(60*"-")
+
+        return pickup_date_string, return_date_string
+
         
 
     def display_currently_rented_cars(self):
@@ -505,22 +513,9 @@ class StaffInterface:
         else:
             self.main_menu()
 
-    def create_order(self):
+    def create_order(self, pickup):
+
         cls()
-        email = input("Netfang: ")
-        print("-"*len("Netfang: 1506992669"))
-        print("Leigutímabil?")
-        print("-"*len("Netfang: 1506992669"))
-        pickup = input("Frá (YYYY, MM, DD): ")
-        dropoff = input("Til (YYYY, MM, DD): ")
-        cls()
-        print("Lausir bílar á leigutímabili ({}) - ({})".format(pickup, dropoff))
-        print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
-        print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
-        print(60*"-")
         car_num = input("Veldu bíl (AA-X99) eða n til að hætta við: ")
         print(60*"-")
         
@@ -561,36 +556,24 @@ class StaffInterface:
                 self.go_to_menu()
 
     def cost_amount(self):
-        cls()
-        pickup = input("Frá (YYYY, MM, DD): ")
-        dropoff = input("Til (YYYY, MM, DD): ")
-        cls()
-        # Hér er sett inn copy úr fallinu display_free_cars()
-        print("Eftirfarandi bílar eru lausir frá {} til {}:".format(pickup, dropoff))
+        pickup_date_string, return_date_string = self.display_free_cars()
+        pickup_date_string = pickup_date_string.replace(".", "")
+        return_date_string = return_date_string.replace(".", "")
+        pickup_date = datetime.datetime.strptime(pickup_date_string, "%d%m%Y").date()
+        return_date = datetime.datetime.strptime(return_date_string, "%d%m%Y").date()
+        days_rented = (return_date - pickup_date + datetime.timedelta(days=1)).days
+        choice = input("Veldu bíl (AA-X99): ")
+        car = self.__car_service.find_car(choice)
+        price_of_car = self.__car_service.get_price(car)
+        final_price = days_rented*price_of_car
         print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
+        print("Áætlaður kostnaður fyrir {} daga án trygginga: {}Kr".format(days_rented, final_price))
         print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "4500 kr/dag"))
-        print(60*"-")
-        dummy_input = input("Bílnúmer: ")
-        car_price = 4500
-        day_a = fra.split(",")[2]
-        day_a = int(day_a.strip())
-        day_b = til.split(",")[2]
-        day_b = int(day_b.strip())
-        # vantar með mán en erum ekki með date svo læt þetta duga
-        # display_free_cars(fra, til) # fá hvaða bílar eru lausir
-        # val = input("Veldu bíl (AA-X99): ")
-        # við fáum tímabil frá fletta_pontun og mínusum fyrra tímabilið frá því seinna
-        # þá fáum við hve marga daga viðkomandi hefur bílinn og margföldum dagana við dagskostnaðinn
-        days = day_b - day_a + 1
-        total_price = days*car_price
-        cls()
-        print("Kostnaðarmat:", total_price, "Kr.")
-        print("-"*len("Kostnaðarmat: "+ str(total_price) + " Kr."))
-
-        self.go_to_menu()
+        choice = input("Samþykkja? (j/n): ")
+        if choice.lower() == "j":
+            self.create_order()
+        else:
+            self.go_to_menu()
 
     def order_menu(self):
         cls()

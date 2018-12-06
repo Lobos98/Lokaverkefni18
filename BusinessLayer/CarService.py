@@ -19,8 +19,7 @@ class CarService:
             if car.get_reg_num() == reg_num:
                 found_car = car
                 return found_car
-            else:
-                return False
+        return False
     
     def log_broken_car(self, reg_num):
         """ Finnur bíl, fjarlægir hann úr gagnagrunni,\

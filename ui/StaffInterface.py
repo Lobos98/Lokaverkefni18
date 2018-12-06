@@ -403,8 +403,12 @@ class StaffInterface:
 
     def find_car(self):
         cls()
-        reg_num = self.__error_catch.input_reg_num()
-        car = self.__car_service.find_car(reg_num)
+        car = False
+        while car == False:
+            reg_num = self.__error_catch.input_reg_num()
+            car = self.__car_service.find_car(reg_num)
+            if car == False:
+                print("Bíllinn {} finnst ekki.".format(reg_num.upper()))
         cls()
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")

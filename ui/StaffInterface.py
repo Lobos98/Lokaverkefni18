@@ -115,7 +115,6 @@ class StaffInterface:
         if ssn_check.lower() == "j":
             ssn = input("Kennitala: ")
             print("-"*52)
-<<<<<<< HEAD
             while not error.check_SSN(ssn):
                 if ssn_check.lower() == "q":
                     staff.go_to_menu()
@@ -134,12 +133,6 @@ class StaffInterface:
         card_number = self.card_input()
         ssn = self.ssn_checker()
         
-=======
-            if self.__error_catch.check_SSN(ssn):
-                print("Kennitala er gild")
-            else:
-                print("Kennitala er ógild")
->>>>>>> 0a93faed4577871dfccaf3d30887a39082ec6ba0
         print("-"*57)
         self.__customer_service.add_customer(email, name, card_number, phone, ssn)
         print("Viðskiptavinur {} hefur verið skráður".format(name))
@@ -389,14 +382,19 @@ class StaffInterface:
         dags_fyrri_string = input("Dagsetning leigu: ")
         print("-"*len("Dagsetning leigu: "))
         dags_seinni_string = input("Dagsetning skila: ")
-        cls()
-        print("Eftirfarandi bílar eru lausir frá {} til {}:".format(dags_fyrri_string, dags_seinni_string))
-        print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
-        print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
-        print(60*"-")
+        if self.__error_catch.check_rental_date(\
+        dags_fyrri_string, dags_seinni_string) == False:
+            print("Ath að dagsetningar skal stimpla inn á forminu ddmmáááá")
+        else:
+            cls()
+            free_cars = self.__car_service.find_free_cars(dags)
+            print("Eftirfarandi bílar eru lausir frá {} til {}:".format(dags_fyrri_string, dags_seinni_string))
+            print(60*"-")
+            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
+            print(60*"-")
+            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
+            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
+            print(60*"-")
 
         svar = input("Fara aftur á valmynd? (j/n): ")
         if svar.lower() == "j":

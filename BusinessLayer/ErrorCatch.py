@@ -48,7 +48,7 @@ class ErrorCatch:
         else:
             return True
 
-    def check_rental_date(date1, date2):
+    def check_rental_date(self, date1, date2):
             first_date = datetime.datetime.strptime(date1, "%d%m%Y").date()
             second_date = datetime.datetime.strptime(date2, "%d%m%Y").date()
             todays_date = datetime.datetime.today().date()

@@ -65,8 +65,9 @@ class Customer:
 			self.__card_no, self.__phone_no, self.__ssn)
 
 	def __str__(self):
-		return "{},{},{},{},{}".format(self.__email, self.__name,\
-			self.__card_no, self.__phone_no, self.__ssn)
+		return "Nafn: {}\nEmail: {}\nKortanúmer: {}\nSímanúmer: {}\
+		\nKennitala: {}".format(self.__name, self.__email,self.__card_no,\
+			self.__phone_no, self.__ssn)
 
 
 

@@ -43,16 +43,25 @@ class CustomerService:
 	def ban_customer(self, banned_customer):
 		customer = self.find_customer(banned_customer)
 		customer.set_ban(True)
+		customer_repo.remove_customer(customer.get_email())
+		attribute_list = customer.get_attribute_list()
+		customer_repo.add_customer(customer_email)
 		#Þarf ekki að breyta þessu í skránni líka og ef svo þá hvernig?????
 
 	def unban_customer(self, unbanned_customer):
 		customer = self.find_customer(unbanned_customer)
 		customer.set_ban(False)
+		customer_repo.remove_customer(customer.get_email())
+		attribute_list = customer.get_attribute_list()
+		customer_repo.add_customer(customer_email)
 		#Þarf ekki að breyta þessu í skránni líka og ef svo þá hvernig?????
 
 	def fine_customer(self, customer_email, fine_amount):
 		customer = self.find_customer(customer_email)
 		customer.set_fine(fine_amount)
+		customer_repo.remove_customer(customer_email)
+		attribute_list = customer.get_attribute_list()
+		customer_repo.add_customer(customer, attribute_list)
 
 	def add_customer(self, email, name, card_no, phone_no, ssn = "0"):
 		new_customer = Customer(email, name, card_no, phone_no, ssn)

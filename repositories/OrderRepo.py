@@ -4,6 +4,7 @@ import csv
 class OrderRepo:
     def __init__(self):
         self.__order_list = self.get_all_orders()
+        self.__past_order_list = self.get_past_orders()
 
     def add_order(self, new_order):
         '''Tekur við nýjum order object og bætir í skrána og 
@@ -50,5 +51,23 @@ class OrderRepo:
             if email_var == email:
                 return order
             else: 
-                return false
+                return False
         
+    def add_to_past_orders(self, old_order):
+        with open("./Data/pastorders.csv", "a") as past_order_file:
+            past_order_file.write("\n" +  old_order.__repr__()) 
+            self.__past_order_list.append(old_order)
+
+    def get_past_orders(self):
+        past_order_list = []
+        self.largest_ordernr = 0
+        with open("./Data/pastorders.csv", "r") as past_order_file:
+            reader = csv.DictReader(past_order_file)
+            for line in reader: 
+                if int(line["Pontunarnr"]) > self.largest_ordernr:
+                    self.largest_ordernr = int(line["Pontunarnr"])
+                order = Order(int(line["Pontunarnr"]), line["Bilnr"],\
+                tuple(line["Dagsetning"].split("--")), line["Email"],\
+                bool(line["Aukatrygging"]))
+                past_order_list.append(order)
+        return past_order_list

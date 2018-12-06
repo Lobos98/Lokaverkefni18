@@ -379,15 +379,16 @@ class StaffInterface:
 
     def display_free_cars(self):
         cls()
-        dags_fyrri_string = input("Dagsetning leigu: ")
+        pickup_date_string = input("Dagsetning leigu: ")
         print("-"*len("Dagsetning leigu: "))
-        dags_seinni_string = input("Dagsetning skila: ")
+        return_date_string = input("Dagsetning skila: ")
         if self.__error_catch.check_rental_date(\
-        dags_fyrri_string, dags_seinni_string) == False:
+        pickup_date_string, return_date_string) == False:
             print("Ath að dagsetningar skal stimpla inn á forminu ddmmáááá")
         else:
             cls()
-            free_cars = self.__car_service.find_free_cars(dags)
+            free_car_list = self.__car_service.find_free_cars(\
+            pickup_date_string, return_date_string)
             print("Eftirfarandi bílar eru lausir frá {} til {}:".format(dags_fyrri_string, dags_seinni_string))
             print(60*"-")
             print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))

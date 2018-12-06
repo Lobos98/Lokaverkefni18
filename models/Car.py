@@ -61,7 +61,7 @@ class Car:
     
     def add_reservation(self, order):
         """Tekur inn pöntun og skráir allar dagsetningarnar sem bíllinn\
-        er frátekinn eigindi bílsins sem lista af túplum"""
+        er frátekinn í eigindi bílsins sem lista af túplum"""
         pickup_date = order.get_pickup_date()
         return_date = order.get_return_date()
         reservation = (pickup_date, return_date)

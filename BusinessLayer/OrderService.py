@@ -1,13 +1,15 @@
 from models.Order import Order
 from repositories.OrderRepo import OrderRepo
-
+# from BusinessLayer.CustomerService import CustomerService
+# from models.Customer import Customer
 
 class OrderService:
     def __init__(self):
         self.__order_repo = OrderRepo()
+        # self.__customer_service = CustomerService()
 
     def log_order(self, reg_number, date1, date2, email, extra_insurance):
-        '''Tekur inn bílnr, leigudags, skiladags, email og aukatryggingu(0/1)
+        '''Tekur inn bílnr, leigudags, skiladags, email og aukatryggingu
         og býr til pöntun og bætir í skrána'''
         self.order_number = self.__order_repo.largest_ordernr + 1
         joined_date = (date1, date2)
@@ -59,9 +61,16 @@ class OrderService:
         return self.__order_repo.get_all_orders()
 
     def move_to_past(self, email):
+        '''Tekur inn email, færir pöntun í skrá yfir eldri pantanir
+        og eyðir úr skrá yfir pantanir'''
         old_order = self.__order_repo.get_order(email)
         self.__order_repo.add_to_past_orders(old_order)
         self.__order_repo.remove_order(old_order)
+        # customer = self.__customer_service.find_customer(email)
+        # customer.add_order(old_order.get_order_no())
 
     def get_list_of_past_orders(self):
+        '''Skilar lista af eldri pöntunum'''
         return self.__order_repo.get_past_orders()
+
+    

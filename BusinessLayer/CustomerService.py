@@ -69,11 +69,12 @@ class CustomerService:
 	def add_old_order(self, email, order_num):
 		customer = self.find_customer(email)
 		if customer != False:
-			customer.set_history(order_num)
+			customer.add_history(order_num)
+			print(customer.get_history())
 
 	def list_of_banned_customers(self):
 		banned_customer_list = []
-		for customer in self.customers:
+		for customer in self.__customers:
 			if customer.get_banned() == "true":
 				banned_customer_list.append(customer)
 		return banned_customer_list

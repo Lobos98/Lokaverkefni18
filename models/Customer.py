@@ -7,7 +7,7 @@ class Customer:
 		self.__phone_no = phone_no
 		self.__ssn = ssn
 		self.__banned = ban
-		self.__history = {}
+		self.__history = []
 		self.__orders = orders
 		self.__fine = fine
 
@@ -65,7 +65,7 @@ class Customer:
 		self.__orders.append(new_order)
 
 	def add_history(self, old_order):
-		self.__history[old_order.get_order_no()] = old_order
+		self.__history.append(old_order)
 
 	def __repr__(self):
 		return "{},{},{},{},{}".format(self.__email, self.__name,\

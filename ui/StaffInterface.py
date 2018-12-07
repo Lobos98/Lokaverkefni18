@@ -221,16 +221,17 @@ class StaffInterface:
         email = self.email_input()
         customer = self.__customer_service.find_customer(email)
         cls()
-        print("Setja á bannlista")
-        print("-"*(31 + len(customer.get_name()) + len(email)))
-        stadfesta = input("Setja á bannlista: {}, {}? (j/n): ".format(customer.get_name(), email))
-        self.__customer_service.ban_customer(email)
-        if stadfesta == "j":
-            print("{} hefur verið færður á bannlista.".format(customer.get_name()))
+        if customer != False:
+            print("-"*(31 + len(customer.get_name()) + len(email)))
+            stadfesta = input("Setja á bannlista: {}, {}? (j/n): ".format(customer.get_name(), email))
+            self.__customer_service.ban_customer(email)
+            if stadfesta == "j":
+                print("{} hefur verið færður á bannlista.".format(customer.get_name()))
+            else:
+                print("Hætt við.")
+            print("-"*(31 + len(customer.get_name()) + len(email)))
         else:
-            print("Hætt við.")
-        print("-"*(31 + len(customer.get_name()) + len(email)))
-    
+            print("Notandi fannst ekki")
         self.go_to_menu()
         
     def unban_customer(self):

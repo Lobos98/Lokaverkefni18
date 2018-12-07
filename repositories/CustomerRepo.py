@@ -33,6 +33,7 @@ class CustomerRepo:
 					self.__customers.remove(customer)
 			except AttributeError:
 				pass
+		print(self.__customers)
 		with open("./Data/testcustomer.csv", "w") as customer_file:
 			index = 0
 			for customer in self.__customers:
@@ -41,8 +42,19 @@ class CustomerRepo:
 					index += 1
 				else:
 					attribute_list = customer.get_attribute_list()
-					customer_file.write('\n' + ','.join(attribute_list))
+					self.add_customer(customer, attribute_list)
+					#email = customer.get_email()
+					#name = customer.get_name()
+					#card_no = customer.get_card_no()
+					#phone_no = customer.get_phone_no()
+					#ssn = customer.get_ssn()
+					#ban = customer.get_banned()
+					#fine = customer.get_fine()
+					#customer_file.write("{},{},{},{},{},{},{}\n".format(email, name, card_no, phone_no, ssn, ban, fine))
+					#attribute_list = customer.get_attribute_list()
+					#customer_file.write('\n' + ','.join(attribute_list))
 			customer_file.write("\n")
+		print(self.__customers)
 		
 
 	def __str__(self):

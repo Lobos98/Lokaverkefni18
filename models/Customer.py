@@ -23,6 +23,9 @@ class Customer:
 	def get_ssn(self):
 		return self.__ssn
 
+	def get_card_no(self):
+		return self.__card_no
+
 	def get_orders(self):
 		return self.__orders
 

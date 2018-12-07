@@ -677,5 +677,6 @@ class StaffInterface:
         else:
             print("Hætt við")
             print("--------")
+        # hæ
         
         self.go_to_menu()

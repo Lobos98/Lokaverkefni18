@@ -21,7 +21,6 @@ class OrderService:
         með breyttum gildum'''
         
         order_to_change = self.__order_repo.get_order(email)
-        print(self.__order_repo.get_order(email))
         original_reg_number = order_to_change.get_car_reg_num()
         original_date1 = order_to_change.get_pickup_date()
         original_date2 = order_to_change.get_return_date()

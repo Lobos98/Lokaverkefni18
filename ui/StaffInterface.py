@@ -626,26 +626,24 @@ class StaffInterface:
         
         elif input_num == "2":
 
-            pickup_date, return_date = self.display_free_cars()
+            pickup_date, return_date, free_cars = self.display_free_cars()
+            order_info = self.__order_service.find_order(email)
+            print("Núverandi bíll: {}".format(order_info.get_car_reg_num()))
+            reg_number = self.__error_catch.input_reg_num()
+            free_cars_reg_num = [car.get_reg_num() for car in free_cars]
+            while True:
+                if reg_number not in free_cars_reg_num:
+                    print("Vinsamlegast veldu bíl á listanum")
+                    reg_number = self.__error_catch.input_reg_num()
+                else:
+                    break
 
-
-            self.__order_service.change_order(email, input_num, pickup_date, return_date)
+            self.__order_service.change_order(email, input_num, pickup_date, return_date, reg_number)
             
-
+            print("-"*31)
+            print("Bíllinn {} hefur verið valinn.".format(reg_number))
+            print("-"*31)
         
-            print(d)
-            print("Eftirfarandi bílar eru lausir á tímabili þessarar pöntunar:")
-            # print(60*"-")
-            # print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
-            # print(60*"-")
-            # print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
-            # print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
-            # print(60*"-")
-            # print("Núverandi bíll: SG-X69")
-            # bil = input("Nýr bíll: ")
-            # print(60*"-")
-            # print("Nýr bíll hefur verið valinn.")
-
         else:
             self.go_to_menu()
         
@@ -677,6 +675,5 @@ class StaffInterface:
         else:
             print("Hætt við")
             print("--------")
-        # hæ
         
         self.go_to_menu()

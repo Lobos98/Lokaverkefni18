@@ -1,8 +1,6 @@
 from datetime import datetime, timedelta
 from models.Order import Order
 
-VERDSKRA = {"jeppi": 5000, "folksbill": 4000, "smabill": 3000}
-
 class Car:
     def __init__(self, reg_num, model, type, color, broken=False,\
     history=None, reserved_dates=None):
@@ -19,6 +17,7 @@ class Car:
             self.__reserved_dates = []
         else:
             self.__reserved_dates = reserved_dates
+        self.__price_list = {"jeppi": 5000, "folksbill": 4000, "smabill": 3000}
 
     def __repr__(self):
         return "Car({}, {}, {}, {}, {}, {}, {})".format(self.__reg_num,\
@@ -28,10 +27,13 @@ class Car:
     def __str__(self):
         return "{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
             self.get_reg_num(), self.get_type(), self.get_model(),\
-            self.get_color(), str(VERDSKRA[self.get_type()]) + "kr/dag")
+            self.get_color(), str(self.__price_list[self.get_type()]) + "kr/dag")
 
     def get_reg_num(self):
         return self.__reg_num
+    
+    def get_price(self):
+        return self.__price_list[self.get_type()]
 
     def get_model(self):
         return self.__model

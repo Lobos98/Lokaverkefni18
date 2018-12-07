@@ -1,4 +1,5 @@
 import os
+import datetime
 from BusinessLayer.ErrorCatch import ErrorCatch
 from BusinessLayer.CarService import CarService
 from BusinessLayer.OrderService import OrderService
@@ -123,10 +124,15 @@ class StaffInterface:
                     print("Kennitala er ógild, reyndu aftur eða 'q' til að hætta")
                     ssn = input("Kennitala: ")
             print("Kennitala er gild")
-        return ssn
+            return ssn
+        else:
+            return "0"
+        
     
     def register_customer(self):
         cls()
+        print("Skrá nýjan viðskiptavin")
+        print("-"*57)
         name = input("Nafn: ")
         phone = self.phone_input()
         email = self.email_input()
@@ -158,8 +164,11 @@ class StaffInterface:
 
     def find_customer(self):
         cls()
-        #print("Fletta upp viðskiptavini eftir: ")
+        print("Fletta upp viðskiptavin")
+        print("-"*60)
         email = input("Sláðu inn netfang viðskiptavins: ")
+        cls()
+        print("Fletta upp viðskiptavin")
         print("-"*(33+len(email)))
         customer_found = self.__customer_service.find_customer(email)
         print(customer_found)
@@ -173,6 +182,7 @@ class StaffInterface:
 
     def edit_customer(self, customer):
         cls()
+        print("Uppfæra viðskiptavin")
         print("-"*(6+len(customer.get_email())))
         print(customer)
         print("-"*(6+len(customer.get_email())))
@@ -208,7 +218,7 @@ class StaffInterface:
             print("Kortanúmeri hefur verið breytt.")
             print("-"*(62))
         elif val == "4":
-            print("----------------------------")
+            print("-"*(6+len(customer.get_email())))
             self.go_to_menu()
 
         self.go_to_menu()
@@ -304,36 +314,45 @@ class StaffInterface:
         else:
             self.main_menu()
 
-    def display_free_cars(self):
-        cls()
-        pickup_date_string = input("Dagsetning leigu: ")
-        print("-"*len("Dagsetning leigu: "))
-        return_date_string = input("Dagsetning skila: ")
-        if self.__error_catch.check_rental_date(\
+    def date_input(self):
+        pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
+        return_date_string = input("Dagsetning skila (ddmmáááá): ")
+        while self.__error_catch.check_rental_date(\
         pickup_date_string, return_date_string) == False:
             print("Athugið eftirfarandi:\n\
             Dagsetningar skal skrifa inn á forminu ddmmáááá\n\
             Hámarksleigutími er eitt ár\n\
             Ekki er hægt að velja leigutímabil sem er liðið")
-            self.display_free_cars()
-        else:
-            cls()
-            free_car_list = self.__car_service.find_free_cars(\
-            pickup_date_string, return_date_string)
-            pickup_date_string = pickup_date_string[0:2] + "."\
-            + pickup_date_string[2:4] + "." + pickup_date_string[4:8]
-            return_date_string = return_date_string[0:2] + "."\
-            + return_date_string[2:4] + "." + return_date_string[4:8]
-            print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
-            pickup_date_string, return_date_string))
-            print(60*"-")
-            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
-            print(60*"-")
-            for car in free_car_list:
-                print(car)
-            print(60*"-")
+            pickup_date_string = input("Dagsetning leigu: ")
+            return_date_string = input("Dagsetning skila: ")
+        return pickup_date_string, return_date_string
 
-        self.go_to_menu()
+    def display_free_cars(self):
+        cls()
+
+        pickup_date_string, return_date_string = self.date_input()
+
+        cls()
+        free_car_list = self.__car_service.find_free_cars(\
+        pickup_date_string, return_date_string)
+        pickup_date_string = pickup_date_string[0:2] + "."\
+        + pickup_date_string[2:4] + "." + pickup_date_string[4:8]
+        return_date_string = return_date_string[0:2] + "."\
+        + return_date_string[2:4] + "." + return_date_string[4:8]
+        print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
+        pickup_date_string, return_date_string))
+        print(60*"-")
+        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
+        "Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
+        print(60*"-")
+        for car in free_car_list:
+            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
+            car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), \
+            str(self.__car_service.get_price(car)) + "kr/dag"))
+        print(60*"-")
+
+        return pickup_date_string, return_date_string
+
         
 
     def display_currently_rented_cars(self):
@@ -468,7 +487,7 @@ class StaffInterface:
     def service_menu(self):
         cls()
         print("Afgreiðsla")
-        print("-"*len("2.  Skrá nýjan viðskiptavin"))
+        print("-"*27)
         print("1.  Birta lausa bíla")
         print("2.  Skrá nýjan viðskiptavin")
         print("3.  Skrá pöntun")
@@ -479,9 +498,9 @@ class StaffInterface:
         print("8.  Uppfæra viðskiptavin") 
         print("9.  Breyta pöntun")
         print("10. Til baka")
-        print("-"*len("2.  Skrá nýjan viðskiptavin"))
+        print("-"*27)
         input_num = input("Val: ")
-        print()
+
         if input_num == "1":
             self.display_free_cars()
         elif input_num == "2":
@@ -503,21 +522,9 @@ class StaffInterface:
         else:
             self.main_menu()
 
-    def create_order(self):
+    def create_order(self, pickup):
         cls()
-        email = input("Netfang: ")
-        print("-"*len("Netfang: 1506992669"))
-        print("Leigutímabil?")
-        print("-"*len("Netfang: 1506992669"))
-        pickup = input("Frá (YYYY, MM, DD): ")
-        dropoff = input("Til (YYYY, MM, DD): ")
-        cls()
-        print("Lausir bílar á leigutímabili ({}) - ({})".format(pickup, dropoff))
-        print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
-        print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
+        print("Skrá pöntun")
         print(60*"-")
         car_num = input("Veldu bíl (AA-X99) eða n til að hætta við: ")
         print(60*"-")
@@ -559,47 +566,40 @@ class StaffInterface:
                 self.go_to_menu()
 
     def cost_amount(self):
-        cls()
-        pickup = input("Frá (YYYY, MM, DD): ")
-        dropoff = input("Til (YYYY, MM, DD): ")
-        cls()
-        # Hér er sett inn copy úr fallinu display_free_cars()
-        print("Eftirfarandi bílar eru lausir frá {} til {}:".format(pickup, dropoff))
-        print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
-        print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "4500 kr/dag"))
-        print(60*"-")
-        dummy_input = input("Bílnúmer: ")
-        car_price = 4500
-        day_a = fra.split(",")[2]
-        day_a = int(day_a.strip())
-        day_b = til.split(",")[2]
-        day_b = int(day_b.strip())
-        # vantar með mán en erum ekki með date svo læt þetta duga
-        # display_free_cars(fra, til) # fá hvaða bílar eru lausir
-        # val = input("Veldu bíl (AA-X99): ")
-        # við fáum tímabil frá fletta_pontun og mínusum fyrra tímabilið frá því seinna
-        # þá fáum við hve marga daga viðkomandi hefur bílinn og margföldum dagana við dagskostnaðinn
-        days = day_b - day_a + 1
-        total_price = days*car_price
-        cls()
-        print("Kostnaðarmat:", total_price, "Kr.")
-        print("-"*len("Kostnaðarmat: "+ str(total_price) + " Kr."))
-
-        self.go_to_menu()
+        pickup_date, return_date = self.date_input()
+        car_type_list = ["jeppi", "smabill", "folksbill"]
+        car_dict = {"jeppi":5000, "folksbill":4000, "smabill":3000}
+        while True:
+            try:
+                print("1.  Jeppi")
+                print("2.  Smábíll")
+                print("3.  Fólksbíll")
+                car_type = int(input("Veldu tegund bíls: "))
+                car = car_type_list[car_type]
+            except (IndexError, ValueError):
+                print("Vinsamlegast sláðu inn heiltölu á bilinu 1-3.")
+            else:
+                break
+        time_d = datetime.datetime.strptime(return_date)\
+        - datetime.datetime.strptime(pickup_date)
+        price = time_d.days * car_dict[car]
+        print("Verð á völdu bili:", price)
+        choice = input("Viltu leigja bíl? (j/n): ")
+        if choice.lower() == "j":
+            self.create_order()
+        else:
+            self.go_to_menu()
 
     def order_menu(self):
         cls()
         print("Pantanir")
-        print("-"*len("3.  Fletta upp pöntun"))
+        print("-"*21)
         print("1.  Skrá pöntun")
         print("2.  Breyta pöntun")
         print("3.  Fletta upp pöntun")
         print("4.  Bakfæra pöntun")
         print("5.  Til baka")
-        print("-"*len("3.  Fletta upp pöntun"))
+        print("-"*21)
         input_num = input("Val: ")
         print()
         if input_num == "1":
@@ -615,14 +615,14 @@ class StaffInterface:
 
     def change_order(self):
         cls()
-        kennitala = input("Hver er kennitalan/netfangið? ")
-        cls()
+        kennitala = input("Hver er kennitalan/netfangið?: ")
+        print("-"*31)
         print("Hverju viltu breyta?")
-        print("-"*len("Hverju viltu breyta?"))
+        print("-"*31)
         print("1. Dagsetningu")
         print("2. Bíl")
         print("3. Til baka")
-        print("-"*len("Hverju viltu breyta?"))
+        print("-"*31)
         input_num = input("Val: ")
 
         cls()

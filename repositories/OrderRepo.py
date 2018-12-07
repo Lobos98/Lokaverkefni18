@@ -40,7 +40,7 @@ class OrderRepo:
                     self.largest_ordernr = int(line["Pontunarnr"])
                 order = Order(int(line["Pontunarnr"]), line["Bilnr"],\
                 tuple(line["Dagsetning"].split("--")), line["Email"],\
-                bool(int(line["Aukatrygging"]))) 
+                line["Aukatrygging"])
                 order_list.append(order)
         return order_list
 
@@ -54,21 +54,20 @@ class OrderRepo:
             else: 
                 return False
         
-    def add_to_past_orders(self, old_order):
+    def add_to_past_orders(self, old_order): 
+        '''Tekur við pöntun og skrifar hana í skrá yfir eldri pantanir'''
         with open("./Data/pastorders.csv", "a") as past_order_file:
             past_order_file.write("\n" +  old_order.__repr__()) 
             self.__past_order_list.append(old_order)
 
     def get_past_orders(self):
+        '''Gerir lista yfir allar eldri pantanir'''
         past_order_list = []
-        self.largest_ordernr = 0
         with open("./Data/pastorders.csv", "r") as past_order_file:
             reader = csv.DictReader(past_order_file)
             for line in reader: 
-                if int(line["Pontunarnr"]) > self.largest_ordernr:
-                    self.largest_ordernr = int(line["Pontunarnr"])
                 order = Order(int(line["Pontunarnr"]), line["Bilnr"],\
                 tuple(line["Dagsetning"].split("--")), line["Email"],\
-                bool(line["Aukatrygging"]))
+                line["Aukatrygging"])
                 past_order_list.append(order)
         return past_order_list

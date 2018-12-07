@@ -1,1 +1,0 @@
-print(len("Setja á bannlista: , ? (j/n): "))

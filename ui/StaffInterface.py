@@ -329,10 +329,13 @@ class StaffInterface:
 
     def display_free_cars(self):
         cls()
-
+        print("Birta lausa bíla")
+        print("-"*37)
         pickup_date_string, return_date_string = self.date_input()
 
         cls()
+        print("Birta lausa bíla")
+        print(60*"-")
         free_car_list = self.__car_service.find_free_cars(\
         pickup_date_string, return_date_string)
         pickup_date_string = pickup_date_string[0:2] + "."\

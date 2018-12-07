@@ -9,69 +9,61 @@ class CarRepo:
 
     def get_all_cars(self):
         """Á að skila lista af Car objects"""
-        file_path = "Data\list_of_cars.csv"
-        file = open(file_path, newline='')
-        file_contents = csv.reader(file)
-        self.__header = next(file_contents)
-        # row = [reg_number, model, type, color, 
-        # broken, history, reserved_dates]
-        for line in file_contents:
-            reg_number = line[0]
-            model = line[1]
-            car_type = line[2]
-            color = line[3]
-            if line[4] == "True":
-                broken = True
-            elif line[4] == "False":
-                broken = False
-            history_list = line[5].split("--")
-            if history_list == [""]:
-                history_dict = {}
-            else:
-                history_dict = {}
-                for driver_dates in history_list:
-                    driver = driver_dates.split(":")[0]
-                    dates = driver_dates.split(":")[1]
-                    history_dict[driver] = []
-                    list_of_pickup_return_dates = dates.split(";")
-                    for date_combo in list_of_pickup_return_dates:
+        if self.__cars == []:
+            file_path = "Data\list_of_cars.csv"
+            file = open(file_path, newline='')
+            file_contents = csv.reader(file)
+            self.__header = next(file_contents)
+            for line in file_contents:
+                reg_number = line[0]
+                model = line[1]
+                car_type = line[2]
+                color = line[3]
+                if line[4] == "True":
+                    broken = True
+                elif line[4] == "False":
+                    broken = False
+                history_list = line[5].split("--")
+                if history_list == [""]:
+                    history_dict = {}
+                else:
+                    history_dict = {}
+                    for driver_dates in history_list:
+                        driver = driver_dates.split(":")[0]
+                        dates = driver_dates.split(":")[1]
+                        history_dict[driver] = []
+                        list_of_pickup_return_dates = dates.split(";")
+                        for date_combo in list_of_pickup_return_dates:
+                            pickup_date_string = date_combo.split("/")[0]
+                            return_date_string = date_combo.split("/")[1]
+                            pickup_date = datetime.datetime.strptime(\
+                            pickup_date_string, "%d%m%Y")
+                            return_date = datetime.datetime.strptime(\
+                            return_date_string, "%d%m%Y")
+                            history_dict[driver].append((pickup_date, return_date))
+
+                reserved_dates_list = []
+                reserved_dates_string_list = line[6].split(";")
+                if reserved_dates_string_list == [""]:
+                    pass
+                else:
+                    for date_combo in reserved_dates_string_list:
                         pickup_date_string = date_combo.split("/")[0]
                         return_date_string = date_combo.split("/")[1]
                         pickup_date = datetime.datetime.strptime(\
                         pickup_date_string, "%d%m%Y")
                         return_date = datetime.datetime.strptime(\
                         return_date_string, "%d%m%Y")
-                        history_dict[driver].append((pickup_date, return_date))
-
-            reserved_dates_list = []
-            reserved_dates_string_list = line[6].split(";")
-            if reserved_dates_string_list == [""]:
-                pass
-            else:
-                for date_combo in reserved_dates_string_list:
-                    pickup_date_string = date_combo.split("/")[0]
-                    return_date_string = date_combo.split("/")[1]
-                    pickup_date = datetime.datetime.strptime(\
-                    pickup_date_string, "%d%m%Y")
-                    return_date = datetime.datetime.strptime(\
-                    return_date_string, "%d%m%Y")
-                    reserved_dates_list.append((pickup_date, return_date))
-
-
-            #try:
-            #    reserved_dates_list = line[6].split("--")
-            #    reserved_dates_list = [tuple(pair.split(":")) \
-            #    for pair in reserved_dates_list]
-            #except:
-            #    reserved_dates_list = line[6]
-            car_to_add = Car(reg_number, model, car_type, color, broken, history_dict, reserved_dates_list)
-            self.__cars.append(car_to_add)
-            #self.data.append([reg_number, model, car_type, color, broken, \
-            #history_dict, reserved_dates_list])
-        file.close()
-        return self.__cars
+                        reserved_dates_list.append((pickup_date, return_date))
+                car_to_add = Car(reg_number, model, car_type, color, broken, history_dict, reserved_dates_list)
+                self.__cars.append(car_to_add)
+            file.close()
+            return self.__cars
+        else:
+            return self.__cars
 
     def add_car(self, car):
+        self.__cars.append(car)
         file_path = "./data/list_of_cars.csv"
         file = open(file_path, "a")
         reg_num = car.get_reg_num()
@@ -114,6 +106,7 @@ class CarRepo:
         file.close()
 
     def delete_car(self, car):
+        self.__cars.remove(car)
         file_path = "./data/list_of_cars.csv"
         file = open(file_path, newline='')
         file_contents = csv.reader(file)

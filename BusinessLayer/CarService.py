@@ -66,6 +66,9 @@ class CarService:
                     free_car_list.remove(car)
                 elif pickup_date <= date_tuple[0] and date_tuple[1] <= return_date:
                     free_car_list.remove(car)
+        for car in free_car_list:
+            if car.get_broken() == True:
+                free_car_list.remove(car)
         return free_car_list
 
     def get_rented_cars(self):

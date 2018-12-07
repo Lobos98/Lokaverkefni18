@@ -13,7 +13,8 @@ class CustomerRepo:
 					"Kennitala", "Ban", "Fine"])
 				for line in csv_reader:
 					new_customer = Customer(line["Email"], line["Nafn"],\
-						line["Kort"], line["Simi"], line["Kennitala"])
+						line["Kort"], line["Simi"], line["Kennitala"],\
+						line["Ban"], line["Fine"])
 					self.__customers.append(new_customer)
 			return self.__customers
 		return self.__customers

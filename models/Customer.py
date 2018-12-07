@@ -1,5 +1,6 @@
 class Customer:
-	def __init__(self, email, name, card_no, phone_no, ssn = 0, ban = "false", fine = "0"):
+	def __init__(self, email, name, card_no, phone_no, ssn = "0", ban = "false",\
+		fine = "0", orders = []):
 		self.__email = email
 		self.__name = name
 		self.__card_no = card_no
@@ -7,7 +8,7 @@ class Customer:
 		self.__ssn = ssn
 		self.__banned = ban
 		self.__history = {}
-		self.__orders = []
+		self.__orders = orders
 		self.__fine = fine
 
 	def get_name(self):

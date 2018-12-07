@@ -10,11 +10,11 @@ class CustomerRepo:
 			with open("./Data/testcustomer.csv", "r") as customer_file:
 				csv_reader = csv.DictReader(customer_file)
 				self.__customers.append(["Email","Nafn", "Kort", "Simi",\
-					"Kennitala", "Ban", "Fine"])
+					"Kennitala", "Ban", "Fine", "History"])
 				for line in csv_reader:
 					new_customer = Customer(line["Email"], line["Nafn"],\
 						line["Kort"], line["Simi"], line["Kennitala"],\
-						line["Ban"], line["Fine"])
+						line["Ban"], line["Fine"], line["History"])
 					self.__customers.append(new_customer)
 			return self.__customers
 		return self.__customers

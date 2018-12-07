@@ -53,7 +53,7 @@ class StaffInterface:
     def customer_menu(self):
         cls()
         print("Viðskiptavinir")
-        print("-"*len("1.  Skrá nýjan viðskiptavin"))
+        print("-"*27)
         print("1.  Skrá nýjan viðskiptavin")
         print("2.  Fletta upp viðskiptavin")
         print("3.  Afskrá viðskiptavin")
@@ -62,9 +62,9 @@ class StaffInterface:
         print("6.  Taka af bannlista")
         print("7.  Sekta viðskiptavin")
         print("8.  Til baka")
-        print("-"*len("1.  Skrá nýjan viðskiptavin"))
+        print("-"*27)
         input_num = input("Val: ")
-        print()
+
         if input_num == "1":
             self.register_customer()
         elif input_num == "2":
@@ -442,12 +442,12 @@ class StaffInterface:
     def broken_cars(self):
         cls()
         print("Bilaðir bílar")
-        print("-"*len("3.  Birta bilaða bíla"))
+        print("-"*21)
         print("1.  Skrá bilaðan bíl")
         print("2.  Afskrá bilaðan bíl")
         print("3.  Birta bilaða bíla")
         print("4.  Til baka")
-        print("-"*len("3.  Birta bilaða bíla"))
+        print("-"*21)
         input_num = input("Val: ")
 
         if input_num == "1":
@@ -617,8 +617,9 @@ class StaffInterface:
             self.go_to_menu()
 
     def change_order(self):
+        '''Alls ekki tilbúið fall!!!! hallóóó'''
         cls()
-        kennitala = input("Hver er kennitalan/netfangið?: ")
+        email = input("Hvað er netfangið?: ")
         print("-"*31)
         print("Hverju viltu breyta?")
         print("-"*31)
@@ -630,24 +631,33 @@ class StaffInterface:
 
         cls()
         if input_num == "1":
-            fra = input("Frá (YYYY, MM, DD): ")
-            til = input("Til (YYYY, MM, DD): ")
+            pickup_date, return_date = self.date_input()
+            self.__order_service.change_order(email, input_num, pickup_date, return_date)
             print("-"*len("Dagsetningu hefur verið breytt."))
             print("Dagsetningu hefur verið breytt.")
             print("-"*len("Dagsetningu hefur verið breytt."))
         
         elif input_num == "2":
+
+            pickup_date, return_date = self.display_free_cars()
+
+
+            self.__order_service.change_order(email, input_num, pickup_date, return_date)
+            
+
+        
+            print(d)
             print("Eftirfarandi bílar eru lausir á tímabili þessarar pöntunar:")
-            print(60*"-")
-            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
-            print(60*"-")
-            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
-            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
-            print(60*"-")
-            print("Núverandi bíll: SG-X69")
-            bil = input("Nýr bíll: ")
-            print(60*"-")
-            print("Nýr bíll hefur verið valinn.")
+            # print(60*"-")
+            # print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
+            # print(60*"-")
+            # print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("SB-463", "Fólksbíll", "1998", "Rauður", "4500 kr/dag"))
+            # print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("EU-N45", "Smábíll", "2014", "Grár", "2500 kr/dag"))
+            # print(60*"-")
+            # print("Núverandi bíll: SG-X69")
+            # bil = input("Nýr bíll: ")
+            # print(60*"-")
+            # print("Nýr bíll hefur verið valinn.")
 
         else:
             self.go_to_menu()
@@ -682,5 +692,3 @@ class StaffInterface:
             print("--------")
         
         self.go_to_menu()
-
-

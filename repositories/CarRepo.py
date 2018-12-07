@@ -64,7 +64,7 @@ class CarRepo:
 
     def add_car(self, car):
         self.__cars.append(car)
-        file_path = "./data/list_of_cars.csv"
+        file_path = "./Data/list_of_cars.csv"
         file = open(file_path, "a")
         reg_num = car.get_reg_num()
         model = car.get_model()
@@ -107,7 +107,7 @@ class CarRepo:
 
     def delete_car(self, car):
         self.__cars.remove(car)
-        file_path = "./data/list_of_cars.csv"
+        file_path = "./Data/list_of_cars.csv"
         file = open(file_path, newline='')
         file_contents = csv.reader(file)
         r_string = ''

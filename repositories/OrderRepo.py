@@ -10,13 +10,13 @@ class OrderRepo:
     def add_order(self, new_order):
         '''Tekur við nýjum order object og bætir í skrána og 
         í self.__order_list'''
-        with open("./Data/testorder.csv", "a") as order_file:
+        with open("./Data/futureorders.csv", "a") as order_file:
             order_file.write("\n" +  new_order.__repr__()) 
             self.__order_list.append(new_order)
 
     def remove_order(self, order_to_remove):
         '''Tekur við order object og eyðir úr skrá'''
-        file_path = "./Data/testorder.csv"
+        file_path = "./Data/futureorders.csv"
         file = open(file_path, newline='')
         file_contents = csv.reader(file)
         r_string = ''
@@ -33,7 +33,7 @@ class OrderRepo:
         '''Les úr skrá og bætir öllum pöntunum í self.__order_list'''
         order_list = []
         self.largest_ordernr = 0
-        with open("./Data/testorder.csv", "r") as order_file:
+        with open("./Data/futureorders.csv", "r") as order_file:
             reader = csv.DictReader(order_file)
             for line in reader: 
                 if int(line["Pontunarnr"]) > self.largest_ordernr:

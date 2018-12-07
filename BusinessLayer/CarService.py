@@ -5,11 +5,10 @@ from datetime import datetime
 class CarService:
     def __init__(self):
         self.__car_repo = CarRepo()
-        self.__price_list = {"jeppi": 5000, "folksbill": 4000, "smabill": 3000}
 
     def get_price(self, car):
         """Tekur við Car object og skilar verðinu á bílnum"""
-        return self.__price_list[car.get_type()]
+        return car.get_price()
 
     def find_car(self, reg_num):
         """ tekur við bílnúmeri AAX99, finnur bíl og skilar

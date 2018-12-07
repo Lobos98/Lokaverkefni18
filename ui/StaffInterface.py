@@ -260,17 +260,16 @@ class StaffInterface:
         email = self.email_input()
         customer = self.__customer_service.find_customer(email)
         cls()
-        print("Sekta viðskiptavin")
-        print("-"*len("Sekta: {}, {}? (y/n)  ".format(customer.get_name(), email)))
+        print("-"*len("Sekta: {}, {}? (j/n)  ".format(customer.get_name(), email)))
         stadfesta = input("Sekta: {}, {}? (j/n): ".format(customer.get_name(),email))
-        print("-"*len("Sekta: {}, {}? (y/n)  ".format(customer.get_name(), email)))
+        print("-"*len("Sekta: {}, {}? (j/n)  ".format(customer.get_name(), email)))
         if(stadfesta == "j"):
-            fine_amount = input("Upphæð sektar: ")
+            fine_amount = input("Upphæð sektar (kr): ")
             self.__customer_service.fine_customer(email, fine_amount)
-            print("Jón Ólafsson hefur verið sektaður um {} kr.".format(fine_amount))
+            print("{} hefur verið sektaður um {} kr.".format(customer.get_name(), fine_amount))
         else:
             print("Hætt við.") 
-        print("-"*len("Sekta: {}, {}? (y/n)  ".format(customer.get_name(), email)))
+        print("-"*len("Sekta: {}, {}? (j/n)  ".format(customer.get_name(), email)))
         self.go_to_menu()
 
     def vehicle_menu(self):

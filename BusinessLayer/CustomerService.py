@@ -31,6 +31,7 @@ class CustomerService:
 
 	def find_customer(self, customer_email):
 		index = 0
+		print(self.__customers)
 		for customer in self.__customers:
 			if index > 0:
 				#print(customer)
@@ -53,6 +54,8 @@ class CustomerService:
 		customer.set_ban("false")
 		customer_repo.remove_customer(customer.get_email())
 		attribute_list = customer.get_attribute_list()
+		print(customer)
+		print(attribute_list)
 		customer_repo.add_customer(unbanned_customer, attribute_list)
 		#Þarf ekki að breyta þessu í skránni líka og ef svo þá hvernig?????
 

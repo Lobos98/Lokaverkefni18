@@ -341,8 +341,8 @@ class StaffInterface:
             Dagsetningar skal skrifa inn á forminu ddmmáááá\n\
             Hámarksleigutími er eitt ár\n\
             Ekki er hægt að velja leigutímabil sem er liðið")
-            pickup_date_string = input("Dagsetning leigu: ")
-            return_date_string = input("Dagsetning skila: ")
+            pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
+            return_date_string = input("Dagsetning skila (ddmmáááá): ")
         return pickup_date_string, return_date_string
 
     def display_free_cars(self):
@@ -372,7 +372,7 @@ class StaffInterface:
             str(self.__car_service.get_price(car)) + "kr/dag"))
         print(60*"-")
 
-        return pickup_date_string, return_date_string
+        return pickup_date_string, return_date_string, free_car_list
 
         
 
@@ -543,48 +543,35 @@ class StaffInterface:
         else:
             self.main_menu()
 
-    def create_order(self, pickup):
+    def create_order(self):
         cls()
-        print("Skrá pöntun")
-        print(60*"-")
-        car_num = input("Veldu bíl (AA-X99) eða n til að hætta við: ")
-        print(60*"-")
-        
-        if car_num.lower() == "n":
-            print("Þú hefur hætt við að leigja út bíl.")
-            print("-"*len("Þú hefur hætt við að leigja út bíl."))
-            self.go_to_menu()
-        else:
-            print("Áætlaður kostnaður án tryggingar: 45.000 kr.")
-            print(60*"-")
-            choice = input("Samþykkja? (j/n): ")
-            print(60*"-")
-
-            if choice.lower() == "j":
-                insurance_check = input("Má bjóða þér aukatryggingu fyrir 500 kr. aukalega pr. dag? (j/n): ")
-                print(60*"-")
-                if insurance_check.lower() == "j":
-                    print("Lokaverð 50.000 kr.")
-                    choice = input("Samþykkja? (j/n): ")
-                    print(60*"-")
-                    if choice.lower() == "j":
-                        print("Bíllinn",car_num,"hefur verið leigður út ({}) - ({})".format(pickup, dropoff))
-                        print("-"*len("Bíllinn " + car_num + " hefur verið leigður út ({}) - ({})".format(pickup, dropoff)))
-                        self.go_to_menu()
-                    else:
-                        print("Þú hefur hætt við að leigja út bíl")
-                        print(60*"-")
-
-                        self.go_to_menu()
-                else:
-                    print("Bíllinn",car_num,"hefur verið leigður út ({}) - ({})".format(pickup, dropoff))
-                    print(60*"-")
-
-                    self.go_to_menu()
+        pickup_date, return_date, free_cars = self.display_free_cars()
+        reg_number = self.__error_catch.input_reg_num()
+        free_cars_reg_num = [car.get_reg_num() for car in free_cars]
+        while True:
+            if reg_number not in free_cars_reg_num:
+                print("Vinsamlegast veldu bíl á listanum")
+                reg_number = self.__error_catch.input_reg_num()
             else:
-                print("Þú hefur hætt við að leigja út bíl")
-                print(60*"-")
-                self.go_to_menu()
+                break
+        email = self.__error_catch.input_email()
+        if self.__customer_service.find_customer(email):
+            if self.__customer_service.find_customer(email)\
+            .get_banned() == "true":
+                print("Þessi viðskiptavinur er bannaður")
+                return self.go_to_menu()
+        order_input_tuple = (reg_number, pickup_date, return_date, email)
+        while True:
+            extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
+            if extra_insurance.lower() == "j":
+                self.__order_service.log_order(*order_input_tuple, "true")
+                break
+            else:
+                self.__order_service.log_order(*order_input_tuple, "false")
+                break
+        print("Þér hefur tekist að panta bílinn {}".format(reg_number))
+        return self.go_to_menu()
+
 
     def cost_amount(self):
         pickup_date, return_date = self.date_input()
@@ -601,15 +588,15 @@ class StaffInterface:
                 print("Vinsamlegast sláðu inn heiltölu á bilinu 1-3.")
             else:
                 break
-        time_d = datetime.datetime.strptime(return_date)\
-        - datetime.datetime.strptime(pickup_date)
-        price = time_d.days * car_dict[car]
-        print("Verð á völdu bili:", price)
+        time_d = datetime.datetime.strptime(return_date, "%d%m%Y")\
+        - datetime.datetime.strptime(pickup_date, "%d%m%Y")
+        price = (time_d.days + 1) * car_dict[car]
+        print("Verð á völdu tímabili:", price)
         choice = input("Viltu leigja bíl? (j/n): ")
         if choice.lower() == "j":
-            self.create_order()
+            return self.create_order()
         else:
-            self.go_to_menu()
+            return self.go_to_menu()
 
     def order_menu(self):
         cls()
@@ -690,7 +677,7 @@ class StaffInterface:
         print("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt))
         print("SB-463 á tímabilinu 10/12/18 til 14/12/18")
         print("-"*len("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt)))
-        self.go_to_menu()
+        return self.go_to_menu()
 
     def delete_order(self):
         # fletta_pontun()

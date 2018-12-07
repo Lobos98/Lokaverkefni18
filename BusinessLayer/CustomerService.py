@@ -31,8 +31,6 @@ class CustomerService:
 
 	def find_customer(self, customer_email):
 		index = 0
-		print("finding in ")
-		print(self.__customers)
 		for customer in self.__customers:
 			if index > 0:
 				#print(customer)
@@ -67,6 +65,11 @@ class CustomerService:
 		new_customer = Customer(email, name, card_no, phone_no, ssn)
 		customer_list = new_customer.get_attribute_list()
 		customer_repo.add_customer(new_customer, customer_list)
+
+	def add_old_order(self, email, order_num):
+		customer = self.find_customer(email)
+		if customer != False:
+			customer.set_history(order_num)
 
 	def list_of_banned_customers(self):
 		banned_customer_list = []

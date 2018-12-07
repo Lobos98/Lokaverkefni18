@@ -566,19 +566,24 @@ class StaffInterface:
                 self.go_to_menu()
 
     def cost_amount(self):
-        pickup_date_string, return_date_string = self.display_free_cars()
-        pickup_date_string = pickup_date_string.replace(".", "")
-        return_date_string = return_date_string.replace(".", "")
-        pickup_date = datetime.datetime.strptime(pickup_date_string, "%d%m%Y").date()
-        return_date = datetime.datetime.strptime(return_date_string, "%d%m%Y").date()
-        days_rented = (return_date - pickup_date + datetime.timedelta(days=1)).days
-        choice = input("Veldu bíl (AA-X99): ")
-        car = self.__car_service.find_car(choice)
-        price_of_car = self.__car_service.get_price(car)
-        final_price = days_rented*price_of_car
-        print(60*"-")
-        print("Áætlaður kostnaður fyrir {} daga án trygginga: {}Kr".format(days_rented, final_price))
-        print(60*"-")
+        pickup_date, return_date = self.date_input()
+        car_type_list = ["jeppi", "smabill", "folksbill"]
+        car_dict = {"jeppi":5000, "folksbill":4000, "smabill":3000}
+        while True:
+            try:
+                print("1.  Jeppi")
+                print("2.  Smábíll")
+                print("3.  Fólksbíll")
+                car_type = int(input("Veldu tegund bíls: "))
+                car = car_type_list[car_type]
+            except (IndexError, ValueError):
+                print("Vinsamlegast sláðu inn heiltölu á bilinu 1-3.")
+            else:
+                break
+        time_d = datetime.datetime.strptime(return_date)\
+        - datetime.datetime.strptime(pickup_date)
+        price = time_d.days * car_dict[car]
+        return price
         choice = input("Samþykkja? (j/n): ")
         if choice.lower() == "j":
             self.create_order()

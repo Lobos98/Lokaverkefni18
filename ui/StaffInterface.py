@@ -121,7 +121,8 @@ class StaffInterface:
                 if ssn_check.lower() == "q":
                     self.go_to_menu()
                 else:
-                    print("Kennitala er ógild, reyndu aftur eða 'q' til að hætta")
+                    print("Kennitala er ógild, reyndu aftur eða 'q' til að\
+                        hætta")
                     ssn = input("Kennitala: ")
             print("Kennitala er gild")
             return ssn
@@ -140,7 +141,8 @@ class StaffInterface:
         ssn = self.ssn_checker()
         
         print("-"*57)
-        self.__customer_service.add_customer(email, name, card_number, phone, ssn)
+        self.__customer_service.add_customer(email, name, card_number, phone,\
+            ssn)
         print("Viðskiptavinur {} hefur verið skráður".format(name))
         print("-"*57)
         self.go_to_menu()
@@ -152,13 +154,17 @@ class StaffInterface:
         email = self.email_input()
         print("-"*60)
         cust = self.__customer_service.find_customer(email)
-        svar = input("Afskrá: {}, {}? (j/n): ".format(cust.get_name(), email))
-        print("-"*60)
-        if svar.lower() == "j":
-            self.__customer_service.delete_customer(email)
-            print("{} afskráð".format(cust.get_name()))
+        if cust != False:
+            svar = input("Afskrá: {}, {}? (j/n): ".format(cust.get_name(),\
+                email))
+            print("-"*60)
+            if svar.lower() == "j":
+                self.__customer_service.delete_customer(email)
+                print("{} afskráð".format(cust.get_name()))
+            else:
+                print("Hætt við")
         else:
-            print("Hætt við")
+            peint("Notandinn fannst ekki")
         print("-"*60)
         self.go_to_menu()
 
@@ -167,18 +173,16 @@ class StaffInterface:
         print("Fletta upp viðskiptavin")
         print("-"*60)
         email = input("Sláðu inn netfang viðskiptavins: ")
-        cls()
-        print("Fletta upp viðskiptavin")
         print("-"*(33+len(email)))
         customer_found = self.__customer_service.find_customer(email)
-        print(customer_found)
-        print("-"*(33+len(email)))
-        choice = input("Viltu breyta viðskiptavin? (j/n): ")
-        print("-"*(33+len(email)))
-        if choice.lower() == "j":
-            self.edit_customer(customer_found)
-        else:
-            self.go_to_menu()
+        if customer_found != False:
+            print(customer_found)
+            print("-"*(33+len(email)))
+            choice = input("Viltu breyta viðskiptavin? (j/n): ")
+            print("-"*(33+len(email)))
+            if choice.lower() == "j":
+                self.edit_customer(customer_found)
+        self.go_to_menu()
 
     def edit_customer(self, customer):
         cls()
@@ -200,21 +204,24 @@ class StaffInterface:
             cls()
             simanr = input("Nýtt Símanúmer: ")
             print("-"*30)
-            self.__customer_service.edit_customer_phone_no(customer.get_email(), simanr)
+            self.__customer_service.edit_customer_phone_no(customer.\
+                get_email(),simanr)
             print("Símanúmeri hefur verið breytt.")
             print("-"*30)
         elif val == "2":
             cls()
             netfang = input("Nýtt netfang: ")
             print("-"*(14+len(netfang)))
-            self.__customer_service.edit_customer_email(customer.get_email(), netfang)
+            self.__customer_service.edit_customer_email(customer.get_email(),\
+                netfang)
             print("Netfangi hefur verið breytt.")
             print("-"*(14+len(netfang)))
         elif val == "3":
             cls()
             kortanumer = input("Nýtt kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
             print("-"*(62))
-            self.__customer_service.edit_customer_card_no(customer.get_email(), kortanumer)
+            self.__customer_service.edit_customer_card_no(customer.\
+                get_email(),kortanumer)
             print("Kortanúmeri hefur verið breytt.")
             print("-"*(62))
         elif val == "4":
@@ -230,13 +237,14 @@ class StaffInterface:
         print("-"*60)
         email = self.email_input()
         customer = self.__customer_service.find_customer(email)
-        cls()
         if customer != False:
             print("-"*(31 + len(customer.get_name()) + len(email)))
-            stadfesta = input("Setja á bannlista: {}, {}? (j/n): ".format(customer.get_name(), email))
+            stadfesta = input("Setja á bannlista: {}, {}? (j/n): ".\
+                format(customer.get_name(), email))
             self.__customer_service.ban_customer(email)
             if stadfesta == "j":
-                print("{} hefur verið færður á bannlista.".format(customer.get_name()))
+                print("{} hefur verið færður á bannlista.".\
+                    format(customer.get_name()))
             else:
                 print("Hætt við.")
             print("-"*(31 + len(customer.get_name()) + len(email)))
@@ -250,17 +258,20 @@ class StaffInterface:
         print("-"*60)
         email = self.email_input()
         customer = self.__customer_service.find_customer(email)
-        cls()
-        print("Taka af bannlista")
-        print("-"*(31 + len(customer.get_name()) + len(email)))
-        stadfesta = input("Taka af bannlista: {}, {}? (j/n): ".format(customer.get_name(), email))
-        print("-"*(31 + len(customer.get_name()) + len(email)))
-        self.__customer_service.unban_customer(email)
-        if stadfesta == "j":
-            print("{} hefur verið tekinn af bannlista.".format(customer.get_name()))
+        if customer != False:
+            print("-"*(31 + len(customer.get_name()) + len(email)))
+            stadfesta = input("Taka af bannlista: {}, {}? (j/n): ".\
+                format(customer.get_name(), email))
+            print("-"*(31 + len(customer.get_name()) + len(email)))
+            self.__customer_service.unban_customer(email)
+            if stadfesta == "j":
+                print("{} hefur verið tekinn af bannlista.".\
+                    format(customer.get_name()))
+            else:
+                print("Hætt við.")
+            print("-"*(31 + len(customer.get_name()) + len(email)))
         else:
-            print("Hætt við.")
-        print("-"*(31 + len(customer.get_name()) + len(email)))
+            print("Notandi fannst ekki")
 
         self.go_to_menu()
         
@@ -270,17 +281,24 @@ class StaffInterface:
         print("-"*60)
         email = self.email_input()
         customer = self.__customer_service.find_customer(email)
-        cls()
-        print("-"*len("Sekta: {}, {}? (j/n)  ".format(customer.get_name(), email)))
-        stadfesta = input("Sekta: {}, {}? (j/n): ".format(customer.get_name(),email))
-        print("-"*len("Sekta: {}, {}? (j/n)  ".format(customer.get_name(), email)))
-        if(stadfesta == "j"):
-            fine_amount = input("Upphæð sektar (kr): ")
-            self.__customer_service.fine_customer(email, fine_amount)
-            print("{} hefur verið sektaður um {} kr.".format(customer.get_name(), fine_amount))
+        if customer != False:
+            print("-"*len("Sekta: {}, {}? (j/n)  ".format(customer.get_name(),\
+                email)))
+            stadfesta = input("Sekta: {}, {}? (j/n): ".\
+                format(customer.get_name(),email))
+            print("-"*len("Sekta: {}, {}? (j/n)  ".format(customer.get_name(),\
+                email)))
+            if(stadfesta == "j"):
+                fine_amount = input("Upphæð sektar (kr): ")
+                self.__customer_service.fine_customer(email, fine_amount)
+                print("{} hefur verið sektaður um {} kr.".\
+                    format(customer.get_name(), fine_amount))
+            else:
+                print("Hætt við.") 
+            print("-"*len("Sekta: {}, {}? (j/n)  ".format(customer.get_name(),\
+                email)))
         else:
-            print("Hætt við.") 
-        print("-"*len("Sekta: {}, {}? (j/n)  ".format(customer.get_name(), email)))
+            print("Notandi fanns ekki")
         self.go_to_menu()
 
     def vehicle_menu(self):

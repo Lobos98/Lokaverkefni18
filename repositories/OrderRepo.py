@@ -48,11 +48,9 @@ class OrderRepo:
         '''Tekur við emaili og leitar í lista og skilar svo pöntun
         ef pöntun finnst ekki skilar fallið False'''
         for order in self.__order_list:
-            email_var = order.get_customer_email()
-            if email_var == email:
+            if email == order.get_customer_email():
                 return order
-            else: 
-                return False
+        return False
         
     def add_to_past_orders(self, old_order): 
         '''Tekur við pöntun og skrifar hana í skrá yfir eldri pantanir'''

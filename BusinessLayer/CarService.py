@@ -5,11 +5,10 @@ from datetime import datetime
 class CarService:
     def __init__(self):
         self.__car_repo = CarRepo()
-        self.__price_list = {"jeppi": 5000, "folksbill": 4000, "smabill": 3000}
 
     def get_price(self, car):
         """Tekur við Car object og skilar verðinu á bílnum"""
-        return self.__price_list[car.get_type()]
+        return car.get_price()
 
     def find_car(self, reg_num):
         """ tekur við bílnúmeri AAX99, finnur bíl og skilar
@@ -66,6 +65,9 @@ class CarService:
                     free_car_list.remove(car)
                 elif pickup_date <= date_tuple[0] and date_tuple[1] <= return_date:
                     free_car_list.remove(car)
+        for car in free_car_list:
+            if car.get_broken() == True:
+                free_car_list.remove(car)
         return free_car_list
 
     def get_rented_cars(self):

@@ -16,6 +16,12 @@ class OrderRepo:
 
     def remove_order(self, order_to_remove):
         '''Tekur við order object og eyðir úr skrá'''
+        for order in self.__order_list:
+            try:
+                if(order_to_remove == order):
+                    self.__order_list.remove(order)
+            except:
+                pass
         file_path = "./Data/futureorders.csv"
         file = open(file_path, newline='')
         file_contents = csv.reader(file)
@@ -48,11 +54,9 @@ class OrderRepo:
         '''Tekur við emaili og leitar í lista og skilar svo pöntun
         ef pöntun finnst ekki skilar fallið False'''
         for order in self.__order_list:
-            email_var = order.get_customer_email()
-            if email_var == email:
+            if email == order.get_customer_email():
                 return order
-            else: 
-                return False
+        return False
         
     def add_to_past_orders(self, old_order): 
         '''Tekur við pöntun og skrifar hana í skrá yfir eldri pantanir'''

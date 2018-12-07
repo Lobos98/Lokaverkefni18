@@ -31,7 +31,6 @@ class CustomerService:
 
 	def find_customer(self, customer_email):
 		index = 0
-		print(self.__customers)
 		for customer in self.__customers:
 			if index > 0:
 				#print(customer)
@@ -44,26 +43,22 @@ class CustomerService:
 	def ban_customer(self, banned_customer):
 		customer = self.find_customer(banned_customer)
 		customer.set_ban("true")
-		customer_repo.remove_customer(customer.get_email())
 		attribute_list = customer.get_attribute_list()
-		customer_repo.add_customer(banned_customer, attribute_list)
-		#Þarf ekki að breyta þessu í skránni líka og ef svo þá hvernig?????
+		customer_repo.remove_customer(customer.get_email())
+		customer_repo.add_customer(customer, attribute_list)
 
 	def unban_customer(self, unbanned_customer):
 		customer = self.find_customer(unbanned_customer)
 		customer.set_ban("false")
-		customer_repo.remove_customer(customer.get_email())
 		attribute_list = customer.get_attribute_list()
-		print(customer)
-		print(attribute_list)
-		customer_repo.add_customer(unbanned_customer, attribute_list)
-		#Þarf ekki að breyta þessu í skránni líka og ef svo þá hvernig?????
+		customer_repo.remove_customer(customer.get_email())
+		customer_repo.add_customer(customer, attribute_list)
 
 	def fine_customer(self, customer_email, fine_amount):
 		customer = self.find_customer(customer_email)
 		customer.set_fine(str(fine_amount))
-		customer_repo.remove_customer(customer_email)
 		attribute_list = customer.get_attribute_list()
+		customer_repo.remove_customer(customer_email)
 		customer_repo.add_customer(customer, attribute_list)
 
 	def add_customer(self, email, name, card_no, phone_no, ssn = "0"):
@@ -71,9 +66,15 @@ class CustomerService:
 		customer_list = new_customer.get_attribute_list()
 		customer_repo.add_customer(new_customer, customer_list)
 
+	def add_old_order(self, email, order_num):
+		customer = self.find_customer(email)
+		if customer != False:
+			customer.add_history(order_num)
+			print(customer.get_history())
+
 	def list_of_banned_customers(self):
 		banned_customer_list = []
-		for customer in self.customers:
+		for customer in self.__customers:
 			if customer.get_banned() == "true":
 				banned_customer_list.append(customer)
 		return banned_customer_list

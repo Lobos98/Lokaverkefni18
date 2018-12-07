@@ -96,8 +96,8 @@ class CarRepo:
             reserved_dates += pickup_date.strftime("%d%m%Y")
             reserved_dates += "/"
             reserved_dates += return_date.strftime("%d%m%Y")
-            reserved_dates += "--"
-        reserved_dates = reserved_dates[:-2]
+            reserved_dates += ";"
+        reserved_dates = reserved_dates[:-1]
         
 
         attributes = (reg_num, model, type, color, broken, history, reserved_dates)

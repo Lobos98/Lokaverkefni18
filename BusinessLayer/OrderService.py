@@ -13,6 +13,7 @@ class OrderService:
         self.new_order = Order(self.order_number, reg_number, joined_date, \
         email, extra_insurance)
         self.__order_repo.add_order(self.new_order)
+        return self.new_order
 
     def change_order(self, email, choice, date1=0, date2=0, reg_number=0):
         '''Tekur inn email, valkost um hverju á að breyta

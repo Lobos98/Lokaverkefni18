@@ -1,13 +1,13 @@
 class Customer:
 	def __init__(self, email, name, card_no, phone_no, ssn = "0", ban = "false",\
-		fine = "0", orders = []):
+		fine = "0", history = [], orders = []):
 		self.__email = email
 		self.__name = name
 		self.__card_no = card_no
 		self.__phone_no = phone_no
 		self.__ssn = ssn
 		self.__banned = ban
-		self.__history = []
+		self.__history = history
 		self.__orders = orders
 		self.__fine = fine
 
@@ -40,7 +40,7 @@ class Customer:
 
 	def get_attribute_list(self):
 		attribute_list = [self.__email, self.__name, self.__card_no,\
-		self.__phone_no, self.__ssn, self.__banned, self.__fine]
+		self.__phone_no, self.__ssn, self.__banned, self.__fine, self.__history]
 		return attribute_list
 
 	def set_name(self, new_name):

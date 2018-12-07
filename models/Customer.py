@@ -7,7 +7,10 @@ class Customer:
 		self.__phone_no = phone_no
 		self.__ssn = ssn
 		self.__banned = ban
-		self.__history = history
+		if history is None:
+			self.__history = []
+		else:
+			self.__history = history
 		self.__orders = orders
 		self.__fine = fine
 

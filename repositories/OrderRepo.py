@@ -16,6 +16,12 @@ class OrderRepo:
 
     def remove_order(self, order_to_remove):
         '''Tekur við order object og eyðir úr skrá'''
+        for order in self.__order_list:
+            try:
+                if(order_to_remove == order):
+                    self.__order_list.remove(order)
+            except:
+                pass
         file_path = "./Data/testorder.csv"
         file = open(file_path, newline='')
         file_contents = csv.reader(file)

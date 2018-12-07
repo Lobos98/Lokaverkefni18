@@ -1,12 +1,9 @@
 from models.Order import Order
 from repositories.OrderRepo import OrderRepo
-# from BusinessLayer.CustomerService import CustomerService
-# from models.Customer import Customer
 
 class OrderService:
     def __init__(self):
         self.__order_repo = OrderRepo()
-        # self.__customer_service = CustomerService()
 
     def log_order(self, reg_number, date1, date2, email, extra_insurance):
         '''Tekur inn bílnr, leigudags, skiladags, email og aukatryggingu
@@ -22,7 +19,9 @@ class OrderService:
         og svo nýja gildið sem á að breyta yfir í(dagsetningu eða bílnr).
         fjarlægir gömlu pöntunina úr skránni og skrifar hana aftur í hana
         með breyttum gildum'''
+        
         order_to_change = self.__order_repo.get_order(email)
+        print(self.__order_repo.get_order(email))
         original_reg_number = order_to_change.get_car_reg_num()
         original_date1 = order_to_change.get_pickup_date()
         original_date2 = order_to_change.get_return_date()
@@ -66,8 +65,6 @@ class OrderService:
         old_order = self.__order_repo.get_order(email)
         self.__order_repo.add_to_past_orders(old_order)
         self.__order_repo.remove_order(old_order)
-        # customer = self.__customer_service.find_customer(email)
-        # customer.add_order(old_order.get_order_no())
 
     def get_list_of_past_orders(self):
         '''Skilar lista af eldri pöntunum'''

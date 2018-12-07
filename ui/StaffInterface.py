@@ -583,7 +583,7 @@ class StaffInterface:
         time_d = datetime.datetime.strptime(return_date)\
         - datetime.datetime.strptime(pickup_date)
         price = time_d.days * car_dict[car]
-        return price
+        print("Verð á völdu bili:", price)
         choice = input("Samþykkja? (j/n): ")
         if choice.lower() == "j":
             self.create_order()

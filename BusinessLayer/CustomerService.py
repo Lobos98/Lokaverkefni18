@@ -31,6 +31,7 @@ class CustomerService:
 
 	def find_customer(self, customer_email):
 		index = 0
+		print("finding in ")
 		print(self.__customers)
 		for customer in self.__customers:
 			if index > 0:
@@ -44,26 +45,22 @@ class CustomerService:
 	def ban_customer(self, banned_customer):
 		customer = self.find_customer(banned_customer)
 		customer.set_ban("true")
-		customer_repo.remove_customer(customer.get_email())
 		attribute_list = customer.get_attribute_list()
-		customer_repo.add_customer(banned_customer, attribute_list)
-		#Þarf ekki að breyta þessu í skránni líka og ef svo þá hvernig?????
+		customer_repo.remove_customer(customer.get_email())
+		customer_repo.add_customer(customer, attribute_list)
 
 	def unban_customer(self, unbanned_customer):
 		customer = self.find_customer(unbanned_customer)
 		customer.set_ban("false")
-		customer_repo.remove_customer(customer.get_email())
 		attribute_list = customer.get_attribute_list()
-		print(customer)
-		print(attribute_list)
-		customer_repo.add_customer(unbanned_customer, attribute_list)
-		#Þarf ekki að breyta þessu í skránni líka og ef svo þá hvernig?????
+		customer_repo.remove_customer(customer.get_email())
+		customer_repo.add_customer(customer, attribute_list)
 
 	def fine_customer(self, customer_email, fine_amount):
 		customer = self.find_customer(customer_email)
 		customer.set_fine(str(fine_amount))
-		customer_repo.remove_customer(customer_email)
 		attribute_list = customer.get_attribute_list()
+		customer_repo.remove_customer(customer_email)
 		customer_repo.add_customer(customer, attribute_list)
 
 	def add_customer(self, email, name, card_no, phone_no, ssn = "0"):

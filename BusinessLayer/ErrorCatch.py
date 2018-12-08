@@ -130,7 +130,7 @@ class ErrorCatch:
             if first_date < todays_date:
                 return False
             # Longest rental-time is one year.
-            elif todays_date - first_date > datetime.timedelta(days=365):
+            elif first_date - todays_date > datetime.timedelta(days=365):
                 return False
             if second_date - first_date > datetime.timedelta(days=365):
                 return False

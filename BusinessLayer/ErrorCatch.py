@@ -21,7 +21,7 @@ class ErrorCatch:
 
     def input_email(self):
         check = False
-        r = re.compile("^\w+@\w+\.[a-zA-Z]+[a-zA-Z.][a-zA-Z]+$")
+        r = re.compile("^\w+@\w+\.[a-zA-Z]+[a-zA-Z.]{0,}[a-zA-Z]+$")
         while check == False:
             email = input("Netfang: ")
             if email.count("@") == 1 and email.count(".") > 0:
@@ -119,9 +119,12 @@ class ErrorCatch:
             return True
 
     def check_rental_date(self, date1, date2):
+        try:
             first_date = datetime.datetime.strptime(date1, "%d%m%Y").date()
             second_date = datetime.datetime.strptime(date2, "%d%m%Y").date()
             todays_date = datetime.datetime.today().date()
+        except ValueError:
+            return False
             # If the inputted date is before today return false
             if first_date < todays_date:
                 return False

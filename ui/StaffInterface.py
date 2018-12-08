@@ -302,6 +302,8 @@ class StaffInterface:
         self.go_to_menu()
 
     def vehicle_menu(self):
+        """Setur bíla-valmyndina í gang"""
+        #tilbúið
         cls()
         print("Bílafloti")
         print("-"*len("2.  Birta bíla í útleigu"))
@@ -346,6 +348,9 @@ class StaffInterface:
         return pickup_date_string, return_date_string
 
     def display_free_cars(self):
+        """Biður um tvær dagsetningar og prentar þá bíla sem 
+        eru lausir yfir allt tímabilið"""
+        #Tilbúið
         cls()
         print("Birta lausa bíla")
         print("-"*37)
@@ -366,17 +371,22 @@ class StaffInterface:
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
         "Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")
-        for car in free_car_list:
-            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
-            car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), \
-            str(self.__car_service.get_price(car)) + "kr/dag"))
-        print(60*"-")
-
+        if free_car_list:
+            for car in free_car_list:
+                print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
+                car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), \
+                str(self.__car_service.get_price(car)) + "kr/dag"))
+            print(60*"-")
+        else:
+            print("Engir bílar eru lausir á þessu tímabili")
         return pickup_date_string, return_date_string, free_car_list
 
         
 
     def display_currently_rented_cars(self):
+        """Sækir lista af bílum sem eru í útleigu 
+        í augnablikinu og prentar þá"""
+        #tilbúið
         cls()
         print("Eftirfarandi bílar eru í útleigu í augnablikinu")
         print(60*"-")
@@ -392,24 +402,40 @@ class StaffInterface:
     def return_car(self):
         """Biður um email pöntunar í input, kallar á ErrorCheck
         og sendir emailið svo í CarService til að skila viðkomandi bíl"""
-        #Ath hér vantar að fjarlægja order úr future orders í past orders
+        #tilbúið fyrir utan villur í hvernig CustomerRepo
+        #  býr til Customer úr textaskrám - læst þangað til það er lagað
         cls()
-        email = self.__error_catch.input_email()
-        order = self.__order_service.find_order(email)
-        if order == False:
-            print("Pöntun finnst ekki á þessu netfangi.")
-            self.return_car()
-        else:
-            reg_num = self.__car_service.return_car(order)
+        order = False
+        while order == False:
+            email = self.__error_catch.input_email()
+            order_list = self.__order_service.get_customer_orders(email)
+            if order_list == False:
+                print("Pöntun finnst ekki á þessu netfangi.")
+            if len(order_list) == 1:
+                order = order_list[0]
+            else:
+                print("Eftirfarandi pantanir eru skráðar á þetta netfang:")
+                list_no = 1
+                for order in order_list:
+                    print(str(list_no) + ": " + order.__str__())
+                    list_no += 1
+                order_choice = int(input("Veldu pöntun til þess að skila:"))
+                order = order_list[order_choice-1]
 
-            print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
-            print("Bílnum {} hefur verið skilað!".format(reg_num))
-            print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+        reg_num = self.__car_service.return_car(order)
+        self.__order_service.move_to_past(order.get_order_no())
+        print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+        print("Bílnum {} hefur verið skilað!".format(reg_num))
+        print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
         
 
         self.go_to_menu()
 
     def add_car(self):
+        """Biður um bílnúmer, árgerð, tegund og lit bíls, 
+        sendir svo þessar upplýsingar til CarService sem sér um að
+        búa til Car object. Prentar staðfestingu"""
+        #tilbúið
         cls()
         reg_num = self.__error_catch.input_reg_num()
         model = self.__error_catch.input_model()
@@ -421,10 +447,12 @@ class StaffInterface:
         print("-"*len("Bílnum {} hefur verið skráður!".format(reg_num)))
 
         self.go_to_menu()
-        #Hér eigum við eftir að bæta við virkni til þess að geyma lit, gerð, verð
-        # og fleiri upplýsingar um bílinn sem myndu vera attributes í klasa
 
     def delete_car(self):
+        """Biður um bílnúmer þangað til bíll fæst sem er til í kerfinu.
+        sendir svo bílnúmerið í CarService svo bílnum verði eytt.
+        Prentar staðfestingu"""
+        #Tilbúið
         cls()
         reg_num = self.__error_catch.input_reg_num()
         car = False
@@ -442,6 +470,9 @@ class StaffInterface:
         self.go_to_menu()
 
     def find_car(self):
+        """Biður um bílnúmer þangað til bíll finnst og 
+        prentar svo bílinn á skjáinn"""
+        #tilbúið
         cls()
         car = False
         while car == False:
@@ -458,6 +489,8 @@ class StaffInterface:
         self.go_to_menu()
 
     def broken_cars(self):
+        """Setur bilaðra-bíla valmyndina í gang"""
+        #þarf að útfæra öll föll sem er kallað í
         cls()
         print("Bilaðir bílar")
         print("-"*21)
@@ -547,13 +580,18 @@ class StaffInterface:
         cls()
         pickup_date, return_date, free_cars = self.display_free_cars()
         reg_number = self.__error_catch.input_reg_num()
-        free_cars_reg_num = [car.get_reg_num() for car in free_cars]
+        rented_car = ''
         while True:
-            if reg_number not in free_cars_reg_num:
+            for car in free_cars:
+                if reg_number == car.get_reg_num():
+                    rented_car = car
+                    break
+            if not rented_car:
                 print("Vinsamlegast veldu bíl á listanum")
                 reg_number = self.__error_catch.input_reg_num()
             else:
                 break
+
         email = self.__error_catch.input_email()
         if self.__customer_service.find_customer(email):
             if self.__customer_service.find_customer(email)\
@@ -564,10 +602,14 @@ class StaffInterface:
         while True:
             extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
             if extra_insurance.lower() == "j":
-                self.__order_service.log_order(*order_input_tuple, "true")
+                interim_order = self.__order_service.log_order(*order_input_tuple, "true")
+                rented_car.add_reservation(interim_order)
+                self.__car_service.make_reservation(rented_car)
                 break
             else:
-                self.__order_service.log_order(*order_input_tuple, "false")
+                interim_order = self.__order_service.log_order(*order_input_tuple, "false")
+                rented_car.add_reservation(interim_order)
+                self.__car_service.make_reservation(rented_car)
                 break
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))
         return self.go_to_menu()

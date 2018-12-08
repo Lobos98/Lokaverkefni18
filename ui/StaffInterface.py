@@ -302,6 +302,8 @@ class StaffInterface:
         self.go_to_menu()
 
     def vehicle_menu(self):
+        """Setur bíla-valmyndina í gang"""
+        #tilbúið
         cls()
         print("Bílafloti")
         print("-"*len("2.  Birta bíla í útleigu"))
@@ -346,6 +348,9 @@ class StaffInterface:
         return pickup_date_string, return_date_string
 
     def display_free_cars(self):
+        """Biður um tvær dagsetningar og prentar þá bíla sem 
+        eru lausir yfir allt tímabilið"""
+        #Tilbúið
         cls()
         print("Birta lausa bíla")
         print("-"*37)
@@ -379,6 +384,9 @@ class StaffInterface:
         
 
     def display_currently_rented_cars(self):
+        """Sækir lista af bílum sem eru í útleigu 
+        í augnablikinu og prentar þá"""
+        #tilbúið
         cls()
         print("Eftirfarandi bílar eru í útleigu í augnablikinu")
         print(60*"-")
@@ -394,7 +402,8 @@ class StaffInterface:
     def return_car(self):
         """Biður um email pöntunar í input, kallar á ErrorCheck
         og sendir emailið svo í CarService til að skila viðkomandi bíl"""
-        #Ath hér vantar að fjarlægja order úr future orders í past orders
+        #tilbúið fyrir utan villur í hvernig CustomerRepo
+        #  býr til Customer úr textaskrám - læst þangað til það er lagað
         cls()
         order = False
         while order == False:
@@ -423,6 +432,10 @@ class StaffInterface:
         self.go_to_menu()
 
     def add_car(self):
+        """Biður um bílnúmer, árgerð, tegund og lit bíls, 
+        sendir svo þessar upplýsingar til CarService sem sér um að
+        búa til Car object. Prentar staðfestingu"""
+        #tilbúið
         cls()
         reg_num = self.__error_catch.input_reg_num()
         model = self.__error_catch.input_model()
@@ -434,10 +447,12 @@ class StaffInterface:
         print("-"*len("Bílnum {} hefur verið skráður!".format(reg_num)))
 
         self.go_to_menu()
-        #Hér eigum við eftir að bæta við virkni til þess að geyma lit, gerð, verð
-        # og fleiri upplýsingar um bílinn sem myndu vera attributes í klasa
 
     def delete_car(self):
+        """Biður um bílnúmer þangað til bíll fæst sem er til í kerfinu.
+        sendir svo bílnúmerið í CarService svo bílnum verði eytt.
+        Prentar staðfestingu"""
+        #Tilbúið
         cls()
         reg_num = self.__error_catch.input_reg_num()
         car = False
@@ -455,6 +470,9 @@ class StaffInterface:
         self.go_to_menu()
 
     def find_car(self):
+        """Biður um bílnúmer þangað til bíll finnst og 
+        prentar svo bílinn á skjáinn"""
+        #tilbúið
         cls()
         car = False
         while car == False:
@@ -471,6 +489,8 @@ class StaffInterface:
         self.go_to_menu()
 
     def broken_cars(self):
+        """Setur bilaðra-bíla valmyndina í gang"""
+        #þarf að útfæra öll föll sem er kallað í
         cls()
         print("Bilaðir bílar")
         print("-"*21)

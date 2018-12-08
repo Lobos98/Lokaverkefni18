@@ -125,6 +125,7 @@ class ErrorCatch:
             todays_date = datetime.datetime.today().date()
         except ValueError:
             return False
+        else:
             # If the inputted date is before today return false
             if first_date < todays_date:
                 return False

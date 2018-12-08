@@ -59,7 +59,6 @@ class CarService:
         for car in car_list:
             reservations = car.get_reserved_dates()
             for date_tuple in reservations:
-                print(date_tuple)
                 if  date_tuple[0] <= pickup_date <= date_tuple[1]:
                     free_car_list.remove(car)
                 elif date_tuple[0] <= return_date <= date_tuple[1]:
@@ -97,3 +96,6 @@ class CarService:
         self.__car_repo.add_car(new_car)
 
         
+    def make_reservation(self, car):
+        self.delete_car(car.get_reg_num())
+        self.__car_repo.add_car(car)

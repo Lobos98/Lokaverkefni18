@@ -4,7 +4,7 @@ from BusinessLayer.ErrorCatch import ErrorCatch
 from BusinessLayer.CarService import CarService
 from BusinessLayer.OrderService import OrderService
 from BusinessLayer.CustomerService import CustomerService
-from models.Car import Car
+
 
 def cls():
     os.system('cls')
@@ -664,30 +664,37 @@ class StaffInterface:
             self.go_to_menu()
 
     def change_order(self):
-        '''Alls ekki tilbúið fall!!!! hallóóó'''
+        '''Hér þarf að bæta við Núverandi verði'''
         cls()
         print("Breyta Pöntun")
         print("-"*(20))
-        email = input("Hvað er netfangið?: ")
+        email = self.email_input()
         cls()
+        cust = self.__customer_service.find_customer(email)
         print("Breyta Pöntun")
-        print("-"*(20 + len(email)))
-        # hérna er ég að gera breyta fyrir nafnið á viðskiptavin
-        print("Hverju viltu breyta fyrir {}?".format(order_info.get))
-        print("-"*(20 + len(email)))
+        print("-"*(27 + len(cust.get_name())))
+        print("Hverju viltu breyta fyrir {}?".format(cust.get_name()))
+        print("-"*(27 + len(cust.get_name())))
         print("1. Dagsetningu")
         print("2. Bíl")
         print("3. Til baka")
-        print("-"*(20 + len(email)))
+        print("-"*(27 + len(cust.get_name())))
         input_num = input("Val: ")
 
         cls()
+
         if input_num == "1":
+            print("Breyta Pöntun")
+            print("-"*(27 + len(cust.get_name())))
+            order_info = self.__order_service.find_order(email)
+            print(order_info)
+            # print("Núverandi Verð {}")
+            print("-"*(27 + len(cust.get_name())))
             pickup_date, return_date = self.date_input()
             self.__order_service.change_order(email, input_num, pickup_date, return_date)
-            print("-"*(20 + len(email)))
+            print("-"*(27 + len(cust.get_name())))
             print("Dagsetningu hefur verið breytt.")
-            print("-"*(20 + len(email)))
+            print("-"*(27 + len(cust.get_name())))
         
         elif input_num == "2":
 
@@ -725,20 +732,25 @@ class StaffInterface:
         return self.go_to_menu()
 
     def delete_order(self):
-        # fletta_pontun()
         cls()
-        kt = input("Kennitala/netfang pöntunar: ")
+        print("Bakfæra pöntun")
+        print("-"*34)
+        email = self.email_input()
         cls()
-        print("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt))
-        print("SB-463 á tímabilinu 10/12/18 til 14/12/18")
-        print("-"*len("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt)))
+        print("Bakfæra pöntun")
+        print("-"*34)
+        order_info = self.__order_service.find_order(email)
+        print(order_info)
+        print("-"*34)
         choice = input("Viltu eyða þessari pöntun? (j/n): ")
-        cls()
-        if(choice == "j"):
+        print("-"*34)
+
+        if choice == "j":
+            self.__order_service.delete_order(order_info)
             print("Pöntuninni hefur verið eytt")
-            print("---------------------------")
+            print("-"*34)
         else:
             print("Hætt við")
-            print("--------")
+            print("-"*34)
         
         self.go_to_menu()

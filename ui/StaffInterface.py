@@ -396,17 +396,28 @@ class StaffInterface:
         og sendir emailið svo í CarService til að skila viðkomandi bíl"""
         #Ath hér vantar að fjarlægja order úr future orders í past orders
         cls()
-        email = self.__error_catch.input_email()
-        order = self.__order_service.find_order(email)
-        if order == False:
-            print("Pöntun finnst ekki á þessu netfangi.")
-            self.return_car()
-        else:
-            reg_num = self.__car_service.return_car(order)
+        order = False
+        while order == False:
+            email = self.__error_catch.input_email()
+            order_list = self.__order_service.get_customer_orders(email)
+            if order_list == False:
+                print("Pöntun finnst ekki á þessu netfangi.")
+            if len(order_list) == 1:
+                order = order_list[0]
+            else:
+                print("Eftirfarandi pantanir eru skráðar á þetta netfang:")
+                list_no = 1
+                for order in order_list:
+                    print(str(list_no) + ": " + order.__str__())
+                    list_no += 1
+                order_choice = int(input("Veldu pöntun til þess að skila:"))
+                order = order_list[order_choice-1]
 
-            print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
-            print("Bílnum {} hefur verið skilað!".format(reg_num))
-            print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+        reg_num = self.__car_service.return_car(order)
+        self.__order_service.move_to_past(order.get_order_no())
+        print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+        print("Bílnum {} hefur verið skilað!".format(reg_num))
+        print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
         
 
         self.go_to_menu()

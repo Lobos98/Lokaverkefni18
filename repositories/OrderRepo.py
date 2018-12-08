@@ -35,7 +35,8 @@ class OrderRepo:
         file.close()
 
     def get_all_orders(self): 
-        '''Les úr skrá og bætir öllum pöntunum í self.__order_list'''
+        '''Les úr skrá og bætir öllum framtíðarpöntunum í self.__order_list. 
+        Skilar lista af framtíðarpöntunum'''
         order_list = []
         self.largest_ordernr = 0
         with open("./Data/futureorders.csv", "r") as order_file:

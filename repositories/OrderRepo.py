@@ -5,7 +5,6 @@ class OrderRepo:
     def __init__(self):
         self.__order_list = self.get_all_orders()
         self.__past_order_list = self.get_past_orders()
-        self.__largest_order =0
 
     def add_order(self, new_order):
         '''Tekur við nýjum order object og bætir í skrána og 

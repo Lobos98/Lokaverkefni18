@@ -366,12 +366,14 @@ class StaffInterface:
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
         "Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")
-        for car in free_car_list:
-            print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
-            car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), \
-            str(self.__car_service.get_price(car)) + "kr/dag"))
-        print(60*"-")
-
+        if free_car_list:
+            for car in free_car_list:
+                print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
+                car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), \
+                str(self.__car_service.get_price(car)) + "kr/dag"))
+            print(60*"-")
+        else:
+            print("Engir bílar eru lausir á þessu tímabili")
         return pickup_date_string, return_date_string, free_car_list
 
         
@@ -547,13 +549,18 @@ class StaffInterface:
         cls()
         pickup_date, return_date, free_cars = self.display_free_cars()
         reg_number = self.__error_catch.input_reg_num()
-        free_cars_reg_num = [car.get_reg_num() for car in free_cars]
+        rented_car = ''
         while True:
-            if reg_number not in free_cars_reg_num:
+            for car in free_cars:
+                if reg_number == car.get_reg_num():
+                    rented_car = car
+                    break
+            if not rented_car:
                 print("Vinsamlegast veldu bíl á listanum")
                 reg_number = self.__error_catch.input_reg_num()
             else:
                 break
+
         email = self.__error_catch.input_email()
         if self.__customer_service.find_customer(email):
             if self.__customer_service.find_customer(email)\
@@ -564,10 +571,14 @@ class StaffInterface:
         while True:
             extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
             if extra_insurance.lower() == "j":
-                self.__order_service.log_order(*order_input_tuple, "true")
+                interim_order = self.__order_service.log_order(*order_input_tuple, "true")
+                rented_car.add_reservation(interim_order)
+                self.__car_service.make_reservation(rented_car)
                 break
             else:
-                self.__order_service.log_order(*order_input_tuple, "false")
+                interim_order = self.__order_service.log_order(*order_input_tuple, "false")
+                rented_car.add_reservation(interim_order)
+                self.__car_service.make_reservation(rented_car)
                 break
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))
         return self.go_to_menu()

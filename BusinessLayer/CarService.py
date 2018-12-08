@@ -96,3 +96,6 @@ class CarService:
         self.__car_repo.add_car(new_car)
 
         
+    def make_reservation(self, car):
+        self.delete_car(car.get_reg_num())
+        self.__car_repo.add_car(car)

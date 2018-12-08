@@ -666,23 +666,28 @@ class StaffInterface:
     def change_order(self):
         '''Alls ekki tilbúið fall!!!! hallóóó'''
         cls()
+        print("Breyta Pöntun")
+        print("-"*(20))
         email = input("Hvað er netfangið?: ")
-        print("-"*31)
-        print("Hverju viltu breyta?")
-        print("-"*31)
+        cls()
+        print("Breyta Pöntun")
+        print("-"*(20 + len(email)))
+        # hérna er ég að gera breyta fyrir nafnið á viðskiptavin
+        print("Hverju viltu breyta fyrir {}?".format(order_info.get))
+        print("-"*(20 + len(email)))
         print("1. Dagsetningu")
         print("2. Bíl")
         print("3. Til baka")
-        print("-"*31)
+        print("-"*(20 + len(email)))
         input_num = input("Val: ")
 
         cls()
         if input_num == "1":
             pickup_date, return_date = self.date_input()
             self.__order_service.change_order(email, input_num, pickup_date, return_date)
-            print("-"*len("Dagsetningu hefur verið breytt."))
+            print("-"*(20 + len(email)))
             print("Dagsetningu hefur verið breytt.")
-            print("-"*len("Dagsetningu hefur verið breytt."))
+            print("-"*(20 + len(email)))
         
         elif input_num == "2":
 
@@ -700,9 +705,9 @@ class StaffInterface:
 
             self.__order_service.change_order(email, input_num, pickup_date, return_date, reg_number)
             
-            print("-"*31)
+            print("-"*(20 + len(email)))
             print("Bíllinn {} hefur verið valinn.".format(reg_number))
-            print("-"*31)
+            print("-"*(20 + len(email)))
         
         else:
             self.go_to_menu()

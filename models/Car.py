@@ -30,21 +30,27 @@ class Car:
             self.get_color(), str(self.__price_list[self.get_type()]) + "kr/dag")
 
     def get_reg_num(self):
+        """Skilar bílnúmeri sem streng"""
         return self.__reg_num
     
     def get_price(self):
+        """Skilar verði pr/dag sem int"""
         return self.__price_list[self.get_type()]
 
     def get_model(self):
+        """Skilar árgerð bíls sem streng"""
         return self.__model
 
     def get_type(self):
+        """Skilar tegund bíls - jeppi, smabill eða folksbill"""
         return self.__type
 
     def get_color(self):
+        """Skilar lit bílsins sem streng"""
         return self.__color
     
     def get_broken(self):
+        """Skilar boolean gildi eftir hvort bíllinn er bilaður"""
         return self.__broken
 
     def get_history(self):
@@ -58,6 +64,7 @@ class Car:
         return self.__reserved_dates
 
     def change_broken_status(self):
+        """Skráir að bíllinn sé bilaður í eigindum"""
         if self.__broken == True:
             self.__broken = False
         else:
@@ -66,8 +73,10 @@ class Car:
     def add_reservation(self, order):
         """Tekur inn pöntun og skráir allar dagsetningarnar sem bíllinn\
         er frátekinn í eigindi bílsins sem lista af túplum"""
-        pickup_date = order.get_pickup_date()
-        return_date = order.get_return_date()
+        pickup_date = order.get_pickup_date().replace(".","")
+        return_date = order.get_return_date().replace(".","")
+        pickup_date = datetime.strptime(pickup_date, "%d%m%Y")
+        return_date = datetime.strptime(return_date, "%d%m%Y")
         reservation = (pickup_date, return_date)
         self.__reserved_dates.append(reservation)
     

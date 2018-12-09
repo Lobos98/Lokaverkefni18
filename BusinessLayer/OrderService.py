@@ -15,6 +15,7 @@ class OrderService:
         self.new_order = Order(self.order_number, reg_number, joined_date, \
         email, extra_insurance)
         self.__order_repo.add_order(self.new_order)
+        return self.new_order
 
     def change_order(self, email, choice, date1=0, date2=0, reg_number=0):
         '''Tekur inn email, valkost um hverju á að breyta
@@ -60,13 +61,34 @@ class OrderService:
         '''Sækir lista yfir allar pantanir úr repoinu'''
         return self.__order_repo.get_all_orders()
 
-    def move_to_past(self, email):
-        '''Tekur inn email, færir pöntun í skrá yfir eldri pantanir
-        og eyðir úr skrá yfir pantanir'''
-        old_order = self.__order_repo.get_order(email)
+    def get_customer_orders(self,email):
+        """Tekur inn email, skilar lista af pöntunum
+        sem eru skráðar á þetta email. Skilar Fa"""
+        list_of_orders = self.__order_repo.get_all_orders()
+        list_of_orders_for_email = []
+        for order in list_of_orders:
+            if order.get_customer_email() == email:
+                list_of_orders_for_email.append(order)
+        if list_of_orders_for_email == []:
+            list_of_orders_for_email = False
+        return list_of_orders_for_email
+
+    def find_order_by_order_no(self, order_no):
+        """Tekur við pöntunarnúmeri og skilar order object"""
+        list_of_orders = self.get_list_of_orders()
+        for order in list_of_orders:
+            if order.get_order_no() == order_no:
+                return order
+
+    def move_to_past(self, order_no):
+        '''Tekur inn pöntunarnr, færir pöntun í skrá yfir eldri 
+        pantanir, eyðir úr skrá yfir framtíðarpantanir 
+        og bætir pöntuninni í notkunarsögu viðskiptavinarins.'''
+
+        old_order = self.find_order_by_order_no(order_no)
         self.__order_repo.add_to_past_orders(old_order)
         self.__order_repo.remove_order(old_order)
-        self.__customer_service.add_old_order(email, old_order.get_order_no())
+        self.__customer_service.add_old_order(old_order.get_customer_email(), old_order.get_order_no())
 
     def get_list_of_past_orders(self):
         '''Skilar lista af eldri pöntunum'''

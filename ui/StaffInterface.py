@@ -404,8 +404,7 @@ class StaffInterface:
     def return_car(self):
         """Biður um email pöntunar í input, kallar á ErrorCheck
         og sendir emailið svo í CarService til að skila viðkomandi bíl"""
-        #tilbúið fyrir utan villur í hvernig CustomerRepo
-        #  býr til Customer úr textaskrám - læst þangað til það er lagað
+        #Þarf að prenta pantanir betur
         clear_screen()
         order = False
         while order == False:
@@ -426,6 +425,7 @@ class StaffInterface:
 
         reg_num = self.__car_service.return_car(order)
         self.__order_service.move_to_past(order.get_order_no())
+        self.__customer_service.add_old_order(order.get_customer_email(), order.get_order_no())
         print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
         print("Bílnum {} hefur verið skilað!".format(reg_num))
         print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
@@ -588,9 +588,11 @@ class StaffInterface:
 
     def create_order(self):
         clear_screen()
+
         pickup_date, return_date, free_cars = self.display_free_cars()
         reg_number = self.__error_catch.input_reg_num()
         rented_car = ''
+
         while True:
             for car in free_cars:
                 if reg_number == car.get_reg_num():
@@ -608,19 +610,17 @@ class StaffInterface:
             .get_banned() == "true":
                 print("Þessi viðskiptavinur er bannaður")
                 return self.go_to_menu()
-        order_input_tuple = (reg_number, pickup_date, return_date, email)
-        while True:
-            extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
-            if extra_insurance.lower() == "j":
-                interim_order = self.__order_service.log_order(*order_input_tuple, "true")
-                rented_car.add_reservation(interim_order)
-                self.__car_service.make_reservation(rented_car)
-                break
-            else:
-                interim_order = self.__order_service.log_order(*order_input_tuple, "false")
-                rented_car.add_reservation(interim_order)
-                self.__car_service.make_reservation(rented_car)
-                break
+        order_input_tuple = reg_number, pickup_date, return_date, email
+        
+        extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
+        if extra_insurance.lower() == "j":
+            insurance = "True"
+        else:
+            insurance = "False"
+        interim_order = self.__order_service.log_order(*order_input_tuple, insurance)
+        rented_car.add_reservation(interim_order)
+        self.__car_service.make_reservation(rented_car)
+
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))
         return self.go_to_menu()
 

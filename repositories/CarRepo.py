@@ -72,7 +72,7 @@ class CarRepo:
         file = open(self.__filepath, "a")
         reg_num = car.get_reg_num()
         model = car.get_model()
-        type = car.get_type()
+        car_type = car.get_type()
         color = car.get_color()
         broken = str(car.get_broken())
         history_dict = car.get_history()
@@ -104,7 +104,7 @@ class CarRepo:
         reserved_dates = reserved_dates[:-1]
         
 
-        attributes = (reg_num, model, type, color, broken, history, reserved_dates)
+        attributes = (reg_num, model, car_type, color, broken, history, reserved_dates)
         line_to_append = ",".join(attributes)
         file.write("\n" + line_to_append)
         file.close()

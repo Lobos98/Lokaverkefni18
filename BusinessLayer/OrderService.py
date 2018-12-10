@@ -5,7 +5,6 @@ from BusinessLayer.CustomerService import CustomerService
 class OrderService:
     def __init__(self):
         self.__order_repo = OrderRepo()
-        self.__customer_service = CustomerService()
 
     def log_order(self, reg_number, date1, date2, email, extra_insurance):
         '''Tekur inn bílnr, leigudags, skiladags, email og aukatryggingu
@@ -83,14 +82,11 @@ class OrderService:
 
     def move_to_past(self, order_no):
         '''Tekur inn pöntunarnr, færir pöntun í skrá yfir eldri 
-        pantanir, eyðir úr skrá yfir framtíðarpantanir 
-        og bætir pöntuninni í notkunarsögu viðskiptavinarins.'''
+        pantanir, eyðir úr skrá yfir framtíðarpantanir.'''
 
         old_order = self.find_order_by_order_no(order_no)
         self.__order_repo.add_to_past_orders(old_order)
         self.__order_repo.remove_order(old_order)
-        self.__customer_service.add_old_order(old_order.get_customer_email(),\
-            old_order.get_order_no())
 
     def get_list_of_past_orders(self):
         '''Skilar lista af eldri pöntunum'''

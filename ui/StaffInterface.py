@@ -46,9 +46,7 @@ class StaffInterface:
     def go_to_menu(self):
         choice = input("Fara aftur á valmynd? (j/n): ")
         if choice.lower() == "j":
-            self.main_menu()
-        else:
-            pass
+            return self.main_menu()
         
     def customer_menu(self):
         clear_screen()
@@ -121,20 +119,17 @@ class StaffInterface:
                 if ssn_check.lower() == "q":
                     self.go_to_menu()
                 else:
-                    print("Kennitala er ógild, reyndu aftur eða 'q' til að\
-                        hætta")
+                    print("Kennitala er ógild, reyndu aftur eða 'q' " 
+                    "til að hætta")
                     ssn = input("Kennitala: ")
             print("Kennitala er gild")
             return ssn
         else:
             return "0"
     
-
-        
-    
     def register_customer(self):
         clear_screen()
-        print("Skrá nýjan viðskiptavin")
+        print("Skrá nýjann viðskiptavin")
         print("-"*57)
         name = input("Nafn: ")
         phone = self.phone_input()
@@ -147,7 +142,7 @@ class StaffInterface:
             ssn)
         print("Viðskiptavinur {} hefur verið skráður".format(name))
         print("-"*57)
-        self.go_to_menu()
+        return self.go_to_menu()
 
     def deregister_customer(self):
         clear_screen()
@@ -180,14 +175,17 @@ class StaffInterface:
         print("Fletta upp viðskiptavin")
         print("-"*(33+len(email)))
         customer_found = self.__customer_service.find_customer(email)
-        if customer_found != False:
+        if customer_found:
             print(customer_found)
             print("-"*(33+len(email)))
             choice = input("Viltu breyta viðskiptavin? (j/n): ")
             print("-"*(33+len(email)))
             if choice.lower() == "j":
                 self.edit_customer(customer_found)
-        self.go_to_menu()
+        return self.go_to_menu()
+
+    # def find_customer_or_register(self):
+
 
     def edit_customer(self, customer):
         clear_screen()
@@ -337,6 +335,7 @@ class StaffInterface:
         input_num = input("Val: ")
         if input_num == "1":
             self.display_free_cars()
+            self.go_to_menu()
         elif input_num == "2":
             self.display_currently_rented_cars()
         elif input_num == "3":
@@ -426,7 +425,7 @@ class StaffInterface:
             order_list = self.__order_service.get_customer_orders(email)
             if order_list == False:
                 print("Pöntun finnst ekki á þessu netfangi.")
-            if len(order_list) == 1:
+            elif len(order_list) == 1:
                 order = order_list[0]
             else:
                 print("Eftirfarandi pantanir eru skráðar á þetta netfang:")
@@ -442,7 +441,7 @@ class StaffInterface:
         print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
         
 
-        self.go_to_menu()
+        return self.go_to_menu()
 
     def add_car(self):
         """Biður um bílnúmer, árgerð, tegund og lit bíls, 

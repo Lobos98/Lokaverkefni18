@@ -7,7 +7,6 @@ class CarRepo:
     def __init__(self):
         self.__cars = []
         self.__filepath = "Data\list_of_cars.csv"
-        self.get_all_cars()
 
     def get_all_cars(self):
         """Á að skila lista af Car objects"""

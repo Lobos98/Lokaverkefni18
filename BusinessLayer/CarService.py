@@ -106,11 +106,15 @@ class CarService:
         return reg_num
 
     def add_car(self, reg_num, model, car_type, color):
+        """Tekur við bílnúmeri, árgerð, bíltegund og lit, býr til nýjan bíl
+        og sendir til CarRepo"""
         new_car = Car(reg_num, model, car_type, color)
         self.__car_repo.add_car(new_car)
 
         
     def make_reservation(self, car):
+        #Bara einu sinni vitnað í þetta fall í StaffInterface... 
+        # skoða og kannski eyða
         self.delete_car(car.get_reg_num())
         self.__car_repo.add_car(car)
     

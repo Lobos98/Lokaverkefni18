@@ -55,7 +55,7 @@ class Customer:
 		self.__banned = ban_bool
 
 	def set_fine(self, fine):
-		self.__fine = fine
+		self.__fine = str(int(self.__fine) + fine)
 
 	def add_history(self, old_order_no):
 		"""Tekur við pöntunarnúmeri sem int og bætir því í customer history"""

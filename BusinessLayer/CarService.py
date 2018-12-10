@@ -97,7 +97,7 @@ class CarService:
         for car in list_of_cars:
             reserved_dates = car.get_reserved_dates()
             for date_tuple in reserved_dates:
-                if date_tuple[0]< datetime.today() < date_tuple[1]:
+                if date_tuple[0] <= datetime.today() < date_tuple[1]:
                     rented_cars.append(car)
         return rented_cars
 
@@ -111,8 +111,8 @@ class CarService:
         self.__car_repo.add_car(car_to_be_returned)
         return reg_num
 
-    def add_car(self, reg_num, model, type, color):
-        new_car = Car(reg_num, model, type, color)
+    def add_car(self, reg_num, model, car_type, color):
+        new_car = Car(reg_num, model, car_type, color)
         self.__car_repo.add_car(new_car)
 
         

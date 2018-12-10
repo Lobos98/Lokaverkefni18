@@ -46,9 +46,7 @@ class StaffInterface:
     def go_to_menu(self):
         choice = input("Fara aftur á valmynd? (j/n): ")
         if choice.lower() == "j":
-            self.main_menu()
-        else:
-            pass
+            return self.main_menu()
         
     def customer_menu(self):
         clear_screen()
@@ -321,6 +319,7 @@ class StaffInterface:
         input_num = input("Val: ")
         if input_num == "1":
             self.display_free_cars()
+            self.go_to_menu()
         elif input_num == "2":
             self.display_currently_rented_cars()
         elif input_num == "3":
@@ -429,7 +428,7 @@ class StaffInterface:
         print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
         
 
-        self.go_to_menu()
+        return self.go_to_menu()
 
     def add_car(self):
         """Biður um bílnúmer, árgerð, tegund og lit bíls, 

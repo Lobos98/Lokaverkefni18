@@ -68,7 +68,6 @@ class CarRepo:
             return self.__cars
 
     def find_car(self, reg_num):
-        print(self.__cars)
         for car in self.__cars:
             if reg_num == car.get_reg_num():
                 return car

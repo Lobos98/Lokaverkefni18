@@ -5,26 +5,26 @@ class CustomerService:
 	def __init__(self):
 		self.__customers = customer_repo.get_customer_list()
 
-	def edit_customer_email(self, customer_email, new_email):
-		customer = self.find_customer(customer_email)
-		customer.set_email(new_email)
+	def update_customer(self, customer_email, customer):
 		customer_repo.remove_customer(customer_email)
 		attribute_list = customer.get_attribute_list()
 		customer_repo.add_customer(customer, attribute_list)
+
+
+	def edit_customer_email(self, customer_email, new_email):
+		customer = self.find_customer(customer_email)
+		customer.set_email(new_email)
+		self.update_customer(customer_email, customer)
 
 	def edit_customer_phone_no(self, customer_email, new_phone_no):
 		customer = self.find_customer(customer_email)
 		customer.set_phone_no(new_phone_no)
-		customer_repo.remove_customer(customer_email)
-		attribute_list = customer.get_attribute_list()
-		customer_repo.add_customer(customer, attribute_list)
+		self.update_customer(customer_email, customer)
 
 	def edit_customer_card_no(self, customer_email, new_card_no):
 		customer = self.find_customer(customer_email)
 		customer.set_card_no(new_card_no)
-		customer_repo.remove_customer(customer_email)
-		attribute_list = customer.get_attribute_list()
-		customer_repo.add_customer(customer, attribute_list)
+		self.update_customer(customer_email, customer)
 
 	def delete_customer(self, customer_email):
 		customer_repo.remove_customer(customer_email)
@@ -39,23 +39,17 @@ class CustomerService:
 	def ban_customer(self, banned_customer):
 		customer = self.find_customer(banned_customer)
 		customer.set_ban("true")
-		attribute_list = customer.get_attribute_list()
-		customer_repo.remove_customer(customer.get_email())
-		customer_repo.add_customer(customer, attribute_list)
+		self.update_customer(customer_email, customer)
 
 	def unban_customer(self, unbanned_customer):
 		customer = self.find_customer(unbanned_customer)
 		customer.set_ban("false")
-		attribute_list = customer.get_attribute_list()
-		customer_repo.remove_customer(customer.get_email())
-		customer_repo.add_customer(customer, attribute_list)
+		self.update_customer(customer_email, customer)
 
 	def fine_customer(self, customer_email, fine_amount):
 		customer = self.find_customer(customer_email)
 		customer.set_fine(str(fine_amount))
-		attribute_list = customer.get_attribute_list()
-		customer_repo.remove_customer(customer_email)
-		customer_repo.add_customer(customer, attribute_list)
+		self.update_customer(customer_email, customer)
 
 	def add_customer(self, email, name, card_no, phone_no, ssn = "0"):
 		new_customer = Customer(email, name, card_no, phone_no, ssn)

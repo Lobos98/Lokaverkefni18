@@ -13,9 +13,8 @@ class CarService:
     def find_car(self, reg_num):
         """ tekur við bílnúmeri t.d. AAX99, finnur bíl og skilar
         tilviki af Car klasanum, skilar False ef bíll finnst ekki"""
-        # all_cars = self.__car_repo.get_all_cars()
-        # return next((car for car in all_cars if car.get_reg_num() == reg_num), False)
-        for car in cars:
+        all_cars = self.__car_repo.get_all_cars()
+        for car in all_cars:
             if car.get_reg_num() == reg_num:
                 found_car = car
                 return found_car

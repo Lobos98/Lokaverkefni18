@@ -695,42 +695,50 @@ class StaffInterface:
         clear_screen()
 
         if input_num == "1":
-            print("Breyta Pöntun")
-            print("-"*(27 + len(cust.get_name())))
-            order_info = self.__order_service.find_order(email)
-            print(order_info)
-            # print("Núverandi Verð {}")
-            print("-"*(27 + len(cust.get_name())))
-            pickup_date, return_date = self.date_input()
-            self.__order_service.change_order(email, input_num, pickup_date, return_date)
-            print("-"*(27 + len(cust.get_name())))
-            print("Dagsetningu hefur verið breytt.")
-            print("-"*(27 + len(cust.get_name())))
+            self.change_date(cust, email)
         
         elif input_num == "2":
-
-            pickup_date, return_date, free_cars = self.display_free_cars()
-            order_info = self.__order_service.find_order(email)
-            print("Núverandi bíll: {}".format(order_info.get_car_reg_num()))
-            reg_number = self.__error_catch.input_reg_num()
-            free_cars_reg_num = [car.get_reg_num() for car in free_cars]
-            while True:
-                if reg_number not in free_cars_reg_num:
-                    print("Vinsamlegast veldu bíl á listanum")
-                    reg_number = self.__error_catch.input_reg_num()
-                else:
-                    break
-
-            self.__order_service.change_order(email, input_num, pickup_date, return_date, reg_number)
-            
-            print("-"*(20 + len(email)))
-            print("Bíllinn {} hefur verið valinn.".format(reg_number))
-            print("-"*(20 + len(email)))
+            self.change_car(email)
         
         else:
             self.go_to_menu()
         
         self.go_to_menu()
+
+    def change_date(self, cust, email):
+        print("Breyta Pöntun")
+        print("-"*(27 + len(cust.get_name())))
+        order_info = self.__order_service.find_order(email)
+        print(order_info)
+        # print("Núverandi Verð {}")
+        print("-"*(27 + len(cust.get_name())))
+        pickup_date, return_date = self.date_input()
+        self.__order_service.change_order(email, input_num, pickup_date,\
+            return_date)
+        print("-"*(27 + len(cust.get_name())))
+        print("Dagsetningu hefur verið breytt.")
+        print("-"*(27 + len(cust.get_name())))
+
+    def change_car(self, email):
+        print("Breyta Pöntun")
+        pickup_date, return_date, free_cars = self.display_free_cars()
+        order_info = self.__order_service.find_order(email)
+        print("Núverandi bíll: {}".format(order_info.get_car_reg_num()))
+        reg_number = self.__error_catch.input_reg_num()
+        free_cars_reg_num = [car.get_reg_num() for car in free_cars]
+        while True:
+            if reg_number not in free_cars_reg_num:
+                print("Vinsamlegast veldu bíl á listanum")
+                reg_number = self.__error_catch.input_reg_num()
+            else:
+                break
+
+        self.__order_service.change_order(email, input_num, pickup_date,\
+            return_date, reg_number)
+            
+        print("-"*(20 + len(email)))
+        print("Bíllinn {} hefur verið valinn.".format(reg_number))
+        print("-"*(20 + len(email)))
 
     def delete_order(self):
         # tilbúið

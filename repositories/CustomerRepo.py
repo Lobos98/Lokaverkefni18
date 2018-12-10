@@ -69,7 +69,8 @@ class CustomerRepo:
 		with open("./Data/list_of_customers.csv", "w") as customer_file:
 			customer_file.write(','.join(self.__header) + '\n')
 			for customer in self.__customers:
-				customer_file.write(','.join(customer.get_attribute_list()) + '\n')
+				customer_file.write(','.join(customer.get_attribute_list()) +\
+					'\n')
 
 	def __str__(self):
 		return self.__customers

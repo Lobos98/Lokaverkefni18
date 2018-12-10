@@ -58,7 +58,7 @@ class Customer:
 		self.__fine = fine
 
 	def add_history(self, old_order):
-		self.__history = self.__history + old_order
+		self.__history = self.__history + ", " + old_order
 
 	def __repr__(self):
 		return "{},{},{},{},{}".format(self.__email, self.__name,\

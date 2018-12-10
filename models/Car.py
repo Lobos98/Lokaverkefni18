@@ -86,8 +86,8 @@ class Car:
         renter = order.get_customer_email()
         pickup_date_string = order.get_pickup_date()
         return_date_string = order.get_return_date()
-        pickup_date = datetime.strptime(pickup_date_string, "%d.%m.%Y")
-        return_date = datetime.strptime(return_date_string, "%d.%m.%Y")
+        pickup_date = datetime.strptime(pickup_date_string, "%d%m%Y")
+        return_date = datetime.strptime(return_date_string, "%d%m%Y")
         reservation = (pickup_date, return_date)
         if renter in self.__history:
             self.__history[renter].append(reservation)

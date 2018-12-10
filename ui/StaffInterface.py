@@ -845,6 +845,6 @@ class StaffInterface:
         print("-"*34)
         email = self.email_input()
         clear_screen() 
-        for order in self.__order_service.find_order(email):
-            print(order)   
+        order_list = self.__order_service.get_customer_orders(email)
+        self.print_orders(order_list)
         self.go_to_menu()

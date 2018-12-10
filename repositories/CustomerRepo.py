@@ -4,7 +4,8 @@ import csv
 class CustomerRepo:
 	def __init__(self):
 		self.__customers = []
-		self.__header = ["Email","Nafn", "Kort", "Simi", "Kennitala", "Ban", "Fine", "History"]
+		self.__header = ["Email","Nafn", "Kort", "Simi", "Kennitala", "Ban",\
+		"Fine", "History"]
 
 	def get_customer_list(self):
 		if self.__customers == []:
@@ -23,7 +24,8 @@ class CustomerRepo:
 		return self.__customers
 
 	def add_customer(self, new_customer, customer_list):
-		with open("./Data/list_of_customers.csv", "a+", newline="") as customer_file:
+		with open("./Data/list_of_customers.csv", "a+", newline="") as\
+		customer_file:
 			csv_writer = csv.writer(customer_file)
 			csv_writer.writerow(customer_list)
 			self.__customers.append(new_customer)
@@ -71,7 +73,8 @@ class CustomerRepo:
 		with open("./Data/list_of_customers.csv", "w") as customer_file:
 			customer_file.write(','.join(self.__header) + '\n')
 			for customer in self.__customers:
-				customer_file.write(','.join(customer.get_attribute_list()) + '\n')
+				customer_file.write(','.join(customer.get_attribute_list()) +\
+					'\n')
 
 	def __str__(self):
 		return self.__customers

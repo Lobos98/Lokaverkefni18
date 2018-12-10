@@ -82,9 +82,9 @@ class CarService:
         free_car_list = []
 
         for car in self.__car_repo.get_all_cars():
-            available_pickup_date, available_return_date = car.get_reserved_dates()
-            dates_ok = available_pickup_date <= wanted_pickup_date and wanted_return_date <= available_return_date
-            if dates_ok and not car.get_broken():
+            reserved_dates = [date for date_tuple in car.get_reserved_dates() for date in date_tuple]
+            dates_ok = [(wanted_pickup_date < date < wanted_return_date) for date in reserved_dates]
+            if all(dates_ok) and not car.get_broken():
                 free_car_list.append(car)
 
         return free_car_list

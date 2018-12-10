@@ -24,6 +24,7 @@ class OrderService:
         með breyttum gildum'''
         
         order_to_change = self.find_order(email)
+        
         for order in order_to_change:
             original_reg_number = order.get_car_reg_num()
             original_date1 = order.get_pickup_date()

@@ -809,6 +809,8 @@ class StaffInterface:
                 print("Núverandi bíll: {}".format(order.get_car_reg_num()))
 
         #print("Núverandi bíll: {}".format(order_info.get_car_reg_num()))
+        car_to_exchange = self.__error_catch.input_reg_num()
+
         reg_number = self.__error_catch.input_reg_num()
         free_cars_reg_num = [car.get_reg_num() for car in free_cars]
         while True:
@@ -817,6 +819,34 @@ class StaffInterface:
                 reg_number = self.__error_catch.input_reg_num()
             else:
                 break
+    
+    def change_car(self, email, input_num):
+        order_info = self.__order_service.find_order(email)
+        if order_info:
+            print("Pantanir:", "\n" + "-"*35)
+            for order in order_info:
+                print("Bíll: {}, Tímabil:{}-{}"\
+                .format(
+                order.get_car_reg_num(), 
+                order.get_pickup_date(),
+                order.get_return_date())
+
+        car_to_exchange = self.__error_catch.input_reg_num()
+        for order in order_info:
+            if order.get_car_reg_num() == car_to_exchange:
+                pickup_date = order.get_pickup_date()
+                return_date = order.get_return_date()
+                self.display_free_cars()
+
+        
+
+
+
+
+
+
+
+
 
         self.__order_service.change_order(email, input_num, pickup_date,\
             return_date, reg_number)

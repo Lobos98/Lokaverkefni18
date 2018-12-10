@@ -361,10 +361,8 @@ class StaffInterface:
         print(60*"-")
         free_car_list = self.__car_service.find_free_cars(\
         pickup_date_string, return_date_string)
-        pickup_date_string = pickup_date_string[0:2] + "."\
-        + pickup_date_string[2:4] + "." + pickup_date_string[4:8]
-        return_date_string = return_date_string[0:2] + "."\
-        + return_date_string[2:4] + "." + return_date_string[4:8]
+        pickup_date_string = "{}{}.{}{}.{}{}{}{}".format(*pickup_date_string)
+        return_date_string = "{}{}.{}{}.{}{}{}{}".format(*return_date_string)
         print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
         pickup_date_string, return_date_string))
         print(60*"-")

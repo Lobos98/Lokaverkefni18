@@ -12,7 +12,6 @@ class Customer:
 		#	self.__history = []
 		#else:
 		#	self.__history = history
-		self.__orders = orders
 		self.__fine = fine
 
 	def get_name(self):

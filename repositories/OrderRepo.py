@@ -21,9 +21,9 @@ class OrderRepo:
             if order_to_remove == order:
                 self.__order_list.remove(order)
 
-        self.__update_order_file()
+        self.__update_order_file(order_to_remove)
 
-    def __update_order_file(self):
+    def __update_order_file(self, order_to_remove):
         file = open(self.__filepath, newline='')
         # nota with file
 
@@ -34,7 +34,7 @@ class OrderRepo:
                 r_string += ",".join(line) + "\n"
         r_string = r_string.strip("\n")
         file.close()
-        file = open(file_path, "w")
+        file = open(self.__filepath, "w")
         file.write(r_string)
         file.close()
 

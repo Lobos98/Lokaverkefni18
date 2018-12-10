@@ -753,7 +753,9 @@ class StaffInterface:
             self.go_to_menu()
 
     def change_order(self):
-        # tilbúið nema vantar núverandi verð
+        # tilbúið nema vantar núverandi verð 
+        #TODO:laga fall þannig að ef fleiri en ein pöntun er á emaili þá velur maður hvaða pöntun á að breyta
+        #TODO:passa að þegar pöntun er breytt eyðist upprunalega úr skránni 
 
         clear_screen()
         print("Breyta Pöntun")
@@ -802,7 +804,11 @@ class StaffInterface:
         print("Breyta Pöntun")
         pickup_date, return_date, free_cars = self.display_free_cars()
         order_info = self.__order_service.find_order(email)
-        print("Núverandi bíll: {}".format(order_info.get_car_reg_num()))
+        if order_info:
+            for order in order_info:
+                print("Núverandi bíll: {}".format(order.get_car_reg_num()))
+
+        #print("Núverandi bíll: {}".format(order_info.get_car_reg_num()))
         reg_number = self.__error_catch.input_reg_num()
         free_cars_reg_num = [car.get_reg_num() for car in free_cars]
         while True:

@@ -5,6 +5,7 @@ from BusinessLayer.CustomerService import CustomerService
 class OrderService:
     def __init__(self):
         self.__order_repo = OrderRepo()
+        self.__order_list = self.__order_repo.get_all_orders()
 
     def log_order(self, reg_number, date1, date2, email, extra_insurance):
         '''Tekur inn bílnr, leigudags, skiladags, email og aukatryggingu
@@ -22,14 +23,15 @@ class OrderService:
         fjarlægir gömlu pöntunina úr skránni og skrifar hana aftur í hana
         með breyttum gildum'''
         
-        order_to_change = self.__order_repo.get_order(email)
-        original_reg_number = order_to_change.get_car_reg_num()
-        original_date1 = order_to_change.get_pickup_date()
-        original_date2 = order_to_change.get_return_date()
-        original_joined_date = (original_date1, original_date2)
-        joined_date = (date1, date2)
-        order_number = order_to_change.get_order_no()
-        bonus_insurance = order_to_change.get_bonus_insurance()
+        order_to_change = self.find_order(email)
+        for order in order_to_change:
+            original_reg_number = order.get_car_reg_num()
+            original_date1 = order.get_pickup_date()
+            original_date2 = order.get_return_date()
+            original_joined_date = (original_date1, original_date2)
+            joined_date = (date1, date2)
+            order_number = order.get_order_no()
+            bonus_insurance = order.get_bonus_insurance()
         
 
         if choice == "1":

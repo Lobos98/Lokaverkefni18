@@ -444,7 +444,6 @@ class StaffInterface:
     def return_car(self):
         """Biður um email pöntunar í input, kallar á ErrorCheck
         og sendir emailið svo í CarService til að skila viðkomandi bíl"""
-        #Þarf að prenta pantanir betur
         clear_screen()
         print("Skila bíl")
 
@@ -567,7 +566,7 @@ class StaffInterface:
             print("Skrá bilaðan bíl")
             print("-"*(41 + len(reg_num)))
             print("Bíllinn {} hefur verið skráður sem bilaður.".format(reg_num))
-            print("-"*(41 + len(reg_num))
+            print("-"*(41 + len(reg_num)))
         else:
             print("Bíllinn {} er þegar bilaður.".format(reg_num))
         self.go_to_menu()
@@ -841,7 +840,6 @@ class StaffInterface:
         for order in list_of_orders:
             print("{:<8}".format(list_no) + order.__str__())
             list_no += 1
-        self.go_to_menu()
     
     def find_order(self):
         clear_screen()

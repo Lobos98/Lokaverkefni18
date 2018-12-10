@@ -13,8 +13,7 @@ class CarService:
     def find_car(self, reg_num):
         """ tekur við bílnúmeri t.d. AAX99, finnur bíl og skilar
         tilviki af Car klasanum, skilar False ef bíll finnst ekki"""
-        # all_cars = self.__car_repo.get_all_cars()
-        # return next((car for car in all_cars if car.get_reg_num() == reg_num), False)
+        cars = self.__car_repo.get_all_cars()
         for car in cars:
             if car.get_reg_num() == reg_num:
                 found_car = car
@@ -83,9 +82,9 @@ class CarService:
         free_car_list = []
 
         for car in self.__car_repo.get_all_cars():
-            available_pickup_date, available_return_date = car.get_reserved_dates()
-            dates_ok = available_pickup_date <= wanted_pickup_date and wanted_return_date <= available_return_date
-            if dates_ok and not car.get_broken():
+            reserved_dates = [date for date_tuple in car.get_reserved_dates() for date in date_tuple]
+            dates_ok = [(wanted_pickup_date < date < wanted_return_date) for date in reserved_dates]
+            if all(dates_ok) and not car.get_broken():
                 free_car_list.append(car)
 
         return free_car_list

@@ -1,16 +1,17 @@
 class Customer:
 	def __init__(self, email, name, card_no, phone_no, ssn = "0", ban = "false",\
-		fine = "0", history = [], orders = []):
+		fine = "0", history = ""):
 		self.__email = email
 		self.__name = name
 		self.__card_no = card_no
 		self.__phone_no = phone_no
 		self.__ssn = ssn
 		self.__banned = ban
-		if history is None:
-			self.__history = []
-		else:
-			self.__history = history
+		self.__history = history
+		#if history is None:
+		#	self.__history = []
+		#else:
+		#	self.__history = history
 		self.__orders = orders
 		self.__fine = fine
 
@@ -68,7 +69,7 @@ class Customer:
 		self.__orders.append(new_order)
 
 	def add_history(self, old_order):
-		self.__history.append(old_order)
+		self.__history = self.__history + old_order
 
 	def __repr__(self):
 		return "{},{},{},{},{}".format(self.__email, self.__name,\

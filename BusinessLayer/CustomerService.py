@@ -30,14 +30,9 @@ class CustomerService:
 		customer_repo.remove_customer(customer_email)
 
 	def find_customer(self, customer_email):
-		index = 0
 		for customer in self.__customers:
-			if index > 0:
-				#print(customer)
-				if(customer_email == customer.get_email()):
-					return customer
-			else:
-				index += 1
+			if(customer_email == customer.get_email()):
+				return customer
 		return False
 
 	def ban_customer(self, banned_customer):
@@ -80,3 +75,4 @@ class CustomerService:
 		return banned_customer_list
 		
 customer_repo = CustomerRepo()
+

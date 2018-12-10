@@ -416,10 +416,7 @@ class StaffInterface:
                 order = order_list[0]
             else:
                 print("Eftirfarandi pantanir eru skráðar á þetta netfang:")
-                list_no = 1
-                for order in order_list:
-                    print(str(list_no) + ": " + order.__str__())
-                    list_no += 1
+                self.print_orders(order_list)
                 order_choice = int(input("Veldu pöntun til þess að skila:"))
                 order = order_list[order_choice-1]
 
@@ -756,3 +753,11 @@ class StaffInterface:
             print("-"*34)
         
         self.go_to_menu()
+
+    def print_orders(self, list_of_orders):
+        print("{:<8}{:<11}{:<14}{:<12}{:<20}".format(\
+        "Nr.", "Frá", "Til", "Bílnúmer", "Viðbótartrygging"))
+        list_no = 1
+        for order in list_of_orders:
+            print("{:<8}".format(list_no) + order.__str__())
+            list_no += 1

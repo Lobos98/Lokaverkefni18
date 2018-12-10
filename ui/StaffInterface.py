@@ -544,7 +544,7 @@ class StaffInterface:
 
     def broken_cars(self):
         """Setur bilaðra-bíla valmyndina í gang"""
-        #þarf að útfæra öll föll sem er kallað í
+        #Tilbúið
         clear_screen()
         print("Bilaðir bílar")
         print("-"*21)
@@ -565,7 +565,7 @@ class StaffInterface:
             self.vehicle_menu()
 
     def log_broken_car(self):
-        # tilbúið
+        #TODO: ættum kannski að færa virkni fallsins í CarService...
         clear_screen()
         print("Skrá bilaðan bíl")
         print("-"*30)
@@ -583,7 +583,7 @@ class StaffInterface:
         self.go_to_menu()
 
     def log_car_as_fixed(self):
-        # tilbúið
+        #TODO: Ættum kannsk að færa virkni fallsins í CarService...
         clear_screen()
         print("Afskrá bilaðan bíl")
         print("-"*30)
@@ -616,6 +616,7 @@ class StaffInterface:
 
     def __find_car(self):
         """Biður um bílnúmer þangað til bíll finnst og skilar car object"""
+        #Tilbúið
         car = False
         while car == False:
             reg_num = self.__error_catch.input_reg_num()
@@ -695,6 +696,7 @@ class StaffInterface:
             insurance = "False"
         interim_order = self.__order_service.log_order(*order_input_tuple, insurance)
         rented_car.add_reservation(interim_order)
+        #TODO: þetta make_reservation fall er mjög skrýtið...
         self.__car_service.make_reservation(rented_car)
 
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))

@@ -38,7 +38,13 @@ class CustomerService:
 	def find_customer(self, customer_email):
 		'''finnur viðskiptavin í lista frá repóinu'''
 		for customer in self.__customers:
-			if(customer_email == customer.get_email()):
+			if customer_email == customer.get_email():
+				return customer
+		return False
+
+	def find_customer_by_name(self, name):
+		for customer in self.__customers:
+			if strpos(name, customer.get_name()) == True:
 				return customer
 		return False
 
@@ -57,7 +63,7 @@ class CustomerService:
 	def fine_customer(self, customer_email, fine_amount):
 		'''sektar viðskiptavin og uppfærir hann í repóinu'''
 		customer = self.find_customer(customer_email)
-		customer.set_fine(str(fine_amount))
+		customer.set_fine(fine_amount)
 		self.update_customer(customer_email, customer)
 
 	def add_customer(self, email, name, card_no, phone_no, ssn = "0"):

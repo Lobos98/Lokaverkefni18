@@ -571,7 +571,7 @@ class StaffInterface:
         print("-"*30)
         car = self.__find_car()
         reg_num = car.get_reg_num()
-        if car.get_broken() == True:
+        if car.get_broken() == False:
             car.change_broken_status()
             clear_screen()
             print("Skrá bilaðan bíl")
@@ -589,7 +589,7 @@ class StaffInterface:
         print("-"*30)
         car = self.__find_car()
         reg_num = car.get_reg_num()
-        if car.get_broken() == False:
+        if car.get_broken() == True:
             car.change_broken_status()
             clear_screen()
             print("Afskrá bilaðan bíl")
@@ -827,11 +827,11 @@ class StaffInterface:
         if order_info:
             print("Pantanir:", "\n" + "-"*35)
             for order in order_info:
-                print("Bíll: {}, Tímabil:{}-{}"\
-                .format(
+                #print("Bíll: {}, Tímabil:{}-{}"\
+                #.format()
                 order.get_car_reg_num(), 
                 order.get_pickup_date(),
-                order.get_return_date())
+                order.get_return_date()
 
         car_to_exchange = self.__error_catch.input_reg_num()
         for order in order_info:

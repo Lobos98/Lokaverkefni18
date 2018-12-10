@@ -47,8 +47,8 @@ class Order:
         self.__bonus_insurance = insurance_bool
         
     def __str__(self):
-        pickup_date = datetime.strptime(self.__pickup_date, "%d.%m.%Y")
-        return_date = datetime.strptime(self.__return_date, "%d.%m.%Y")
+        pickup_date = datetime.strptime(self.__pickup_date, "%d%m%Y")
+        return_date = datetime.strptime(self.__return_date, "%d%m%Y")
         insurance = "Nei"
         if self.__bonus_insurance == "true":
             insurance = "Já"

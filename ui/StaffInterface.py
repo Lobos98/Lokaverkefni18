@@ -669,7 +669,8 @@ class StaffInterface:
         print("2.  Breyta pöntun")
         print("3.  Fletta upp pöntun")
         print("4.  Bakfæra pöntun")
-        print("5.  Til baka")
+        print("5.  Prenta allar pantanir")
+        print("6.  Til baka")
         print("-"*21)
         input_num = input("Val: ")
         print()
@@ -681,6 +682,8 @@ class StaffInterface:
             self.find_order()
         elif input_num == "4":
             self.delete_order()
+        elif input_num == "5":
+            self.print_orders(self.__order_service.get_list_of_orders())
         else:
             self.go_to_menu()
 
@@ -706,17 +709,17 @@ class StaffInterface:
         clear_screen()
 
         if input_num == "1":
-            self.change_date(cust, email)
+            self.change_date(cust, email, input_num)
         
         elif input_num == "2":
-            self.change_car(email)
+            self.change_car(email, input_num)
         
         else:
             self.go_to_menu()
         
         self.go_to_menu()
 
-    def change_date(self, cust, email):
+    def change_date(self, cust, email, input_num):
         print("Breyta Pöntun")
         print("-"*(27 + len(cust.get_name())))
         order_info = self.__order_service.find_order(email)
@@ -730,7 +733,7 @@ class StaffInterface:
         print("Dagsetningu hefur verið breytt.")
         print("-"*(27 + len(cust.get_name())))
 
-    def change_car(self, email):
+    def change_car(self, email, input_num):
         print("Breyta Pöntun")
         pickup_date, return_date, free_cars = self.display_free_cars()
         order_info = self.__order_service.find_order(email)
@@ -783,12 +786,14 @@ class StaffInterface:
         for order in list_of_orders:
             print("{:<8}".format(list_no) + order.__str__())
             list_no += 1
-            
+        self.go_to_menu()
+    
     def find_order(self):
         clear_screen()
         print("Finna pöntun")
         print("-"*34)
         email = self.email_input()
-        clear_screen()
-        print("{}".format(self.__order_service.find_order(email)))
+        clear_screen() 
+        for order in self.__order_service.find_order(email):
+            print(order)   
         self.go_to_menu()

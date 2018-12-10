@@ -50,7 +50,7 @@ class Order:
         pickup_date = datetime.strptime(self.__pickup_date, "%d%m%Y")
         return_date = datetime.strptime(self.__return_date, "%d%m%Y")
         insurance = "Nei"
-        if self.__bonus_insurance == True:
+        if self.__bonus_insurance == "true":
             insurance = "Já"
         return "{:<11}{:<14}{:<12}{:<20}".format(datetime.strftime(pickup_date, "%d/%b/%y"),\
         datetime.strftime(return_date, "%d/%b/%y"), self.__car_reg_num, insurance)

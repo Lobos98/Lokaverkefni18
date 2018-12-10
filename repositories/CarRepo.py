@@ -7,6 +7,7 @@ class CarRepo:
     def __init__(self):
         self.__cars = []
         self.__filepath = "Data\list_of_cars.csv"
+        self.get_all_cars()
 
     def get_all_cars(self):
         """Á að skila lista af Car objects"""
@@ -65,7 +66,13 @@ class CarRepo:
             return self.__cars
         else:
             return self.__cars
-    
+
+    def find_car(self, reg_num):
+        print(self.__cars)
+        for car in self.__cars:
+            if reg_num == car.get_reg_num():
+                return car
+        return False
 
     def add_car(self, car):
         self.__cars.append(car)

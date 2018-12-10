@@ -8,10 +8,6 @@ class Customer:
 		self.__ssn = ssn
 		self.__banned = ban
 		self.__history = history
-		#if history is None:
-		#	self.__history = []
-		#else:
-		#	self.__history = history
 		self.__fine = fine
 
 	def get_name(self):
@@ -61,8 +57,9 @@ class Customer:
 	def set_fine(self, fine):
 		self.__fine = fine
 
-	def add_history(self, old_order):
-		self.__history = self.__history + ", " + old_order
+	def add_history(self, old_order_no):
+		"""Tekur við pöntunarnúmeri sem int og bætir því í customer history"""
+		self.__history = self.__history + ";" + str(old_order_no)
 
 	def __repr__(self):
 		return "{},{},{},{},{}".format(self.__email, self.__name,\

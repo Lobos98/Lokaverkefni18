@@ -48,9 +48,12 @@ class OrderRepo:
     def get_order(self, email):
         '''Tekur við emaili og leitar í lista og skilar svo pöntun
         ef pöntun finnst ekki skilar fallið False'''
+        found_orders = []
         for order in self.__order_list:
             if email == order.get_customer_email():
-                return order
+                found_orders.append(order)
+        if found_orders:
+            return found_orders
         return False
         
     def add_to_past_orders(self, old_order): 

@@ -404,8 +404,7 @@ class StaffInterface:
     def return_car(self):
         """Biður um email pöntunar í input, kallar á ErrorCheck
         og sendir emailið svo í CarService til að skila viðkomandi bíl"""
-        #tilbúið fyrir utan villur í hvernig CustomerRepo
-        #  býr til Customer úr textaskrám - læst þangað til það er lagað
+        #Þarf að prenta pantanir betur
         clear_screen()
         order = False
         while order == False:
@@ -426,6 +425,7 @@ class StaffInterface:
 
         reg_num = self.__car_service.return_car(order)
         self.__order_service.move_to_past(order.get_order_no())
+        self.__customer_service.add_old_order(order.get_customer_email(), order.get_order_no())
         print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
         print("Bílnum {} hefur verið skilað!".format(reg_num))
         print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))

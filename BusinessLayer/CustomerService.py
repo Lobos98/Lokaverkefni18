@@ -38,7 +38,6 @@ class CustomerService:
 	def find_customer(self, customer_email):
 		'''finnur viðskiptavin í lista frá repóinu'''
 		for customer in self.__customers:
-			print(customer.get_email())
 			if(customer_email == customer.get_email()):
 				return customer
 		return False
@@ -47,13 +46,13 @@ class CustomerService:
 		'''bannar viðskiptavin og uppfærir hann í repóinu'''
 		customer = self.find_customer(banned_customer)
 		customer.set_ban("true")
-		self.update_customer(customer_email, customer)
+		self.update_customer(banned_customer, customer)
 
 	def unban_customer(self, unbanned_customer):
 		'''afbannar viðskiptavin og uppfærir hann í repóinu'''
 		customer = self.find_customer(unbanned_customer)
 		customer.set_ban("false")
-		self.update_customer(customer_email, customer)
+		self.update_customer(unbanned_customer, customer)
 
 	def fine_customer(self, customer_email, fine_amount):
 		'''sektar viðskiptavin og uppfærir hann í repóinu'''
@@ -74,7 +73,7 @@ class CustomerService:
 		customer = self.find_customer(email)
 		if customer != False:
 			customer.add_history(order_num)
-			print(customer.get_history())
+		self.update_customer(email, customer)
 
 	def list_of_banned_customers(self):
 		'''safnar saman viðskiptavini sem eru bannaðir'''

@@ -148,12 +148,10 @@ class StaffInterface:
         clear_screen()
         print("Afskrá viðskiptavin")
         print("-"*60)
-        email = self.email_input()
-        print("-"*60)
         cust = self.find_customer()
         if cust != False:
             svar = input("Afskrá: {}, {}? (j/n): ".format(cust.get_name(),\
-                email))
+                cust.get_email()))
             print("-"*60)
             if svar.lower() == "j":
                 self.__customer_service.delete_customer(email)
@@ -185,21 +183,30 @@ class StaffInterface:
     def find_by_name(self):
         name = input("Sláðu inn nafn viðskiptavins: ")
         print("-"*(33+len(name)))
-        customer_found = self.__customer_service.find_customer_by_name(name)
-        if customer_found != False:
-            print(customer_found)
-            print("-"*(33+len(name)))
-            choice = input("Viltu breyta viðskiptavin? (j/n): ")
-            print("-"*(33+len(name)))
-            if choice.lower() == "j":
-                self.edit_customer(customer_found)
-            else:
-                return customer_found
+        customer_found_list = self.__customer_service.find_customer_by_name(name)
+        if len(customer_found_list) == 1:
+            customer_found = customer_found_list[0]
+        elif len(customer_found_list) > 1:
+            index = 1
+            for customer in customer_found_list:
+                print("{}. {}".format(index, customer))
+            choice = int(input("Veldu einn viðskiptavin hér fyrir ofan: "))
+            customer_found = customer_found_list[choice]
+        else:
+            print("Enginn viðskiptavinur fundinn á þessu nafni")
+            pass
+        print(customer_found)
+        print("-"*(33+len(customer_found.get_name())))
+        choice = input("Viltu breyta viðskiptavin? (j/n): ")
+        print("-"*(33+len(customer_found.get_name())))
+        if choice.lower() == "j":
+            self.edit_customer(customer_found)
+        else:
+            return customer_found
 
     def find_by_email(self):
         email = input("Sláðu inn netfang viðskiptavins: ")
         clear_screen()
-
         print("Fletta upp viðskiptavin")
         print("-"*(33+len(email)))
         customer_found = self.__customer_service.find_customer(email)
@@ -271,22 +278,22 @@ class StaffInterface:
         clear_screen()
         print("Setja á bannlista")
         print("-"*60)
-        email = self.email_input()
-        customer = self.__customer_service.find_customer(email)
+        customer = self.find_customer()
         clear_screen()
 
         print("Setja á bannlista")
-        print("-"*(31 + len(customer.get_name()) + len(email)))
+        print("-"*(31 + len(customer.get_name()) + len(customer.get_email())))
         if customer != False:
             stadfesta = input("Setja á bannlista: {}, {}? (j/n): ".\
-                format(customer.get_name(), email))
-            self.__customer_service.ban_customer(email)
+                format(customer.get_name(), customer.get_email()))
+            self.__customer_service.ban_customer(customer.get_email())
             if stadfesta == "j":
                 print("{} hefur verið færður á bannlista.".\
                     format(customer.get_name()))
             else:
                 print("Hætt við.")
-            print("-"*(31 + len(customer.get_name()) + len(email)))
+            print("-"*(31 + len(customer.get_name()) + len(customer.\
+                get_email())))
         else:
             print("Notandi fannst ekki")
         self.go_to_menu()
@@ -295,23 +302,24 @@ class StaffInterface:
         clear_screen()
         print("Taka af bannlista")
         print("-"*60)
-        email = self.email_input()
-        customer = self.__customer_service.find_customer(email)
+        customer = self.find_customer()
         clear_screen()
 
         print("Taka af bannlista")
-        print("-"*(31 + len(customer.get_name()) + len(email)))
+        print("-"*(31 + len(customer.get_name()) + len(customer.get_email())))
         if customer != False:
             stadfesta = input("Taka af bannlista: {}, {}? (j/n): ".\
-                format(customer.get_name(), email))
-            print("-"*(31 + len(customer.get_name()) + len(email)))
-            self.__customer_service.unban_customer(email)
+                format(customer.get_name(), customer.get_email()))
+            print("-"*(31 + len(customer.get_name()) + len(customer.\
+                get_email())))
+            self.__customer_service.unban_customer(customer.get_email())
             if stadfesta == "j":
                 print("{} hefur verið tekinn af bannlista.".\
                     format(customer.get_name()))
             else:
                 print("Hætt við.")
-            print("-"*(31 + len(customer.get_name()) + len(email)))
+            print("-"*(31 + len(customer.get_name()) + len(customer.\
+                get_email())))
         else:
             print("Notandi fannst ekki")
 
@@ -321,25 +329,28 @@ class StaffInterface:
         clear_screen()
         print("Sekta viðskiptavin")
         print("-"*60)
-        email = self.email_input()
-        customer = self.__customer_service.find_customer(email)
+        customer = self.find_customer()
         clear_screen()
 
         print("Sekta viðskiptavin")
         if customer != False:
-            print("-"*(19 + len(customer.get_name()) + len(email)))
+            print("-"*(19 + len(customer.get_name()) + len(customer.\
+                get_email())))
             stadfesta = input("Sekta: {}, {}? (j/n): ".\
-                format(customer.get_name(),email))
-            print("-"*(19 + len(customer.get_name()) + len(email)))
+                format(customer.get_name(), customer.get_email()))
+            print("-"*(19 + len(customer.get_name()) + len(customer.\
+                get_email())))
 
             if(stadfesta == "j"):
                 fine_amount = input("Upphæð sektar (kr): ")
-                self.__customer_service.fine_customer(email, fine_amount)
+                self.__customer_service.fine_customer(customer.get_email(),\
+                    fine_amount)
                 print("{} hefur verið sektaður um {} kr.".\
                     format(customer.get_name(), fine_amount))
             else:
                 print("Hætt við.") 
-            print("-"*(19 + len(customer.get_name()) + len(email)))
+            print("-"*(19 + len(customer.get_name()) + len(customer.\
+                get_email())))
         else:
             print("Notandi fanns ekki")
         self.go_to_menu()

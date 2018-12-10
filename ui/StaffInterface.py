@@ -787,6 +787,7 @@ class StaffInterface:
         self.go_to_menu()
 
     def change_date(self, cust, email, input_num):
+        # TODO: Fjör fyrir kleinar
         print("Breyta Pöntun")
         print("-"*(27 + len(cust.get_name())))
         order_info = self.__order_service.find_order(email)
@@ -801,6 +802,7 @@ class StaffInterface:
         print("-"*(27 + len(cust.get_name())))
 
     def change_car(self, email, input_num):
+        # TODO: Fjör fyrir einar.
         print("Breyta Pöntun")
         pickup_date, return_date, free_cars = self.display_free_cars()
         order_info = self.__order_service.find_order(email)
@@ -836,7 +838,7 @@ class StaffInterface:
             if order.get_car_reg_num() == car_to_exchange:
                 pickup_date = order.get_pickup_date()
                 return_date = order.get_return_date()
-                self.display_free_cars()
+                free_cars_list = self.display_free_cars()[2]
 
         
 

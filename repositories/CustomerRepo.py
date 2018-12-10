@@ -5,15 +5,13 @@ class CustomerRepo:
 	def __init__(self):
 		self.__customers = []
 		self.__header = ["Email","Nafn", "Kort", "Simi", "Kennitala", "Ban", "Fine", "History"]
+		self.__link = "./Data/list_of_customers.csv"
 
 	def get_customer_list(self):
 		if self.__customers == []:
-			with open("./Data/list_of_customers.csv", "r") as customer_file:
+			with open(self.__link, "r") as customer_file:
 				# DOnt repeat urself, gera fasta fyrir ./Data/list_of_customers.csv
 				csv_reader = csv.DictReader(customer_file)
-				next(csv_reader) # We don't need the header...
-				# self.__customers.append(["Email","Nafn", "Kort", "Simi",\
-				# 	"Kennitala", "Ban", "Fine", "History"])
 				for line in csv_reader:
 					new_customer = Customer(line["Email"], line["Nafn"],\
 						line["Kort"], line["Simi"], line["Kennitala"],\
@@ -23,7 +21,7 @@ class CustomerRepo:
 		return self.__customers
 
 	def add_customer(self, new_customer, customer_list):
-		with open("./Data/list_of_customers.csv", "a+", newline="") as customer_file:
+		with open(self.__link, "a+", newline="") as customer_file:
 			csv_writer = csv.writer(customer_file)
 			csv_writer.writerow(customer_list)
 			self.__customers.append(new_customer)

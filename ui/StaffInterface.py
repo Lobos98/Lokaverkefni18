@@ -128,6 +128,8 @@ class StaffInterface:
             return ssn
         else:
             return "0"
+    
+
         
     
     def register_customer(self):
@@ -164,7 +166,7 @@ class StaffInterface:
             else:
                 print("Hætt við")
         else:
-            peint("Notandinn fannst ekki")
+            print("Notandinn fannst ekki")
         print("-"*60)
         self.go_to_menu()
 
@@ -511,13 +513,14 @@ class StaffInterface:
             self.vehicle_menu()
 
     def log_broken_car(self):
-        clear_screen()
-        bilnumer = input("Bílnúmer: ")
-        reason = input("Af hverju er hann bilaður? ")
-        clear_screen()
-        print("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer))
-        print("-"*len("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer)))
         
+        clear_screen()
+        reg_num = self.__error_catch.input_reg_num()
+        car = self.__car_service.find_car(reg_num)
+        car.change_broken_status()
+        clear_screen()
+        print("Bíllinn {} hefur verið skráður sem bilaður.".format(reg_num))
+        print("-"*(41 + len(reg_num)))
         self.go_to_menu()
 
     def log_car_as_fixed(self):
@@ -720,16 +723,6 @@ class StaffInterface:
             self.go_to_menu()
         
         self.go_to_menu()
-        
-
-    def find_order(self):
-        clear_screen()
-        kt = input("Kennitala/netfang pöntunar: ")
-        clear_screen()
-        print("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt))
-        print("SB-463 á tímabilinu 10/12/18 til 14/12/18")
-        print("-"*len("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt)))
-        return self.go_to_menu()
 
     def delete_order(self):
         clear_screen()

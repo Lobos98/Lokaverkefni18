@@ -38,6 +38,7 @@ class CustomerService:
 	def find_customer(self, customer_email):
 		'''finnur viðskiptavin í lista frá repóinu'''
 		for customer in self.__customers:
+			print(customer.get_email())
 			if(customer_email == customer.get_email()):
 				return customer
 		return False

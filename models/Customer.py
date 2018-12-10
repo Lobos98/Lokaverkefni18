@@ -32,9 +32,6 @@ class Customer:
 	def get_fine(self):
 		return self.__fine
 
-	def get_orders(self):
-		return self.__orders
-
 	def get_history(self):
 		return self.__history
 
@@ -64,11 +61,8 @@ class Customer:
 	def set_fine(self, fine):
 		self.__fine = fine
 
-	def add_order(self, new_order):
-		self.__orders.append(new_order)
-
 	def add_history(self, old_order):
-		self.__history = self.__history + old_order
+		self.__history = self.__history + ", " + old_order
 
 	def __repr__(self):
 		return "{},{},{},{},{}".format(self.__email, self.__name,\

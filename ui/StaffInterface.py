@@ -778,3 +778,12 @@ class StaffInterface:
             print("-"*34)
         
         self.go_to_menu()
+
+    def find_order(self):
+        clear_screen()
+        print("Finna pöntun")
+        print("-"*34)
+        email = self.email_input()
+        clear_screen()
+        print("{}".format(self.__order_service.find_order(email)))
+        self.go_to_menu()

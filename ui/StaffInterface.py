@@ -128,6 +128,8 @@ class StaffInterface:
             return ssn
         else:
             return "0"
+    
+
         
     
     def register_customer(self):
@@ -164,7 +166,7 @@ class StaffInterface:
             else:
                 print("Hætt við")
         else:
-            peint("Notandinn fannst ekki")
+            print("Notandinn fannst ekki")
         print("-"*60)
         self.go_to_menu()
 
@@ -509,31 +511,39 @@ class StaffInterface:
             self.vehicle_menu()
 
     def log_broken_car(self):
-        clear_screen()
-        bilnumer = input("Bílnúmer: ")
-        reason = input("Af hverju er hann bilaður? ")
-        clear_screen()
-        print("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer))
-        print("-"*len("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer)))
+        # tilbúið
         
+        clear_screen()
+        reg_num = self.__error_catch.input_reg_num()
+        car = self.__car_service.find_car(reg_num)
+        car.change_broken_status()
+        clear_screen()
+        print("Bíllinn {} hefur verið skráður sem bilaður.".format(reg_num))
+        print("-"*(41 + len(reg_num)))
         self.go_to_menu()
 
     def log_car_as_fixed(self):
+        # tilbúið
         clear_screen()
-        bilnumer = input("Bílnúmer: ")
+        reg_num = self.__error_catch.input_reg_num()
+        car = self.__car_service.find_car(reg_num)
+        car.change_broken_status()
         clear_screen()
-        print("Bíllinn {} hefur verið skráður á ný.".format(bilnumer))
-        print("-"*len("Bíllinn {} hefur verið skráður á ný.".format(bilnumer)))
-        
+        print("Bíllinn {} hefur verið lagaður og skráður á ný.".format(reg_num))
+        print("-"*(44 + len(reg_num)))
         self.go_to_menu()
 
     def print_broken_cars(self):
-        clear_screen()
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
-        print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("GHY-234", "Fólksbíll", "2009", "Blár", "Vélarbilun"))
-        print(60*"-")
+        # tilbúið
 
+        clear_screen()
+        broken_cars = self.__car_service.get_broken_cars()
+        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
+        "Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
+        print(60*"-")
+        for car in broken_cars:
+            print(car)
+        print(60*"-")
         self.go_to_menu()
 
     def service_menu(self):
@@ -662,7 +672,8 @@ class StaffInterface:
             self.go_to_menu()
 
     def change_order(self):
-        '''Hér þarf að bæta við Núverandi verði'''
+        # tilbúið nema vantar núverandi verð
+
         clear_screen()
         print("Breyta Pöntun")
         print("-"*(20))
@@ -718,18 +729,9 @@ class StaffInterface:
             self.go_to_menu()
         
         self.go_to_menu()
-        
-
-    def find_order(self):
-        clear_screen()
-        kt = input("Kennitala/netfang pöntunar: ")
-        clear_screen()
-        print("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt))
-        print("SB-463 á tímabilinu 10/12/18 til 14/12/18")
-        print("-"*len("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt)))
-        return self.go_to_menu()
 
     def delete_order(self):
+        # tilbúið
         clear_screen()
         print("Bakfæra pöntun")
         print("-"*34)

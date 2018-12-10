@@ -47,10 +47,13 @@ class Order:
         self.__bonus_insurance = insurance_bool
         
     def __str__(self):
-        return "Pöntunarnr: {}\nBílnr: {}\nLeigudagsetning: {}\
-        \nSkiladagsetning: {}\nNetfang: {}\nViðbótartrygging: {}"\
-        .format(self.__order_no, self.__car_reg_num, self.__pickup_date,\
-        self.__return_date, self.__customer_email, self.__bonus_insurance) 
+        pickup_date = datetime.strptime(self.__pickup_date, "%d%m%Y")
+        return_date = datetime.strptime(self.__return_date, "%d%m%Y")
+        insurance = "Nei"
+        if self.__bonus_insurance == "true":
+            insurance = "Já"
+        return "{:<11}{:<14}{:<12}{:<20}".format(datetime.strftime(pickup_date, "%d/%b/%y"),\
+        datetime.strftime(return_date, "%d/%b/%y"), self.__car_reg_num, insurance)
 
     def __eq__(self, other):
         if str(self.__order_no) == other:

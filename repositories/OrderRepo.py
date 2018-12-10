@@ -5,24 +5,28 @@ class OrderRepo:
     def __init__(self):
         self.__order_list = self.get_all_orders()
         self.__past_order_list = self.get_past_orders()
+        self.__filepath = "./Data/futureorders.csv"
 
     def add_order(self, new_order):
         '''Tekur við nýjum order object og bætir í skrána og 
         í self.__order_list'''
-        with open("./Data/futureorders.csv", "a") as order_file:
+        with open(self.__filepath, "a") as order_file:
+            # filename duplicate
             order_file.write("\n" +  new_order.__repr__()) 
             self.__order_list.append(new_order)
 
     def remove_order(self, order_to_remove):
         '''Tekur við order object og eyðir úr skrá'''
         for order in self.__order_list:
-            try:
-                if(order_to_remove == order):
-                    self.__order_list.remove(order)
-            except:
-                pass
-        file_path = "./Data/futureorders.csv"
-        file = open(file_path, newline='')
+            if order_to_remove == order:
+                self.__order_list.remove(order)
+
+        self.__update_order_file()
+
+    def __update_order_file(self):
+        file = open(self.__filepath, newline='')
+        # nota with file
+
         file_contents = csv.reader(file)
         r_string = ''
         for line in file_contents:

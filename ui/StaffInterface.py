@@ -4,9 +4,9 @@ from BusinessLayer.ErrorCatch import ErrorCatch
 from BusinessLayer.CarService import CarService
 from BusinessLayer.OrderService import OrderService
 from BusinessLayer.CustomerService import CustomerService
-from models.Car import Car
 
-def cls():
+
+def clear_screen():
     os.system('cls')
 
 
@@ -19,7 +19,7 @@ class StaffInterface:
 
 
     def main_menu(self):
-        cls()
+        clear_screen()
         print("Veldu eitt af eftirfarandi")
         print("-"*len("Veldu eitt af eftirfarandi"))
         print("1.  Viðskiptavinir")
@@ -51,7 +51,7 @@ class StaffInterface:
             pass
         
     def customer_menu(self):
-        cls()
+        clear_screen()
         print("Viðskiptavinir")
         print("-"*27)
         print("1.  Skrá nýjan viðskiptavin")
@@ -131,7 +131,7 @@ class StaffInterface:
         
     
     def register_customer(self):
-        cls()
+        clear_screen()
         print("Skrá nýjan viðskiptavin")
         print("-"*57)
         name = input("Nafn: ")
@@ -148,7 +148,7 @@ class StaffInterface:
         self.go_to_menu()
 
     def deregister_customer(self):
-        cls()
+        clear_screen()
         print("Afskrá viðskiptavin")
         print("-"*60)
         email = self.email_input()
@@ -169,7 +169,7 @@ class StaffInterface:
         self.go_to_menu()
 
     def find_customer(self):
-        cls()
+        clear_screen()
         print("Fletta upp viðskiptavin")
         print("-"*60)
         email = input("Sláðu inn netfang viðskiptavins: ")
@@ -185,7 +185,7 @@ class StaffInterface:
         self.go_to_menu()
 
     def edit_customer(self, customer):
-        cls()
+        clear_screen()
         print("Uppfæra viðskiptavin")
         print("-"*(6+len(customer.get_email())))
         print(customer)
@@ -201,7 +201,7 @@ class StaffInterface:
         print("-"*(6+len(customer.get_email())))
 
         if val == "1":
-            cls()
+            clear_screen()
             simanr = input("Nýtt Símanúmer: ")
             print("-"*30)
             self.__customer_service.edit_customer_phone_no(customer.\
@@ -209,7 +209,7 @@ class StaffInterface:
             print("Símanúmeri hefur verið breytt.")
             print("-"*30)
         elif val == "2":
-            cls()
+            clear_screen()
             netfang = input("Nýtt netfang: ")
             print("-"*(14+len(netfang)))
             self.__customer_service.edit_customer_email(customer.get_email(),\
@@ -217,7 +217,7 @@ class StaffInterface:
             print("Netfangi hefur verið breytt.")
             print("-"*(14+len(netfang)))
         elif val == "3":
-            cls()
+            clear_screen()
             kortanumer = input("Nýtt kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
             print("-"*(62))
             self.__customer_service.edit_customer_card_no(customer.\
@@ -232,7 +232,7 @@ class StaffInterface:
         
 
     def ban_customer(self):
-        cls()
+        clear_screen()
         print("Setja á bannlista")
         print("-"*60)
         email = self.email_input()
@@ -253,7 +253,7 @@ class StaffInterface:
         self.go_to_menu()
         
     def unban_customer(self):
-        cls()
+        clear_screen()
         print("Taka af bannlista")
         print("-"*60)
         email = self.email_input()
@@ -276,7 +276,7 @@ class StaffInterface:
         self.go_to_menu()
         
     def fine_customer(self):
-        cls()
+        clear_screen()
         print("Sekta viðskiptavin")
         print("-"*60)
         email = self.email_input()
@@ -304,7 +304,7 @@ class StaffInterface:
     def vehicle_menu(self):
         """Setur bíla-valmyndina í gang"""
         #tilbúið
-        cls()
+        clear_screen()
         print("Bílafloti")
         print("-"*len("2.  Birta bíla í útleigu"))
         print("1.  Birta lausa bíla")
@@ -351,12 +351,12 @@ class StaffInterface:
         """Biður um tvær dagsetningar og prentar þá bíla sem 
         eru lausir yfir allt tímabilið"""
         #Tilbúið
-        cls()
+        clear_screen()
         print("Birta lausa bíla")
         print("-"*37)
         pickup_date_string, return_date_string = self.date_input()
 
-        cls()
+        clear_screen()
         print("Birta lausa bíla")
         print(60*"-")
         free_car_list = self.__car_service.find_free_cars(\
@@ -387,7 +387,7 @@ class StaffInterface:
         """Sækir lista af bílum sem eru í útleigu 
         í augnablikinu og prentar þá"""
         #tilbúið
-        cls()
+        clear_screen()
         print("Eftirfarandi bílar eru í útleigu í augnablikinu")
         print(60*"-")
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
@@ -404,7 +404,7 @@ class StaffInterface:
         og sendir emailið svo í CarService til að skila viðkomandi bíl"""
         #tilbúið fyrir utan villur í hvernig CustomerRepo
         #  býr til Customer úr textaskrám - læst þangað til það er lagað
-        cls()
+        clear_screen()
         order = False
         while order == False:
             email = self.__error_catch.input_email()
@@ -436,7 +436,7 @@ class StaffInterface:
         sendir svo þessar upplýsingar til CarService sem sér um að
         búa til Car object. Prentar staðfestingu"""
         #tilbúið
-        cls()
+        clear_screen()
         reg_num = self.__error_catch.input_reg_num()
         model = self.__error_catch.input_model()
         type = self.__error_catch.input_type()
@@ -453,7 +453,7 @@ class StaffInterface:
         sendir svo bílnúmerið í CarService svo bílnum verði eytt.
         Prentar staðfestingu"""
         #Tilbúið
-        cls()
+        clear_screen()
         reg_num = self.__error_catch.input_reg_num()
         car = False
         while car == False:
@@ -473,14 +473,14 @@ class StaffInterface:
         """Biður um bílnúmer þangað til bíll finnst og 
         prentar svo bílinn á skjáinn"""
         #tilbúið
-        cls()
+        clear_screen()
         car = False
         while car == False:
             reg_num = self.__error_catch.input_reg_num()
             car = self.__car_service.find_car(reg_num)
             if car == False:
                 print("Bíllinn {} finnst ekki.".format(reg_num.upper()))
-        cls()
+        clear_screen()
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")
         print(car)
@@ -491,7 +491,7 @@ class StaffInterface:
     def broken_cars(self):
         """Setur bilaðra-bíla valmyndina í gang"""
         #þarf að útfæra öll föll sem er kallað í
-        cls()
+        clear_screen()
         print("Bilaðir bílar")
         print("-"*21)
         print("1.  Skrá bilaðan bíl")
@@ -511,26 +511,26 @@ class StaffInterface:
             self.vehicle_menu()
 
     def log_broken_car(self):
-        cls()
+        clear_screen()
         bilnumer = input("Bílnúmer: ")
         reason = input("Af hverju er hann bilaður? ")
-        cls()
+        clear_screen()
         print("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer))
         print("-"*len("Bíllinn {} hefur verið skráður sem bilaður.".format(bilnumer)))
         
         self.go_to_menu()
 
     def log_car_as_fixed(self):
-        cls()
+        clear_screen()
         bilnumer = input("Bílnúmer: ")
-        cls()
+        clear_screen()
         print("Bíllinn {} hefur verið skráður á ný.".format(bilnumer))
         print("-"*len("Bíllinn {} hefur verið skráður á ný.".format(bilnumer)))
         
         self.go_to_menu()
 
     def print_broken_cars(self):
-        cls()
+        clear_screen()
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
         print(60*"-")
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("GHY-234", "Fólksbíll", "2009", "Blár", "Vélarbilun"))
@@ -539,7 +539,7 @@ class StaffInterface:
         self.go_to_menu()
 
     def service_menu(self):
-        cls()
+        clear_screen()
         print("Afgreiðsla")
         print("-"*27)
         print("1.  Birta lausa bíla")
@@ -577,7 +577,7 @@ class StaffInterface:
             self.main_menu()
 
     def create_order(self):
-        cls()
+        clear_screen()
         pickup_date, return_date, free_cars = self.display_free_cars()
         reg_number = self.__error_catch.input_reg_num()
         rented_car = ''
@@ -641,7 +641,7 @@ class StaffInterface:
             return self.go_to_menu()
 
     def order_menu(self):
-        cls()
+        clear_screen()
         print("Pantanir")
         print("-"*21)
         print("1.  Skrá pöntun")
@@ -664,30 +664,37 @@ class StaffInterface:
             self.go_to_menu()
 
     def change_order(self):
-        '''Alls ekki tilbúið fall!!!! hallóóó'''
-        cls()
+        '''Hér þarf að bæta við Núverandi verði'''
+        clear_screen()
         print("Breyta Pöntun")
         print("-"*(20))
-        email = input("Hvað er netfangið?: ")
-        cls()
+        email = self.email_input()
+        clear_screen()
+        cust = self.__customer_service.find_customer(email)
         print("Breyta Pöntun")
-        print("-"*(20 + len(email)))
-        # hérna er ég að gera breyta fyrir nafnið á viðskiptavin
-        print("Hverju viltu breyta fyrir {}?".format(order_info.get))
-        print("-"*(20 + len(email)))
+        print("-"*(27 + len(cust.get_name())))
+        print("Hverju viltu breyta fyrir {}?".format(cust.get_name()))
+        print("-"*(27 + len(cust.get_name())))
         print("1. Dagsetningu")
         print("2. Bíl")
         print("3. Til baka")
-        print("-"*(20 + len(email)))
+        print("-"*(27 + len(cust.get_name())))
         input_num = input("Val: ")
 
-        cls()
+        clear_screen()
+
         if input_num == "1":
+            print("Breyta Pöntun")
+            print("-"*(27 + len(cust.get_name())))
+            order_info = self.__order_service.find_order(email)
+            print(order_info)
+            # print("Núverandi Verð {}")
+            print("-"*(27 + len(cust.get_name())))
             pickup_date, return_date = self.date_input()
             self.__order_service.change_order(email, input_num, pickup_date, return_date)
-            print("-"*(20 + len(email)))
+            print("-"*(27 + len(cust.get_name())))
             print("Dagsetningu hefur verið breytt.")
-            print("-"*(20 + len(email)))
+            print("-"*(27 + len(cust.get_name())))
         
         elif input_num == "2":
 
@@ -716,29 +723,34 @@ class StaffInterface:
         
 
     def find_order(self):
-        cls()
+        clear_screen()
         kt = input("Kennitala/netfang pöntunar: ")
-        cls()
+        clear_screen()
         print("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt))
         print("SB-463 á tímabilinu 10/12/18 til 14/12/18")
         print("-"*len("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt)))
         return self.go_to_menu()
 
     def delete_order(self):
-        # fletta_pontun()
-        cls()
-        kt = input("Kennitala/netfang pöntunar: ")
-        cls()
-        print("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt))
-        print("SB-463 á tímabilinu 10/12/18 til 14/12/18")
-        print("-"*len("Viðskiptavinurinn Ásgeir Jónasson, {} hefur pantað bílinn".format(kt)))
+        clear_screen()
+        print("Bakfæra pöntun")
+        print("-"*34)
+        email = self.email_input()
+        clear_screen()
+        print("Bakfæra pöntun")
+        print("-"*34)
+        order_info = self.__order_service.find_order(email)
+        print(order_info)
+        print("-"*34)
         choice = input("Viltu eyða þessari pöntun? (j/n): ")
-        cls()
-        if(choice == "j"):
+        print("-"*34)
+
+        if choice == "j":
+            self.__order_service.delete_order(order_info)
             print("Pöntuninni hefur verið eytt")
-            print("---------------------------")
+            print("-"*34)
         else:
             print("Hætt við")
-            print("--------")
+            print("-"*34)
         
         self.go_to_menu()

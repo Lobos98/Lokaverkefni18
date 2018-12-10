@@ -6,15 +6,18 @@ import csv
 class CarRepo:
     def __init__(self):
         self.__cars = []
+        # self.__filepath = filename
 
     def get_all_cars(self):
         """Á að skila lista af Car objects"""
         if self.__cars == []:
             file_path = "Data\list_of_cars.csv"
+            # with file as open...
             file = open(file_path, newline='')
             file_contents = csv.reader(file)
             self.__header = next(file_contents)
             for line in file_contents:
+                # reg_number, model, car_type, color, broken = line
                 reg_number = line[0]
                 model = line[1]
                 car_type = line[2]
@@ -23,6 +26,8 @@ class CarRepo:
                     broken = True
                 elif line[4] == "False":
                     broken = False
+                # Hvað er þessi kóði að gera? Mjög óskýrt.
+                # Viljum segja með kóðanum hvað hann gerir.
                 history_list = line[5].split("--")
                 if history_list == [""]:
                     history_dict = {}

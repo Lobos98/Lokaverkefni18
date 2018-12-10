@@ -23,6 +23,7 @@ class OrderRepo:
         self.__update_order_file(order_to_remove)
 
     def __update_order_file(self, order_to_remove):
+
         with open(self.__filepath, "w", newline='') as file:
         #file = open(self.__filepath, newline='')
         # nota with file

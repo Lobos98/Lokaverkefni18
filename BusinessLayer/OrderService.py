@@ -63,7 +63,8 @@ class OrderService:
 
     def get_customer_orders(self,email):
         """Tekur inn email, skilar lista af pöntunum
-        sem eru skráðar á þetta email. Skilar Fa"""
+        sem eru skráðar á þetta email. Skilar False ef pöntun er ekki
+        í skrá"""
         list_of_orders = self.__order_repo.get_all_orders()
         list_of_orders_for_email = []
         for order in list_of_orders:
@@ -88,7 +89,8 @@ class OrderService:
         old_order = self.find_order_by_order_no(order_no)
         self.__order_repo.add_to_past_orders(old_order)
         self.__order_repo.remove_order(old_order)
-        self.__customer_service.add_old_order(old_order.get_customer_email(), old_order.get_order_no())
+        self.__customer_service.add_old_order(old_order.get_customer_email(),\
+            old_order.get_order_no())
 
     def get_list_of_past_orders(self):
         '''Skilar lista af eldri pöntunum'''

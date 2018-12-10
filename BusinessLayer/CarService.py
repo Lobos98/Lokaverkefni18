@@ -13,6 +13,7 @@ class CarService:
     def find_car(self, reg_num):
         """ tekur við bílnúmeri t.d. AAX99, finnur bíl og skilar
         tilviki af Car klasanum, skilar False ef bíll finnst ekki"""
+        
         cars = self.__car_repo.get_all_cars()
         for car in cars:
             if car.get_reg_num() == reg_num:
@@ -118,3 +119,11 @@ class CarService:
     def make_reservation(self, car):
         self.delete_car(car.get_reg_num())
         self.__car_repo.add_car(car)
+    
+    def get_broken_cars(self):
+        car_list = self.__car_repo.get_all_cars()
+        broken_car_list = []
+        for car in car_list:
+            if car.get_broken():
+                broken_car_list.append(car)
+        return broken_car_list

@@ -6,14 +6,13 @@ import csv
 class CarRepo:
     def __init__(self):
         self.__cars = []
-        # self.__filepath = filename
+        self.__filepath = "Data\list_of_cars.csv"
 
     def get_all_cars(self):
         """Á að skila lista af Car objects"""
         if self.__cars == []:
-            file_path = "Data\list_of_cars.csv"
-            # with file as open...
-            file = open(file_path, newline='')
+           
+            file = open(self.__filepath, newline='')
             file_contents = csv.reader(file)
             self.__header = next(file_contents)
             for line in file_contents:
@@ -66,11 +65,11 @@ class CarRepo:
             return self.__cars
         else:
             return self.__cars
+    
 
     def add_car(self, car):
         self.__cars.append(car)
-        file_path = "./Data/list_of_cars.csv"
-        file = open(file_path, "a")
+        file = open(self.__filepath, "a")
         reg_num = car.get_reg_num()
         model = car.get_model()
         type = car.get_type()

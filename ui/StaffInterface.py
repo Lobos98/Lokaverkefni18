@@ -433,22 +433,22 @@ class StaffInterface:
 
         clear_screen()
         print("Birta lausa bíla")
-        print(60*"-")
+        self.__print_divider()
         free_car_list = self.__car_service.find_free_cars(\
         pickup_date_string, return_date_string)
         pickup_print = "{}{}.{}{}.{}{}{}{}".format(*pickup_date_string)
         return_print = "{}{}.{}{}.{}{}{}{}".format(*return_date_string)
         print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
         pickup_print, return_print))
-        print(60*"-")
+        self.__print_divider()
         self.print_car_header()
-        print(60*"-")
+        self.__print_divider()
         if free_car_list:
             for car in free_car_list:
                 print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
                 car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), \
                 str(self.__car_service.get_price(car)) + "kr/dag"))
-            print(60*"-")
+            self.__print_divider()
         else:
             print("Engir bílar eru lausir á þessu tímabili")
         return pickup_date_string, return_date_string, free_car_list
@@ -461,13 +461,13 @@ class StaffInterface:
         #tilbúið
         clear_screen()
         print("Eftirfarandi bílar eru í útleigu í augnablikinu")
-        print(60*"-")
+        self.__print_divider()
         self.print_car_header()
-        print(60*"-")
+        self.__print_divider()
         rented_car_list = self.__car_service.get_rented_cars()
         for car in rented_car_list:
             print(car)
-        print(60*"-")
+        self.__print_divider()
 
     def return_car(self):
         """Biður um email pöntunar í input, kallar á ErrorCheck
@@ -545,11 +545,11 @@ class StaffInterface:
         
         clear_screen()
         print("Leita að bíl")
-        print(60*"-")
+        self.__print_divider()
         self.print_car_header()
-        print(60*"-")
+        self.__print_divider()
         print(car)
-        print(60*"-")
+        self.__print_divider()
 
     def broken_cars(self):
         """Setur bilaðra-bíla valmyndina í gang"""
@@ -615,12 +615,12 @@ class StaffInterface:
         clear_screen()
         print("Birta bilaða bíla")
         broken_cars = self.__car_service.get_broken_cars()
-        print(60*"-")
+        self.__print_divider()
         self.print_car_header()
-        print(60*"-")
+        self.__print_divider()
         for car in broken_cars:
             print(car)
-        print(60*"-")
+        self.__print_divider()
 
     def __find_car(self):
         """Biður um bílnúmer þangað til bíll finnst og skilar car object"""

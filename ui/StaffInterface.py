@@ -694,14 +694,14 @@ class StaffInterface:
         clear_screen()
 
         price = time_d.days * rented_car.get_price()
-        print("Kostnaður fyrir bílinn {} í {} daga er: {:,d} kr."\
+        print("Kostnaður fyrir bílinn {} í {} daga er: {:.d} kr."\
         .format(reg_number, time_d.days, price))
         
         print("Athugið að auka trygging kostar 50% af verði bílsins")
         extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
         if extra_insurance.lower() == "j":
             insurance = "True"
-            print("Nýja verðið er {:,d} kr."\
+            print("Nýja verðið er {:.d} kr."\
             .format(round(price*insurance_price_coeff)))
         else:
             insurance = "False"

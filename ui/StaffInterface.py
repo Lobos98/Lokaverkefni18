@@ -69,7 +69,7 @@ class StaffInterface:
             exit()
         else:
             pass
-        return self.main_menu()
+        return self.go_to_menu()
 
     def go_to_menu(self):
         choice = input("Fara aftur á aðalvalmynd? (j/n): ")
@@ -437,7 +437,7 @@ class StaffInterface:
             print("-"*(19 + len(customer.get_name()) + len(customer.\
                 get_email())))
         else:
-            print("Notandi fanns ekki")
+            print("Notandi fannst ekki")
         return self.go_to_menu()
 
     def vehicle_menu(self):
@@ -647,7 +647,8 @@ class StaffInterface:
             self.print_broken_cars()
         else:
             pass
-        return self.vehicle_menu()
+        return self.go_to_menu()
+        #return self.vehicle_menu()
 
     def log_broken_car(self):
         #TODO: ættum kannski að færa virkni fallsins í CarService...

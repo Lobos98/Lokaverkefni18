@@ -68,7 +68,8 @@ class StaffInterface:
         elif input_num == "5":
             exit()
         else:
-            return self.main_menu()
+            pass
+        return self.main_menu()
 
     def go_to_menu(self):
         choice = input("Fara aftur á aðalvalmynd? (j/n): ")
@@ -101,7 +102,8 @@ class StaffInterface:
         elif input_num == "7":
             self.fine_customer()
         else:
-            self.main_menu()
+            pass
+        self.main_menu()
     
     def card_input(self):
         card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
@@ -165,7 +167,6 @@ class StaffInterface:
             ssn)
         print("Viðskiptavinur {} hefur verið skráður".format(name))
         print("-"*57)
-        return self.go_to_menu()
 
     def deregister_customer(self):
         clear_screen()
@@ -185,7 +186,6 @@ class StaffInterface:
         else:
             print("Notandinn fannst ekki")
         self.__print_divider()
-        return self.go_to_menu()
 
     def find_customers(self):
         clear_screen()
@@ -203,7 +203,8 @@ class StaffInterface:
         elif choice == "3":
             return self.find_by_ssn()
         else:
-            return self.go_to_menu()
+            pass
+        return self.go_to_menu()
 
     def find_by_name(self):
 
@@ -264,7 +265,7 @@ class StaffInterface:
             email = self.email_input()
             customer_found = self.__customer_service.find_customer(email)
             if customer_found == False:
-                choice = input("Netfang er ekki á skrá, reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin")
+                choice = input("Netfang er ekki á skrá, reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin: ")
                 if choice.lower() == "s":
                     self.register_customer()
         return customer_found
@@ -312,9 +313,9 @@ class StaffInterface:
             self.change_card_no()
         elif val == "4":
             print("-"*(6+len(customer.get_email())))
-            return self.go_to_menu()
+            #return self.go_to_menu()
 
-        return self.go_to_menu()
+        #return self.go_to_menu()
 
     def change_phone_no(self, customer):
         clear_screen()
@@ -749,6 +750,10 @@ class StaffInterface:
         print("Skrá pöntun")
         print("-"*34)
         customer = self.find_customers()
+        if not customer:
+            self.register_customer()
+            
+        print("Skrá pöntun")    
         email = customer.get_email()
         self.__is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
@@ -777,15 +782,15 @@ class StaffInterface:
         clear_screen()
 
         price = time_d.days * rented_car.get_price()
-        print("Kostnaður fyrir bílinn {} í {} daga er: {:.d} kr."\
+        print("Kostnaður fyrir bílinn {} í {} daga er: {:,d} kr."\
         .format(reg_number, time_d.days, price))
         
-        print("Auka trygging kostar 50% af verði bílsins, kostnaður er þá\
-        {:.d}".format(price*insurance_price_coeff))
+        print("Auka trygging kostar 50% af verði bílsins, kostnaður er \
+        þá {:,d} kr".format(round(price*insurance_price_coeff)))
         extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
         if extra_insurance.lower() == "j":
             insurance = "True"
-            print("Nýja verðið er {:.d} kr."\
+            print("Nýja verðið er {:,d} kr."\
             .format(round(price*insurance_price_coeff)))
         else:
             insurance = "False"
@@ -819,7 +824,7 @@ class StaffInterface:
         time_d = datetime.datetime.strptime(return_date, "%d%m%Y")\
         - datetime.datetime.strptime(pickup_date, "%d%m%Y")
         price = (time_d.days + 1) * car_dict[car]
-        print("Verð á völdu tímabili: {:.d} kr".format(price))
+        print("Verð á völdu tímabili: {:,d} kr".format(price))
 
         choice = input("Viltu leigja bíl? (j/n): ")
         if choice.lower() == "j":

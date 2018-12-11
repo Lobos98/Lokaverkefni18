@@ -5,6 +5,7 @@ from BusinessLayer.CustomerService import CustomerService
 class OrderService:
     def __init__(self):
         self.__order_repo = OrderRepo()
+        self.__order_list = self.__order_repo.get_all_orders()
 
     def log_order(self, reg_number, date1, date2, email, extra_insurance):
         '''Tekur inn bílnr, leigudags, skiladags, email og aukatryggingu
@@ -16,32 +17,33 @@ class OrderService:
         self.__order_repo.add_order(self.new_order)
         return self.new_order
 
-    def change_order(self, email, choice, date1=0, date2=0, reg_number=0):
+    def change_order(self, order, choice, date1=0, date2=0, reg_number=0):
         '''Tekur inn email, valkost um hverju á að breyta
         og svo nýja gildið sem á að breyta yfir í(dagsetningu eða bílnr).
         fjarlægir gömlu pöntunina úr skránni og skrifar hana aftur í hana
         með breyttum gildum'''
         
-        order_to_change = self.__order_repo.get_order(email)
-        original_reg_number = order_to_change.get_car_reg_num()
-        original_date1 = order_to_change.get_pickup_date()
-        original_date2 = order_to_change.get_return_date()
+        
+        original_reg_number = order.get_car_reg_num()
+        original_date1 = order.get_pickup_date()
+        original_date2 = order.get_return_date()
         original_joined_date = (original_date1, original_date2)
         joined_date = (date1, date2)
-        order_number = order_to_change.get_order_no()
-        bonus_insurance = order_to_change.get_bonus_insurance()
+        email = order.get_customer_email()
+        order_number = order.get_order_no()
+        bonus_insurance = order.get_bonus_insurance()
         
 
         if choice == "1":
             self.changed_order = Order(order_number, original_reg_number, \
             joined_date, email, bonus_insurance)
-            self.__order_repo.remove_order(order_to_change)
+            self.__order_repo.remove_order(order)
             self.__order_repo.add_order(self.changed_order)
 
         elif choice == "2":
             changed_order = Order(order_number,  reg_number, \
             original_joined_date, email, bonus_insurance)
-            self.__order_repo.remove_order(order_to_change)
+            self.__order_repo.remove_order(order)
             self.__order_repo.add_order(changed_order)
             
 

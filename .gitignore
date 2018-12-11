@@ -127,3 +127,6 @@ test.csv
 # data
 data/
 Data/
+
+#Pycache
+/*/__pycache__/

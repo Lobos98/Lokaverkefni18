@@ -13,12 +13,7 @@ class CarService:
     def find_car(self, reg_num):
         """ tekur við bílnúmeri t.d. AAX99, finnur bíl og skilar
         tilviki af Car klasanum, skilar False ef bíll finnst ekki"""
-        all_cars = self.__car_repo.get_all_cars()
-        for car in all_cars:
-            if car.get_reg_num() == reg_num:
-                found_car = car
-                return found_car
-        return False
+        return self.__car_repo.find_car(reg_num)
     
     # def log_broken_car(self, reg_num):
     #     """ Finnur bíl, fjarlægir hann úr gagnagrunni,
@@ -48,29 +43,6 @@ class CarService:
         if car_to_be_deleted == False:
             return False
         self.__car_repo.delete_car(car_to_be_deleted)
-
-    # def find_free_cars(self, pickup_date, return_date):
-    #     """Tekur við 2 dags.str. á forminu ddmmáááá og skilar lista
-    #     af lausum bílum á tímabilinu """
-    #     pickup_date = datetime.strptime(pickup_date, "%d%m%Y")
-    #     return_date = datetime.strptime(return_date, "%d%m%Y")
-        
-    #     car_list = self.__car_repo.get_all_cars()
-    #     free_car_list = [car for car in car_list]
-    #     for car in car_list:
-    #         reservations = car.get_reserved_dates()
-    #         for from_date, to_date = car.get_reserved_dates()
-    #         for date_tuple in reservations:
-    #             if  date_tuple[0] <= pickup_date <= date_tuple[1]:
-    #                 free_car_list.remove(car)
-    #             elif date_tuple[0] <= return_date <= date_tuple[1]:
-    #                 free_car_list.remove(car)
-    #             elif pickup_date <= date_tuple[0] and date_tuple[1] <= return_date:
-    #                 free_car_list.remove(car)
-    #     for car in free_car_list:
-    #         if car.get_broken() == True:
-    #             free_car_list.remove(car)
-    #     return free_car_list
 
     def find_free_cars(self, wanted_pickup_date, wanted_return_date):
         """Tekur við 2 dags.str. á forminu ddmmáááá og skilar lista
@@ -111,11 +83,15 @@ class CarService:
         return reg_num
 
     def add_car(self, reg_num, model, car_type, color):
+        """Tekur við bílnúmeri, árgerð, bíltegund og lit, býr til nýjan bíl
+        og sendir til CarRepo"""
         new_car = Car(reg_num, model, car_type, color)
         self.__car_repo.add_car(new_car)
 
         
     def make_reservation(self, car):
+        # Bara einu sinni vitnað í þetta fall í StaffInterface... 
+        # skoða og kannski eyða
         self.delete_car(car.get_reg_num())
         self.__car_repo.add_car(car)
     

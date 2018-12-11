@@ -46,7 +46,7 @@ class CustomerService:
 		'''Finnur viðskiptavin eftir nafni í stað email'''
 		found_customer_list = []
 		for customer in self.__customers:
-			if strpos(name, customer.get_name()) == True:
+			if name.lower() == customer.get_name().lower():
 				found_customer_list.append(customer)
 		return found_customer_list
 

@@ -214,7 +214,8 @@ class StaffInterface:
         name = input("Sláðu inn nafn viðskiptavins: ")
         clear_screen()
 
-        customer_found_list = self.__customer_service.find_customer_by_name(name)
+        customer_found_list = self.__customer_service.find_customer_by_name(\
+        name)
         print("Fletta upp viðskiptavin")
         print("-"*50)
         if len(customer_found_list) == 1:
@@ -473,7 +474,8 @@ class StaffInterface:
         if free_car_list:
             for car in free_car_list:
                 print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
-                car.get_reg_num(), car.get_type(), car.get_model(), car.get_color(), \
+                car.get_reg_num(), car.get_type(), \
+                car.get_model(), car.get_color(), \
                 str(self.__car_service.get_price(car)) + "kr/dag"))
             self.__print_divider()
         else:
@@ -747,7 +749,8 @@ class StaffInterface:
         else:
             insurance = "False"
 
-        interim_order = self.__order_service.log_order(reg_number, pickup_date, return_date, email, insurance)
+        interim_order = self.__order_service.log_order(reg_number, \
+        pickup_date, return_date, email, insurance)
         rented_car.add_reservation(interim_order)
         #TODO: þetta make_reservation fall er mjög skrýtið...
         self.__car_service.make_reservation(rented_car)
@@ -955,7 +958,8 @@ class StaffInterface:
         print("-"*72)
         val = input("Veldu pöntun: ")
         print("-"*72)
-        print("Þessi pöntun hefur verið valin: {}".format(order_info[int(val)-1]))
+        print("Þessi pöntun hefur verið valin: {}".format(\
+        order_info[int(val)-1]))
         print("-"*72)
         choice = input("Viltu eyða þessari pöntun? (j/n): ")
         print("-"*72)

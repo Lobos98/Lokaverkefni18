@@ -240,18 +240,18 @@ class StaffInterface:
             else:
                 self.go_to_menu()
 
-        def find_by_ssn(self):
-            clear_screen()
-            print("Fletta upp viðskiptavin")
-            print("-"*50)
+    def find_by_ssn(self):
+        clear_screen()
+        print("Fletta upp viðskiptavin")
+        print("-"*50)
 
-            customer_found = False
-            while customer_found == False:
-                ssn = self.ssn_checker()
-                customer_found = self.__customer_service.find_customer_by_ssn(ssn)
-                if customer_found == False:
-                    print("Kennitala er ekki á skrá, reyndu aftur")
-            return customer_found
+        customer_found = False
+        while customer_found == False:
+            ssn = self.ssn_checker()
+            customer_found = self.__customer_service.find_customer_by_ssn(ssn)
+            if customer_found == False:
+                print("Kennitala er ekki á skrá, reyndu aftur")
+        return customer_found
 
         
     def find_by_email(self):
@@ -867,7 +867,7 @@ class StaffInterface:
         print("Hverju viltu breyta fyrir {}?".format(cust.get_name()))
         print("-"*(27 + len(cust.get_name())))
         menu_list = ["Dagsetningu", "Bíl", "Til baka"]
-        print_a_menu(menu_list)
+        self.print_a_menu(menu_list)
         print("-"*(27 + len(cust.get_name())))
         input_num = input("Val: ")
 

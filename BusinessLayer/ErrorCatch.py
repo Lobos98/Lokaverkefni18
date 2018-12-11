@@ -66,11 +66,20 @@ class ErrorCatch:
             print("Vinsamlegast skrifið inn lit."\
             " Tölustafir og íslenskir sérstafir eru ekki leyfðir")
 
-    def input_date(self):
-        check = False
-        while check == False:
-            pass
-        return datetime.datetime.today()
+    def input_rental_dates(self):
+        """Biður um tvö inputs á forminu ddmmáááá og skilar strengjunum ef 
+        þeir passa við okkar reglur"""
+        pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
+        return_date_string = input("Dagsetning skila (ddmmáááá): ")
+        while self.check_rental_date(\
+        pickup_date_string, return_date_string) == False:
+            print("Athugið eftirfarandi:\n\
+            Dagsetningar skal skrifa inn á forminu ddmmáááá\n\
+            Hámarksleigutími er eitt ár\n\
+            Ekki er hægt að velja leigutímabil sem er liðið")
+            pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
+            return_date_string = input("Dagsetning skila (ddmmáááá): ")
+        return pickup_date_string, return_date_string
 
 
     def check_SSN(self, SSN):

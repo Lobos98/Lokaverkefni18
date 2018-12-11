@@ -735,12 +735,22 @@ class StaffInterface:
         clear_screen()
         print("Skrá pöntun")
         print("-"*34)
+<<<<<<< HEAD
+        #email = self.__error_catch.input_email()
+        email = self.find_by_email()
+=======
         customer = self.find_customers()
         email = customer.get_email()
+>>>>>>> 33b764fa2ff863c2b042294434c4e9021cecb979
         self.__is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
 
         #TODO finna goða lausn til að búa til nýjann viðskiptavin hér
+<<<<<<< HEAD
+        if not self.find_by_email():
+            self.register_customer()
+=======
+>>>>>>> 33b764fa2ff863c2b042294434c4e9021cecb979
 
         pickup_date, return_date, free_cars = self.display_free_cars()
         reg_number = self.__error_catch.input_reg_num()

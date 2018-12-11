@@ -3,22 +3,21 @@ import csv
 
 class CustomerRepo:
 	def __init__(self):
-		self.__customers = []
+		self.__customers = self.get_customer_list()
 		#self.__customers = self.get_customer_list()
 		self.__header = ["Email","Nafn", "Kort", "Simi", "Kennitala", "Ban", "Fine", "History"]
 		self.__link = "./Data/list_of_customers.csv"
 
 	def get_customer_list(self):
-		if self.__customers == []:
-			with open(self.__link, "r") as customer_file:
-				# DOnt repeat urself, gera fasta fyrir ./Data/list_of_customers.csv
-				csv_reader = csv.DictReader(customer_file)
-				for line in csv_reader:
-					new_customer = Customer(line["Email"], line["Nafn"],\
-						line["Kort"], line["Simi"], line["Kennitala"],\
-						line["Ban"], line["Fine"], line["History"])
-					self.__customers.append(new_customer)
-			return self.__customers
+		self.__customers = []
+		with open(self.__link, "r") as customer_file:
+			# DOnt repeat urself, gera fasta fyrir ./Data/list_of_customers.csv
+			csv_reader = csv.DictReader(customer_file)
+			for line in csv_reader:
+				new_customer = Customer(line["Email"], line["Nafn"],\
+					line["Kort"], line["Simi"], line["Kennitala"],\
+					line["Ban"], line["Fine"], line["History"])
+				self.__customers.append(new_customer)
 		return self.__customers
 
 	def add_customer(self, new_customer, customer_list):

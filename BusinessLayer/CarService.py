@@ -89,7 +89,7 @@ class CarService:
         self.__car_repo.add_car(new_car)
 
         
-    def make_reservation(self, car):
+    def refresh_car(self, car):
         # Bara einu sinni vitnað í þetta fall í StaffInterface... 
         # skoða og kannski eyða
         self.delete_car(car.get_reg_num())

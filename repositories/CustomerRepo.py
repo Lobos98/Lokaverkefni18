@@ -26,6 +26,21 @@ class CustomerRepo:
 			csv_writer.writerow(customer_list)
 			self.__customers.append(new_customer)
 
+	def find_customer_by_email(self, customer_email):
+		'''finnur viðskiptavin í lista frá repóinu'''
+		for customer in self.__customers:
+			if customer_email == customer.get_email():
+				return customer
+		return False
+
+	def find_customer_by_name(self, name):
+		'''Finnur viðskiptavin eftir nafni í stað email'''
+		found_customer_list = []
+		for customer in self.__customers:
+			if strpos(name, customer.get_name()) == True:
+				found_customer_list.append(customer)
+		return found_customer_list
+
 	# def remove_customer(self, take_out):
 	# 	#index = 0
 	# 	for customer in self.__customers:

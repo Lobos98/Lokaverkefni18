@@ -1,5 +1,5 @@
 class Customer:
-	def __init__(self, email, name, card_no, phone_no, ssn = "0", ban = "false",\
+	def __init__(self, email, name, card_no, phone_no, ssn = "", ban = "false",\
 		fine = "0", history = ""):
 		self.__email = email
 		self.__name = name
@@ -62,13 +62,22 @@ class Customer:
 		self.__history = self.__history + ";" + str(old_order_no)
 
 	def __repr__(self):
-		return "{},{},{},{},{}".format(self.__email, self.__name,\
-			self.__card_no, self.__phone_no, self.__ssn)
+		if self.__ssn == "":
+			return "{},{},{},{}".format(self.__email, self.__name,\
+				self.__card_no, self.__phone_no)
+		else:
+			return "{},{},{},{},{}".format(self.__email, self.__name,\
+				self.__card_no, self.__phone_no, self.__ssn)
 
 	def __str__(self):
-		return "Nafn: {}\nEmail: {}\nKortanúmer: {}\nSímanúmer: {}\
-		\nKennitala: {}".format(self.__name, self.__email,self.__card_no,\
-			self.__phone_no, self.__ssn)
+		if self.__ssn == "":
+			return "Nafn: {}\nEmail: {}\nKortanúmer: {}\nSímanúmer: {}\
+			".format(self.__name, self.__email,self.__card_no,\
+				self.__phone_no)
+		else:
+			return "Nafn: {}\nEmail: {}\nKortanúmer: {}\nSímanúmer: {}\
+			\nKennitala: {}".format(self.__name, self.__email,self.__card_no,\
+				self.__phone_no, self.__ssn)
 
 
 

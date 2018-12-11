@@ -102,7 +102,7 @@ class StaffInterface:
         card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
         while not self.__error_catch.check_card_number(card_number):
             if card_number.lower() == "q":
-                self.go_to_menu()
+                 return self.go_to_menu()
             else:
                 print("Rangt kortanúmer, reyndu aftur eða 'q' til að hætta")
                 card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
@@ -112,7 +112,7 @@ class StaffInterface:
         phone = input("Símanúmer: ")
         while not self.__error_catch.check_phone_no(phone):
             if phone.lower() == "q":
-                self.go_to_menu()
+                return self.go_to_menu()
             else:
                 print("Rangt símanúmer, reyndu aftur eða 'q' til að hætta")
                 phone = input("Símanúmer: ")
@@ -122,7 +122,7 @@ class StaffInterface:
         email = input("Netfang: ")
         while not self.__error_catch.check_email(email):
             if email.lower() == "q":
-                self.go_to_menu()
+                return self.go_to_menu()
             else:
                 print("Rangt netfang, reyndu aftur eða 'q' til að hætta")
                 email = input("Netfang: ")
@@ -135,7 +135,7 @@ class StaffInterface:
             print("-"*52)
             while not self.__error_catch.check_SSN(ssn):
                 if ssn_check.lower() == "q":
-                    self.go_to_menu()
+                    return self.go_to_menu()
                 else:
                     print("Kennitala er ógild, reyndu aftur eða 'q' " 
                     "til að hætta")
@@ -180,7 +180,7 @@ class StaffInterface:
         else:
             print("Notandinn fannst ekki")
         print("-"*60)
-        self.go_to_menu()
+        return self.go_to_menu()
 
     def find_customer(self):
         clear_screen()
@@ -291,9 +291,9 @@ class StaffInterface:
             print("-"*(62))
         elif val == "4":
             print("-"*(6+len(customer.get_email())))
-            self.go_to_menu()
+            return self.go_to_menu()
 
-        self.go_to_menu()
+        return self.go_to_menu()
         
 
     def ban_customer(self):
@@ -318,7 +318,7 @@ class StaffInterface:
                 get_email())))
         else:
             print("Notandi fannst ekki")
-        self.go_to_menu()
+        return self.go_to_menu()
         
     def unban_customer(self):
         clear_screen()
@@ -345,7 +345,7 @@ class StaffInterface:
         else:
             print("Notandi fannst ekki")
 
-        self.go_to_menu()
+        return self.go_to_menu()
         
     def fine_customer(self):
         clear_screen()
@@ -375,7 +375,7 @@ class StaffInterface:
                 get_email())))
         else:
             print("Notandi fanns ekki")
-        self.go_to_menu()
+        return self.go_to_menu()
 
     def vehicle_menu(self):
         """Setur bíla-valmyndina í gang"""
@@ -775,7 +775,7 @@ class StaffInterface:
         elif input_num == "5":
             self.print_orders(self.__order_service.get_list_of_orders())
         else:
-            self.go_to_menu()
+            return self.go_to_menu()
 
     def change_order(self):
         # tilbúið nema vantar núverandi verð 
@@ -808,9 +808,9 @@ class StaffInterface:
             self.change_car(email, input_num)
         
         else:
-            self.go_to_menu()
+            return self.go_to_menu()
         
-        self.go_to_menu()
+        return self.go_to_menu()
 
 
     def change_date(self, cust, email, input_num):
@@ -937,7 +937,7 @@ class StaffInterface:
             print("Hætt við")
             print("-"*34)
         
-        self.go_to_menu()
+        return self.go_to_menu()
 
     def print_orders(self, list_of_orders):
         print("{:<8}{:<11}{:<14}{:<12}{:<20}".format(\
@@ -955,4 +955,4 @@ class StaffInterface:
         clear_screen() 
         order_list = self.__order_service.get_customer_orders(email)
         self.print_orders(order_list)
-        self.go_to_menu()
+        return self.go_to_menu()

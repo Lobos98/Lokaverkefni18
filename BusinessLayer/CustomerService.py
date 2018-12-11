@@ -4,13 +4,14 @@ from models.Customer import Customer
 class CustomerService:
 	def __init__(self):
 		self.__customers = customer_repo.get_customer_list()
+		self.customer_repo = CustomerRepo()
 
 	def update_customer(self, customer_email, customer):
 		'''uppfærir viðskiptavin með því að taka hann út
 		og setja aftur inn'''
-		customer_repo.remove_customer(customer_email)
+		self.customer_repo.remove_customer(customer_email)
 		attribute_list = customer.get_attribute_list()
-		customer_repo.add_customer(customer, attribute_list)
+		self.customer_repo.add_customer(customer, attribute_list)
 
 
 	def edit_customer_email(self, customer_email, new_email):
@@ -36,19 +37,7 @@ class CustomerService:
 		customer_repo.remove_customer(customer_email)
 
 	def find_customer(self, customer_email):
-		'''finnur viðskiptavin í lista frá repóinu'''
-		for customer in self.__customers:
-			if customer_email == customer.get_email():
-				return customer
-		return False
-
-	def find_customer_by_name(self, name):
-		'''Finnur viðskiptavin eftir nafni í stað email'''
-		found_customer_list = []
-		for customer in self.__customers:
-			if name.lower() == customer.get_name().lower():
-				found_customer_list.append(customer)
-		return found_customer_list
+		return self.customer_repo.find_customer_by_email(customer_email)
 
 	def ban_customer(self, banned_customer):
 		'''bannar viðskiptavin og uppfærir hann í repóinu'''

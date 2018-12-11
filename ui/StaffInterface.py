@@ -264,7 +264,9 @@ class StaffInterface:
             email = self.email_input()
             customer_found = self.__customer_service.find_customer(email)
             if customer_found == False:
-                print("Netfang er ekki á skrá, reyndu aftur")
+                choice = input("Netfang er ekki á skrá, reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin")
+                if choice.lower() == "s":
+                    self.register_customer()
         return customer_found
     
     def find_customer(self):

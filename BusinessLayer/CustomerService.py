@@ -3,15 +3,15 @@ from models.Customer import Customer
 
 class CustomerService:
 	def __init__(self):
-		self.__customers = customer_repo.get_customer_list()
-		self.customer_repo = CustomerRepo()
+		self.__customer_repo = CustomerRepo()
+		self.__customers = self.__customer_repo.get_customer_list()
 
 	def update_customer(self, customer_email, customer):
 		'''uppfærir viðskiptavin með því að taka hann út
 		og setja aftur inn'''
-		self.customer_repo.remove_customer(customer_email)
+		self.__customer_repo.remove_customer(customer_email)
 		attribute_list = customer.get_attribute_list()
-		self.customer_repo.add_customer(customer, attribute_list)
+		self.__customer_repo.add_customer(customer, attribute_list)
 
 
 	def edit_customer_email(self, customer_email, new_email):
@@ -34,11 +34,24 @@ class CustomerService:
 
 	def delete_customer(self, customer_email):
 		'''eyðir viðskiptavin með því að kalla á repóið'''
-		customer_repo.remove_customer(customer_email)
+		self.__customer_repo.remove_customer(customer_email)
 
 	def find_customer(self, customer_email):
-		return self.customer_repo.find_customer_by_email(customer_email)
+		return self.__customer_repo.find_customer_by_email(customer_email)
 
+<<<<<<< HEAD
+	def find_customer_by_name(self, name):
+		"""Tekur við nafni sem streng og skilar lista yfir þá viðskiptavini 
+		sem eru með nafnbútinn í nafninu sínu"""
+		list_of_customers = self.__customer_repo.get_customer_list()
+		list_of_found_customers = []
+		for customer in list_of_customers:
+			if name.lower() in customer.get_name().lower():
+				list_of_found_customers.append(customer)
+		return list_of_found_customers
+
+=======
+>>>>>>> 2513bdeffd4ea387c3d7213fee662df5af9e201c
 	def ban_customer(self, banned_customer):
 		'''bannar viðskiptavin og uppfærir hann í repóinu'''
 		customer = self.find_customer(banned_customer)
@@ -62,7 +75,7 @@ class CustomerService:
 		skránni'''
 		new_customer = Customer(email, name, card_no, phone_no, ssn)
 		customer_list = new_customer.get_attribute_list()
-		customer_repo.add_customer(new_customer, customer_list)
+		self.__customer_repo.add_customer(new_customer, customer_list)
 
 	def add_old_order(self, email, order_num):
 		'''bætir við gamla pöntun í customer history og uppfærir hann í
@@ -79,6 +92,4 @@ class CustomerService:
 			if customer.get_banned() == "true":
 				banned_customer_list.append(customer)
 		return banned_customer_list
-		
-customer_repo = CustomerRepo()
 

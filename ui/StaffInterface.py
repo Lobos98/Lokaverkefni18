@@ -305,40 +305,53 @@ class StaffInterface:
         print("-"*(7+len(customer.get_email())))
 
         if val == "1":
-            clear_screen()
-            print("Uppfæra viðskiptavin")
-            print("-"*30)
-            simanr = input("Nýtt Símanúmer: ")
-            print("-"*30)
-            self.__customer_service.edit_customer_phone_no(customer.\
-                get_email(),simanr)
-            print("Símanúmeri hefur verið breytt.")
-            print("-"*30)
+            self.change_phone_no(customer)
         elif val == "2":
-            clear_screen()
-            print("Uppfæra viðskiptavin")
-            print("-"*40)
-            netfang = input("Nýtt netfang: ")
-            print("-"*40)
-            self.__customer_service.edit_customer_email(customer.get_email()
-            , netfang)
-            print("Netfangi hefur verið breytt.")
-            print("-"*40)
+            self.change_email()
         elif val == "3":
-            clear_screen()
-            print("Uppfæra viðskiptavin")
-            print("-"*(62))
-            kortanumer = self.card_input()
-            print("-"*(62))
-            self.__customer_service.edit_customer_card_no(customer.\
-                get_email(),kortanumer)
-            print("Kortanúmeri hefur verið breytt.")
-            print("-"*(62))
+            self.change_card_no()
         elif val == "4":
             print("-"*(6+len(customer.get_email())))
             return self.go_to_menu()
 
         return self.go_to_menu()
+
+    def change_phone_no(self, customer):
+        clear_screen()
+        print("Uppfæra viðskiptavin")
+        print("-"*30)
+        #phone_no = input("Nýtt Símanúmer: ")
+        #print("-"*30)
+        phone_no = self.phone_input()
+        #if self.__error_catch.check_phone_no(phone_no):
+        self.__customer_service.edit_customer_phone_no(customer.\
+            get_email(),phone_no)
+        print("Símanúmeri hefur verið breytt.")
+        print("-"*30)
+
+    def change_email(self, customer):
+        clear_screen()
+        print("Uppfæra viðskiptavin")
+        print("-"*40)
+        #netfang = input("Nýtt netfang: ")
+        #print("-"*40)
+        email = self.email_input()
+        self.__customer_service.edit_customer_email(customer.get_email()\
+            , email)
+        print("Netfangi hefur verið breytt.")
+        print("-"*40)
+
+    def change_card_no(self, customer):
+        clear_screen()
+        print("Uppfæra viðskiptavin")
+        print("-"*(62))
+        card_no = self.card_input()
+        #kortanumer = self.card_input()
+        #print("-"*(62))
+        self.__customer_service.edit_customer_card_no(customer.\
+            get_email(),card_no)
+        print("Kortanúmeri hefur verið breytt.")
+        print("-"*(62))
         
 
     def ban_customer(self):

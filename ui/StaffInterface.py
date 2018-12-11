@@ -239,8 +239,8 @@ class StaffInterface:
                  return self.find_by_name()
             else:
                 self.go_to_menu()
-        
-    def find_by_ssn(self):
+
+        def find_by_ssn(self):
         clear_screen()
         print("Fletta upp viðskiptavin")
         print("-"*50)
@@ -252,8 +252,8 @@ class StaffInterface:
             if customer_found == False:
                 print("Kennitala er ekki á skrá, reyndu aftur")
         return customer_found
-        
 
+        
     def find_by_email(self):
         clear_screen()
         print("Fletta upp viðskiptavin")
@@ -566,14 +566,14 @@ class StaffInterface:
         car_to_delete = self.__find_car()
         reg_num = car_to_delete.get_reg_num()
         if car_to_delete.get_reserved_dates() == []:
-            self.__car_service.delete_car(reg_num)
+        self.__car_service.delete_car(reg_num)
+                
+        clear_screen()
 
-            clear_screen()
-
-            print("Afskrá bíl")
-            print("-"*(31 + len(reg_num)))
-            print("Bíllinn {} hefur verið afskráður!".format(reg_num))
-            print("-"*(31 + len(reg_num)))
+        print("Afskrá bíl")
+        print("-"*(31 + len(reg_num)))
+        print("Bíllinn {} hefur verið afskráður!".format(reg_num))
+        print("-"*(31 + len(reg_num)))
         else:
             choice = input("Þessi bíll er frátekinn fyrir viðskiptavin.\n\
             Ef bílnum er eytt verður tilsvarandi pöntunum einnig eytt.\n\
@@ -741,8 +741,6 @@ class StaffInterface:
         # þá er maður sendur aftur í main menu
 
         #TODO finna goða lausn til að búa til nýjann viðskiptavin hér
-        if not self.__customer_service.find_by_email(email):
-            self.register_customer()
 
         pickup_date, return_date, free_cars = self.display_free_cars()
         reg_number = self.__error_catch.input_reg_num()
@@ -791,7 +789,7 @@ class StaffInterface:
 
 
     def cost_amount(self):
-        pickup_date, return_date = self.__error_catch.input_rental_date()
+        pickup_date, return_date = self.__error_catch.input_rental_dates()
         car_type_list = ["jeppi", "smabill", "folksbill"]
         car_dict = {"jeppi":5000, "folksbill":4000, "smabill":3000}
         while True:
@@ -1000,4 +998,3 @@ class StaffInterface:
         order_list = self.__order_service.get_customer_orders(email)
         self.print_orders(order_list)
         return self.go_to_menu()
-

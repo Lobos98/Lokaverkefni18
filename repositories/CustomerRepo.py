@@ -10,7 +10,7 @@ class CustomerRepo:
 
 	def get_customer_list(self):
 		self.__customers = []
-		with open(self.__link, "r") as customer_file:
+		with open("./Data/list_of_customers.csv", "r") as customer_file:
 			# DOnt repeat urself, gera fasta fyrir ./Data/list_of_customers.csv
 			csv_reader = csv.DictReader(customer_file)
 			for line in csv_reader:

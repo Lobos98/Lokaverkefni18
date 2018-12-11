@@ -44,29 +44,6 @@ class CarService:
             return False
         self.__car_repo.delete_car(car_to_be_deleted)
 
-    # def find_free_cars(self, pickup_date, return_date):
-    #     """Tekur við 2 dags.str. á forminu ddmmáááá og skilar lista
-    #     af lausum bílum á tímabilinu """
-    #     pickup_date = datetime.strptime(pickup_date, "%d%m%Y")
-    #     return_date = datetime.strptime(return_date, "%d%m%Y")
-        
-    #     car_list = self.__car_repo.get_all_cars()
-    #     free_car_list = [car for car in car_list]
-    #     for car in car_list:
-    #         reservations = car.get_reserved_dates()
-    #         for from_date, to_date = car.get_reserved_dates()
-    #         for date_tuple in reservations:
-    #             if  date_tuple[0] <= pickup_date <= date_tuple[1]:
-    #                 free_car_list.remove(car)
-    #             elif date_tuple[0] <= return_date <= date_tuple[1]:
-    #                 free_car_list.remove(car)
-    #             elif pickup_date <= date_tuple[0] and date_tuple[1] <= return_date:
-    #                 free_car_list.remove(car)
-    #     for car in free_car_list:
-    #         if car.get_broken() == True:
-    #             free_car_list.remove(car)
-    #     return free_car_list
-
     def find_free_cars(self, wanted_pickup_date, wanted_return_date):
         """Tekur við 2 dags.str. á forminu ddmmáááá og skilar lista
         af lausum bílum á tímabilinu """

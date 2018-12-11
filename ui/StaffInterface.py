@@ -891,7 +891,7 @@ class StaffInterface:
         else:
             return self.go_to_menu()
         
-        return self.go_to_menu()
+        
 
     def change_car(self, email, input_num):
         # TODO: Fjör fyrir einar.
@@ -999,8 +999,8 @@ class StaffInterface:
         else:
             print("Hætt við")
             print("-"*34)
+        return self.go_to_menu()    
         
-        return self.go_to_menu()
 
     def print_orders(self, list_of_orders):
         print("{:<8}{:<11}{:<14}{:<12}{:<20}".format(\
@@ -1009,7 +1009,7 @@ class StaffInterface:
         for order in list_of_orders:
             print("{:<8}".format(list_no) + order.__str__())
             list_no += 1
-        return self.go_to_menu()
+        
     
     def find_order(self):
         clear_screen()
@@ -1019,4 +1019,4 @@ class StaffInterface:
         clear_screen() 
         order_list = self.__order_service.get_customer_orders(email)
         self.print_orders(order_list)
-        return self.go_to_menu()
+        

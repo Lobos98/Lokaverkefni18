@@ -241,17 +241,17 @@ class StaffInterface:
                 self.go_to_menu()
 
         def find_by_ssn(self):
-        clear_screen()
-        print("Fletta upp viðskiptavin")
-        print("-"*50)
+            clear_screen()
+            print("Fletta upp viðskiptavin")
+            print("-"*50)
 
-        customer_found = False
-        while customer_found == False:
-            ssn = self.ssn_checker()
-            customer_found = self.__customer_service.find_customer_by_ssn(ssn)
-            if customer_found == False:
-                print("Kennitala er ekki á skrá, reyndu aftur")
-        return customer_found
+            customer_found = False
+            while customer_found == False:
+                ssn = self.ssn_checker()
+                customer_found = self.__customer_service.find_customer_by_ssn(ssn)
+                if customer_found == False:
+                    print("Kennitala er ekki á skrá, reyndu aftur")
+            return customer_found
 
         
     def find_by_email(self):
@@ -566,14 +566,14 @@ class StaffInterface:
         car_to_delete = self.__find_car()
         reg_num = car_to_delete.get_reg_num()
         if car_to_delete.get_reserved_dates() == []:
-        self.__car_service.delete_car(reg_num)
+            self.__car_service.delete_car(reg_num)
                 
-        clear_screen()
+            clear_screen()
 
-        print("Afskrá bíl")
-        print("-"*(31 + len(reg_num)))
-        print("Bíllinn {} hefur verið afskráður!".format(reg_num))
-        print("-"*(31 + len(reg_num)))
+            print("Afskrá bíl")
+            print("-"*(31 + len(reg_num)))
+            print("Bíllinn {} hefur verið afskráður!".format(reg_num))
+            print("-"*(31 + len(reg_num)))
         else:
             choice = input("Þessi bíll er frátekinn fyrir viðskiptavin.\n\
             Ef bílnum er eytt verður tilsvarandi pöntunum einnig eytt.\n\
@@ -735,22 +735,12 @@ class StaffInterface:
         clear_screen()
         print("Skrá pöntun")
         print("-"*34)
-<<<<<<< HEAD
-        #email = self.__error_catch.input_email()
-        email = self.find_by_email()
-=======
         customer = self.find_customers()
         email = customer.get_email()
->>>>>>> 33b764fa2ff863c2b042294434c4e9021cecb979
         self.__is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
 
         #TODO finna goða lausn til að búa til nýjann viðskiptavin hér
-<<<<<<< HEAD
-        if not self.find_by_email():
-            self.register_customer()
-=======
->>>>>>> 33b764fa2ff863c2b042294434c4e9021cecb979
 
         pickup_date, return_date, free_cars = self.display_free_cars()
         reg_number = self.__error_catch.input_reg_num()

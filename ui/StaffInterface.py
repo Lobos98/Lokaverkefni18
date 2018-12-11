@@ -395,7 +395,6 @@ class StaffInterface:
         input_num = input("Val: ")
         if input_num == "1":
             self.display_free_cars()
-            self.go_to_menu()
         elif input_num == "2":
             self.display_currently_rented_cars()
         elif input_num == "3":
@@ -409,29 +408,16 @@ class StaffInterface:
         elif input_num == "7":
             self.broken_cars()
         else:
-            self.main_menu()
+            pass
+        return self.go_to_menu()
 
-    def date_input(self):
-        pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
-        return_date_string = input("Dagsetning skila (ddmmáááá): ")
-        while self.__error_catch.check_rental_date(\
-        pickup_date_string, return_date_string) == False:
-            print("Athugið eftirfarandi:\n\
-            Dagsetningar skal skrifa inn á forminu ddmmáááá\n\
-            Hámarksleigutími er eitt ár\n\
-            Ekki er hægt að velja leigutímabil sem er liðið")
-            pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
-            return_date_string = input("Dagsetning skila (ddmmáááá): ")
-        return pickup_date_string, return_date_string
-    
-    def print_header(self):
+    def print_car_header(self):
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
         "Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
 
     def display_free_cars(self, date1='', date2=''):
         """Biður um tvær dagsetningar og prentar þá bíla sem 
         eru lausir yfir allt tímabilið"""
-        #Vantar inn ef maður fer beint í fallið frá bílafloti, nær ekki að returna og go_to_menu()
         clear_screen()
         print("Birta lausa bíla")
         print("-"*37)
@@ -439,7 +425,7 @@ class StaffInterface:
             pickup_date_string = date1
             return_date_string = date2
         else:
-            pickup_date_string, return_date_string = self.date_input()
+            pickup_date_string, return_date_string = self.__error_catch.input_rental_dates()
 
         clear_screen()
         print("Birta lausa bíla")
@@ -451,7 +437,7 @@ class StaffInterface:
         print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
         pickup_print, return_print))
         print(60*"-")
-        self.print_header()
+        self.print_car_header()
         print(60*"-")
         if free_car_list:
             for car in free_car_list:
@@ -472,14 +458,12 @@ class StaffInterface:
         clear_screen()
         print("Eftirfarandi bílar eru í útleigu í augnablikinu")
         print(60*"-")
-        self.print_header()
+        self.print_car_header()
         print(60*"-")
         rented_car_list = self.__car_service.get_rented_cars()
         for car in rented_car_list:
             print(car)
         print(60*"-")
-
-        self.go_to_menu()
 
     def return_car(self):
         """Biður um email pöntunar í input, kallar á ErrorCheck
@@ -508,9 +492,6 @@ class StaffInterface:
         print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
         print("Bílnum {} hefur verið skilað!".format(reg_num))
         print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
-        
-
-        return self.go_to_menu()
 
     def add_car(self):
         """Biður um bílnúmer, árgerð, tegund og lit bíls, 
@@ -528,8 +509,6 @@ class StaffInterface:
         print("-"*80)
         print("Bíllinn {} hefur verið skráður!".format(reg_num))
         print("-"*80)
-
-        self.go_to_menu()
 
     def delete_car(self):
         """Biður um bílnúmer þangað til bíll fæst sem er til í kerfinu.
@@ -551,8 +530,6 @@ class StaffInterface:
         print("Bíllinn {} hefur verið afskráður!".format(reg_num))
         print("-"*(31 + len(reg_num)))
 
-        self.go_to_menu()
-
     def print_car(self):
         """Biður um bílnúmer þangað til bíll finnst og 
         prentar svo bílinn á skjáinn"""
@@ -565,12 +542,10 @@ class StaffInterface:
         clear_screen()
         print("Leita að bíl")
         print(60*"-")
-        self.print_header()
+        self.print_car_header()
         print(60*"-")
         print(car)
         print(60*"-")
-
-        self.go_to_menu()
 
     def broken_cars(self):
         """Setur bilaðra-bíla valmyndina í gang"""
@@ -592,7 +567,8 @@ class StaffInterface:
         elif input_num == "3":
             self.print_broken_cars()
         else:
-            self.vehicle_menu()
+            pass
+        return self.vehicle_menu()
 
     def log_broken_car(self):
         #TODO: ættum kannski að færa virkni fallsins í CarService...
@@ -611,7 +587,6 @@ class StaffInterface:
             print("-"*(41 + len(reg_num)))
         else:
             print("Bíllinn {} er þegar bilaður.".format(reg_num))
-        self.go_to_menu()
 
     def log_car_as_fixed(self):
         #TODO: Ættum kannsk að færa virkni fallsins í CarService...
@@ -630,7 +605,6 @@ class StaffInterface:
             print("-"*(44 + len(reg_num)))
         else:
             print("Bíllinn {} er ekki bilaður.".format(reg_num))
-        self.go_to_menu()
 
     def print_broken_cars(self):
         # tilbúið
@@ -638,12 +612,11 @@ class StaffInterface:
         print("Birta bilaða bíla")
         broken_cars = self.__car_service.get_broken_cars()
         print(60*"-")
-        self.print_header()
+        self.print_car_header()
         print(60*"-")
         for car in broken_cars:
             print(car)
         print(60*"-")
-        self.go_to_menu()
 
     def __find_car(self):
         """Biður um bílnúmer þangað til bíll finnst og skilar car object"""
@@ -753,7 +726,7 @@ class StaffInterface:
 
 
     def cost_amount(self):
-        pickup_date, return_date = self.date_input()
+        pickup_date, return_date = self.__error_catch.input_rental_dates()
         car_type_list = ["jeppi", "smabill", "folksbill"]
         car_dict = {"jeppi":5000, "folksbill":4000, "smabill":3000}
         while True:
@@ -848,7 +821,7 @@ class StaffInterface:
         print(order_info)
         # print("Núverandi Verð {}")
         print("-"*(27 + len(cust.get_name())))
-        pickup_date, return_date = self.date_input()
+        pickup_date, return_date = self.__error_catch.input_rental_dates()
         self.__order_service.change_order(email, input_num, pickup_date,\
             return_date)
         print("-"*(27 + len(cust.get_name())))

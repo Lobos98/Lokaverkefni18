@@ -79,7 +79,7 @@ class StaffInterface:
         clear_screen()
         print("Viðskiptavinir")
         print("-"*27)
-        menu_list = ["Fletta upp viðskiptavin", "Afskrá viðskiptavin", 
+        menu_list = ["Skrá viðskiptavin", "Fletta upp viðskiptavin", "Afskrá viðskiptavin", 
         "Uppfæra viðskiptavin", "Setja á bannlista", "Taka af bannlista", 
         "Sekta viðskiptavin", "Til baka"]
         self.print_a_menu(menu_list)

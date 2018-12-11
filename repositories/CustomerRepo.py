@@ -4,6 +4,7 @@ import csv
 class CustomerRepo:
 	def __init__(self):
 		self.__customers = []
+		#self.__customers = self.get_customer_list()
 		self.__header = ["Email","Nafn", "Kort", "Simi", "Kennitala", "Ban", "Fine", "History"]
 		self.__link = "./Data/list_of_customers.csv"
 
@@ -37,8 +38,9 @@ class CustomerRepo:
 		"""Tekur við nafni sem streng og skilar lista yfir þá viðskiptavini 
 		sem eru með nafnbútinn í nafninu sínu"""
 		#list_of_customers = self.__customer_repo.get_customer_list()
+		self.__customers = self.get_customer_list()
 		list_of_found_customers = []
-		for customer in list_of_customers:
+		for customer in self.__customers:
 			if name.lower() in customer.get_name().lower():
 				list_of_found_customers.append(customer)
 		return list_of_found_customers

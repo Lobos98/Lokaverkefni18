@@ -36,7 +36,6 @@ class StaffInterface:
         else:
             exit()
 
-
     def main_menu(self):
         clear_screen()
         print("Veldu eitt af eftirfarandi")
@@ -284,7 +283,7 @@ class StaffInterface:
             clear_screen()
             print("Uppfæra viðskiptavin")
             print("-"*(62))
-            kortanumer = input("Nýtt kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
+            kortanumer = card_input()
             print("-"*(62))
             self.__customer_service.edit_customer_card_no(customer.\
                 get_email(),kortanumer)
@@ -424,6 +423,10 @@ class StaffInterface:
             pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
             return_date_string = input("Dagsetning skila (ddmmáááá): ")
         return pickup_date_string, return_date_string
+    
+    def print_header(self):
+        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
+        "Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
 
     def display_free_cars(self, date1='', date2=''):
         """Biður um tvær dagsetningar og prentar þá bíla sem 
@@ -448,8 +451,7 @@ class StaffInterface:
         print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
         pickup_print, return_print))
         print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
-        "Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
+        self.print_header()
         print(60*"-")
         if free_car_list:
             for car in free_car_list:
@@ -470,7 +472,7 @@ class StaffInterface:
         clear_screen()
         print("Eftirfarandi bílar eru í útleigu í augnablikinu")
         print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
+        self.print_header()
         print(60*"-")
         rented_car_list = self.__car_service.get_rented_cars()
         for car in rented_car_list:
@@ -501,7 +503,8 @@ class StaffInterface:
 
         reg_num = self.__car_service.return_car(order)
         self.__order_service.move_to_past(order.get_order_no())
-        self.__customer_service.add_old_order(order.get_customer_email(), order.get_order_no())
+        self.__customer_service.add_old_order(order.get_customer_email(),\
+        order.get_order_no())
         print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
         print("Bílnum {} hefur verið skilað!".format(reg_num))
         print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
@@ -562,7 +565,7 @@ class StaffInterface:
         clear_screen()
         print("Leita að bíl")
         print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format("Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
+        self.print_header()
         print(60*"-")
         print(car)
         print(60*"-")
@@ -603,7 +606,8 @@ class StaffInterface:
             clear_screen()
             print("Skrá bilaðan bíl")
             print("-"*(41 + len(reg_num)))
-            print("Bíllinn {} hefur verið skráður sem bilaður.".format(reg_num))
+            print("Bíllinn {} hefur verið skráður sem bilaður."\
+            .format(reg_num))
             print("-"*(41 + len(reg_num)))
         else:
             print("Bíllinn {} er þegar bilaður.".format(reg_num))
@@ -621,7 +625,8 @@ class StaffInterface:
             clear_screen()
             print("Afskrá bilaðan bíl")
             print("-"*(45 + len(reg_num)))
-            print("Bíllinn {} hefur verið lagaður og er skráður á ný.".format(reg_num))
+            print("Bíllinn {} hefur verið lagaður og er skráður á ný."\
+            .format(reg_num))
             print("-"*(44 + len(reg_num)))
         else:
             print("Bíllinn {} er ekki bilaður.".format(reg_num))
@@ -633,8 +638,7 @@ class StaffInterface:
         print("Birta bilaða bíla")
         broken_cars = self.__car_service.get_broken_cars()
         print(60*"-")
-        print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
-        "Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
+        self.print_header()
         print(60*"-")
         for car in broken_cars:
             print(car)
@@ -737,7 +741,8 @@ class StaffInterface:
             .format(round(price*insurance_price_coeff)))
         else:
             insurance = "False"
-        interim_order = self.__order_service.log_order(*order_input_tuple, insurance)
+        interim_order = self.__order_service.log_order(*order_input_tuple,\
+            insurance)
         rented_car.add_reservation(interim_order)
         #TODO: þetta make_reservation fall er mjög skrýtið...
         self.__car_service.make_reservation(rented_car)
@@ -800,8 +805,9 @@ class StaffInterface:
 
     def change_order(self):
         # tilbúið nema vantar núverandi verð 
-        #TODO:laga fall þannig að ef fleiri en ein pöntun er á emaili þá velur maður hvaða pöntun á að breyta
-        #TODO:passa að þegar pöntun er breytt eyðist upprunalega úr skránni 
+        # TODO:laga fall þannig að ef fleiri en ein pöntun er á emaili þá velur
+        # maður hvaða pöntun á að breyta
+        # TODO:passa að þegar pöntun er breytt eyðist upprunalega úr skránni 
 
         clear_screen()
         print("Breyta Pöntun")

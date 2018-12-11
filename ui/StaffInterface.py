@@ -16,6 +16,9 @@ class StaffInterface:
         self.__order_service = OrderService()
         self.__customer_service = CustomerService()
         self.__error_catch = ErrorCatch()
+
+    def __print_divider(self):
+        print("-"*60)
     
     def start_menu(self):
         clear_screen()
@@ -165,13 +168,13 @@ class StaffInterface:
     def deregister_customer(self):
         clear_screen()
         print("Afskrá viðskiptavin")
-        print("-"*60)
+        self.__print_divider()
         cust = self.find_customer()
         email = cust.get_email()
         if cust != False:
             svar = input("Afskrá: {}, {}? (j/n): ".format(cust.get_name(),\
                 email))
-            print("-"*60)
+            self.__print_divider()
             if svar.lower() == "j":
                 self.__customer_service.delete_customer(email)
                 print("{} afskráð".format(cust.get_name()))
@@ -179,7 +182,7 @@ class StaffInterface:
                 print("Hætt við")
         else:
             print("Notandinn fannst ekki")
-        print("-"*60)
+        self.__print_divider()
         return self.go_to_menu()
 
     def find_customer(self):
@@ -299,7 +302,7 @@ class StaffInterface:
     def ban_customer(self):
         clear_screen()
         print("Setja á bannlista")
-        print("-"*60)
+        self.__print_divider()
         customer = self.find_customer()
         clear_screen()
 
@@ -323,7 +326,7 @@ class StaffInterface:
     def unban_customer(self):
         clear_screen()
         print("Taka af bannlista")
-        print("-"*60)
+        self.__print_divider()
         customer = self.find_customer()
         clear_screen()
 
@@ -350,7 +353,7 @@ class StaffInterface:
     def fine_customer(self):
         clear_screen()
         print("Sekta viðskiptavin")
-        print("-"*60)
+        self.__print_divider()
         customer = self.find_customer()
         clear_screen()
 
@@ -425,7 +428,8 @@ class StaffInterface:
             pickup_date_string = date1
             return_date_string = date2
         else:
-            pickup_date_string, return_date_string = self.__error_catch.input_rental_dates()
+            pickup_date_string, return_date_string =\
+            self.__error_catch.input_rental_dates()
 
         clear_screen()
         print("Birta lausa bíla")

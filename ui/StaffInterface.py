@@ -846,22 +846,6 @@ class StaffInterface:
         
         return self.go_to_menu()
 
-
-    def change_date(self, cust, email, input_num):
-        # TODO: Fjör fyrir kleinar
-        print("Breyta Pöntun")
-        print("-"*(27 + len(cust.get_name())))
-        order_info = self.__order_service.find_order(email)
-        print(order_info)
-        # print("Núverandi Verð {}")
-        print("-"*(27 + len(cust.get_name())))
-        pickup_date, return_date = self.__error_catch.input_rental_dates()
-        self.__order_service.change_order(email, input_num, pickup_date,\
-            return_date)
-        print("-"*(27 + len(cust.get_name())))
-        print("Dagsetningu hefur verið breytt.")
-        print("-"*(27 + len(cust.get_name())))
-
     def change_car(self, email, input_num):
         # TODO: Fjör fyrir einar.
         print("Breyta Pöntun")
@@ -897,6 +881,7 @@ class StaffInterface:
             for a_car in free_cars:
                 if a_car.get_reg_num() == new_car_reg_num:
                     print("Þú hefur leigt {}".format(new_car_reg_num))
+                    print("-"*60)
                     return \
                     self.__order_service.change_order\
                     (car, "2", reg_number=new_car_reg_num)
@@ -937,6 +922,7 @@ class StaffInterface:
             return \
             self.__order_service.change_order\
             (car, "1", pickup_date, return_date)
+        print("Bíll sem er bundinn pöntun er frátekinn á þessu timabili.")
 
 
     def delete_order(self):

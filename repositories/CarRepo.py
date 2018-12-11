@@ -9,7 +9,7 @@ class CarRepo:
         self.__filepath = "Data\list_of_cars.csv"
 
     def get_all_cars(self):
-        """Á að skila lista af Car objects"""
+        """Skilar lista af Car objects sem eru skráð hjá okkur"""
         if self.__cars == []:
            
             file = open(self.__filepath, newline='')
@@ -45,7 +45,7 @@ class CarRepo:
             return self.__cars
 
     def __get_broken(self, bool_string):
-        """Tekur við streng úr fjórða dálk gagnaskipaninnar okkar og skilar 
+        """Tekur við streng úr 4. dálki gagnanna okkar og skilar 
         boolean gildi True eða False"""
         if bool_string == "False":
             return False
@@ -137,7 +137,8 @@ class CarRepo:
         reserved_dates = reserved_dates[:-1]
         
 
-        attributes = (reg_num, model, car_type, color, broken, history, reserved_dates)
+        attributes = (reg_num, model, car_type, color, broken, \
+        history, reserved_dates)
         line_to_append = ",".join(attributes)
         file.write("\n" + line_to_append)
         file.close()

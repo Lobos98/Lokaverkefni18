@@ -239,8 +239,8 @@ class StaffInterface:
                  return self.find_by_name()
             else:
                 self.go_to_menu()
-        
-    def find_by_ssn(self):
+
+        def find_by_ssn(self):
         clear_screen()
         print("Fletta upp viðskiptavin")
         print("-"*50)
@@ -252,8 +252,8 @@ class StaffInterface:
             if customer_found == False:
                 print("Kennitala er ekki á skrá, reyndu aftur")
         return customer_found
-        
 
+        
     def find_by_email(self):
         clear_screen()
         print("Fletta upp viðskiptavin")
@@ -264,7 +264,9 @@ class StaffInterface:
             email = self.email_input()
             customer_found = self.__customer_service.find_customer(email)
             if customer_found == False:
-                print("Netfang er ekki á skrá, reyndu aftur")
+                choice = input("Netfang er ekki á skrá, reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin")
+                if choice.lower() == "s":
+                    self.register_customer()
         return customer_found
     
     def find_customer(self):
@@ -426,7 +428,7 @@ class StaffInterface:
         clear_screen()
         print("Bílafloti")
         print("-"*len("2.  Birta bíla í útleigu"))
-        menu_list = ["Birta lausa bíla, Birta bíla í útleigu",
+        menu_list = ["Birta lausa bíla", "Birta bíla í útleigu",
         "Skila bíl", "Skrá bíl", "Afskrá bíl", "Leita að bíl",
         "Bilaðir bílar", "Til baka"]
         self.print_a_menu(menu_list)
@@ -563,6 +565,7 @@ class StaffInterface:
         print("-"*30)
         car_to_delete = self.__find_car()
         reg_num = car_to_delete.get_reg_num()
+        if car_to_delete.get_reserved_dates() == []:
         self.__car_service.delete_car(reg_num)
                 
         clear_screen()
@@ -571,6 +574,22 @@ class StaffInterface:
         print("-"*(31 + len(reg_num)))
         print("Bíllinn {} hefur verið afskráður!".format(reg_num))
         print("-"*(31 + len(reg_num)))
+        else:
+            choice = input("Þessi bíll er frátekinn fyrir viðskiptavin.\n\
+            Ef bílnum er eytt verður tilsvarandi pöntunum einnig eytt.\n\
+            Eyða bíl? (j/n):")
+            if choice == "j":
+                self.__car_service.delete_car(reg_num)
+                self.__order_service.car_deleted(reg_num)
+                clear_screen()
+
+                print("Afskrá bíl")
+                print("-"*(31 + len(reg_num)))
+                print("Bíllinn {} hefur verið afskráður!".format(reg_num))
+                print("-"*(31 + len(reg_num)))
+            else:
+                print("Þú hefur hætt við að eyða bílnum {}".format(reg_num))
+        
 
     def print_car(self):
         """Biður um bílnúmer þangað til bíll finnst og 
@@ -712,17 +731,26 @@ class StaffInterface:
                 return self.go_to_menu()
 
     def create_order(self):
+        '''Þetta fall þarf að skoða'''
         clear_screen()
         print("Skrá pöntun")
         print("-"*34)
+<<<<<<< HEAD
         #email = self.__error_catch.input_email()
         email = self.find_by_email()
+=======
+        customer = self.find_customers()
+        email = customer.get_email()
+>>>>>>> 33b764fa2ff863c2b042294434c4e9021cecb979
         self.__is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
 
         #TODO finna goða lausn til að búa til nýjann viðskiptavin hér
+<<<<<<< HEAD
         if not self.find_by_email():
             self.register_customer()
+=======
+>>>>>>> 33b764fa2ff863c2b042294434c4e9021cecb979
 
         pickup_date, return_date, free_cars = self.display_free_cars()
         reg_number = self.__error_catch.input_reg_num()
@@ -980,4 +1008,3 @@ class StaffInterface:
         order_list = self.__order_service.get_customer_orders(email)
         self.print_orders(order_list)
         return self.go_to_menu()
-

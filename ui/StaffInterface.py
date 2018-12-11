@@ -733,7 +733,7 @@ class StaffInterface:
         time_d = datetime.datetime.strptime(return_date, "%d%m%Y")\
         - datetime.datetime.strptime(pickup_date, "%d%m%Y")
         price = (time_d.days + 1) * car_dict[car]
-        print("Verð á völdu tímabili: {:,d} kr".format(price))
+        print("Verð á völdu tímabili: {:.d} kr".format(price))
 
         choice = input("Viltu leigja bíl? (j/n): ")
         if choice.lower() == "j":

@@ -21,30 +21,30 @@ class CarRepo:
                 model = line[1]
                 car_type = line[2]
                 color = line[3]
-                if line[4] == "True":
-                    broken = True
-                elif line[4] == "False":
-                    broken = False
+                broken = self.__get_broken(line[4])
                 # Hvað er þessi kóði að gera? Mjög óskýrt.
                 # Viljum segja með kóðanum hvað hann gerir.
-                history_list = line[5].split("--")
-                if history_list == [""]:
+                list_of_histories_by_customer = line[5].split("--")
+                if list_of_histories_by_customer == [""]:
                     history_dict = {}
                 else:
-                    history_dict = {}
-                    for driver_dates in history_list:
-                        driver = driver_dates.split(":")[0]
-                        dates = driver_dates.split(":")[1]
-                        history_dict[driver] = []
-                        list_of_pickup_return_dates = dates.split(";")
-                        for date_combo in list_of_pickup_return_dates:
-                            pickup_date_string = date_combo.split("/")[0]
-                            return_date_string = date_combo.split("/")[1]
-                            pickup_date = datetime.datetime.strptime(\
-                            pickup_date_string, "%d%m%Y")
-                            return_date = datetime.datetime.strptime(\
-                            return_date_string, "%d%m%Y")
-                            history_dict[driver].append((pickup_date, return_date))
+                    history_dict = self.__get_history_dict(\
+                    list_of_histories_by_customer)
+                # else:
+                #     history_dict = {}
+                #     for driver_dates in history_list:
+                #         driver = driver_dates.split(":")[0]
+                #         dates = driver_dates.split(":")[1]
+                #         history_dict[driver] = []
+                #         list_of_pickup_return_dates = dates.split(";")
+                #         for date_combo in list_of_pickup_return_dates:
+                #             pickup_date_string = date_combo.split("/")[0]
+                #             return_date_string = date_combo.split("/")[1]
+                #             pickup_date = datetime.datetime.strptime(\
+                #             pickup_date_string, "%d%m%Y")
+                #             return_date = datetime.datetime.strptime(\
+                #             return_date_string, "%d%m%Y")
+                #             history_dict[driver].append((pickup_date, return_date))
 
                 reserved_dates_list = []
                 reserved_dates_string_list = line[6].split(";")
@@ -65,6 +65,47 @@ class CarRepo:
             return self.__cars
         else:
             return self.__cars
+
+    def __get_broken(self, bool_string):
+        """Tekur við streng úr fjórða dálk gagnaskipaninnar okkar og skilar 
+        boolean gildi True eða False"""
+        if bool_string == "False":
+            return False
+        elif bool_string == "True":
+            return True
+
+    def __get_history_dict(self, history_list):
+        """Tekur við lista úr 5. dálki gagnanna þar sem hvert stak er á forminu
+        kúnni@net.is:ddmmáááá/ddmmáááá;ddmmáááá/áááá;... og skilar dict þar sem
+        lyklarnir eru netföng og gildi lykilsins er listi af túplum þar sem 
+        hver túpla inniheldur leigu- og skiladagsetningu"""
+        history_dict = {}
+        for driver_and_dates in history_list:
+            driver, dates = driver_and_dates.split(":")
+            history_dict[driver] = self.__fill_date_list(dates)
+        return history_dict
+
+    def __fill_date_list(self, date_string):
+        """Tekur við streng af dagsetningum á forminu 
+        ddmmáááá/ddmmáááá;ddmmáááá/áááá;... og skilar lista af túplum þar sem
+        hver túpla inniheldur leigu- og skiladagsetningu"""
+        date_tuple_list = []
+        list_of_pickup_return_dates = date_string.split(";")
+        for date_combo in list_of_pickup_return_dates:
+            date_tuple = self.__read_dates(date_combo)
+            date_tuple_list.append(date_tuple)
+        return date_tuple_list
+
+    def __read_dates(self, date_string):
+        """Tekur við streng á forminu ddmmáááá/ddmmáááá og skilar túplu með
+        tveimur datetime objects"""
+        pickup_date_string , return_date_string = date_string.split("/")
+        pickup_date = self.__string_to_datetime_converter(pickup_date_string)
+        return_date = self.__string_to_datetime_converter(return_date_string)
+        return (pickup_date, return_date)
+
+    def __string_to_datetime_converter(self, date_string):
+        return datetime.datetime.strptime(date_string, "%d%m%Y")
 
     def find_car(self, reg_num):
         for car in self.__cars:

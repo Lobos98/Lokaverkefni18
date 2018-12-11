@@ -703,7 +703,8 @@ class StaffInterface:
 
     def create_order(self):
         clear_screen()
-
+        print("Skrá pöntun")
+        print("-"*34)
         email = self.__error_catch.input_email()
         self.is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
@@ -741,8 +742,8 @@ class StaffInterface:
             .format(round(price*insurance_price_coeff)))
         else:
             insurance = "False"
-        interim_order = self.__order_service.log_order(*order_input_tuple,\
-            insurance)
+
+        interim_order = self.__order_service.log_order(reg_number, pickup_date, return_date, email, insurance)
         rented_car.add_reservation(interim_order)
         #TODO: þetta make_reservation fall er mjög skrýtið...
         self.__car_service.make_reservation(rented_car)
@@ -837,6 +838,7 @@ class StaffInterface:
             self.go_to_menu()
         
         self.go_to_menu()
+
 
     def change_date(self, cust, email, input_num):
         # TODO: Fjör fyrir kleinar

@@ -40,8 +40,14 @@ class CustomerService:
 		return self.__customer_repo.find_customer_by_email(customer_email)
 
 	def find_customer_by_name(self, name):
-		list_of_customers = self.__customer_repo.get_customer_list
-		self.__customer_repo.find_customer_by_name(name)
+		"""Tekur við nafni sem streng og skilar lista yfir þá viðskiptavini 
+		sem eru með nafnbútinn í nafninu sínu"""
+		list_of_customers = self.__customer_repo.get_customer_list()
+		list_of_found_customers = []
+		for customer in list_of_customers:
+			if name.lower() in customer.get_name().lower():
+				list_of_found_customers.append(customer)
+		return list_of_found_customers
 
 	def ban_customer(self, banned_customer):
 		'''bannar viðskiptavin og uppfærir hann í repóinu'''

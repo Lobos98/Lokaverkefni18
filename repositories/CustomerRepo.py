@@ -33,14 +33,6 @@ class CustomerRepo:
 				return customer
 		return False
 
-	def find_customer_by_name(self, name):
-		'''Finnur viðskiptavin eftir nafni í stað email'''
-		found_customer_list = []
-		for customer in self.__customers:
-			if name.lower() in customer.get_name().lower():
-				found_customer_list.append(customer)
-		return found_customer_list
-
 	# def remove_customer(self, take_out):
 	# 	#index = 0
 	# 	for customer in self.__customers:

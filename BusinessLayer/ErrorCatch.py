@@ -84,13 +84,15 @@ class ErrorCatch:
 
     def check_SSN(self, SSN):
         if len(SSN) == 10:
-            if SSN[0] in ['0','1','2','3'] and int(SSN[2] + SSN[3]) in range(1,13):
+            if SSN[0] in ['0','1','2','3'] and\
+            int(SSN[2] + SSN[3]) in range(1,13):
                 return True
         else: 
             return False
 
     def check_email(self, email):
-        if email[0] != '@' and '@' in email and email[-1] != '.' and '.' in email:
+        if email[0] != '@' and '@' in email and\
+        email[-1] != '.' and '.' in email:
             return True
         else:
             return False

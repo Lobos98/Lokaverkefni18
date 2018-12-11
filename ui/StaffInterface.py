@@ -171,7 +171,7 @@ class StaffInterface:
         clear_screen()
         print("Afskrá viðskiptavin")
         self.__print_divider()
-        cust = self.find_customer()
+        cust = self.find_customers()
         email = cust.get_email()
         if cust != False:
             svar = input("Afskrá: {}, {}? (j/n): ".format(cust.get_name(),\
@@ -204,18 +204,21 @@ class StaffInterface:
             return self.go_to_menu()
 
     def find_by_name(self):
+
         clear_screen()
         print("Fletta upp viðskiptavin")
         print("-"*50)
         name = input("Sláðu inn nafn viðskiptavins: ")
         clear_screen()
 
-        customer_found_list = self.__customer_service.find_customer_by_name(\
-        name)
+
+        customer_found_list = self.__customer_service.\
+        find_customer_by_name(name)
         print("Fletta upp viðskiptavin")
         print("-"*50)
         if len(customer_found_list) == 1:
             customer_found = customer_found_list[0]
+            return customer_found
         elif len(customer_found_list) > 1:
             index = 1
             for customer in customer_found_list:
@@ -226,11 +229,15 @@ class StaffInterface:
             print("-"*(50))
             choice = int(input("Veldu einn viðskiptavin hér fyrir ofan: ")) - 1
             customer_found = customer_found_list[choice]
+            return customer_found
         else:
             print("Enginn viðskiptavinur fundinn á þessu nafni")
-            pass
+            choice = input("viltu reyna aftur? (j/n): ")
+            if choice.lower() == "j":
+                 return self.find_by_name()
+            else:
+                self.go_to_menu()
         
-        return customer_found
 
         
 
@@ -263,13 +270,13 @@ class StaffInterface:
         if choice.lower() == "j":
             self.edit_customer(customer_found)
         else:
-            return customer_found
+            return self.go_to_menu()
 
     def edit_customer(self, customer_found=0 ):
         if customer_found != 0:
             customer = customer_found
         else:
-            customer = self.find_customer()
+            customer = self.find_customers()
 
         clear_screen()
         print("Uppfæra viðskiptavin")
@@ -325,7 +332,7 @@ class StaffInterface:
         clear_screen()
         print("Setja á bannlista")
         self.__print_divider()
-        customer = self.find_customer()
+        customer = self.find_customers()
         clear_screen()
 
         print("Setja á bannlista")
@@ -349,7 +356,7 @@ class StaffInterface:
         clear_screen()
         print("Taka af bannlista")
         self.__print_divider()
-        customer = self.find_customer()
+        customer = self.find_customers()
         clear_screen()
 
         print("Taka af bannlista")
@@ -376,7 +383,7 @@ class StaffInterface:
         clear_screen()
         print("Sekta viðskiptavin")
         self.__print_divider()
-        customer = self.find_customer()
+        customer = self.find_customers()
         clear_screen()
 
         print("Sekta viðskiptavin")
@@ -464,6 +471,7 @@ class StaffInterface:
         if free_car_list:
             for car in free_car_list:
                 print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
+
                 car.get_reg_num(), car.get_type(), \
                 car.get_model(), car.get_color(), \
                 str(self.__car_service.get_price(car)) + "kr/dag"))
@@ -679,7 +687,7 @@ class StaffInterface:
         elif input_num == "7":
             self.delete_order()
         elif input_num == "8":
-            self.find_customer()
+            self.find_customers()
         elif input_num == "9":
             self.change_order()
         else:
@@ -738,7 +746,8 @@ class StaffInterface:
         else:
             insurance = "False"
 
-        interim_order = self.__order_service.log_order(reg_number, \
+        interim_order = self.__order_service.log_order(reg_number,\
+
         pickup_date, return_date, email, insurance)
         rented_car.add_reservation(interim_order)
         #TODO: þetta make_reservation fall er mjög skrýtið...
@@ -924,8 +933,8 @@ class StaffInterface:
         print("-"*72)
         val = input("Veldu pöntun: ")
         print("-"*72)
-        print("Þessi pöntun hefur verið valin: {}".format(\
-        order_info[int(val)-1]))
+        print("Þessi pöntun hefur verið valin: {}"\
+        .format(order_info[int(val)-1]))
         print("-"*72)
         choice = input("Viltu eyða þessari pöntun? (j/n): ")
         print("-"*72)

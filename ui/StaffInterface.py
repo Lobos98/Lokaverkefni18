@@ -787,7 +787,7 @@ class StaffInterface:
 
 
     def cost_amount(self):
-        pickup_date, return_date = self.__error_catch.input_rental_dates()
+        pickup_date, return_date = self.__error_catch.input_rental_date()
         car_type_list = ["jeppi", "smabill", "folksbill"]
         car_dict = {"jeppi":5000, "folksbill":4000, "smabill":3000}
         while True:

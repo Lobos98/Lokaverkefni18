@@ -66,7 +66,7 @@ class ErrorCatch:
             print("Vinsamlegast skrifið inn lit."\
             " Tölustafir og íslenskir sérstafir eru ekki leyfðir")
 
-    def input_rental_date(self):
+    def input_rental_dates(self):
         """Biður um tvö inputs á forminu ddmmáááá og skilar strengjunum ef 
         þeir passa við okkar reglur"""
         pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")

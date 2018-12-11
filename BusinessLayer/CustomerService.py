@@ -39,7 +39,7 @@ class CustomerService:
 		customer = self.__order_repo.get_order(customer_email)
 		if customer == False:
 			self.__customer_repo.remove_customer(customer_email)
-		else:
+		#else:
 
 	def find_customer(self, customer_email):
 		return self.__customer_repo.find_customer_by_email(customer_email)

@@ -36,15 +36,17 @@ class StaffInterface:
         else:
             exit()
 
+    def print_a_menu(self, a_list):
+        for index, text in enumerate(a_list):
+            print("{}.  {}".format(index + 1, text))
+
     def main_menu(self):
         clear_screen()
         print("Veldu eitt af eftirfarandi")
         print("-"*len("Veldu eitt af eftirfarandi"))
-        print("1.  Viðskiptavinir")
-        print("2.  Bílafloti")
-        print("3.  Afgreiðsla")
-        print("4.  Pantanir")
-        print("5.  Hætta")
+        menu_list = ["Viðskiptavinir", "Bílafloti", 
+        "Afgreiðsla", "Pantanir", "Hætta"]
+        self.print_a_menu(menu_list)
         print("-"*len("Veldu eitt af eftirfarandi"))
         input_num = input("Val: ")
         print()
@@ -70,14 +72,10 @@ class StaffInterface:
         clear_screen()
         print("Viðskiptavinir")
         print("-"*27)
-        print("1.  Skrá nýjan viðskiptavin")
-        print("2.  Fletta upp viðskiptavin")
-        print("3.  Afskrá viðskiptavin")
-        print("4.  Uppfæra viðskiptavin")
-        print("5.  Setja á bannlista")
-        print("6.  Taka af bannlista")
-        print("7.  Sekta viðskiptavin")
-        print("8.  Til baka")
+        menu_list = ["Fletta upp viðskiptavin", "Afskrá viðskiptavin", 
+        "Uppfæra viðskiptavin", "Setja á bannlista", "Taka af bannlista", 
+        "Sekta viðskiptavin", "Til baka"]
+        self.print_a_menu(menu_list)
         print("-"*27)
         input_num = input("Val: ")
 
@@ -187,9 +185,8 @@ class StaffInterface:
         print("Fletta upp viðskiptavin")
         print("-"*50)
         print("Leita eftir:")
-        print("1. Nafni")
-        print("2. Netfangi")
-        print("3. Til baka")
+        menu_list = ["Nafni", "Netfangi", "Til baka"]
+        self.print_a_menu(menu_list)
         print("-"*50)
         choice = input("Val: ")
         if choice == "1":
@@ -251,10 +248,8 @@ class StaffInterface:
         print("-"*(7+len(customer.get_email())))
         print("Hverju viltu breyta?: ")
         print("-"*(7+len(customer.get_email())))
-        print("1. Símanúmeri")
-        print("2. Netfangi")
-        print("3. Kreditkortanúmeri")
-        print("4. Til baka")
+        menu_list = ["Símanúmeri", "Netfangi", "Kortanúmeri"]
+        self.print_a_menu(menu_list)
         print("-"*(7+len(customer.get_email())))
         val = input("Val: ")
         print("-"*(7+len(customer.get_email())))
@@ -275,15 +270,15 @@ class StaffInterface:
             print("-"*40)
             netfang = input("Nýtt netfang: ")
             print("-"*40)
-            self.__customer_service.edit_customer_email(customer.get_email(),\
-                netfang)
+            self.__customer_service.edit_customer_email(customer.get_email()
+            , netfang)
             print("Netfangi hefur verið breytt.")
             print("-"*40)
         elif val == "3":
             clear_screen()
             print("Uppfæra viðskiptavin")
             print("-"*(62))
-            kortanumer = card_input()
+            kortanumer = self.card_input()
             print("-"*(62))
             self.__customer_service.edit_customer_card_no(customer.\
                 get_email(),kortanumer)
@@ -383,14 +378,10 @@ class StaffInterface:
         clear_screen()
         print("Bílafloti")
         print("-"*len("2.  Birta bíla í útleigu"))
-        print("1.  Birta lausa bíla")
-        print("2.  Birta bíla í útleigu")
-        print("3.  Skila bíl")
-        print("4.  Skrá bíl")
-        print("5.  Afskrá bíl")
-        print("6.  Leita að bíl")
-        print("7.  Bilaðir bílar")
-        print("8.  Til baka")
+        menu_list = ["Birta lausa bíla, Birta bíla í útleigu",
+        "Skila bíl", "Skrá bíl", "Afskrá bíl", "Leita að bíl",
+        "Bilaðir bílar", "Til baka"]
+        self.print_a_menu(menu_list)
         print("-"*len("2.  Birta útleigða bíla"))
         input_num = input("Val: ")
         if input_num == "1":
@@ -633,16 +624,11 @@ class StaffInterface:
         clear_screen()
         print("Afgreiðsla")
         print("-"*27)
-        print("1.  Birta lausa bíla")
-        print("2.  Skrá nýjan viðskiptavin")
-        print("3.  Skrá pöntun")
-        print("4.  Kostnaðarmat")
-        print("5.  Skila bíl")
-        print("6.  Afskrá viðskiptavin")
-        print("7.  Bakfæra pöntun")
-        print("8.  Uppfæra viðskiptavin") 
-        print("9.  Breyta pöntun")
-        print("10. Til baka")
+        menu_list = ["Birta lausa bíla", "Skrá nýjan viðskiptavin", 
+        "Skrá pöntun", "Kostnaðarmat", "Skila bíl", 
+        "Afskrá viðskiptavin", "Bakfæra pöntun", "Uppfæra viðskiptavin",
+        "Breyta pöntun", "Til baka"]
+        self.print_a_menu(menu_list)
         print("-"*27)
         input_num = input("Val: ")
 
@@ -681,6 +667,10 @@ class StaffInterface:
         email = self.__error_catch.input_email()
         self.is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
+
+        #TODO finna goða lausn til að búa til nýjann viðskiptavin hér
+        if not self.__customer_service.find_by_email(email):
+            self.register_customer()
 
         pickup_date, return_date, free_cars = self.display_free_cars()
         reg_number = self.__error_catch.input_reg_num()
@@ -755,12 +745,9 @@ class StaffInterface:
         clear_screen()
         print("Pantanir")
         print("-"*21)
-        print("1.  Skrá pöntun")
-        print("2.  Breyta pöntun")
-        print("3.  Fletta upp pöntun")
-        print("4.  Bakfæra pöntun")
-        print("5.  Prenta allar pantanir")
-        print("6.  Til baka")
+        menu_list = ["Skrá pöntun", "Breyta pöntun", "Fletta upp pöntun",
+        "Bakfæra pöntun", "Prenta allar pantanir", "Til baka"]
+        self.print_a_menu(menu_list)
         print("-"*21)
         input_num = input("Val: ")
         print()
@@ -793,9 +780,8 @@ class StaffInterface:
         print("-"*(27 + len(cust.get_name())))
         print("Hverju viltu breyta fyrir {}?".format(cust.get_name()))
         print("-"*(27 + len(cust.get_name())))
-        print("1. Dagsetningu")
-        print("2. Bíl")
-        print("3. Til baka")
+        menu_list = ["Dagsetningu", "Bíl", "Til baka"]
+        print_a_menu(menu_list)
         print("-"*(27 + len(cust.get_name())))
         input_num = input("Val: ")
 
@@ -941,6 +927,7 @@ class StaffInterface:
         for order in list_of_orders:
             print("{:<8}".format(list_no) + order.__str__())
             list_no += 1
+        return self.go_to_menu()
     
     def find_order(self):
         clear_screen()

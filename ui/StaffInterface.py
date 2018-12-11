@@ -415,7 +415,7 @@ class StaffInterface:
         clear_screen()
         print("Bílafloti")
         print("-"*len("2.  Birta bíla í útleigu"))
-        menu_list = ["Birta lausa bíla, Birta bíla í útleigu",
+        menu_list = ["Birta lausa bíla", "Birta bíla í útleigu",
         "Skila bíl", "Skrá bíl", "Afskrá bíl", "Leita að bíl",
         "Bilaðir bílar", "Til baka"]
         self.print_a_menu(menu_list)

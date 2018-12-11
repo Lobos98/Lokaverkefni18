@@ -192,7 +192,7 @@ class StaffInterface:
         print("Fletta upp viðskiptavin")
         print("-"*50)
         print("Leita eftir:")
-        menu_list = ["Nafni", "Netfangi", "Til baka"]
+        menu_list = ["Nafni", "Netfangi", "Kennitala", "Til baka"]
         self.print_a_menu(menu_list)
         print("-"*50)
         choice = input("Val: ")
@@ -200,6 +200,8 @@ class StaffInterface:
             return self.find_by_name()
         elif choice == "2":
             return self.find_by_email()
+        elif choice == "3":
+            return self.find_by_ssn()
         else:
             return self.go_to_menu()
 
@@ -238,7 +240,18 @@ class StaffInterface:
             else:
                 self.go_to_menu()
         
+    def find_by_ssn(self):
+        clear_screen()
+        print("Fletta upp viðskiptavin")
+        print("-"*50)
 
+        customer_found = False
+        while customer_found == False:
+            ssn = self.ssn_checker()
+            customer_found = self.__customer_service.find_customer_by_ssn(ssn)
+            if customer_found == False:
+                print("Kennitala er ekki á skrá, reyndu aftur")
+        return customer_found
         
 
     def find_by_email(self):
@@ -252,8 +265,6 @@ class StaffInterface:
             customer_found = self.__customer_service.find_customer(email)
             if customer_found == False:
                 print("Netfang er ekki á skrá, reyndu aftur")
-            
-
         return customer_found
     
     def find_customer(self):

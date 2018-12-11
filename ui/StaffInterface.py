@@ -749,7 +749,7 @@ class StaffInterface:
         .format(reg_number, time_d.days, price))
         
         print("Auka trygging kostar 50% af verði bílsins, kostnaður er þá\
-        {:.d}".format(price*1.5))
+        {:.d}".format(price*insurance_price_coeff))
         extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
         if extra_insurance.lower() == "j":
             insurance = "True"
@@ -979,3 +979,4 @@ class StaffInterface:
         order_list = self.__order_service.get_customer_orders(email)
         self.print_orders(order_list)
         return self.go_to_menu()
+

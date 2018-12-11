@@ -110,13 +110,14 @@ class ErrorCatch:
         except ValueError:
             return True
 
-    def check_int(self, integer):
-        try:
-            int(integer)
-        except:
-            return False
-        else:
-            return True
+    def integer_input(self, message):
+        while True:
+            try:
+                check_if_int = int(input(str(message)))
+            except:
+                print("Vinsamlegast sláðu inn heiltölu.")
+            else:
+                return check_if_int
 
     def check_rental_date(self, date1, date2):
         try:

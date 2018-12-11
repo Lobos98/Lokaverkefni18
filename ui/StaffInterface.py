@@ -16,6 +16,25 @@ class StaffInterface:
         self.__order_service = OrderService()
         self.__customer_service = CustomerService()
         self.__error_catch = ErrorCatch()
+    
+    def start_menu(self):
+        clear_screen()
+        print("Velkomin í Bílaleiguna IceCarRentals.")
+        print("-"*37)
+        n = 7
+        print("{}        _______".format(" "*n))
+        print("{}       //  ||\ \ ".format(" "*n))
+        print("{}  ____//___||_\ \__".format(" "*n))
+        print("{} )  _          _    \ ".format(" "*n))
+        print("{} |_/ \________/ \___|".format(" "*n))
+        print("{}___\_/________\_/_____".format(" "*n))
+        print("{}Drive cheap, not safe!".format(" "*n))
+        print("-"*37)
+        answer = input("Keyra forrit? (j/n): ")
+        if answer.lower() == "j":
+            self.main_menu()
+        else:
+            exit()
 
 
     def main_menu(self):
@@ -167,11 +186,12 @@ class StaffInterface:
     def find_customer(self):
         clear_screen()
         print("Fletta upp viðskiptavin")
-        print("-"*60)
+        print("-"*50)
         print("Leita eftir:")
         print("1. Nafni")
         print("2. Netfangi")
         print("3. Til baka")
+        print("-"*50)
         choice = input("Val: ")
         if choice == "1":
             return self.find_by_name()
@@ -181,8 +201,11 @@ class StaffInterface:
             return self.go_to_menu()
 
     def find_by_name(self):
+        clear_screen()
+        print("Fletta upp viðskiptavin")
+        print("-"*50)
         name = input("Sláðu inn nafn viðskiptavins: ")
-        print("-"*(33+len(name)))
+        print("-"*(50))
         customer_found_list = self.__customer_service.find_customer_by_name(name)
         if len(customer_found_list) == 1:
             customer_found = customer_found_list[0]
@@ -205,10 +228,10 @@ class StaffInterface:
             return customer_found
 
     def find_by_email(self):
-        email = self.email_input()
         clear_screen()
         print("Fletta upp viðskiptavin")
-        print("-"*(33+len(email)))
+        print("-"*50)
+        email = self.email_input()
         customer_found = self.__customer_service.find_customer(email)
         if customer_found:
             print(customer_found)

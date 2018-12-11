@@ -836,7 +836,7 @@ class StaffInterface:
         clear_screen()
 
         if input_num == "1":
-            self.change_date(cust, email, input_num)
+            self.change_date(email, input_num)
         
         elif input_num == "2":
             self.change_car(email, input_num)
@@ -876,73 +876,68 @@ class StaffInterface:
                 order[1].get_pickup_date(),
                 order[1].get_return_date()))
         #TODO passa að viðskiptavinurinn velji tölu á réttu bili
-        order_num = self.__error_catch.integer_input(
-            "Veldu númer pöntunarinnar til að breyta: ")
-
-        while order_num in range(1, len(ordered_cars) + 1):
-            car = ordered_cars[order_num - 1]
-            new_car_reg_num = self.__error_catch.input_reg_num()
-            old_pickup_date = car.get_pickup_date()
-            old_return_date = car.get_return_date()
-
-            if new_car_reg_num:
-                break      
-            print("Vinsamlegast veldu pöntun á listanum")
+        while True:
             order_num = self.__error_catch.integer_input(
             "Veldu númer pöntunarinnar til að breyta: ")
+            if order_num not in range(1, len(ordered_cars) + 1): 
+                print("Vinsamlegast veldu pöntun á listanum")
+                order_num = self.__error_catch.integer_input(
+                "Veldu númer pöntunarinnar til að breyta: ")
+            else:
+                break
 
-        free_cars = self.display_free_cars(old_pickup_date,
-        old_return_date)[2]
+        car = ordered_cars[order_num - 1]            
+        old_pickup_date = car.get_pickup_date()
+        old_return_date = car.get_return_date()
 
-        reg_number = self.__error_catch.input_reg_num()
-        free_cars_reg_num = [car.get_reg_num() for car in free_cars]
-        while reg_number not in free_cars_reg_num:
-            print("Vinsamlegast veldu bíl á listanum")
-            reg_number = self.__error_catch.input_reg_num()
-
-        #print("Núverandi bíll: {}".format(order_info.get_car_reg_num()))
-        car_to_exchange = self.__error_catch.input_reg_num()
-
-        reg_number = self.__error_catch.input_reg_num()
-        free_cars_reg_num = [car.get_reg_num() for car in free_cars]
-        while reg_number not in free_cars_reg_num:
-            print("Vinsamlegast veldu bíl á listanum")
-            reg_number = self.__error_catch.input_reg_num()
+        while True:
+            free_cars = self.display_free_cars(old_pickup_date,
+            old_return_date)[2]
+            new_car_reg_num = self.__error_catch.input_reg_num()
+            for a_car in free_cars:
+                if a_car.get_reg_num() == new_car_reg_num:
+                    print("Þú hefur leigt {}".format(new_car_reg_num))
+                    return \
+                    self.__order_service.change_order\
+                    (car, "2", reg_number=new_car_reg_num)
         
-    def jchange_car(self, email, input_num):
+        
+    def change_date(self, email, input_num):
+        print("Breyta Pöntun")
         order_info = self.__order_service.find_order(email)
+        ordered_cars = []  
         if order_info:
-            print("Pantanir:", "\n" + "-"*35)
-            for order in order_info:
-                print("Bíll: {}, Tímabil:{}-{}"\
-                .format(
-                order.get_car_reg_num(), 
-                order.get_pickup_date(),
-                order.get_return_date()))
-
-        car_to_exchange = self.__error_catch.input_reg_num()
-        for order in order_info:
-            if order.get_car_reg_num() == car_to_exchange:
-                pickup_date = order.get_pickup_date()
-                return_date = order.get_return_date()
-                free_cars_list = self.display_free_cars()[2]
-
+            for order in enumerate(order_info):
+                ordered_cars.append(order[1])
+                print("{}. Pöntun á bíl {} frá {} til {}"\
+                .format(order[0] + 1,
+                order[1].get_car_reg_num(),
+                order[1].get_pickup_date(),
+                order[1].get_return_date()))
+        #TODO passa að viðskiptavinurinn velji tölu á réttu bili
         
-
-
-
-
-
-
-
-
-
-        self.__order_service.change_order(email, input_num, pickup_date,\
-            return_date, reg_number)
+        while True:
+            order_num = self.__error_catch.integer_input(
+            "Veldu númer pöntunarinnar til að breyta: ")
+            if order_num not in range(1, len(ordered_cars) + 1): 
+                print("Vinsamlegast veldu pöntun á listanum")
+                order_num = self.__error_catch.integer_input(
+                "Veldu númer pöntunarinnar til að breyta: ")
+            else:
+                break
             
-        print("-"*(20 + len(email)))
-        print("Bíllinn {} hefur verið valinn.".format(reg_number))
-        print("-"*(20 + len(email)))
+        car = ordered_cars[order_num - 1]
+
+        pickup_date, return_date, free_cars\
+         = self.display_free_cars()
+        clear_screen()
+        free_reg_numbers = [a_car.get_reg_num() for a_car in free_cars]
+        if car.get_car_reg_num() in free_reg_numbers:
+            print("Þú hefur breytt dagsetningunni")
+            return \
+            self.__order_service.change_order\
+            (car, "1", pickup_date, return_date)
+
 
     def delete_order(self):
         # tilbúið

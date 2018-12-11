@@ -22,6 +22,7 @@ class StaffInterface:
         print("-"*60)
     
     def start_menu(self):
+        """Prentar logo fyrirtækisins og spyr hvort keyra skuli forritið"""
         clear_screen()
         print("Velkomin í Bílaleiguna IceCarRentals.")
         print("-"*37)
@@ -41,6 +42,8 @@ class StaffInterface:
             exit()
 
     def main_menu(self):
+        """Dregur upp aðalvalmyndina og leyfir okkur að velja milli 
+        fjögurra yfirvalmynda"""
         clear_screen()
         print("Veldu eitt af eftirfarandi")
         print("-"*len("Veldu eitt af eftirfarandi"))
@@ -287,7 +290,7 @@ class StaffInterface:
             clear_screen()
             print("Uppfæra viðskiptavin")
             print("-"*(62))
-            kortanumer = card_input()
+            kortanumer = self.card_input()
             print("-"*(62))
             self.__customer_service.edit_customer_card_no(customer.\
                 get_email(),kortanumer)

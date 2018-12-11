@@ -693,7 +693,7 @@ class StaffInterface:
         else:
             self.main_menu()
 
-    def is_banned(self, email):
+    def __is_banned(self, email):
         if self.__customer_service.find_customer(email):
             if self.__customer_service.find_customer(email)\
             .get_banned() == "true":
@@ -705,7 +705,7 @@ class StaffInterface:
         print("Skrá pöntun")
         print("-"*34)
         email = self.__error_catch.input_email()
-        self.is_banned(email) # Ef viðskiptavinurinn er bannaður
+        self.__is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
 
         #TODO finna goða lausn til að búa til nýjann viðskiptavin hér
@@ -751,7 +751,7 @@ class StaffInterface:
         pickup_date, return_date, email, insurance)
         rented_car.add_reservation(interim_order)
         #TODO: þetta make_reservation fall er mjög skrýtið...
-        self.__car_service.make_reservation(rented_car)
+        self.__car_service.refresh_car(rented_car)
 
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))
         return self.go_to_menu()

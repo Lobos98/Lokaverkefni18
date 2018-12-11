@@ -115,8 +115,7 @@ class CarRepo:
             history += key
             history += ":"
             for pickup_return_date_tuple in history_dict[key]:
-                pickup_date = pickup_return_date_tuple[0]
-                return_date = pickup_return_date_tuple[1]
+                pickup_date, return_date = pickup_return_date_tuple
                 history += str(pickup_date.strftime("%d%m%Y"))
                 history += "/"
                 history += str(return_date.strftime("%d%m%Y"))
@@ -129,8 +128,7 @@ class CarRepo:
         reserved_dates_list = car.get_reserved_dates()
         reserved_dates = ""
         for reservation in reserved_dates_list:
-            pickup_date = reservation[0]
-            return_date = reservation[1]
+            pickup_date, return_date = reservation
             reserved_dates += pickup_date.strftime("%d%m%Y")
             reserved_dates += "/"
             reserved_dates += return_date.strftime("%d%m%Y")

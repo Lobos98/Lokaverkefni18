@@ -1,4 +1,5 @@
 from repositories.CustomerRepo import CustomerRepo
+from repositories.OrderRepo import OrderRepo
 from models.Customer import Customer
 
 class CustomerService:

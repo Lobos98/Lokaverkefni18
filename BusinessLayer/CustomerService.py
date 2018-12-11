@@ -40,7 +40,7 @@ class CustomerService:
 		return self.customer_repo.find_customer_by_email(customer_email)
 
 	def find_customer_by_name(self, name):
-		self.customer_repo.find_customer_by_name(name)
+		return self.customer_repo.find_customer_by_name(name)
 
 	def ban_customer(self, banned_customer):
 		'''bannar viðskiptavin og uppfærir hann í repóinu'''

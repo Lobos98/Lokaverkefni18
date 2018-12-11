@@ -148,7 +148,7 @@ class StaffInterface:
             print("Kennitala er gild")
             return ssn
         else:
-            return "0"
+            return ""
     
     def register_customer(self):
         clear_screen()
@@ -234,9 +234,11 @@ class StaffInterface:
             return customer_found
         else:
             print("Enginn viðskiptavinur fundinn á þessu nafni")
-            choice = input("viltu reyna aftur? (j/n): ")
+            choice = input("viltu reyna aftur (j/n) eða skrá nýjan viðskiptavin (s)?: ")
             if choice.lower() == "j":
                  return self.find_by_name()
+            elif choice.lower() == "s":
+                return register_customer
             else:
                 self.go_to_menu()
         
@@ -250,7 +252,9 @@ class StaffInterface:
             ssn = self.ssn_checker()
             customer_found = self.__customer_service.find_customer_by_ssn(ssn)
             if customer_found == False:
-                print("Kennitala er ekki á skrá, reyndu aftur")
+                print("Kennitala er ekki á skrá, reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin: ")
+                if choice.lower() == "s":
+                    return False
         return customer_found
         
 
@@ -266,7 +270,7 @@ class StaffInterface:
             if customer_found == False:
                 choice = input("Netfang er ekki á skrá, reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin")
                 if choice.lower() == "s":
-                    self.register_customer()
+                    return False
         return customer_found
     
     def find_customer(self):

@@ -95,7 +95,7 @@ class StaffInterface:
         elif input_num == "3":
             self.deregister_customer()
         elif input_num == "4":
-            self.find_customer()
+            self.edit_customer()
         elif input_num == "5":
             self.ban_customer()
         elif input_num == "6":
@@ -189,11 +189,12 @@ class StaffInterface:
         self.__print_divider()
         return self.go_to_menu()
 
-    def find_customer(self):
+    def find_customers(self):
         clear_screen()
         print("Fletta upp viðskiptavin")
         print("-"*50)
         print("Leita eftir:")
+        print("-"*50)
         print("1. Nafni")
         print("2. Netfangi")
         print("3. Til baka")
@@ -211,46 +212,68 @@ class StaffInterface:
         print("Fletta upp viðskiptavin")
         print("-"*50)
         name = input("Sláðu inn nafn viðskiptavins: ")
-        print("-"*(50))
+        clear_screen()
+
         customer_found_list = self.__customer_service.find_customer_by_name(name)
+        print("Fletta upp viðskiptavin")
+        print("-"*50)
         if len(customer_found_list) == 1:
             customer_found = customer_found_list[0]
         elif len(customer_found_list) > 1:
             index = 1
             for customer in customer_found_list:
                 print("{}. {}".format(index, customer))
-            choice = int(input("Veldu einn viðskiptavin hér fyrir ofan: "))
+                if index < len(customer_found_list):
+                    print()
+                index += 1
+            print("-"*(50))
+            choice = int(input("Veldu einn viðskiptavin hér fyrir ofan: ")) - 1
             customer_found = customer_found_list[choice]
         else:
             print("Enginn viðskiptavinur fundinn á þessu nafni")
             pass
-        print(customer_found)
-        print("-"*(33+len(customer_found.get_name())))
-        choice = input("Viltu breyta viðskiptavin? (j/n): ")
-        print("-"*(33+len(customer_found.get_name())))
-        if choice.lower() == "j":
-            self.edit_customer(customer_found)
-        else:
-            return customer_found
+        
+        return customer_found
+
+        
 
     def find_by_email(self):
         clear_screen()
         print("Fletta upp viðskiptavin")
         print("-"*50)
-        email = self.email_input()
-        customer_found = self.__customer_service.find_customer(email)
-        if customer_found:
-            print(customer_found)
-            print("-"*(33+len(email)))
-            choice = input("Viltu breyta viðskiptavin? (j/n): ")
-            print("-"*(33+len(email)))
-            if choice.lower() == "j":
-                self.edit_customer(customer_found)
-            else:
-                return customer_found
-        return self.go_to_menu()
 
-    def edit_customer(self, customer):
+        customer_found = False
+        while customer_found == False:
+            email = self.email_input()
+            customer_found = self.__customer_service.find_customer(email)
+            if customer_found == False:
+                print("Netfang er ekki á skrá, reyndu aftur")
+            
+
+        return customer_found
+    
+    def find_customer(self):
+        customer_found = self.find_customers()
+        clear_screen()
+        print("Fletta upp viðskiptavin")
+        print("-"*(33+len(customer_found.get_name())))
+        print(customer_found)
+        print("-"*(33+len(customer_found.get_name())))
+        choice = input("Viltu breyta viðskiptavin? (j/n): ")
+        print("-"*(33+len(customer_found.get_name())))
+
+
+        if choice.lower() == "j":
+            self.edit_customer(customer_found)
+        else:
+            return customer_found
+
+    def edit_customer(self, customer_found=0 ):
+        if customer_found != 0:
+            customer = customer_found
+        else:
+            customer = self.find_customer()
+
         clear_screen()
         print("Uppfæra viðskiptavin")
         print("-"*(7+len(customer.get_email())))

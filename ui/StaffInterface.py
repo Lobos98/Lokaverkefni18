@@ -18,6 +18,7 @@ class StaffInterface:
         self.__error_catch = ErrorCatch()
 
     def __print_divider(self):
+        """Prentar 60 bandstrik"""
         print("-"*60)
     
     def start_menu(self):

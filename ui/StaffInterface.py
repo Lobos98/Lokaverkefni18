@@ -415,7 +415,7 @@ class StaffInterface:
         clear_screen()
         print("Bílafloti")
         print("-"*len("2.  Birta bíla í útleigu"))
-        menu_list = ["Birta lausa bíla, Birta bíla í útleigu",
+        menu_list = ["Birta lausa bíla", "Birta bíla í útleigu",
         "Skila bíl", "Skrá bíl", "Afskrá bíl", "Leita að bíl",
         "Bilaðir bílar", "Til baka"]
         self.print_a_menu(menu_list)
@@ -701,10 +701,12 @@ class StaffInterface:
                 return self.go_to_menu()
 
     def create_order(self):
+        '''Þetta fall þarf að skoða'''
         clear_screen()
         print("Skrá pöntun")
         print("-"*34)
-        email = self.__error_catch.input_email()
+        customer = self.find_customers()
+        email = customer.get_email()
         self.__is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
 

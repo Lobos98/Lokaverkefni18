@@ -33,6 +33,22 @@ class CustomerRepo:
 				return customer
 		return False
 
+	def find_customer_by_name(self, name):
+		"""Tekur við nafni sem streng og skilar lista yfir þá viðskiptavini 
+		sem eru með nafnbútinn í nafninu sínu"""
+		#list_of_customers = self.__customer_repo.get_customer_list()
+		list_of_found_customers = []
+		for customer in list_of_customers:
+			if name.lower() in customer.get_name().lower():
+				list_of_found_customers.append(customer)
+		return list_of_found_customers
+
+	def find_customer_by_ssn(self, ssn):
+		for customer in self.__customers:
+			if ssn == customer.get_ssn():
+				return customer
+		return False
+
 	# def remove_customer(self, take_out):
 	# 	#index = 0
 	# 	for customer in self.__customers:

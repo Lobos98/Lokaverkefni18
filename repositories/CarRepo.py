@@ -22,29 +22,12 @@ class CarRepo:
                 car_type = line[2]
                 color = line[3]
                 broken = self.__get_broken(line[4])
-                # Hvað er þessi kóði að gera? Mjög óskýrt.
-                # Viljum segja með kóðanum hvað hann gerir.
                 list_of_histories_by_customer = line[5].split("--")
                 if list_of_histories_by_customer == [""]:
                     history_dict = {}
                 else:
                     history_dict = self.__get_history_dict(\
                     list_of_histories_by_customer)
-                # else:
-                #     history_dict = {}
-                #     for driver_dates in history_list:
-                #         driver = driver_dates.split(":")[0]
-                #         dates = driver_dates.split(":")[1]
-                #         history_dict[driver] = []
-                #         list_of_pickup_return_dates = dates.split(";")
-                #         for date_combo in list_of_pickup_return_dates:
-                #             pickup_date_string = date_combo.split("/")[0]
-                #             return_date_string = date_combo.split("/")[1]
-                #             pickup_date = datetime.datetime.strptime(\
-                #             pickup_date_string, "%d%m%Y")
-                #             return_date = datetime.datetime.strptime(\
-                #             return_date_string, "%d%m%Y")
-                #             history_dict[driver].append((pickup_date, return_date))
 
                 reserved_dates_list = []
                 reserved_dates_string_list = line[6].split(";")

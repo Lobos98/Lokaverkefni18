@@ -4,6 +4,7 @@ from models.Customer import Customer
 class CustomerService:
 	def __init__(self):
 		self.__customer_repo = CustomerRepo()
+		self.__order_repo = OrderRepo()
 		self.__customers = self.__customer_repo.get_customer_list()
 
 	def update_customer(self, customer_email, customer):
@@ -34,6 +35,7 @@ class CustomerService:
 
 	def delete_customer(self, customer_email):
 		'''eyðir viðskiptavin með því að kalla á repóið'''
+		self.__order_repo.get_order(customer_email)
 		self.__customer_repo.remove_customer(customer_email)
 
 	def find_customer(self, customer_email):
@@ -41,6 +43,9 @@ class CustomerService:
 
 	def find_customer_by_name(self, name):
 		return self.__customer_repo.find_customer_by_name(name)
+
+	def find_customer_by_ssn(self, ssn):
+		return self.__customer_repo.find_customer_by_ssn(ssn)
 
 	def ban_customer(self, banned_customer):
 		'''bannar viðskiptavin og uppfærir hann í repóinu'''

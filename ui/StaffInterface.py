@@ -27,13 +27,13 @@ class StaffInterface:
         print("Velkomin í Bílaleiguna IceCarRentals.")
         print("-"*37)
         n = 7
-        print("{}        _______".format(" "*n))
-        print("{}       //  ||\ \ ".format(" "*n))
-        print("{}  ____//___||_\ \__".format(" "*n))
-        print("{} )  _          _    \ ".format(" "*n))
-        print("{} |_/ \________/ \___|".format(" "*n))
-        print("{}___\_/________\_/_____".format(" "*n))
-        print("{}Drive cheap, not safe!".format(" "*n))
+        print(r"""{}        _______""".format(" "*n))
+        print(r"""{}       //  ||\ \ """.format(" "*n))
+        print(r"""{}  ____//___||_\ \__""".format(" "*n))
+        print(r"""{} )  _          _    \ """.format(" "*n))
+        print(r"""{} |_/ \________/ \___|""".format(" "*n))
+        print(r"""{}___\_/________\_/_____""".format(" "*n))
+        print(r"""{}Drive cheap, not safe!""".format(" "*n))
         print("-"*37)
         answer = input("Keyra forrit? (j/n): ")
         if answer.lower() == "j":
@@ -192,7 +192,7 @@ class StaffInterface:
         print("Fletta upp viðskiptavin")
         print("-"*50)
         print("Leita eftir:")
-        menu_list = ["Nafni", "Netfangi", "Til baka"]
+        menu_list = ["Nafni", "Netfangi", "Kennitala", "Til baka"]
         self.print_a_menu(menu_list)
         print("-"*50)
         choice = input("Val: ")
@@ -200,6 +200,8 @@ class StaffInterface:
             return self.find_by_name()
         elif choice == "2":
             return self.find_by_email()
+        elif choice == "3":
+            return self.find_by_ssn()
         else:
             return self.go_to_menu()
 
@@ -238,7 +240,18 @@ class StaffInterface:
             else:
                 self.go_to_menu()
         
+    def find_by_ssn(self):
+        clear_screen()
+        print("Fletta upp viðskiptavin")
+        print("-"*50)
 
+        customer_found = False
+        while customer_found == False:
+            ssn = self.ssn_checker()
+            customer_found = self.__customer_service.find_customer_by_ssn(ssn)
+            if customer_found == False:
+                print("Kennitala er ekki á skrá, reyndu aftur")
+        return customer_found
         
 
     def find_by_email(self):
@@ -251,9 +264,9 @@ class StaffInterface:
             email = self.email_input()
             customer_found = self.__customer_service.find_customer(email)
             if customer_found == False:
-                print("Netfang er ekki á skrá, reyndu aftur")
-            
-
+                choice = input("Netfang er ekki á skrá, reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin")
+                if choice.lower() == "s":
+                    self.register_customer()
         return customer_found
     
     def find_customer(self):
@@ -552,14 +565,31 @@ class StaffInterface:
         print("-"*30)
         car_to_delete = self.__find_car()
         reg_num = car_to_delete.get_reg_num()
-        self.__car_service.delete_car(reg_num)
-                
-        clear_screen()
+        if car_to_delete.get_reserved_dates() == []:
+            self.__car_service.delete_car(reg_num)
 
-        print("Afskrá bíl")
-        print("-"*(31 + len(reg_num)))
-        print("Bíllinn {} hefur verið afskráður!".format(reg_num))
-        print("-"*(31 + len(reg_num)))
+            clear_screen()
+
+            print("Afskrá bíl")
+            print("-"*(31 + len(reg_num)))
+            print("Bíllinn {} hefur verið afskráður!".format(reg_num))
+            print("-"*(31 + len(reg_num)))
+        else:
+            choice = input("Þessi bíll er frátekinn fyrir viðskiptavin.\n\
+            Ef bílnum er eytt verður tilsvarandi pöntunum einnig eytt.\n\
+            Eyða bíl? (j/n):")
+            if choice == "j":
+                self.__car_service.delete_car(reg_num)
+                self.__order_service.car_deleted(reg_num)
+                clear_screen()
+
+                print("Afskrá bíl")
+                print("-"*(31 + len(reg_num)))
+                print("Bíllinn {} hefur verið afskráður!".format(reg_num))
+                print("-"*(31 + len(reg_num)))
+            else:
+                print("Þú hefur hætt við að eyða bílnum {}".format(reg_num))
+        
 
     def print_car(self):
         """Biður um bílnúmer þangað til bíll finnst og 
@@ -740,7 +770,7 @@ class StaffInterface:
         .format(reg_number, time_d.days, price))
         
         print("Auka trygging kostar 50% af verði bílsins, kostnaður er þá\
-        {:.d}".format(price*1.5))
+        {:.d}".format(price*insurance_price_coeff))
         extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
         if extra_insurance.lower() == "j":
             insurance = "True"
@@ -761,7 +791,7 @@ class StaffInterface:
 
 
     def cost_amount(self):
-        pickup_date, return_date = self.__error_catch.input_rental_dates()
+        pickup_date, return_date = self.__error_catch.input_rental_date()
         car_type_list = ["jeppi", "smabill", "folksbill"]
         car_dict = {"jeppi":5000, "folksbill":4000, "smabill":3000}
         while True:
@@ -970,3 +1000,4 @@ class StaffInterface:
         order_list = self.__order_service.get_customer_orders(email)
         self.print_orders(order_list)
         return self.go_to_menu()
+

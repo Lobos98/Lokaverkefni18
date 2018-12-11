@@ -10,7 +10,7 @@ class ErrorCatch:
 
     def input_reg_num(self):
         check = False
-        r = re.compile("^[a-zA-Z]{2}\w[0-9]{2}$")
+        r = re.compile(r"^[a-zA-Z]{2}\w[0-9]{2}$")
         while check == False:
             reg_num = input("Bílnúmer: ")
             if len(reg_num) == 5:
@@ -21,7 +21,7 @@ class ErrorCatch:
 
     def input_email(self):
         check = False
-        r = re.compile("^\w+@\w+\.[a-zA-Z]+[a-zA-Z.]{0,}[a-zA-Z]+$")
+        r = re.compile(r"^\w+@\w+\.[a-zA-Z]+[a-zA-Z.]{0,}[a-zA-Z]+$")
         while check == False:
             email = input("Netfang: ")
             if email.count("@") == 1 and email.count(".") > 0:
@@ -73,10 +73,12 @@ class ErrorCatch:
         return_date_string = input("Dagsetning skila (ddmmáááá): ")
         while self.check_rental_date(\
         pickup_date_string, return_date_string) == False:
-            print("Athugið eftirfarandi:\n\
-            Dagsetningar skal skrifa inn á forminu ddmmáááá\n\
-            Hámarksleigutími er eitt ár\n\
-            Ekki er hægt að velja leigutímabil sem er liðið")
+            print("-"*27)
+            print("Athugið eftirfarandi:\n"
+            "Dagsetningar skal skrifa inn á forminu ddmmáááá\n"
+            "Hámarksleigutími er eitt ár\n"
+            "Ekki er hægt að velja leigutímabil sem er liðið")
+            print("-"*27)
             pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
             return_date_string = input("Dagsetning skila (ddmmáááá): ")
         return pickup_date_string, return_date_string

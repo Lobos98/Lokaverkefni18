@@ -3,10 +3,10 @@ import csv
 
 class CustomerRepo:
 	def __init__(self):
+		self.__link = "./Data/list_of_customers.csv"
 		self.__customers = self.get_customer_list()
 		#self.__customers = self.get_customer_list()
 		self.__header = ["Email","Nafn", "Kort", "Simi", "Kennitala", "Ban", "Fine", "History"]
-		self.__link = "./Data/list_of_customers.csv"
 
 	def get_customer_list(self):
 		self.__customers = []

@@ -113,7 +113,7 @@ class CarService:
 
         
     def make_reservation(self, car):
-        #Bara einu sinni vitnað í þetta fall í StaffInterface... 
+        # Bara einu sinni vitnað í þetta fall í StaffInterface... 
         # skoða og kannski eyða
         self.delete_car(car.get_reg_num())
         self.__car_repo.add_car(car)

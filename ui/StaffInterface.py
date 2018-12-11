@@ -737,7 +737,8 @@ class StaffInterface:
         print("Kostnaður fyrir bílinn {} í {} daga er: {:.d} kr."\
         .format(reg_number, time_d.days, price))
         
-        print("Athugið að auka trygging kostar 50% af verði bílsins")
+        print("Auka trygging kostar 50% af verði bílsins, kostnaður er þá\
+        {:.d}".format(price*1.5))
         extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
         if extra_insurance.lower() == "j":
             insurance = "True"

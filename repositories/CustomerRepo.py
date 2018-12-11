@@ -4,6 +4,7 @@ import csv
 class CustomerRepo:
 	def __init__(self):
 		self.__customers = []
+		#self.__customers = self.get_customer_list()
 		self.__header = ["Email","Nafn", "Kort", "Simi", "Kennitala", "Ban", "Fine", "History"]
 		self.__link = "./Data/list_of_customers.csv"
 
@@ -30,6 +31,23 @@ class CustomerRepo:
 		'''finnur viðskiptavin í lista frá repóinu'''
 		for customer in self.__customers:
 			if customer_email == customer.get_email():
+				return customer
+		return False
+
+	def find_customer_by_name(self, name):
+		"""Tekur við nafni sem streng og skilar lista yfir þá viðskiptavini 
+		sem eru með nafnbútinn í nafninu sínu"""
+		#list_of_customers = self.__customer_repo.get_customer_list()
+		self.__customers = self.get_customer_list()
+		list_of_found_customers = []
+		for customer in self.__customers:
+			if name.lower() in customer.get_name().lower():
+				list_of_found_customers.append(customer)
+		return list_of_found_customers
+
+	def find_customer_by_ssn(self, ssn):
+		for customer in self.__customers:
+			if ssn == customer.get_ssn():
 				return customer
 		return False
 

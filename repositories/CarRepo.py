@@ -5,8 +5,9 @@ import csv
 
 class CarRepo:
     def __init__(self):
+        self.__filepath = "Data/list_of_cars.csv"
         self.__cars = []
-        self.__filepath = "Data\list_of_cars.csv"
+        self.__cars = self.get_all_cars()
 
     def get_all_cars(self):
         """Skilar lista af Car objects sem eru skráð hjá okkur"""
@@ -32,7 +33,7 @@ class CarRepo:
 
                 list_of_reserved_date_strings = line[6].split(";")
                 if list_of_reserved_date_strings == [""]:
-                    pass
+                    reserved_dates_list = []
                 else:
                     reserved_dates_list = self.__get_reserved_dates_list(\
                     list_of_reserved_date_strings)

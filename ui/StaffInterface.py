@@ -563,14 +563,31 @@ class StaffInterface:
         print("-"*30)
         car_to_delete = self.__find_car()
         reg_num = car_to_delete.get_reg_num()
-        self.__car_service.delete_car(reg_num)
-                
-        clear_screen()
+        if car_to_delete.get_reserved_dates() == []:
+            self.__car_service.delete_car(reg_num)
 
-        print("Afskrá bíl")
-        print("-"*(31 + len(reg_num)))
-        print("Bíllinn {} hefur verið afskráður!".format(reg_num))
-        print("-"*(31 + len(reg_num)))
+            clear_screen()
+
+            print("Afskrá bíl")
+            print("-"*(31 + len(reg_num)))
+            print("Bíllinn {} hefur verið afskráður!".format(reg_num))
+            print("-"*(31 + len(reg_num)))
+        else:
+            choice = input("Þessi bíll er frátekinn fyrir viðskiptavin.\n\
+            Ef bílnum er eytt verður tilsvarandi pöntunum einnig eytt.\n\
+            Eyða bíl? (j/n):")
+            if choice == "j":
+                self.__car_service.delete_car(reg_num)
+                self.__order_service.car_deleted(reg_num)
+                clear_screen()
+
+                print("Afskrá bíl")
+                print("-"*(31 + len(reg_num)))
+                print("Bíllinn {} hefur verið afskráður!".format(reg_num))
+                print("-"*(31 + len(reg_num)))
+            else:
+                print("Þú hefur hætt við að eyða bílnum {}".format(reg_num))
+        
 
     def print_car(self):
         """Biður um bílnúmer þangað til bíll finnst og 

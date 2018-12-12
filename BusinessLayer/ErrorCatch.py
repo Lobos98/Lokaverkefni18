@@ -12,12 +12,16 @@ class ErrorCatch:
         check = False
         r = re.compile(r"^[a-zA-Z]{2}\w[0-9]{2}$")
         while check == False:
-            reg_num = input("Bílnúmer: ")
+            reg_num = input("Bílnúmer ('q' til að hætta): ")
             if len(reg_num) == 5:
                 if r.match(reg_num) is not None:
                     return reg_num.upper()
-            print("Athugið að bílnúmer skal skrifa inn á forminu AAXTT\n"\
-            "þar sem A er bókstafur, T er tölustafur og X er annaðhvort")
+            if reg_num.lower() == "q":
+                return ""
+            else:
+                print("Athugið að bílnúmer skal skrifa inn á forminu AAXTT\n"
+                "þar sem A er bókstafur, T er tölustafur og X er annaðhvort")
+            
 
     def input_email(self):
         check = False

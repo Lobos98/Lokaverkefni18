@@ -68,8 +68,7 @@ class StaffInterface:
         elif input_num == "5":
             exit()
         else:
-            pass
-        return self.go_to_menu()
+            return self.main_menu()
 
     def go_to_menu(self):
         choice = input("Fara aftur á aðalvalmynd? (j/n): ")
@@ -103,7 +102,7 @@ class StaffInterface:
             self.fine_customer()
         else:
             pass
-        return self.main_menu()
+        return self.go_to_menu()
     
     def card_input(self):
         card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
@@ -163,10 +162,12 @@ class StaffInterface:
         ssn = self.ssn_checker()
         
         print("-"*57)
-        self.__customer_service.add_customer(email, name, card_number, phone,\
-            ssn)
-        print("Viðskiptavinur {} hefur verið skráður".format(name))
-        print("-"*57)
+        if self.__customer_service.add_customer(email, name, card_number, phone, ssn):
+            print("Viðskiptavinur {} hefur verið skráður".format(name))
+            print("-"*57)
+        else:
+            print("Viðskiptavinur með sama netfang "
+            "er þegar til í kerfinu.")
 
     def deregister_customer(self):
         clear_screen()
@@ -672,23 +673,27 @@ class StaffInterface:
         clear_screen()
         print("Afskrá bilaðan bíl")
         print("-"*30)
+        self.print_broken_cars()
         car = self.__find_car()
-        reg_num = car.get_reg_num()
-        if car.get_broken() == True:
-            car.change_broken_status()
-            clear_screen()
-            print("Afskrá bilaðan bíl")
-            print("-"*(45 + len(reg_num)))
-            print("Bíllinn {} hefur verið lagaður og er skráður á ný."\
-            .format(reg_num))
-            print("-"*(44 + len(reg_num)))
+        if car:
+            reg_num = car.get_reg_num()
+            if car.get_broken() == True:
+                car.change_broken_status()
+                clear_screen()
+                print("Afskrá bilaðan bíl")
+                print("-"*(45 + len(reg_num)))
+                print("Bíllinn {} hefur verið lagaður og er skráður á ný."\
+                .format(reg_num))
+                print("-"*(44 + len(reg_num)))
+            else:
+                print("Bíllinn {} er ekki bilaður.".format(reg_num))
         else:
-            print("Bíllinn {} er ekki bilaður.".format(reg_num))
+            print("Hætt var við.")
 
     def print_broken_cars(self):
         # tilbúið
         clear_screen()
-        print("Birta bilaða bíla")
+        print("Bilaðir bílar")
         broken_cars = self.__car_service.get_broken_cars()
         self.__print_divider()
         self.print_car_header()
@@ -703,6 +708,8 @@ class StaffInterface:
         car = False
         while car == False:
             reg_num = self.__error_catch.input_reg_num()
+            if reg_num == "":
+                break
             car = self.__car_service.find_car(reg_num)
             if car == False:
                 print("Bíllinn {} finnst ekki.".format(reg_num.upper()))
@@ -739,7 +746,7 @@ class StaffInterface:
         elif input_num == "9":
             self.change_order()
         else:
-            self.main_menu()
+            return self.go_to_menu()
 
     def __is_banned(self, email):
         if self.__customer_service.find_customer(email):
@@ -845,7 +852,6 @@ class StaffInterface:
         self.print_a_menu(menu_list)
         print("-"*21)
         input_num = input("Val: ")
-        print()
         if input_num == "1":
             self.create_order()
         elif input_num == "2":

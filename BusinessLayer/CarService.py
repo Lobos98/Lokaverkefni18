@@ -120,3 +120,12 @@ class CarService:
         reserved_dates, eyðir bílnum og skrifar hann aftur í skrána"""
         car.add_reservation(order)
         self.refresh_car(car)
+
+    def cars_of_same_type(self, list_of_cars, car_to_compare):
+        """Tekur við lista af bílum og einu car object - skilar lista af þeim\
+         bílum sem eru með sama type og bíllinn"""
+        car_list = []
+        for car in list_of_cars:
+            if car.get_type() == car_to_compare.get_type():
+                car_list.append(car)
+        return car_list

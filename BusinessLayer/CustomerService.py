@@ -20,7 +20,8 @@ class CustomerService:
 		'''breytir email hjá viðskiptavin og uppfærir hann í repóinu'''
 		customer = self.find_customer(customer_email)
 		customer.set_email(new_email)
-		self.update_customer(customer_email, customer)
+		self.__customer_repo.remove_customer(customer_email)
+		#self.update_customer(customer_email, customer)
 
 	def edit_customer_phone_no(self, customer_email, new_phone_no):
 		'''breytir símanúmer hjá viðskiptavin og uppfærir hann í repóinu'''
@@ -47,6 +48,9 @@ class CustomerService:
 
 	def find_customer_by_ssn(self, ssn):
 		return self.__customer_repo.find_customer_by_ssn(ssn)
+
+	def find_customer_by_phone_no(self, phone_no):
+		return self.__customer_repo.find_customer_by_phone_no(phone_no)
 
 	def ban_customer(self, banned_customer):
 		'''bannar viðskiptavin og uppfærir hann í repóinu'''

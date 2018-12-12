@@ -21,7 +21,7 @@ class ErrorCatch:
             else:
                 print("Athugið að bílnúmer skal skrifa inn á forminu AAXTT\n"
                 "þar sem A er bókstafur, T er tölustafur og X er annaðhvort"
-                "'q' til að hætta")
+                "\n'q' til að hætta")
             
 
     def input_email(self):
@@ -55,7 +55,7 @@ class ErrorCatch:
 
     def input_type(self):
         check = False
-        model_list = ["jeppi", "folksbill", "smabill"]
+        model_list = ["jeppi", "folksbill", "smabill", "husbill", "sportbill"]
         while check == False:
             model = input("Tegund bíls: ")
             if model.isalpha():
@@ -66,7 +66,8 @@ class ErrorCatch:
             if model.lower() == "q":
                 return ""
             print("Athugið að tegund bíls getur verið jeppi, "\
-            "folksbill eða smabill\nog skal skrifa án íslenskra sérstafa\n"
+            "folksbill, smabill, husbill eða sportbill\n"\
+            "og skal skrifa án íslenskra sérstafa\n"
             "'q' til að hætta")
 
     def input_color(self):
@@ -102,9 +103,10 @@ class ErrorCatch:
         pickup_date_string, return_date_string) == False:
             print("-"*27)
             print("Athugið eftirfarandi:\n"
-            "Dagsetningar skal skrifa inn á forminu ddmmáááá\n"
-            "Hámarksleigutími er eitt ár\n"
-            "Ekki er hægt að velja leigutímabil sem er liðið")
+            "Dagsetningar skal skrifa inn á forminu ddmmáááá.\n"
+            "Hámarksleigutími er eitt ár.\n"
+            "Ekki er hægt að velja leigutímabil sem er liðið.\n"
+            "Ekki er hægt að skrá pöntun meira en ár fram í tímann.")
             print("-"*27)
             pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
             return_date_string = input("Dagsetning skila (ddmmáááá): ")
@@ -179,6 +181,6 @@ class ErrorCatch:
             # or the difference is less than 1 day, return False
             if second_date < first_date:
                 return False
-            elif  (second_date - first_date) < datetime.timedelta(days=1):
+            elif  (second_date - first_date) < datetime.timedelta(days=0):
                 return False
             return True

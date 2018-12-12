@@ -36,9 +36,7 @@ class CustomerService:
 
 	def delete_customer(self, customer_email):
 		'''eyðir viðskiptavin með því að kalla á repóið'''
-		customer = self.__order_repo.get_order(customer_email)
-		if customer == False:
-			self.__customer_repo.remove_customer(customer_email)
+		self.__customer_repo.remove_customer(customer_email)
 		#else:
 
 	def find_customer(self, customer_email):

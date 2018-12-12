@@ -114,10 +114,9 @@ class OrderService:
         return self.__order_repo.get_past_orders()
 
     def car_deleted(self, reg_num):
-        """Tekur inn bílnúmer bíls sem er verið að eyða og eyðir öllum\
+        """Tekur inn bílnúmer bíls sem er verið að eyða og eyðir öllum
         pöntunum sem eru skráðar á þennan bíl"""
         list_of_orders = self.get_list_of_orders()
         for order in list_of_orders:
             if order.get_car_reg_num() == reg_num:
                 self.delete_order(order)
-    

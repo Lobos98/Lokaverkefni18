@@ -103,7 +103,7 @@ class StaffInterface:
             self.fine_customer()
         else:
             pass
-        return self.main_menu()
+        return self.go_to_menu()
     
     def card_input(self):
         card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
@@ -179,8 +179,18 @@ class StaffInterface:
                 email))
             self.__print_divider()
             if svar.lower() == "j":
-                self.__customer_service.delete_customer(email)
-                print("{} afskráð".format(cust.get_name()))
+                if not self.__order_service.find_order(email):
+                    self.__customer_service.delete_customer(email)
+                    print("{} afskráð".format(cust.get_name()))
+                else:
+                    print("{} er ennþá með pöntun í framtíðinni".format(cust.get_name()))
+                    choice = input("Ertu viss að þú viljir afskrá þennan viðskiptavin? (j/n): ")
+                    if choice.lower() == "j":
+                        self.__customer_service.delete_customer(email)
+                        print("{} afskráð".format(cust.get_name()))
+                    else:
+                        print("Hætt var við")
+                        self.go_to_menu()
             else:
                 print("Hætt við")
         else:

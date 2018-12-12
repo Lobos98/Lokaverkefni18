@@ -326,9 +326,9 @@ class StaffInterface:
         if val == "1":
             self.change_phone_no(customer)
         elif val == "2":
-            self.change_email()
+            self.change_email(customer)
         elif val == "3":
-            self.change_card_no()
+            self.change_card_no(customer)
         elif val == "4":
             print("-"*(6+len(customer.get_email())))
             #return self.go_to_menu()
@@ -355,6 +355,10 @@ class StaffInterface:
         #netfang = input("Nýtt netfang: ")
         #print("-"*40)
         email = self.email_input()
+        orders_list = self.__order_service.find_order(customer.get_email())
+        if orders_list != False:
+            for order in orders_list:
+                self.__order_service.change_email(email, order)
         self.__customer_service.edit_customer_email(customer.get_email()\
             , email)
         print("Netfangi hefur verið breytt.")

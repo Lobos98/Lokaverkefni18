@@ -163,10 +163,11 @@ class StaffInterface:
         
         print("-"*57)
         
-        if self.__customer_service.add_customer(email, name, card_number, phone, ssn):
+        if not self.__customer_service.add_customer(email, name, card_number, phone, ssn):
             print("Viðskiptavinur {} hefur verið skráður".format(name))
             print("-"*57)
             new_customer = self.__customer_service.find_customer(email)
+            print(new_customer)
             return new_customer
         else:
             print("Viðskiptavinur með sama netfang "
@@ -326,9 +327,9 @@ class StaffInterface:
         if val == "1":
             self.change_phone_no(customer)
         elif val == "2":
-            self.change_email()
+            self.change_email(customer)
         elif val == "3":
-            self.change_card_no()
+            self.change_card_no(customer)
         elif val == "4":
             print("-"*(6+len(customer.get_email())))
             #return self.go_to_menu()
@@ -559,7 +560,7 @@ class StaffInterface:
             else:
                 print("Eftirfarandi pantanir eru virkar á þessu netfangi:")
                 self.print_orders(active_orders)
-                order_choice = int(input("Veldu pöntun til þess að skila:"))
+                order_choice = int(input("Veldu pöntun til þess að skila: "))
                 order = active_orders[order_choice-1]
 
         reg_num = self.__car_service.return_car(order)
@@ -579,14 +580,18 @@ class StaffInterface:
         print("Skrá bíl")
         print("-"*80)
         reg_num = self.__error_catch.input_reg_num()
-        model = self.__error_catch.input_model()
-        type = self.__error_catch.input_type()
-        color = self.__error_catch.input_color()
-        self.__car_service.add_car(reg_num, model, type, color)
-        print("-"*80)
-        print("Bíllinn {} hefur verið skráður!".format(reg_num))
-        print("-"*80)
-
+        if reg_num:
+            model = self.__error_catch.input_model()
+            if model:
+                car_type = self.__error_catch.input_type()
+                color = self.__error_catch.input_color()
+                self.__car_service.add_car(reg_num, model, car_type, color)
+                print("-"*80)
+                print("Bíllinn {} hefur verið skráður!".format(reg_num))
+                print("-"*80)
+        else:
+            print("Hætt var við")
+            
     def delete_car(self):
         """Biður um bílnúmer þangað til bíll fæst sem er til í kerfinu.
         sendir svo bílnúmerið í CarService svo bílnum verði eytt.

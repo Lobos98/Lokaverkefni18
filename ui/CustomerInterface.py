@@ -52,10 +52,11 @@ class CustomerInterface:
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
         name = self.__staff_interface.error_catch.input_name()
+        if not name:
+            return self.__staff_interface.go_to_menu()
         self.__staff_interface.clear_screen()
 
-        customer_found_list = self.__staff_interface.customer_service.\
-        find_customer_by_name(name)
+        customer_found_list = self.__staff_interface.customer_service.find_customer(name = name)
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
         if len(customer_found_list) == 1:
@@ -89,9 +90,12 @@ class CustomerInterface:
 
         customer_found = False
         while customer_found == False:
-            ssn = self.__staff_interface.ssn_checker()
-            customer_found = self.__staff_interface.customer_service.find_customer_by_ssn(ssn)
-            if customer_found == False:
+            ssn = self.__staff_interface.error_catch.input_ssn()
+            if not ssn:
+                return self.__staff_interface.go_to_menu()
+
+            customer_found = self.__staff_interface.customer_service.find_customer(ssn = ssn)
+            if not customer_found:
 
                 choice = input("Kennitala er ekki á skrá, reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin: ")
 
@@ -101,15 +105,21 @@ class CustomerInterface:
 
         
     def find_by_email(self):
+        """"
+        leitar að vskvini eftir emaili og býður að búa hann til 
+        ef hann er ekki til. Skilar vskvininum.
+        """
         self.__staff_interface.clear_screen()
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
 
         customer_found = False
         while customer_found == False:
-            email = self.__staff_interface.email_input()
-            customer_found = self.__staff_interface.customer_service.find_customer(email)
-            if customer_found == False:
+            email = self.__staff_interface.error_catch.input_email()
+            if not email:
+                return self.__staff_interface.go_to_menu()
+            customer_found = self.__staff_interface.customer_service.find_customer(email = email)
+            if not customer_found:
                 self.__staff_interface.clear_screen()
                 print("Fletta upp viðskiptavin")
                 print("-"*81)
@@ -123,21 +133,25 @@ class CustomerInterface:
         self.__staff_interface.clear_screen()
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
-        phone_no = input("Sláðu inn símanúmer: ")
-        while not self.__staff_interface.error_catch.check_phone_no(phone_no):
-            print("Ekki var selgið inn gilt símanúmer")
-            phone_no = input("Reyndu aftur eða sláðu inn q til að hætta: ")
-            if phone_no.lower() == "q":
-                pass
-        
+        phone_no = self.__staff_interface.error_catch.input_phone()
+        if not phone_no:
+            return self.__staff_interface.go_to_menu()
+
         self.__staff_interface.clear_screen()
 
-
-        phone_no_list = self.__staff_interface.customer_service.\
-        find_customer_by_phone_no(phone_no)
+        phone_no_list = self.__staff_interface.customer_service.find_customer(phone_no = phone_no)
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
-        if len(phone_no_list) == 1:
+        if not phone_no_list:
+            print("Enginn viðskiptavinur fundinn á þessu símanúmeri")
+            choice = input("Viltu reyna aftur (j/n) eða skrá nýjan viðskiptavin (s)?: ")
+            if choice.lower() == "j":
+                 return self.find_by_phone_no()
+            elif choice.lower() == "s":
+                return self.__staff_interface.register_customer()
+            else:
+                self.__staff_interface.go_to_menu()
+        elif len(phone_no_list) == 1:
             customer_found = phone_no_list[0]
             return customer_found
         elif len(phone_no_list) > 1:
@@ -150,16 +164,7 @@ class CustomerInterface:
             print("-"*(50))
             choice = int(input("Veldu einn viðskiptavin hér fyrir ofan: ")) - 1 #TODO
             customer_found = phone_no_list[choice]
-            return customer_found
-        else:
-            print("Enginn viðskiptavinur fundinn á þessu símanúmeri")
-            choice = input("Viltu reyna aftur (j/n) eða skrá nýjan viðskiptavin (s)?: ")
-            if choice.lower() == "j":
-                 return self.find_by_phone_no()
-            elif choice.lower() == "s":
-                return self.__staff_interface.register_customer()
-            else:
-                self.__staff_interface.go_to_menu()
+            return customer_found            
     
     def find_customer(self):
         customer_found = self.__staff_interface.find_customer_menu()

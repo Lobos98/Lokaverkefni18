@@ -37,7 +37,7 @@ class ErrorCatch:
                 if r.match(email) is not None:
                     return email.lower()
             elif email.lower() == "q":
-                return email.lower()
+                return ""
 
             print("Athugið að netfang skal skrifa inn á forminu\n"
             "nafn@lén.is og má ekki innihalda íslenska sérstafi\n"
@@ -142,6 +142,52 @@ class ErrorCatch:
             pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
             return_date_string = input("Dagsetning skila (ddmmáááá): ")
         return pickup_date_string, return_date_string
+
+    def input_phone(self):
+        """
+        Biður um snr þangað til löglegt snr er skrifað inn. 
+        Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng 
+        """
+        phone = input("Símanúmer: ")
+        while not self.check_phone_no(phone):
+            if phone.lower() == "q":
+                return ""
+            else:
+                print("Ógilt símanúmer, reyndu aftur eða 'q' til að hætta")
+                phone = input("Símanúmer: ")
+        return phone
+
+    def input_card(self):
+        """
+        Biður um kortanr þangað til löglegt kortanr er skrifað inn. 
+        Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng 
+        """
+        card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
+        while not self.check_card_number(card_number):
+            if card_number.lower() == "q":
+                return ""
+            else:
+                print("Ógilt kortanúmer, reyndu aftur eða 'q' til að hætta")
+                card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
+        return card_number
+
+    def input_ssn(self):
+        """
+        Biður um kennitölu þangað til lögleg kennitala er skrifuð inn. 
+        Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng 
+        """
+        ssn = input("Kennitala: ")
+        print("-"*52)
+        while not self.check_SSN(ssn):
+            if ssn.lower() == "q":
+                return ""
+            else:
+                print("Kennitala er ógild, reyndu aftur eða 'q' " 
+                "til að hætta")
+                ssn = input("Kennitala: ")
+        print("Kennitala er gild")
+        return ssn
+    
 
     def check_SSN(self, SSN):
         """

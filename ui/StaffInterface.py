@@ -94,10 +94,22 @@ class StaffInterface:
         print("Skrá nýjann viðskiptavin")
         print("-"*57)
         name = self.error_catch.input_name()
-        phone = self.phone_input()
-        email = self.email_input()
-        card_number = self.card_input()
-        ssn = self.ssn_checker()
+        if not name:
+            return self.go_to_menu()
+        phone = self.error_catch.input_phone()
+        if not phone:
+            return self.go_to_menu()
+        email = self.error_catch.input_email
+        if not email:
+            return self.go_to_menu()
+        card_number = self.error_catch.input_card()
+        if not card_number:
+            return self.go_to_menu()
+        ssn_check = input("Er viðskiptavinur með kennitölu? (j/n): ")
+        if ssn_check:
+            ssn = self.error_catch.input_ssn()
+            if not ssn:
+                return self.go_to_menu()
         
         print("-"*57)
         
@@ -107,8 +119,7 @@ class StaffInterface:
             new_customer = self.customer_service.find_customer(email)
             return new_customer
         else:
-            print("Viðskiptavinur með sama netfang "
-            "er þegar til í kerfinu.")
+            print("Viðskiptavinur með sama netfang er þegar til í kerfinu.")
 
     def deregister_customer(self):
         self.clear_screen()
@@ -147,7 +158,7 @@ class StaffInterface:
 
         order = False
         while order == False:
-            email = self.email_input()
+            email = self.error_catch.input_email()
             order_list = self.order_service.get_customer_orders(email)
             active_orders = self.order_service.get_active_orders(order_list)
             if active_orders == False:
@@ -190,7 +201,7 @@ class StaffInterface:
         self.clear_screen()
         print("Bakfæra pöntun")
         print("-"*34)
-        email = self.email_input()
+        email = self.error_catch.input_email
         self.clear_screen()
         print("Bakfæra pöntun")
         list_of_orders = self.order_service.find_order(email)
@@ -325,55 +336,6 @@ class StaffInterface:
         self.car_service.refresh_car(rented_car)
 
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))
-
-
-    def card_input(self):
-        card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
-        while not self.error_catch.check_card_number(card_number):
-            if card_number.lower() == "q":
-                 return self.go_to_menu()
-
-            else:
-                print("Rangt kortanúmer, reyndu aftur eða 'q' til að hætta")
-                card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
-        return card_number
-    
-    def phone_input(self):
-        phone = input("Símanúmer: ")
-        while not self.error_catch.check_phone_no(phone):
-            if phone.lower() == "q":
-                return self.go_to_menu()
-            else:
-                print("Rangt símanúmer, reyndu aftur eða 'q' til að hætta")
-                phone = input("Símanúmer: ")
-        return phone
-    
-    def email_input(self):
-        email = self.error_catch.input_email()
-        while not self.error_catch.check_email(email):
-            if email.lower() == "q":
-                return self.go_to_menu()
-            else:
-                print("Rangt netfang, reyndu aftur eða 'q' til að hætta")
-                email = input("Netfang: ")
-        return email
-    
-    def ssn_checker(self):
-        ssn_check = input("Er viðskiptavinur með kennitölu? (j/n): ")
-        if ssn_check.lower() == "j":
-            ssn = input("Kennitala: ")
-            print("-"*52)
-            while not self.error_catch.check_SSN(ssn):
-                if ssn_check.lower() == "q":
-                    return self.go_to_menu()
-                else:
-                    print("Kennitala er ógild, reyndu aftur eða 'q' " 
-                    "til að hætta")
-                    ssn = input("Kennitala: ")
-            print("Kennitala er gild")
-            return ssn
-        else:
-            return ""
     
     def start_menu(self):
         """Prentar logo fyrirtækisins og spyr hvort keyra skuli forritið"""

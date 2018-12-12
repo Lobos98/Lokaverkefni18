@@ -1,5 +1,5 @@
 from models.Car import Car
-import datetime
+from datetime import datetime
 import csv
 
 
@@ -84,7 +84,7 @@ class CarRepo:
         return (pickup_date, return_date)
 
     def __string_to_datetime_converter(self, date_string):
-        return datetime.datetime.strptime(date_string, "%d%m%Y")
+        return datetime.strptime(date_string, "%d%m%Y")
     
     def __get_reserved_dates_list(self, list_of_reserved_date_strings):
         """Tekur við lista þar sem hvert stak er á forminu ddmmáááá/ddmmáááá

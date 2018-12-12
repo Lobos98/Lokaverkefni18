@@ -163,11 +163,10 @@ class StaffInterface:
         
         print("-"*57)
         
-        if not self.__customer_service.add_customer(email, name, card_number, phone, ssn):
+        if self.__customer_service.add_customer(email, name, card_number, phone, ssn):
             print("Viðskiptavinur {} hefur verið skráður".format(name))
             print("-"*57)
             new_customer = self.__customer_service.find_customer(email)
-            print(new_customer)
             return new_customer
         else:
             print("Viðskiptavinur með sama netfang "

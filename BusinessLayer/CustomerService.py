@@ -69,7 +69,7 @@ class CustomerService:
 	def add_customer(self, email, name, card_no, phone_no, ssn = "0"):
 		'''bætir við viðskiptavin og kallar á repóið til að bæta hann í
 		skránni'''
-		if self.find_customer(email):
+		if not self.find_customer(email):
 			new_customer = Customer(email, name, card_no, phone_no, ssn)
 			customer_list = new_customer.get_attribute_list()
 			self.__customer_repo.add_customer(new_customer, customer_list)

@@ -126,7 +126,7 @@ class StaffInterface:
         return phone
     
     def email_input(self):
-        email = input("Netfang: ")
+        email = self.__error_catch.input_email()
         while not self.__error_catch.check_email(email):
             if email.lower() == "q":
                 return self.go_to_menu()
@@ -537,15 +537,16 @@ class StaffInterface:
         while order == False:
             email = self.__error_catch.input_email()
             order_list = self.__order_service.get_customer_orders(email)
-            if order_list == False:
-                print("Pöntun finnst ekki á þessu netfangi.")
-            elif len(order_list) == 1:
-                order = order_list[0]
+            active_orders = self.__order_service.get_active_orders(order_list)
+            if active_orders == False:
+                print("Virk pöntun finnst ekki á þessu netfangi.")
+            elif len(active_orders) == 1:
+                order = active_orders[0]
             else:
-                print("Eftirfarandi pantanir eru skráðar á þetta netfang:")
-                self.print_orders(order_list)
+                print("Eftirfarandi pantanir eru virkar á þessu netfangi:")
+                self.print_orders(active_orders)
                 order_choice = int(input("Veldu pöntun til þess að skila:"))
-                order = order_list[order_choice-1]
+                order = active_orders[order_choice-1]
 
         reg_num = self.__car_service.return_car(order)
         self.__order_service.move_to_past(order.get_order_no())

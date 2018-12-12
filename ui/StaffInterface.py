@@ -282,6 +282,9 @@ class StaffInterface:
             email = self.email_input()
             customer_found = self.__customer_service.find_customer(email)
             if customer_found == False:
+                clear_screen()
+                print("Fletta upp viðskiptavin")
+                print("-"*81)
                 choice = input("Netfang er ekki á skrá, "
                 "reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin: ")
                 if choice.lower() == "s":
@@ -934,18 +937,7 @@ class StaffInterface:
 
     def change_car(self, customer_object):
         email = customer_object.get_email()
-        print("Breyta Pöntun")
-        order_info = self.__order_service.find_order(email)
-        ordered_cars = []  
-        if order_info:
-            for order in enumerate(order_info):
-                ordered_cars.append(order[1])
-                print("{}. Pöntun á bíl {} frá {} til {}"\
-                .format(order[0] + 1,
-                order[1].get_car_reg_num(),
-                order[1].get_pickup_date(),
-                order[1].get_return_date()))
-        
+        ordered_cars, order_info = self.return_ord_cars_and_info(email)
         order_num = self.order_pick(ordered_cars)
         
         chosen_order = order_info[order_num -1]
@@ -957,6 +949,9 @@ class StaffInterface:
             free_cars = self.display_free_cars(old_pickup_date,
             old_return_date)[2]
             new_car_reg_num = self.__error_catch.input_reg_num()
+            if  new_car_reg_num == "":
+                self.go_to_menu()
+
             for a_car in free_cars:
                 if a_car.get_reg_num() == new_car_reg_num:
                     print("Þú hefur leigt {}".format(new_car_reg_num))
@@ -971,7 +966,30 @@ class StaffInterface:
     def change_date(self, customer_object):
         email = customer_object.get_email()
         print("Breyta Pöntun")
-        print("-"*(26 + len(email)))
+        print("-"*(46))
+        ordered_cars, order_info = self.return_ord_cars_and_info(email)
+        #TODO passa að viðskiptavinurinn velji tölu á réttu bili
+
+        order_num = self.order_pick(ordered_cars)
+
+        car = ordered_cars[order_num - 1]
+        pickup_date, return_date, free_cars\
+         = self.display_free_cars()
+        clear_screen()
+        print("Breyta Pöntun")
+        print("-"*(57))
+        free_reg_numbers = [a_car.get_reg_num() for a_car in free_cars]
+        if car.get_car_reg_num() in free_reg_numbers:
+            print("Þú hefur breytt dagsetningunni")
+            self.__order_service.change_order\
+            (car, "1", pickup_date, return_date)
+            print("-"*(57))
+            return self.go_to_menu
+        print("Bíll sem er bundinn pöntun er frátekinn á þessu timabili.")
+    
+    def return_ord_cars_and_info(self, email):
+        print("Breyta Pöntun")
+        print("-"*(46))
         order_info = self.__order_service.find_order(email)
         ordered_cars = []  
         if order_info:
@@ -982,22 +1000,8 @@ class StaffInterface:
                 order[1].get_car_reg_num(),
                 order[1].get_pickup_date(),
                 order[1].get_return_date()))
-        print("-"*(26 + len(email)))
-        #TODO passa að viðskiptavinurinn velji tölu á réttu bili
-
-        order_num = self.order_pick(ordered_cars)
-
-        car = ordered_cars[order_num - 1]
-        pickup_date, return_date, free_cars\
-         = self.display_free_cars()
-        clear_screen()
-        free_reg_numbers = [a_car.get_reg_num() for a_car in free_cars]
-        if car.get_car_reg_num() in free_reg_numbers:
-            print("Þú hefur breytt dagsetningunni")
-            return \
-            self.__order_service.change_order\
-            (car, "1", pickup_date, return_date)
-        print("Bíll sem er bundinn pöntun er frátekinn á þessu timabili.")
+        print("-"*(46))
+        return ordered_cars, order_info
         
     def order_pick(self, ordered_cars):
         while True:
@@ -1010,7 +1014,6 @@ class StaffInterface:
             else:
                 return order_num
             
-
 
 
     def delete_order(self):

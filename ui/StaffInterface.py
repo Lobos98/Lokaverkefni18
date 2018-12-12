@@ -167,6 +167,7 @@ class StaffInterface:
             ssn)
         print("Viðskiptavinur {} hefur verið skráður".format(name))
         print("-"*57)
+        return email
 
     def deregister_customer(self):
         clear_screen()
@@ -239,7 +240,7 @@ class StaffInterface:
             if choice.lower() == "j":
                  return self.find_by_name()
             elif choice.lower() == "s":
-                return register_customer
+                return self.register_customer()
             else:
                 self.go_to_menu()
 
@@ -756,14 +757,13 @@ class StaffInterface:
         print("-"*34)
         customer = self.find_customers()
         if not customer:
-            self.register_customer()
+            email = self.register_customer()
+            customer = self.__customer_service.find_customer(email)
             
         print("Skrá pöntun")    
         email = customer.get_email()
         self.__is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
-
-        #TODO finna goða lausn til að búa til nýjann viðskiptavin hér
 
         pickup_date, return_date, free_cars = self.display_free_cars()
         reg_number = self.__error_catch.input_reg_num()
@@ -790,8 +790,8 @@ class StaffInterface:
         print("Kostnaður fyrir bílinn {} í {} daga er: {:,d} kr."\
         .format(reg_number, time_d.days, price))
         
-        print("Auka trygging kostar 50% af verði bílsins, kostnaður er \
-        þá {:,d} kr".format(round(price*insurance_price_coeff)))
+        print("Auka trygging kostar 50% af verði bílsins, kostnaður er þá {:,d} kr"\
+        .format(round(price*insurance_price_coeff)))
         extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
         if extra_insurance.lower() == "j":
             insurance = "True"
@@ -861,10 +861,6 @@ class StaffInterface:
             return self.go_to_menu()
 
     def change_order(self):
-        # tilbúið nema vantar núverandi verð 
-        # TODO:laga fall þannig að ef fleiri en ein pöntun er á emaili þá velur
-        # maður hvaða pöntun á að breyta
-        # TODO:passa að þegar pöntun er breytt eyðist upprunalega úr skránni 
 
         clear_screen()
         print("Breyta Pöntun")

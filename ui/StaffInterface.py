@@ -68,7 +68,7 @@ class StaffInterface:
         elif input_num == "5":
             exit()
         else:
-            return self.main_menu()
+            return self.go_to_menu()
 
     def go_to_menu(self):
         choice = input("Fara aftur á aðalvalmynd? (j/n): ")
@@ -100,9 +100,11 @@ class StaffInterface:
             self.unban_customer()
         elif input_num == "7":
             self.fine_customer()
+        elif input_num == "7":
+            self.main_menu()
         else:
             pass
-        return self.main_menu()
+        return self.go_to_menu()
     
     def card_input(self):
         card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
@@ -331,9 +333,6 @@ class StaffInterface:
             self.change_card_no(customer)
         elif val == "4":
             print("-"*(6+len(customer.get_email())))
-            #return self.go_to_menu()
-
-        #return self.go_to_menu()
 
     def change_phone_no(self, customer):
         clear_screen()
@@ -399,7 +398,6 @@ class StaffInterface:
                 get_email())))
         else:
             print("Notandi fannst ekki")
-        return self.go_to_menu()
         
     def unban_customer(self):
         clear_screen()
@@ -426,8 +424,6 @@ class StaffInterface:
         else:
             print("Notandi fannst ekki")
 
-        return self.go_to_menu()
-        
     def fine_customer(self):
         clear_screen()
         print("Sekta viðskiptavin")
@@ -484,9 +480,11 @@ class StaffInterface:
             self.print_car()
         elif input_num == "7":
             self.broken_cars()
+        elif input_num == "8":
+            self.main_menu()
         else:
             pass
-        return self.main_menu()
+        return self.go_to_menu()
 
     def print_car_header(self):
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
@@ -764,8 +762,11 @@ class StaffInterface:
             self.find_customers()
         elif input_num == "9":
             self.change_order()
+        elif input_num == "10":
+            self.main_menu()
         else:
-            return self.go_to_menu()
+            pass
+        return self.go_to_menu()
 
     def __is_banned(self, email):
         if self.__customer_service.find_customer(email):
@@ -834,7 +835,6 @@ class StaffInterface:
         self.__car_service.refresh_car(rented_car)
 
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))
-        return self.go_to_menu()
 
 
     def cost_amount(self):
@@ -886,8 +886,11 @@ class StaffInterface:
             self.delete_order()
         elif input_num == "5":
             self.print_orders(self.__order_service.get_list_of_orders())
+        elif input_num == "6":
+            self.main_menu()
         else:
-            return self.go_to_menu()
+            pass
+        return self.go_to_menu()
 
     def change_order(self):
 

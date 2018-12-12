@@ -60,8 +60,8 @@ class ErrorCatch:
                         if model.lower() == item:
                             return model.lower()
             print("Athugið að tegund bíls getur verið jeppi, "\
-            "folksbill, smabill, husbill eða sportbill\n\
-            og skal skrifa án íslenskra sérstafa")
+            "folksbill, smabill, husbill eða sportbill\n"\
+            "og skal skrifa án íslenskra sérstafa")
 
     def input_color(self):
         check = False

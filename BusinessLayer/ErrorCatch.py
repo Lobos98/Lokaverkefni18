@@ -92,9 +92,10 @@ class ErrorCatch:
         pickup_date_string, return_date_string) == False:
             print("-"*27)
             print("Athugið eftirfarandi:\n"
-            "Dagsetningar skal skrifa inn á forminu ddmmáááá\n"
-            "Hámarksleigutími er eitt ár\n"
-            "Ekki er hægt að velja leigutímabil sem er liðið")
+            "Dagsetningar skal skrifa inn á forminu ddmmáááá.\n"
+            "Hámarksleigutími er eitt ár.\n"
+            "Ekki er hægt að velja leigutímabil sem er liðið.\n"
+            "Ekki er hægt að skrá pöntun meira en ár fram í tímann.")
             print("-"*27)
             pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
             return_date_string = input("Dagsetning skila (ddmmáááá): ")
@@ -169,6 +170,6 @@ class ErrorCatch:
             # or the difference is less than 1 day, return False
             if second_date < first_date:
                 return False
-            elif  (second_date - first_date) < datetime.timedelta(days=1):
+            elif  (second_date - first_date) < datetime.timedelta(days=0):
                 return False
             return True

@@ -848,7 +848,7 @@ class StaffInterface:
                 print("2.  Smábíll")
                 print("3.  Fólksbíll")
                 car_type = int(input("Veldu tegund bíls: "))
-                car = car_type_list[car_type]
+                car = car_type_list[car_type-1]
             except (IndexError, ValueError):
                 print("Vinsamlegast sláðu inn heiltölu á bilinu 1-3.")
             else:

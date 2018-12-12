@@ -465,7 +465,7 @@ class StaffInterface:
         print("-"*len("2.  Birta bíla í útleigu"))
         menu_list = ["Birta lausa bíla", "Birta bíla í útleigu",
         "Skila bíl", "Skrá bíl", "Afskrá bíl", "Leita að bíl",
-        "Bilaðir bílar", "Til baka"]
+        "Bilaðir bílar", "Birta alla bíla", "Til baka"]
         self.print_a_menu(menu_list)
         print("-"*len("2.  Birta útleigða bíla"))
         input_num = input("Val: ")
@@ -484,6 +484,9 @@ class StaffInterface:
         elif input_num == "7":
             self.broken_cars()
         elif input_num == "8":
+            self.display_list_of_cars(self.__car_service.find_free_cars(\
+            "01012100", "01012100"))
+        elif input_num == "9":
             self.main_menu()
         else:
             pass

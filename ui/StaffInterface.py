@@ -103,7 +103,7 @@ class StaffInterface:
             self.fine_customer()
         else:
             pass
-        return self.go_to_menu()
+        return self.main_menu()
     
     def card_input(self):
         card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
@@ -478,7 +478,7 @@ class StaffInterface:
             self.broken_cars()
         else:
             pass
-        return self.go_to_menu()
+        return self.main_menu()
 
     def print_car_header(self):
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
@@ -656,8 +656,8 @@ class StaffInterface:
             self.log_car_as_fixed()
         elif input_num == "3":
             self.print_broken_cars()
-        else:
-            pass
+        elif input_num == "4":
+            self.vehicle_menu()
         return self.go_to_menu()
         #return self.vehicle_menu()
 
@@ -875,9 +875,22 @@ class StaffInterface:
         clear_screen()
         print("Breyta Pöntun")
         print("-"*(20))
-        email = self.email_input()
+        customer = self.find_customers()
+        if not customer:
+            email = self.register_customer()
+            customer = self.__customer_service.find_customer(email)
+        email = customer.get_email()
         clear_screen()
         cust = self.__customer_service.find_customer(email)
+        if not self.__order_service.find_order(email):
+            print("Enginn pöntun fannst fyrir {}".format(cust.get_name()))
+            choice = input("Viltu reyna aftur? (j/n eða q til að hætta): ")
+            if choice == "j":
+                return self.change_order()
+            elif choice == "n":
+                return self.go_to_menu()
+            else:
+                exit()
         print("Breyta Pöntun")
         print("-"*(27 + len(cust.get_name())))
         print("Hverju viltu breyta fyrir {}?".format(cust.get_name()))
@@ -890,17 +903,18 @@ class StaffInterface:
         clear_screen()
 
         if input_num == "1":
-            self.change_date(email, input_num)
+            self.change_date(customer)
         
         elif input_num == "2":
-            self.change_car(email, input_num)
+            self.change_car(customer)
         
         else:
             return self.go_to_menu()
         
         
 
-    def change_car(self, email, input_num):
+    def change_car(self, customer_object):
+        email = customer_object.get_email()
         print("Breyta Pöntun")
         order_info = self.__order_service.find_order(email)
         ordered_cars = []  
@@ -912,16 +926,8 @@ class StaffInterface:
                 order[1].get_car_reg_num(),
                 order[1].get_pickup_date(),
                 order[1].get_return_date()))
-
-        while True:
-            order_num = self.__error_catch.integer_input(
-            "Veldu númer pöntunarinnar til að breyta: ")
-            if order_num not in range(1, len(ordered_cars) + 1): 
-                print("Vinsamlegast veldu pöntun á listanum")
-                order_num = self.__error_catch.integer_input(
-                "Veldu númer pöntunarinnar til að breyta: ")
-            else:
-                break
+        
+        order_num = self.order_pick(ordered_cars)
         
         chosen_order = order_info[order_num -1]
         car = ordered_cars[order_num - 1]            
@@ -943,8 +949,10 @@ class StaffInterface:
                     (car, "2", reg_number=new_car_reg_num)
         
         
-    def change_date(self, email, input_num):
+    def change_date(self, customer_object):
+        email = customer_object.get_email()
         print("Breyta Pöntun")
+        print("-"*(26 + len(email)))
         order_info = self.__order_service.find_order(email)
         ordered_cars = []  
         if order_info:
@@ -955,20 +963,12 @@ class StaffInterface:
                 order[1].get_car_reg_num(),
                 order[1].get_pickup_date(),
                 order[1].get_return_date()))
+        print("-"*(26 + len(email)))
         #TODO passa að viðskiptavinurinn velji tölu á réttu bili
-        
-        while True:
-            order_num = self.__error_catch.integer_input(
-            "Veldu númer pöntunarinnar til að breyta: ")
-            if order_num not in range(1, len(ordered_cars) + 1): 
-                print("Vinsamlegast veldu pöntun á listanum")
-                order_num = self.__error_catch.integer_input(
-                "Veldu númer pöntunarinnar til að breyta: ")
-            else:
-                break
-            
-        car = ordered_cars[order_num - 1]
 
+        order_num = self.order_pick(ordered_cars)
+
+        car = ordered_cars[order_num - 1]
         pickup_date, return_date, free_cars\
          = self.display_free_cars()
         clear_screen()
@@ -979,6 +979,19 @@ class StaffInterface:
             self.__order_service.change_order\
             (car, "1", pickup_date, return_date)
         print("Bíll sem er bundinn pöntun er frátekinn á þessu timabili.")
+        
+    def order_pick(self, ordered_cars):
+        while True:
+            order_num = self.__error_catch.integer_input(
+            "Veldu númer pöntunarinnar til að breyta: ")
+            if order_num not in range(1, len(ordered_cars) + 1): 
+                print("Vinsamlegast veldu pöntun á listanum")
+                order_num = self.__error_catch.integer_input(
+                "Veldu númer pöntunarinnar til að breyta: ")
+            else:
+                return order_num
+            
+
 
 
     def delete_order(self):

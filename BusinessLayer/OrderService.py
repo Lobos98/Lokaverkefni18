@@ -129,3 +129,13 @@ class OrderService:
         for order in list_of_orders:
             if order.get_car_reg_num() == reg_num:
                 self.delete_order(order)
+
+    def customer_deleted(self, email):
+        """"
+        Tekur við netfangi vskvinar sem verið er að eyða og eyðir 
+        öllum hans pöntunum
+        """
+        all_orders = self.get_list_of_orders()
+        for order in all_orders:
+            if order.get_customer_email() == email:
+                self.delete_order(order)

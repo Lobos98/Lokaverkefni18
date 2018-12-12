@@ -127,27 +127,34 @@ class StaffInterface:
         self.print_divider()
         cust = self.find_customer_menu()
         email = cust.get_email()
-        if cust != False:
+        if cust:
             svar = input("Afskrá: {}, {}? (j/n): ".format(cust.get_name(),\
                 email))
             self.print_divider()
             if svar.lower() == "j":
-                if not self.order_service.find_order(email):
+                order_list = self.order_service.get_customer_orders(email)
+                if not order_list:
                     self.customer_service.delete_customer(email)
-                    print("{} afskráð".format(cust.get_name()))
+                    print("Viðskiptavinur {} er ekki lengur í okkar kerfi.".format(cust.get_name()))
                 else:
-                    print("{} er ennþá með pöntun í framtíðinni".format(cust.get_name()))
-                    choice = input("Ertu viss að þú viljir afskrá þennan viðskiptavin? (j/n): ")
+                    print("{} er með pantaðan bíl hjá okkur".format(cust.get_name()))
+                    choice = input("Ertu viss að þú viljir afskrá þennan viðskiptavin? \n"
+                    "Athugið að pöntununum verður eytt. (j/n): ")
                     if choice.lower() == "j":
+                        self.order_service.customer_deleted(email)
+                        for order in order_list:
+                            self.car_service.remove_order(order)
                         self.customer_service.delete_customer(email)
-                        print("{} afskráð".format(cust.get_name()))
+                        print("Viðskiptavinur {} er ekki lengur í okkar kerfi.".format(cust.get_name()))
                     else:
                         print("Hætt var við")
                         self.go_to_menu()
             else:
                 print("Hætt við")
+                self.go_to_menu()
         else:
             print("Notandinn fannst ekki")
+            self.go_to_menu()
         self.print_divider()
 
     def return_car(self):

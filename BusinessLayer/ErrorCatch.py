@@ -130,7 +130,7 @@ class ErrorCatch:
 
     def check_phone_no(self, phone_number):
         phone_number = phone_number.replace('-', '').replace(' ', '')
-        if len(phone_number) == 7:
+        if len(phone_number) in range(2, 21):
             return True
         else:
             return False

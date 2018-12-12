@@ -326,12 +326,13 @@ class StaffInterface:
 
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))
 
-    ###########################################################################
+
     def card_input(self):
         card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
         while not self.error_catch.check_card_number(card_number):
             if card_number.lower() == "q":
                  return self.go_to_menu()
+
             else:
                 print("Rangt kortanúmer, reyndu aftur eða 'q' til að hætta")
                 card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")

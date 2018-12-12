@@ -125,7 +125,7 @@ class StaffInterface:
         return phone
     
     def email_input(self):
-        email = input("Netfang: ")
+        email = self.__error_catch.input_email()
         while not self.__error_catch.check_email(email):
             if email.lower() == "q":
                 return self.go_to_menu()
@@ -155,7 +155,7 @@ class StaffInterface:
         clear_screen()
         print("Skrá nýjann viðskiptavin")
         print("-"*57)
-        name = input("Nafn: ")
+        name = self.__error_catch.input_name()
         phone = self.phone_input()
         email = self.email_input()
         card_number = self.card_input()
@@ -180,8 +180,18 @@ class StaffInterface:
                 email))
             self.__print_divider()
             if svar.lower() == "j":
-                self.__customer_service.delete_customer(email)
-                print("{} afskráð".format(cust.get_name()))
+                if not self.__order_service.find_order(email):
+                    self.__customer_service.delete_customer(email)
+                    print("{} afskráð".format(cust.get_name()))
+                else:
+                    print("{} er ennþá með pöntun í framtíðinni".format(cust.get_name()))
+                    choice = input("Ertu viss að þú viljir afskrá þennan viðskiptavin? (j/n): ")
+                    if choice.lower() == "j":
+                        self.__customer_service.delete_customer(email)
+                        print("{} afskráð".format(cust.get_name()))
+                    else:
+                        print("Hætt var við")
+                        self.go_to_menu()
             else:
                 print("Hætt við")
         else:
@@ -209,7 +219,7 @@ class StaffInterface:
         clear_screen()
         print("Fletta upp viðskiptavin")
         print("-"*50)
-        name = input("Sláðu inn nafn viðskiptavins: ")
+        name = self.__error_catch.input_name()
         clear_screen()
 
 
@@ -535,17 +545,18 @@ class StaffInterface:
 
         order = False
         while order == False:
-            email = self.__error_catch.input_email()
+            email = self.email_input()
             order_list = self.__order_service.get_customer_orders(email)
-            if order_list == False:
-                print("Pöntun finnst ekki á þessu netfangi.")
-            elif len(order_list) == 1:
-                order = order_list[0]
+            active_orders = self.__order_service.get_active_orders(order_list)
+            if active_orders == False:
+                print("Virk pöntun finnst ekki á þessu netfangi.")
+            elif len(active_orders) == 1:
+                order = active_orders[0]
             else:
-                print("Eftirfarandi pantanir eru skráðar á þetta netfang:")
-                self.print_orders(order_list)
+                print("Eftirfarandi pantanir eru virkar á þessu netfangi:")
+                self.print_orders(active_orders)
                 order_choice = int(input("Veldu pöntun til þess að skila:"))
-                order = order_list[order_choice-1]
+                order = active_orders[order_choice-1]
 
         reg_num = self.__car_service.return_car(order)
         self.__order_service.move_to_past(order.get_order_no())
@@ -762,14 +773,13 @@ class StaffInterface:
         print("-"*34)
         customer = self.find_customers()
         if not customer:
-            self.register_customer()
+            email = self.register_customer()
+            customer = self.__customer_service.find_customer(email)
             
         print("Skrá pöntun")    
         email = customer.get_email()
         self.__is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
-
-        #TODO finna goða lausn til að búa til nýjann viðskiptavin hér
 
         pickup_date, return_date, free_cars = self.display_free_cars()
         reg_number = self.__error_catch.input_reg_num()
@@ -796,8 +806,8 @@ class StaffInterface:
         print("Kostnaður fyrir bílinn {} í {} daga er: {:,d} kr."\
         .format(reg_number, time_d.days, price))
         
-        print("Auka trygging kostar 50% af verði bílsins, kostnaður er \
-        þá {:,d} kr".format(round(price*insurance_price_coeff)))
+        print("Auka trygging kostar 50% af verði bílsins, kostnaður er þá {:,d} kr"\
+        .format(round(price*insurance_price_coeff)))
         extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
         if extra_insurance.lower() == "j":
             insurance = "True"
@@ -866,6 +876,7 @@ class StaffInterface:
             return self.go_to_menu()
 
     def change_order(self):
+
         clear_screen()
         print("Breyta Pöntun")
         print("-"*(20))
@@ -895,7 +906,6 @@ class StaffInterface:
         
 
     def change_car(self, email, input_num):
-        # TODO: Fjör fyrir einar.
         print("Breyta Pöntun")
         order_info = self.__order_service.find_order(email)
         ordered_cars = []  
@@ -907,7 +917,7 @@ class StaffInterface:
                 order[1].get_car_reg_num(),
                 order[1].get_pickup_date(),
                 order[1].get_return_date()))
-        #TODO passa að viðskiptavinurinn velji tölu á réttu bili
+
         while True:
             order_num = self.__error_catch.integer_input(
             "Veldu númer pöntunarinnar til að breyta: ")
@@ -917,7 +927,8 @@ class StaffInterface:
                 "Veldu númer pöntunarinnar til að breyta: ")
             else:
                 break
-
+        
+        chosen_order = order_info[order_num -1]
         car = ordered_cars[order_num - 1]            
         old_pickup_date = car.get_pickup_date()
         old_return_date = car.get_return_date()
@@ -930,6 +941,8 @@ class StaffInterface:
                 if a_car.get_reg_num() == new_car_reg_num:
                     print("Þú hefur leigt {}".format(new_car_reg_num))
                     print("-"*60)
+                    self.__car_service.remove_order(chosen_order)
+                    self.__car_service.add_reservation_dates(a_car, chosen_order)
                     return \
                     self.__order_service.change_order\
                     (car, "2", reg_number=new_car_reg_num)
@@ -974,27 +987,28 @@ class StaffInterface:
 
 
     def delete_order(self):
-        # tilbúið
         clear_screen()
         print("Bakfæra pöntun")
         print("-"*34)
         email = self.email_input()
         clear_screen()
         print("Bakfæra pöntun")
-        order_info = self.__order_service.find_order(email)
+        list_of_orders = self.__order_service.find_order(email)
         print("-"*72)
-        self.print_orders(order_info)
+        self.print_orders(list_of_orders)
         print("-"*72)
         val = self.__error_catch.integer_input("Veldu pöntun: ")
         print("-"*72)
+        chosen_order = list_of_orders[int(val)-1]
         print("Þessi pöntun hefur verið valin: {}"\
-        .format(order_info[int(val)-1]))
+        .format(chosen_order))
         print("-"*72)
         choice = input("Viltu eyða þessari pöntun? (j/n): ")
         print("-"*72)
 
         if choice == "j":
-            self.__order_service.delete_order(order_info[int(val)-1])
+            self.__order_service.delete_order(chosen_order)
+            self.__car_service.remove_order(chosen_order)
             print("Pöntuninni hefur verið eytt")
             print("-"*34)
         else:

@@ -31,9 +31,12 @@ class ErrorCatch:
             if email.count("@") == 1 and email.count(".") > 0:
                 if r.match(email) is not None:
                     return email.lower()
+            elif email.lower() == "q":
+                return email.lower()
 
             print("Athugið að netfang skal skrifa inn á forminu\n"\
-            "nafn@lén.is og má ekki innihalda íslenska sérstafi")
+            "nafn@lén.is og má ekki innihalda íslenska sérstafi\n"\
+            "q til að hætta.")
 
     def input_model(self):
         check = False
@@ -69,6 +72,16 @@ class ErrorCatch:
                         return color.lower()
             print("Vinsamlegast skrifið inn lit."\
             " Tölustafir og íslenskir sérstafir eru ekki leyfðir")
+
+    def input_name(self):
+        check = False
+        while check == False:
+            name = input("Sláðu inn nafn viðskiptavinar: ")
+            if name.isalpha() == True:
+                if name.isascii() == True:
+                    return name.lower()
+            print("Vinsamlegast skrifið inn nafn.\n"
+            "Athugið að nafn má ekki innihalda íslenska sérstafi.")
 
     def input_rental_dates(self):
         """Biður um tvö inputs á forminu ddmmáááá og skilar strengjunum ef 

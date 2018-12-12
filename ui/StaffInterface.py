@@ -535,7 +535,7 @@ class StaffInterface:
 
         order = False
         while order == False:
-            email = self.__error_catch.input_email()
+            email = self.email_input()
             order_list = self.__order_service.get_customer_orders(email)
             active_orders = self.__order_service.get_active_orders(order_list)
             if active_orders == False:
@@ -975,27 +975,28 @@ class StaffInterface:
 
 
     def delete_order(self):
-        # tilbúið
         clear_screen()
         print("Bakfæra pöntun")
         print("-"*34)
         email = self.email_input()
         clear_screen()
         print("Bakfæra pöntun")
-        order_info = self.__order_service.find_order(email)
+        list_of_orders = self.__order_service.find_order(email)
         print("-"*72)
-        self.print_orders(order_info)
+        self.print_orders(list_of_orders)
         print("-"*72)
         val = input("Veldu pöntun: ")
         print("-"*72)
+        chosen_order = list_of_orders[int(val)-1]
         print("Þessi pöntun hefur verið valin: {}"\
-        .format(order_info[int(val)-1]))
+        .format(chosen_order))
         print("-"*72)
         choice = input("Viltu eyða þessari pöntun? (j/n): ")
         print("-"*72)
 
         if choice == "j":
-            self.__order_service.delete_order(order_info[int(val)-1])
+            self.__order_service.delete_order(chosen_order)
+            self.__car_service.remove_order(chosen_order)
             print("Pöntuninni hefur verið eytt")
             print("-"*34)
         else:

@@ -27,9 +27,12 @@ class ErrorCatch:
             if email.count("@") == 1 and email.count(".") > 0:
                 if r.match(email) is not None:
                     return email.lower()
+            elif email.lower() == "q":
+                return email.lower()
 
             print("Athugið að netfang skal skrifa inn á forminu\n"\
-            "nafn@lén.is og má ekki innihalda íslenska sérstafi")
+            "nafn@lén.is og má ekki innihalda íslenska sérstafi\n"\
+            "q til að hætta.")
 
     def input_model(self):
         check = False

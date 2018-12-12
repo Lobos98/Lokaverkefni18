@@ -96,8 +96,6 @@ class CarService:
 
         
     def refresh_car(self, car):
-        # Bara einu sinni vitnað í þetta fall í StaffInterface... 
-        # skoða og kannski eyða
         self.delete_car(car.get_reg_num())
         self.__car_repo.add_car(car)
     
@@ -108,3 +106,12 @@ class CarService:
             if car.get_broken():
                 broken_car_list.append(car)
         return broken_car_list
+
+    def remove_order(self, order):
+        """Tekur við order object og sér um að eyða viðeigandi reserved dates 
+        á bílnum sem er í pöntuninni"""
+        car_reg = order.get_car_reg_num()
+        car = self.find_car(car_reg)
+        car.remove_order(order)
+        self.delete_car(car_reg)
+        self.__car_repo.add_car(car)

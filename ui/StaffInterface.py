@@ -167,7 +167,8 @@ class StaffInterface:
             ssn)
         print("Viðskiptavinur {} hefur verið skráður".format(name))
         print("-"*57)
-        return email
+        new_customer = self.__customer_service.find_customer(email)
+        return new_customer
 
     def deregister_customer(self):
         clear_screen()
@@ -238,7 +239,7 @@ class StaffInterface:
                     print()
                 index += 1
             print("-"*(50))
-            choice = int(input("Veldu einn viðskiptavin hér fyrir ofan: ")) - 1
+            choice = int(input("Veldu einn viðskiptavin hér fyrir ofan: ")) - 1 #TODO
             customer_found = customer_found_list[choice]
             return customer_found
         else:
@@ -261,8 +262,9 @@ class StaffInterface:
             ssn = self.ssn_checker()
             customer_found = self.__customer_service.find_customer_by_ssn(ssn)
             if customer_found == False:
-                choice = input("Kennitala er ekki á skrá, "
-                "reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin: ")
+
+                choice = input("Kennitala er ekki á skrá, reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin: ")
+
                 if choice.lower() == "s":
                     return self.register_customer()
         return customer_found
@@ -765,13 +767,20 @@ class StaffInterface:
         clear_screen()
         print("Skrá pöntun")
         print("-"*34)
+        email = ""
         customer = self.find_customers()
         if not customer:
             email = self.register_customer()
+            print("hey")
+            print("This is the customer ", customer)
             customer = self.__customer_service.find_customer(email)
+        if email == "":
+            print("ho")
+            email = customer.get_email()
             
-        print("Skrá pöntun")    
-        email = customer.get_email()
+        print("Skrá pöntun")
+        #print("This is the customer ", customer)
+        #email = customer.get_email()
         self.__is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
 

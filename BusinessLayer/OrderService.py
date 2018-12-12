@@ -19,6 +19,10 @@ class OrderService:
         return self.new_order
 
     def change_email(self, email, order):
+        """"
+        Tekur inn nýtt netfang og order object, fjarlægir pöntunina úr skránni, 
+        breytir emailinu á order objectinu og bætir því aftur í skrána
+        """
         self.__order_repo.remove_order(order)
         order.set_customer_email(email)
         self.__order_repo.add_order(order)

@@ -180,6 +180,10 @@ class StaffInterface:
         print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
     
     def find_customer_menu(self):
+        """
+        Býður að leita eftir nafni, kennitölu eða netfangi, kallar í 
+        customer_interface föll til að finna vsk vin og skilar Customer object
+        """
         self.clear_screen()
         print("Fletta upp viðskiptavin")
         self.print_divider()

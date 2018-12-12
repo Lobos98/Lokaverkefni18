@@ -28,6 +28,7 @@ class CustomerRepo:
 
 	def find_customer_by_email(self, customer_email):
 		'''finnur viðskiptavin í lista frá repóinu'''
+		self.__customers = self.get_customer_list()
 		for customer in self.__customers:
 			if customer_email == customer.get_email():
 				return customer

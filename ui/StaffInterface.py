@@ -51,7 +51,7 @@ class StaffInterface:
         eru lausir yfir allt tímabilið"""
         clear_screen()
         print("Birta lausa bíla")
-        StaffInterface.print_divider(SHORT_DIVIDER)
+        StaffInterface.print_divider(StaffInterface.SHORT_DIVIDER)
         if date1 and date2:
             pickup_date_string = date1
             return_date_string = date2
@@ -171,8 +171,8 @@ class StaffInterface:
         print("Fletta upp viðskiptavin")
         StaffInterface.print_divider()
         print("Leita eftir:")
-        
-        StaffInterface.print_menu(self.__menu_list)
+        menu_list = ["Nafni", "Netfangi", "Kennitölu"]
+        StaffInterface.print_menu(menu_list)
         StaffInterface.print_divider()
         choice = input("Val: ")
         if choice == "1":
@@ -264,7 +264,7 @@ class StaffInterface:
         '''
         clear_screen()
         print("Skrá pöntun")
-        StaffInterface.print_divider(SHORT_DIVIDER)
+        StaffInterface.print_divider(StaffInterface.SHORT_DIVIDER)
 
         customer = self.find_customer_menu()
         if not customer:
@@ -376,9 +376,9 @@ class StaffInterface:
         """Prentar logo fyrirtækisins og spyr hvort keyra skuli forritið"""
         clear_screen()
         print("Velkomin í Bílaleiguna IceCarRentals.")
-        StaffInterface.print_divider(SHORT_DIVIDER)
+        StaffInterface.print_divider(StaffInterface.SHORT_DIVIDER)
 
-        n = SPACES_BEFORE_CAR
+        n = StaffInterface.SPACES_BEFORE_CAR
         print(r"""{}        _______""".format(" "*n))
         print(r"""{}       //  ||\ \ """.format(" "*n))
         print(r"""{}  ____//___||_\ \__""".format(" "*n))
@@ -387,7 +387,7 @@ class StaffInterface:
         print(r"""{}___\_/________\_/_____""".format(" "*n))
         print(r"""{}Drive cheap, not safe!""".format(" "*n))
 
-        StaffInterface.print_divider(SHORT_DIVIDER)
+        StaffInterface.print_divider(StaffInterface.SHORT_DIVIDER)
         answer = input("Keyra forrit? (j/n): ")
         if answer.lower() == "j":
             self.main_menu()
@@ -444,7 +444,7 @@ class VehicleInterface:
         print("-"*len("2.  Birta útleigða bíla"))
         input_num = input("Val: ")
         if input_num == "1":
-            self.__staff_interface.service.display_free_cars()
+            self.__staff_interface.display_free_cars()
         elif input_num == "2":
             self.display_currently_rented_cars()
         elif input_num == "3":

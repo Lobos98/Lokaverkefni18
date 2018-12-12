@@ -103,7 +103,7 @@ class StaffInterface:
             self.fine_customer()
         else:
             pass
-        self.main_menu()
+        return self.main_menu()
     
     def card_input(self):
         card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
@@ -202,9 +202,6 @@ class StaffInterface:
             return self.find_by_email()
         elif choice == "3":
             return self.find_by_ssn()
-        else:
-            pass
-        return self.go_to_menu()
 
     def find_by_name(self):
 
@@ -239,7 +236,7 @@ class StaffInterface:
             if choice.lower() == "j":
                  return self.find_by_name()
             elif choice.lower() == "s":
-                return register_customer
+                return self.register_customer()
             else:
                 self.go_to_menu()
 
@@ -253,9 +250,10 @@ class StaffInterface:
             ssn = self.ssn_checker()
             customer_found = self.__customer_service.find_customer_by_ssn(ssn)
             if customer_found == False:
-                print("Kennitala er ekki á skrá, reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin: ")
+                choice = input("Kennitala er ekki á skrá, "
+                "reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin: ")
                 if choice.lower() == "s":
-                    return False
+                    return self.register_customer()
         return customer_found
 
         
@@ -269,9 +267,10 @@ class StaffInterface:
             email = self.email_input()
             customer_found = self.__customer_service.find_customer(email)
             if customer_found == False:
-                choice = input("Netfang er ekki á skrá, reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin: ")
+                choice = input("Netfang er ekki á skrá, "
+                "reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin: ")
                 if choice.lower() == "s":
-                    return False
+                    return self.register_customer()
         return customer_found
     
     def find_customer(self):
@@ -421,13 +420,14 @@ class StaffInterface:
         if customer != False:
             print("-"*(19 + len(customer.get_name()) + len(customer.\
                 get_email())))
-            stadfesta = input("Sekta: {}, {}? (j/n): ".\
-                format(customer.get_name(), customer.get_email()))
+            stadfesta = input("Sekta: {}, {}? (j/n): "\
+            .format(customer.get_name(), customer.get_email()))
             print("-"*(19 + len(customer.get_name()) + len(customer.\
                 get_email())))
 
-            if(stadfesta == "j"):
-                fine_amount = input("Upphæð sektar (kr): ")
+            if(stadfesta.lower() == "j"):
+                fine_amount = self.__error_catch\
+                .integer_input("Upphæð sektar (kr)")
                 self.__customer_service.fine_customer(customer.get_email(),\
                     fine_amount)
                 print("{} hefur verið sektaður um {} kr.".\
@@ -438,7 +438,6 @@ class StaffInterface:
                 get_email())))
         else:
             print("Notandi fannst ekki")
-        return self.go_to_menu()
 
     def vehicle_menu(self):
         """Setur bíla-valmyndina í gang"""
@@ -861,11 +860,6 @@ class StaffInterface:
             return self.go_to_menu()
 
     def change_order(self):
-        # tilbúið nema vantar núverandi verð 
-        # TODO:laga fall þannig að ef fleiri en ein pöntun er á emaili þá velur
-        # maður hvaða pöntun á að breyta
-        # TODO:passa að þegar pöntun er breytt eyðist upprunalega úr skránni 
-
         clear_screen()
         print("Breyta Pöntun")
         print("-"*(20))
@@ -985,7 +979,7 @@ class StaffInterface:
         print("-"*72)
         self.print_orders(order_info)
         print("-"*72)
-        val = input("Veldu pöntun: ")
+        val = self.__error_catch.integer_input("Veldu pöntun: ")
         print("-"*72)
         print("Þessi pöntun hefur verið valin: {}"\
         .format(order_info[int(val)-1]))

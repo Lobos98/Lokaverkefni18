@@ -12,7 +12,7 @@ class ErrorCatch:
         check = False
         r = re.compile(r"^[a-zA-Z]{2}\w[0-9]{2}$")
         while check == False:
-            reg_num = input("Bílnúmer ('q' til að hætta): ")
+            reg_num = input("Bílnúmer: ")
             if len(reg_num) == 5:
                 if r.match(reg_num) is not None:
                     return reg_num.upper()
@@ -20,7 +20,8 @@ class ErrorCatch:
                 return ""
             else:
                 print("Athugið að bílnúmer skal skrifa inn á forminu AAXTT\n"
-                "þar sem A er bókstafur, T er tölustafur og X er annaðhvort")
+                "þar sem A er bókstafur, T er tölustafur og X er annaðhvort"
+                "'q' til að hætta")
             
 
     def input_email(self):
@@ -34,8 +35,8 @@ class ErrorCatch:
             elif email.lower() == "q":
                 return email.lower()
 
-            print("Athugið að netfang skal skrifa inn á forminu\n"\
-            "nafn@lén.is og má ekki innihalda íslenska sérstafi\n"\
+            print("Athugið að netfang skal skrifa inn á forminu\n"
+            "nafn@lén.is og má ekki innihalda íslenska sérstafi\n"
             "q til að hætta.")
 
     def input_model(self):
@@ -46,8 +47,11 @@ class ErrorCatch:
                 if model.isdigit() == True:
                     if int(model) <= datetime.datetime.today().year:
                         return model
+            if model.lower() == "q":
+                return ""
             print("Athugið að árgerð skal skrifa inn á forminu\n"\
-            "TTTT þar sem T er tölustafur og skal vera lögleg árgerð á bíl")
+            "TTTT þar sem T er tölustafur og skal vera lögleg árgerð á bíl\n"
+            "'q' til að hætta")
 
     def input_type(self):
         check = False
@@ -59,9 +63,12 @@ class ErrorCatch:
                     for item in model_list:
                         if model.lower() == item:
                             return model.lower()
+            if model.lower() == "q":
+                return ""
             print("Athugið að tegund bíls getur verið jeppi, "\
             "folksbill, smabill, husbill eða sportbill\n"\
-            "og skal skrifa án íslenskra sérstafa")
+            "\nog skal skrifa án íslenskra sérstafa\n"
+            "'q' til að hætta")
 
     def input_color(self):
         check = False
@@ -71,8 +78,11 @@ class ErrorCatch:
                 if color.isalpha() == True:
                     if color.isascii() == True:
                         return color.lower()
+            if color.lower() == "q":
+                return ""
             print("Vinsamlegast skrifið inn lit."\
-            " Tölustafir og íslenskir sérstafir eru ekki leyfðir")
+            " Tölustafir og íslenskir sérstafir eru ekki leyfðir"
+            "'q' til að hætta")
 
     def input_name(self):
         check = False

@@ -210,16 +210,16 @@ class StaffInterface:
             self.order_service.delete_order(chosen_order)
             self.car_service.remove_order(chosen_order)
             print("Pöntuninni hefur verið eytt")
-            print("-"*34)
+            self.print_divider(34)
         else:
             print("Hætt við")
-            print("-"*34)
+            self.print_divider(34)
         return self.go_to_menu()  
 
     def change_order(self):
         self.clear_screen()
         print("Breyta Pöntun")
-        print("-"*(20))
+        self.print_divider(20)
         customer = self.find_customer_menu()
         if not customer:
             email = self.register_customer()
@@ -237,12 +237,12 @@ class StaffInterface:
             else:
                 exit()
         print("Breyta Pöntun")
-        print("-"*(27 + len(cust.get_name())))
+        self.print_divider(27 + len(cust.get_name()))
         print("Hverju viltu breyta fyrir {}?".format(cust.get_name()))
-        print("-"*(27 + len(cust.get_name())))
+        self.print_divider(27 + len(cust.get_name()))
         menu_list = ["Dagsetningu", "Bíl", "Til baka"]
         self.print_menu(menu_list)
-        print("-"*(27 + len(cust.get_name())))
+        self.print_divider(27 + len(cust.get_name()))
         input_num = input("Val: ")
 
         self.clear_screen()

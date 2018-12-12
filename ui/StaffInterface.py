@@ -126,7 +126,7 @@ class StaffInterface:
         return phone
     
     def email_input(self):
-        email = input("Netfang: ")
+        email = self.__error_catch.input_email()
         while not self.__error_catch.check_email(email):
             if email.lower() == "q":
                 return self.go_to_menu()
@@ -545,17 +545,18 @@ class StaffInterface:
 
         order = False
         while order == False:
-            email = self.__error_catch.input_email()
+            email = self.email_input()
             order_list = self.__order_service.get_customer_orders(email)
-            if order_list == False:
-                print("Pöntun finnst ekki á þessu netfangi.")
-            elif len(order_list) == 1:
-                order = order_list[0]
+            active_orders = self.__order_service.get_active_orders(order_list)
+            if active_orders == False:
+                print("Virk pöntun finnst ekki á þessu netfangi.")
+            elif len(active_orders) == 1:
+                order = active_orders[0]
             else:
-                print("Eftirfarandi pantanir eru skráðar á þetta netfang:")
-                self.print_orders(order_list)
+                print("Eftirfarandi pantanir eru virkar á þessu netfangi:")
+                self.print_orders(active_orders)
                 order_choice = int(input("Veldu pöntun til þess að skila:"))
-                order = order_list[order_choice-1]
+                order = active_orders[order_choice-1]
 
         reg_num = self.__car_service.return_car(order)
         self.__order_service.move_to_past(order.get_order_no())
@@ -979,27 +980,28 @@ class StaffInterface:
 
 
     def delete_order(self):
-        # tilbúið
         clear_screen()
         print("Bakfæra pöntun")
         print("-"*34)
         email = self.email_input()
         clear_screen()
         print("Bakfæra pöntun")
-        order_info = self.__order_service.find_order(email)
+        list_of_orders = self.__order_service.find_order(email)
         print("-"*72)
-        self.print_orders(order_info)
+        self.print_orders(list_of_orders)
         print("-"*72)
         val = self.__error_catch.integer_input("Veldu pöntun: ")
         print("-"*72)
+        chosen_order = list_of_orders[int(val)-1]
         print("Þessi pöntun hefur verið valin: {}"\
-        .format(order_info[int(val)-1]))
+        .format(chosen_order))
         print("-"*72)
         choice = input("Viltu eyða þessari pöntun? (j/n): ")
         print("-"*72)
 
         if choice == "j":
-            self.__order_service.delete_order(order_info[int(val)-1])
+            self.__order_service.delete_order(chosen_order)
+            self.__car_service.remove_order(chosen_order)
             print("Pöntuninni hefur verið eytt")
             print("-"*34)
         else:

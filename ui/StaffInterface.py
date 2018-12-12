@@ -11,6 +11,10 @@ def clear_screen():
 
 
 class StaffInterface:
+    SPACES_BEFORE_CAR = 7
+    SHORT_DIVIDER = 37
+    LONG_DIVIDER = 60
+
     def __init__(self):
         self.car_service = CarService()
         self.order_service = OrderService()
@@ -25,8 +29,8 @@ class StaffInterface:
         self.__menu_list = ["Viðskiptavinir", "Bílafloti", \
             "Afgreiðsla", "Pantanir", "Hætta"]
 
-    def print_divider(num_chars=60):
-        """Prentar 60 bandstrik"""
+    def print_divider(num_chars=LONG_DIVIDER):
+        """Prentar bandstrik"""
         print(num_chars*"-")
 
     def print_menu(menu_list):
@@ -47,7 +51,7 @@ class StaffInterface:
         eru lausir yfir allt tímabilið"""
         clear_screen()
         print("Birta lausa bíla")
-        StaffInterface.print_divider(37)
+        StaffInterface.print_divider(SHORT_DIVIDER)
         if date1 and date2:
             pickup_date_string = date1
             return_date_string = date2
@@ -108,7 +112,7 @@ class StaffInterface:
         clear_screen()
         print("Afskrá viðskiptavin")
         StaffInterface.print_divider()
-        cust = self.find_customers()
+        cust = self.find_customer_menu()
         email = cust.get_email()
         if cust != False:
             svar = input("Afskrá: {}, {}? (j/n): ".format(cust.get_name(),\
@@ -162,14 +166,14 @@ class StaffInterface:
         print("Bílnum {} hefur verið skilað!".format(reg_num))
         print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
     
-    def find_customers(self):
+    def find_customer_menu(self):
         clear_screen()
         print("Fletta upp viðskiptavin")
-        print("-"*50)
+        StaffInterface.print_divider()
         print("Leita eftir:")
         
         StaffInterface.print_menu(self.__menu_list)
-        print("-"*50)
+        StaffInterface.print_divider()
         choice = input("Val: ")
         if choice == "1":
             return self.customer.find_by_name()
@@ -214,7 +218,7 @@ class StaffInterface:
         clear_screen()
         print("Breyta Pöntun")
         print("-"*(20))
-        customer = self.find_customers()
+        customer = self.find_customer_menu()
         if not customer:
             email = self.register_customer()
             customer = self.customer_service.find_customer(email)
@@ -251,16 +255,21 @@ class StaffInterface:
             return self.go_to_menu()
     
     def create_order(self):
-        '''Þetta fall þarf að skoða'''
+        '''
+        1. Leita uppi viðskiptavin
+        a) fundinn -> búa til nýja pöntun, mm
+        b) ófundinn -> skrá nýjan? 
+            i. Já, skrá viðskiptavin -> búa til nýja pöntun, mm
+            ii. Nei, mm
+        '''
         clear_screen()
         print("Skrá pöntun")
-        StaffInterface.print_divider(37)
-        email = ""
-        customer = self.find_customers()
+        StaffInterface.print_divider(SHORT_DIVIDER)
+
+        customer = self.find_customer_menu()
         if not customer:
-            email = self.register_customer()
-            customer = self.customer_service.find_customer(email)
-        if email == "":
+            self.main_menu()
+        else:
             email = customer.get_email()
             
         # print("Skrá pöntun")
@@ -307,8 +316,8 @@ class StaffInterface:
             insurance = "False"
 
         interim_order = self.order_service.log_order(reg_number,\
-
         pickup_date, return_date, email, insurance)
+        
         rented_car.add_reservation(interim_order)
         #TODO: þetta make_reservation fall er mjög skrýtið...
         self.car_service.refresh_car(rented_car)
@@ -367,8 +376,9 @@ class StaffInterface:
         """Prentar logo fyrirtækisins og spyr hvort keyra skuli forritið"""
         clear_screen()
         print("Velkomin í Bílaleiguna IceCarRentals.")
-        StaffInterface.print_divider(37)
-        n = 7
+        StaffInterface.print_divider(SHORT_DIVIDER)
+
+        n = SPACES_BEFORE_CAR
         print(r"""{}        _______""".format(" "*n))
         print(r"""{}       //  ||\ \ """.format(" "*n))
         print(r"""{}  ____//___||_\ \__""".format(" "*n))
@@ -376,7 +386,8 @@ class StaffInterface:
         print(r"""{} |_/ \________/ \___|""".format(" "*n))
         print(r"""{}___\_/________\_/_____""".format(" "*n))
         print(r"""{}Drive cheap, not safe!""".format(" "*n))
-        StaffInterface.print_divider(37)
+
+        StaffInterface.print_divider(SHORT_DIVIDER)
         answer = input("Keyra forrit? (j/n): ")
         if answer.lower() == "j":
             self.main_menu()
@@ -673,7 +684,7 @@ class ServiceInterface:
         elif input_num == "7":
             self.__staff_interface.delete_order()
         elif input_num == "8":
-            self.__staff_interface.find_customers()
+            self.__staff_interface.find_customer_menu()
         elif input_num == "9":
             self.__staff_interface.change_order()
         elif input_num == "10":
@@ -764,15 +775,14 @@ class CustomerInterface:
 
         clear_screen()
         print("Fletta upp viðskiptavin")
-        print("-"*50)
+        StaffInterface.print_divider()
         name = self.__staff_interface.error_catch.input_name()
         clear_screen()
-
 
         customer_found_list = self.__staff_interface.customer_service.\
         find_customer_by_name(name)
         print("Fletta upp viðskiptavin")
-        print("-"*50)
+        StaffInterface.print_divider()
         if len(customer_found_list) == 1:
             customer_found = customer_found_list[0]
             return customer_found
@@ -800,7 +810,7 @@ class CustomerInterface:
     def find_by_ssn(self):
         clear_screen()
         print("Fletta upp viðskiptavin")
-        print("-"*50)
+        StaffInterface.print_divider()
 
         customer_found = False
         while customer_found == False:
@@ -818,7 +828,7 @@ class CustomerInterface:
     def find_by_email(self):
         clear_screen()
         print("Fletta upp viðskiptavin")
-        print("-"*50)
+        StaffInterface.print_divider()
 
         customer_found = False
         while customer_found == False:
@@ -837,7 +847,7 @@ class CustomerInterface:
     def find_by_phone_no(self):
         clear_screen()
         print("Fletta upp viðskiptavin")
-        print("-"*50)
+        StaffInterface.print_divider()
         phone_no = input("Sláðu inn símanúmer: ")
         while not self.__staff_interface.error_catch.check_phone_no(phone_no):
             print("Ekki var selgið inn gilt símanúmer")
@@ -851,7 +861,7 @@ class CustomerInterface:
         phone_no_list = self.__staff_interface.customer_service.\
         find_customer_by_phone_no(phone_no)
         print("Fletta upp viðskiptavin")
-        print("-"*50)
+        StaffInterface.print_divider()
         if len(phone_no_list) == 1:
             customer_found = phone_no_list[0]
             return customer_found
@@ -877,7 +887,7 @@ class CustomerInterface:
                 self.__staff_interface.go_to_menu()
     
     def find_customer(self):
-        customer_found = self.__staff_interface.find_customers()
+        customer_found = self.__staff_interface.find_customer_menu()
         clear_screen()
         print("Fletta upp viðskiptavin")
         print("-"*(33+len(customer_found.get_name())))
@@ -894,7 +904,7 @@ class CustomerInterface:
         if customer_found != 0:
             customer = customer_found
         else:
-            customer = self.__staff_interface.find_customers()
+            customer = self.__staff_interface.find_customer_menu()
 
         clear_screen()
         print("Uppfæra viðskiptavin")
@@ -964,7 +974,7 @@ class CustomerInterface:
         clear_screen()
         print("Setja á bannlista")
         StaffInterface.print_divider()
-        customer = self.__staff_interface.find_customers()
+        customer = self.__staff_interface.find_customer_menu()
         clear_screen()
 
         print("Setja á bannlista")
@@ -987,7 +997,7 @@ class CustomerInterface:
         clear_screen()
         print("Taka af bannlista")
         StaffInterface.print_divider()
-        customer = self.__staff_interface.find_customers()
+        customer = self.__staff_interface.find_customer_menu()
         clear_screen()
 
         print("Taka af bannlista")
@@ -1012,7 +1022,7 @@ class CustomerInterface:
         clear_screen()
         print("Sekta viðskiptavin")
         StaffInterface.print_divider()
-        customer = self.__staff_interface.find_customers()
+        customer = self.__staff_interface.find_customer_menu()
         clear_screen()
 
         print("Sekta viðskiptavin")

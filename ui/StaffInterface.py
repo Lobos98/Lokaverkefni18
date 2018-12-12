@@ -779,16 +779,11 @@ class StaffInterface:
         customer = self.find_customers()
         if not customer:
             email = self.register_customer()
-            print("hey")
-            print("This is the customer ", customer)
             customer = self.__customer_service.find_customer(email)
         if email == "":
-            print("ho")
             email = customer.get_email()
             
         print("Skrá pöntun")
-        #print("This is the customer ", customer)
-        #email = customer.get_email()
         self.__is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
 

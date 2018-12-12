@@ -34,20 +34,24 @@ class CustomerInterface:
             pass
         return self.__staff_interface.go_to_menu()
 
-    def __is_banned(self, email):
-        if self.__staff_interface.customer_service.find_customer(email):
-            if self.__staff_interface.customer_service.find_customer(email)\
-            .is_banned() == "true":
-                print("Þessi viðskiptavinur er bannaður")
-                return self.__staff_interface.go_to_menu()
+    # def __is_banned(self, email):
+    #     if self.__staff_interface.customer_service.find_customer(email):
+    #         if self.__staff_interface.customer_service.find_customer(email)\
+    #         .is_banned() == "true":
+    #             print("Þessi viðskiptavinur er bannaður")
+    #             return self.__staff_interface.go_to_menu()
 
-    def is_banned(self, email):
-        customer = self.__staff_interface.customer_service.find_customer(email)
-        if customer:
-            return customer.is_banned() == "true"
+    # def is_banned(self, email):
+    #     customer = self.__staff_interface.customer_service.find_customer(email)
+    #     if customer:
+    #         return customer.is_banned() == "true"
 
     def find_by_name(self):
-
+        """"
+        leitar að vskvini eftir nafnstrengi og býður að búa hann til 
+        ef hann er ekki til. Skilar lista af vskvininum sem hafa 
+        nafnstrenginn í nafninu sínu.
+        """
         self.__staff_interface.clear_screen()
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
@@ -84,6 +88,10 @@ class CustomerInterface:
                 self.__staff_interface.go_to_menu()
 
     def find_by_ssn(self):
+        """"
+        leitar að vskvini eftir kennitölu og býður að búa hann til 
+        ef hann er ekki til. Skilar vskvininum.
+        """
         self.__staff_interface.clear_screen()
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
@@ -130,6 +138,10 @@ class CustomerInterface:
         return customer_found
 
     def find_by_phone_no(self):
+        """"
+        leitar að vskvini eftir snr og býður að búa hann til 
+        ef hann er ekki til. Skilar lista af vskvinum sem nota þetta snr.
+        """
         self.__staff_interface.clear_screen()
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()

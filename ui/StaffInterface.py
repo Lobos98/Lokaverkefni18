@@ -37,6 +37,9 @@ class StaffInterface:
             print("{}.  {}".format(index + 1, text))
 
     def print_orders(self, list_of_orders):
+        """
+        tekur við lista af Orders og prentar þær með header
+        """
         print("{:<8}{:<11}{:<14}{:<12}{:<20}".format(\
         "Nr.", "Frá", "Til", "Bílnúmer", "Viðbótartrygging"))
         list_no = 1
@@ -166,6 +169,8 @@ class StaffInterface:
         order = False
         while order == False:
             email = self.error_catch.input_email()
+            if not email:
+                return self.go_to_menu()
             order_list = self.order_service.get_customer_orders(email)
             active_orders = self.order_service.get_active_orders(order_list)
             if active_orders == False:
@@ -175,8 +180,8 @@ class StaffInterface:
             else:
                 print("Eftirfarandi pantanir eru virkar á þessu netfangi:")
                 self.print_orders(active_orders)
-                order_choice = int(input("Veldu pöntun til þess að skila: "))
-                order = active_orders[order_choice-1]
+                order_choice = self.error_catch.integer_input("Veldu bíl til þess að skila: ")
+                order = active_orders[order_choice-1]#TODO: ATH við gætum fengið error hér ef of há tala er sett inn!
 
         reg_num = self.car_service.return_car(order)
         self.order_service.move_to_past(order.get_order_no())
@@ -212,16 +217,18 @@ class StaffInterface:
         self.clear_screen()
         print("Bakfæra pöntun")
         print("-"*34)
-        email = self.error_catch.input_email
+        email = self.error_catch.input_email()
+        if not email:
+            return self.go_to_menu()
         self.clear_screen()
         print("Bakfæra pöntun")
-        list_of_orders = self.order_service.find_order(email)
+        list_of_orders = self.order_service.get_customer_orders(email)
         print("-"*72)
         self.print_orders(list_of_orders)
         print("-"*72)
         val = self.error_catch.integer_input("Veldu pöntun: ")
         print("-"*72)
-        chosen_order = list_of_orders[int(val)-1]
+        chosen_order = list_of_orders[int(val)-1]#TODO:ATH hér gæti komið crash ef of há tala kemur inn
         print("Þessi pöntun hefur verið valin: {}"\
         .format(chosen_order))
         print("-"*72)
@@ -243,7 +250,7 @@ class StaffInterface:
         print("Breyta Pöntun")
         print("-"*(20))
         customer = self.find_customer_menu()
-        if not customer:
+        if not customer:#TODO: ATH kannski gerist þetta aldrei?
             email = self.register_customer()
             customer = self.customer_service.find_customer(email)
         email = customer.get_email()

@@ -21,7 +21,7 @@ class ErrorCatch:
             else:
                 print("Athugið að bílnúmer skal skrifa inn á forminu AAXTT\n"
                 "þar sem A er bókstafur, T er tölustafur og X er annaðhvort"
-                "'q' til að hætta")
+                "\n'q' til að hætta")
             
 
     def input_email(self):
@@ -67,7 +67,7 @@ class ErrorCatch:
                 return ""
             print("Athugið að tegund bíls getur verið jeppi, "\
             "folksbill, smabill, husbill eða sportbill\n"\
-            "\nog skal skrifa án íslenskra sérstafa\n"
+            "og skal skrifa án íslenskra sérstafa\n"
             "'q' til að hætta")
 
     def input_color(self):

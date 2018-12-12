@@ -772,8 +772,6 @@ class StaffInterface:
         self.__is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
 
-        #TODO finna goða lausn til að búa til nýjann viðskiptavin hér
-
         pickup_date, return_date, free_cars = self.display_free_cars()
         reg_number = self.__error_catch.input_reg_num()
         rented_car = ''

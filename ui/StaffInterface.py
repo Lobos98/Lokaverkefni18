@@ -515,11 +515,16 @@ class StaffInterface:
         return_print = "{}{}.{}{}.{}{}{}{}".format(*return_date_string)
         print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
         pickup_print, return_print))
+        self.display_list_of_cars(free_car_list)
+        return pickup_date_string, return_date_string, free_car_list
+
+    def display_list_of_cars(self, list_of_cars):
+        """Tekur við lista af bílum og prentar þá"""
         self.__print_divider()
         self.print_car_header()
         self.__print_divider()
-        if free_car_list:
-            for car in free_car_list:
+        if list_of_cars:
+            for car in list_of_cars:
                 print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
 
                 car.get_reg_num(), car.get_type(), \
@@ -528,9 +533,6 @@ class StaffInterface:
             self.__print_divider()
         else:
             print("Engir bílar eru lausir á þessu tímabili")
-        return pickup_date_string, return_date_string, free_car_list
-
-        
 
     def display_currently_rented_cars(self):
         """Sækir lista af bílum sem eru í útleigu 
@@ -951,18 +953,29 @@ class StaffInterface:
         order_num = self.order_pick(ordered_cars)
         
         chosen_order = order_info[order_num -1]
-        car = ordered_cars[order_num - 1]            
-        old_pickup_date = car.get_pickup_date()
-        old_return_date = car.get_return_date()
+        order = ordered_cars[order_num - 1]      
+        car = self.__car_service.find_car(order.get_car_reg_num())      
+        old_pickup_date = order.get_pickup_date()
+        old_return_date = order.get_return_date()
 
         while True:
-            free_cars = self.display_free_cars(old_pickup_date,
-            old_return_date)[2]
+            clear_screen()
+            free_cars = self.__car_service.find_free_cars(old_pickup_date,
+            old_return_date)
+            free_cars_of_same_type = self.__car_service.cars_of_same_type(\
+            free_cars, car)
+            print("Birta lausa bíla")
+            self.__print_divider()
+            pickup_print = "{}{}.{}{}.{}{}{}{}".format(*old_pickup_date)
+            return_print = "{}{}.{}{}.{}{}{}{}".format(*old_return_date)
+            print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
+            pickup_print, return_print))
+            self.display_list_of_cars(free_cars_of_same_type)
             new_car_reg_num = self.__error_catch.input_reg_num()
             if  new_car_reg_num == "":
                 self.go_to_menu()
 
-            for a_car in free_cars:
+            for a_car in free_cars_of_same_type:
                 if a_car.get_reg_num() == new_car_reg_num:
                     print("Þú hefur leigt {}".format(new_car_reg_num))
                     print("-"*60)
@@ -970,7 +983,7 @@ class StaffInterface:
                     self.__car_service.add_reservation_dates(a_car, chosen_order)
                     return \
                     self.__order_service.change_order\
-                    (car, "2", reg_number=new_car_reg_num)
+                    (order, "2", reg_number=new_car_reg_num)
         
         
     def change_date(self, customer_object):

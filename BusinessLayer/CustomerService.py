@@ -120,4 +120,25 @@ class CustomerService:
 			return banned_customer_list
 		else:
 			return False
-
+	def find_customer(self, email = "", ssn = "", phone_no = "", name = ""):
+		"""
+		Tekur inn eina færibreytu sem verður að vera strengur.
+		Skrifið email = "test@test.is" eða ssn = "2903983209" eða 
+		phone_no = "5812345" eða name = "robert" eftir því sem á við.
+		Skilar alltaf customer nema ef leitað er eftir nafni eða snr, 
+		þá skilast listi af Customers
+		skilar False ef ekkert finnst
+		"""
+		if email:
+			customer = self.__customer_repo.find_customer_by_email(email)
+			return customer
+		elif ssn:
+			customer = self.__customer_repo.find_customer_by_ssn(ssn)
+			return customer
+		elif phone_no:
+			customer_list = self.__customer_repo.find_customer_by_phone_no(phone_no)
+			return customer_list
+		elif name:
+			customer_list = self.__customer_repo.find_customer_by_name(name)
+			return customer_list
+		return False

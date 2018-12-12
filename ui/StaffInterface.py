@@ -835,17 +835,21 @@ class StaffInterface:
 
     def cost_amount(self):
         pickup_date, return_date = self.__error_catch.input_rental_dates()
-        car_type_list = ["jeppi", "smabill", "folksbill"]
-        car_dict = {"jeppi":5000, "folksbill":4000, "smabill":3000}
+        car_type_list = ["jeppi", "smabill", "folksbill", \
+        "husbill", "sportbill"]
+        car_dict = {"jeppi":5000, "folksbill":4000, "smabill":3000, \
+        "husbill":6000, "sportbill":7000}
         while True:
             try:
                 print("1.  Jeppi")
                 print("2.  Smábíll")
                 print("3.  Fólksbíll")
+                print("4.  Húsbíll")
+                print("5.  Sportbíll")
                 car_type = int(input("Veldu tegund bíls: "))
                 car = car_type_list[car_type-1]
             except (IndexError, ValueError):
-                print("Vinsamlegast sláðu inn heiltölu á bilinu 1-3.")
+                print("Vinsamlegast sláðu inn heiltölu á bilinu 1-5.")
             else:
                 break
         time_d = datetime.datetime.strptime(return_date, "%d%m%Y")\

@@ -51,7 +51,7 @@ class ErrorCatch:
 
     def input_type(self):
         check = False
-        model_list = ["jeppi", "folksbill", "smabill"]
+        model_list = ["jeppi", "folksbill", "smabill", "husbill", "sportbill"]
         while check == False:
             model = input("Tegund bíls: ")
             if model.isalpha():
@@ -60,7 +60,8 @@ class ErrorCatch:
                         if model.lower() == item:
                             return model.lower()
             print("Athugið að tegund bíls getur verið jeppi, "\
-            "folksbill eða smabill\nog skal skrifa án íslenskra sérstafa")
+            "folksbill, smabill, husbill eða sportbill\n\
+            og skal skrifa án íslenskra sérstafa")
 
     def input_color(self):
         check = False

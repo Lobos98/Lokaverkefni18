@@ -113,5 +113,10 @@ class CarService:
         car_reg = order.get_car_reg_num()
         car = self.find_car(car_reg)
         car.remove_order(order)
-        self.delete_car(car_reg)
-        self.__car_repo.add_car(car)
+        self.refresh_car(car)
+
+    def add_reservation_dates(self, car, order):
+        """tekur við car object og order object. Bætir dagsetningunum í 
+        reserved_dates, eyðir bílnum og skrifar hann aftur í skrána"""
+        car.add_reservation(order)
+        self.refresh_car(car)

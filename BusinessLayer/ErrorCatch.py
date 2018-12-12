@@ -69,6 +69,16 @@ class ErrorCatch:
             print("Vinsamlegast skrifið inn lit."\
             " Tölustafir og íslenskir sérstafir eru ekki leyfðir")
 
+    def input_name(self):
+        check = False
+        while check == False:
+            name = input("Sláðu inn nafn viðskiptavinar: ")
+            if name.isalpha() == True:
+                if name.isascii() == True:
+                    return name.lower()
+            print("Vinsamlegast skrifið inn nafn.\n"
+            "Athugið að nafn má ekki innihalda íslenska sérstafi.")
+
     def input_rental_dates(self):
         """Biður um tvö inputs á forminu ddmmáááá og skilar strengjunum ef 
         þeir passa við okkar reglur"""

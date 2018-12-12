@@ -156,7 +156,7 @@ class StaffInterface:
         clear_screen()
         print("Skrá nýjann viðskiptavin")
         print("-"*57)
-        name = input("Nafn: ")
+        name = self.__error_catch.input_name()
         phone = self.phone_input()
         email = self.email_input()
         card_number = self.card_input()
@@ -219,7 +219,7 @@ class StaffInterface:
         clear_screen()
         print("Fletta upp viðskiptavin")
         print("-"*50)
-        name = input("Sláðu inn nafn viðskiptavins: ")
+        name = self.__error_catch.input_name()
         clear_screen()
 
 
@@ -901,7 +901,6 @@ class StaffInterface:
         
 
     def change_car(self, email, input_num):
-        # TODO: Fjör fyrir einar.
         print("Breyta Pöntun")
         order_info = self.__order_service.find_order(email)
         ordered_cars = []  
@@ -913,7 +912,7 @@ class StaffInterface:
                 order[1].get_car_reg_num(),
                 order[1].get_pickup_date(),
                 order[1].get_return_date()))
-        #TODO passa að viðskiptavinurinn velji tölu á réttu bili
+
         while True:
             order_num = self.__error_catch.integer_input(
             "Veldu númer pöntunarinnar til að breyta: ")
@@ -923,7 +922,8 @@ class StaffInterface:
                 "Veldu númer pöntunarinnar til að breyta: ")
             else:
                 break
-
+        
+        chosen_order = order_info[order_num -1]
         car = ordered_cars[order_num - 1]            
         old_pickup_date = car.get_pickup_date()
         old_return_date = car.get_return_date()
@@ -936,6 +936,8 @@ class StaffInterface:
                 if a_car.get_reg_num() == new_car_reg_num:
                     print("Þú hefur leigt {}".format(new_car_reg_num))
                     print("-"*60)
+                    self.__car_service.remove_order(chosen_order)
+                    self.__car_service.add_reservation_dates(a_car, chosen_order)
                     return \
                     self.__order_service.change_order\
                     (car, "2", reg_number=new_car_reg_num)

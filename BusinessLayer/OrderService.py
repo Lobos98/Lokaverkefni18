@@ -1,6 +1,7 @@
 from models.Order import Order
 from repositories.OrderRepo import OrderRepo
 from BusinessLayer.CustomerService import CustomerService
+from datetime import datetime
 
 class OrderService:
     def __init__(self):
@@ -75,6 +76,24 @@ class OrderService:
             list_of_orders_for_email = False
         return list_of_orders_for_email
 
+    def get_active_orders(self, list_of_orders):
+        """Tekur við lista af order items og skila lista af þeim pöntunum 
+        sem eru í gangi núna. Skilar False ef engar pantanir eru í gangi"""
+        active_orders = []
+        for order in list_of_orders:
+            pickup_date = self.__read_date(order.get_pickup_date())
+            return_date = self.__read_date(order.get_return_date())
+            if pickup_date <= datetime.today() <= return_date:
+                active_orders.append(order)
+        if active_orders == []:
+            return False
+        else:
+            return active_orders
+
+    def __read_date(self, date_string):
+        return datetime.strptime(date_string, "%d%m%Y")
+
+
     def find_order_by_order_no(self, order_no):
         """Tekur við pöntunarnúmeri og skilar order object"""
         list_of_orders = self.get_list_of_orders()
@@ -95,10 +114,9 @@ class OrderService:
         return self.__order_repo.get_past_orders()
 
     def car_deleted(self, reg_num):
-        """Tekur inn bílnúmer bíls sem er verið að eyða og eyðir öllum\
+        """Tekur inn bílnúmer bíls sem er verið að eyða og eyðir öllum
         pöntunum sem eru skráðar á þennan bíl"""
         list_of_orders = self.get_list_of_orders()
         for order in list_of_orders:
             if order.get_car_reg_num() == reg_num:
                 self.delete_order(order)
-    

@@ -601,6 +601,9 @@ class StaffInterface:
         print("Afskrá bíl")
         print("-"*30)
         car_to_delete = self.__find_car()
+        if car_to_delete == "":
+            print("Hætt var við")
+            return self.go_to_menu()
         reg_num = car_to_delete.get_reg_num()
         if car_to_delete.get_reserved_dates() == []:
             self.__car_service.delete_car(reg_num)
@@ -675,6 +678,9 @@ class StaffInterface:
         print("Skrá bilaðan bíl")
         print("-"*30)
         car = self.__find_car()
+        if car == "":
+            print("Hætt var við")
+            return self.go_to_menu()
         reg_num = car.get_reg_num()
         if car.get_broken() == False:
             car.change_broken_status()
@@ -728,7 +734,7 @@ class StaffInterface:
         while car == False:
             reg_num = self.__error_catch.input_reg_num()
             if reg_num == "":
-                break
+                return ""
             car = self.__car_service.find_car(reg_num)
             if car == False:
                 print("Bíllinn {} finnst ekki.".format(reg_num.upper()))
@@ -852,7 +858,10 @@ class StaffInterface:
                 print("2.  Smábíll")
                 print("3.  Fólksbíll")
                 car_type = int(input("Veldu tegund bíls: "))
-                car = car_type_list[car_type]
+                if car_type in [1,2,3]:
+                    car = car_type_list[car_type - 1]
+                else:
+                    raise ValueError
             except (IndexError, ValueError):
                 print("Vinsamlegast sláðu inn heiltölu á bilinu 1-3.")
             else:

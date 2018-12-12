@@ -18,6 +18,11 @@ class OrderService:
         self.__order_repo.add_order(self.new_order)
         return self.new_order
 
+    def change_email(self, email, order):
+        self.__order_repo.remove_order(order)
+        order.set_customer_email(email)
+        self.__order_repo.add_order(order)
+
     def change_order(self, order, choice, date1=0, date2=0, reg_number=0):
         '''Tekur inn email, valkost um hverju á að breyta
         og svo nýja gildið sem á að breyta yfir í(dagsetningu eða bílnr).

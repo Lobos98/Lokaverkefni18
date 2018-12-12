@@ -49,6 +49,9 @@ class CustomerService:
 	def find_customer_by_ssn(self, ssn):
 		return self.__customer_repo.find_customer_by_ssn(ssn)
 
+	def find_customer_by_phone_no(self, phone_no):
+		return self.__customer_repo.find_customer_by_phone_no(phone_no)
+
 	def ban_customer(self, banned_customer):
 		'''bannar viðskiptavin og uppfærir hann í repóinu'''
 		customer = self.find_customer(banned_customer)

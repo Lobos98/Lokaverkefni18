@@ -350,8 +350,6 @@ class StaffInterface:
 
         if choice.lower() == "j":
             self.edit_customer(customer_found)
-        else:
-            return self.go_to_menu()
 
     def edit_customer(self, customer_found=0 ):
         if customer_found != 0:

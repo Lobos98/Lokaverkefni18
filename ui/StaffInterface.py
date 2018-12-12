@@ -208,7 +208,7 @@ class StaffInterface:
         print("Fletta upp viðskiptavin")
         print("-"*50)
         print("Leita eftir:")
-        menu_list = ["Nafni", "Netfangi", "Kennitala", "Símanúmer" "Til baka"]
+        menu_list = ["Nafni", "Netfangi", "Kennitala", "Símanúmer", "Til baka"]
         self.print_a_menu(menu_list)
         print("-"*50)
         choice = input("Val: ")

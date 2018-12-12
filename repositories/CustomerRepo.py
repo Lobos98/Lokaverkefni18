@@ -53,7 +53,7 @@ class CustomerRepo:
 
 	def find_customer_by_phone_no(self, phone_no):
 		phone_list = []
-		for customer in self.__custoemrs:
+		for customer in self.__customers:
 			if phone_no == customer.get_phone_no():
 				phone_list.append(customer)
 		return phone_list

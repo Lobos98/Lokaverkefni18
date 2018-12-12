@@ -17,7 +17,8 @@ class Car:
             self.__reserved_dates = []
         else:
             self.__reserved_dates = reserved_dates
-        self.__price_list = {"jeppi": 5000, "folksbill": 4000, "smabill": 3000}
+        self.__price_list = {"jeppi":5000, "folksbill":4000, "smabill":3000, \
+        "husbill":6000, "sportbill":7000}
 
     def __repr__(self):
         return "Car({}, {}, {}, {}, {}, {}, {})".format(self.__reg_num,\
@@ -42,7 +43,8 @@ class Car:
         return self.__model
 
     def get_type(self):
-        """Skilar tegund bíls - jeppi, smabill eða folksbill"""
+        """Skilar tegund bíls - jeppi, smabill, husbill, 
+        sportbill eða folksbill"""
         return self.__type
 
     def get_color(self):

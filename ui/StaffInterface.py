@@ -641,14 +641,17 @@ class StaffInterface:
         print("Leita að bíl")
         print("-"*30)
         car = self.__find_car()
-        
-        clear_screen()
-        print("Leita að bíl")
-        self.__print_divider()
-        self.print_car_header()
-        self.__print_divider()
-        print(car)
-        self.__print_divider()
+
+        if car == True:        
+            clear_screen()
+            print("Leita að bíl")
+            self.__print_divider()
+            self.print_car_header()
+            self.__print_divider()
+            print(car)
+            self.__print_divider()
+        else:
+            print("Hætt var við að leita að bíl.")
 
     def broken_cars(self):
         """Setur bilaðra-bíla valmyndina í gang"""

@@ -21,7 +21,7 @@ class ErrorCatch:
             else:
                 print("Athugið að bílnúmer skal skrifa inn á forminu AAXTT\n"
                 "þar sem A er bókstafur, T er tölustafur og X er annaðhvort"
-                "'q' til að hætta")
+                "\n'q' til að hætta")
             
 
     def input_email(self):

@@ -1,1 +1,1 @@
-print(len("5.  Prenta allar pantanir"))
+print(len("Saga: Þessi viðskiptavinur á sér enga sögu"))

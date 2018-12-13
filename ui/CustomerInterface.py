@@ -86,15 +86,15 @@ class CustomerInterface:
             customer_found = list_of_customers[0]
             return customer_found
         elif len(list_of_customers) > 1:
-            index = 1
-            for customer in list_of_customers:
-                print("{}. {}".format(index, customer))
-                if index < len(list_of_customers):
-                    print()
-                index += 1
-            self.__print_lines()
-            choice = int(input("Veldu einn viðskiptavin hér fyrir ofan: ")) - 1 #TODO
-            customer_found = list_of_customers[choice]
+
+            for index, customer in enumerate(list_of_customers):
+                print("{}. {}".format(index + 1, customer))
+                print()
+            self.__staff_interface.print_divider()
+            choice = self.__staff_interface.error_catch.integer_input\
+            ("Vinsamlegast veldu viðskiptavin hér fyrir ofan: ",
+            len(list_of_customers))
+            customer_found = list_of_customers[choice - 1]
             return customer_found
             
 

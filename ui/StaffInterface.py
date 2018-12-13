@@ -311,29 +311,21 @@ class StaffInterface:
     
     def create_order(self):
         '''
-        1. Leita uppi viðskiptavin
-        a) fundinn -> búa til nýja pöntun, mm
-        b) ófundinn -> skrá nýjan? 
-            i. Já, skrá viðskiptavin -> búa til nýja pöntun, mm
-            ii. Nei, mm
+        Leitar að viðskiptavini, biður um tímabili leigu,
+        birtir lausa bíla á gefnu tímabili og tekur við
+        bílnúmeri bílsins sem á að leigja.
+        Prentar út verð og býður upp á aukatryggingu.
+        Stofnar loks pöntun tengda netfangi viðskiptavins
         '''
         self.clear_screen()
         print("Skrá pöntun")
-        self.print_divider(self.SHORT_DIVIDER)
+        self.print_divider(StaffInterface.SHORT_DIVIDER)
 
         customer = self.find_customer_menu()
         if not customer:
             self.main_menu()
         else:
             email = customer.get_email()
-            
-        # print("Skrá pöntun")
-        # self.customer.__is_banned(email) # Ef viðskiptavinurinn er bannaður
-        # þá er maður sendur aftur í main menu
-        #TODO: kommemtaði þetta fyrir neðan burt útaf villu
-        #if self.customer.is_banned(email):
-        #    print("Þessi notandi er bannaður.")
-        #   self.main_menu()
 
         pickup_date, return_date, free_cars = self.display_free_cars()
         if free_cars == False:
@@ -341,8 +333,6 @@ class StaffInterface:
             return
         reg_number = self.error_catch.input_reg_num()
         rented_car = ''
-        insurance_price_coeff = 1.5
-
         while True:
             for car in free_cars:
                 if reg_number == car.get_reg_num():
@@ -353,40 +343,33 @@ class StaffInterface:
                 reg_number = self.error_catch.input_reg_num()
             else:
                 break
-
-        time_d = datetime.strptime(return_date, "%d%m%Y")\
-        - datetime.strptime(pickup_date, "%d%m%Y")
+        car_price = rented_car.get_price()
+        price, price_insured, time_d = self.order_service.calculate_price\
+        (car_price, pickup_date, return_date)
 
         self.clear_screen()
-        
-        price = time_d.days * rented_car.get_price()
-        price_rounded = round(price*insurance_price_coeff)
-        print("Skrá pöntun")
-        self.print_divider(62 + len("{:,d}".format(price_rounded)))
-
         print("Kostnaður fyrir bílinn {} í {} daga er: {:,d} kr."\
         .format(reg_number, time_d.days, price))
-        print("Auka trygging kostar 50% af verði bílsins, kostnaður er þá {:,d} kr"\
-        .format(price_rounded))
-        self.print_divider(62 + len("{:,d}".format(price_rounded)))
+        print("Auka trygging kostar 150% af verði bílsins, kostnaður er þá {:,d} kr"\
+        .format(price_insured))
+        self.print_divider(62 + len("{:,d}".format(price_insured)))
+        
         extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
         if extra_insurance.lower() == "j":
             insurance = "True"
             print("Nýja verðið er {:,d} kr."\
-            .format(price_rounded))
+            .format(price_insured))
         else:
             insurance = "False"
-        self.print_divider(62 + len("{:,d}".format(price_rounded)))
+        self.print_divider(62 + len("{:,d}".format(price_insured)))
 
-        interim_order = self.order_service.log_order(reg_number,\
+        new_order = self.order_service.log_order(reg_number,\
         pickup_date, return_date, email, insurance)
-        
-        rented_car.add_reservation(interim_order)
-        #TODO: þetta make_reservation fall er mjög skrýtið...
+        rented_car.add_reservation(new_order)
         self.car_service.refresh_car(rented_car)
-
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))
-        self.print_divider(62 + len("{:,d}".format(price_rounded)))
+        self.print_divider(62 + len("{:,d}".format(price_insured)))
+
     
     def start_menu(self):
         """Prentar logo fyrirtækisins og spyr hvort keyra skuli forritið"""

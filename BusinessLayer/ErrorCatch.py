@@ -172,6 +172,7 @@ class ErrorCatch:
             else:
                 print("Ógilt kortanúmer, reyndu aftur eða 'q' til að hætta")
                 card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
+        card_number = card_number.replace("-", "").replace(" ", "")
         return card_number
 
     def input_ssn(self):
@@ -274,12 +275,21 @@ class ErrorCatch:
         except ValueError:
             return True
 
-    def integer_input(self, message):
+    def integer_input(self, message, max_int=''):
+        """
+        While loopa sem biður um heiltölu input frá 
+        einum og upp að efra markinu sem er sett inn í fallið
+        Setur inn skilaboð sem þú vilt að sé gefið í hvert sinn
+        sem er spurt um gildið
+        """
         while True:
             try:
                 check_if_int = int(input(str(message)))
+                if max_int:
+                    if check_if_int not in range(1, max_int + 1):
+                        raise ValueError
             except:
-                print("Vinsamlegast sláðu inn heiltölu.")
+                print("Vinsamlegast sláðu inn heiltölu á réttu bili.")
             else:
                 return check_if_int
 

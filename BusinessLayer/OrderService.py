@@ -1,22 +1,26 @@
 from models.Order import Order
 from repositories.OrderRepo import OrderRepo
 from BusinessLayer.CustomerService import CustomerService
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class OrderService:
+    INSURANCE_COEFFICIENT = 2.5
+
     def __init__(self):
         self.__order_repo = OrderRepo()
         self.__order_list = self.__order_repo.get_all_orders()
 
     def log_order(self, reg_number, date1, date2, email, extra_insurance):
-        '''Tekur inn bílnr, leigudags, skiladags, email og aukatryggingu
-        og býr til pöntun og bætir í skrána'''
-        self.order_number = self.__order_repo.largest_ordernr + 1
+        '''Tekur inn bílnr streng, leigudags datetime, skiladags datetime, 
+        email streng og aukatryggingu bool, býr til pöntun og bætir í skrána.
+        Skilar order objectinu sem var skapað'''
+        order_number = self.__order_repo.largest_orderno + 1
+        self.__order_repo.next_order_no()
         joined_date = (date1, date2)
-        self.new_order = Order(self.order_number, reg_number, joined_date, \
+        new_order = Order(order_number, reg_number, joined_date, \
         email, extra_insurance)
-        self.__order_repo.add_order(self.new_order)
-        return self.new_order
+        self.__order_repo.add_order(new_order)
+        return new_order
 
     def change_email(self, email, order):
         """"
@@ -27,7 +31,7 @@ class OrderService:
         order.set_customer_email(email)
         self.__order_repo.add_order(order)
 
-    def change_order(self, order, choice, date1=0, date2=0, reg_number=0):
+    def change_order(self, order, choice, date1=0, date2=0, new_reg_number=0):
         '''Tekur inn email, valkost um hverju á að breyta
         og svo nýja gildið sem á að breyta yfir í(dagsetningu eða bílnr).
         fjarlægir gömlu pöntunina úr skránni og skrifar hana aftur í hana
@@ -35,24 +39,22 @@ class OrderService:
         
         
         original_reg_number = order.get_car_reg_num()
-        original_date1 = order.get_pickup_date()
-        original_date2 = order.get_return_date()
-        original_joined_date = (original_date1, original_date2)
-        joined_date = (date1, date2)
+        original_dates = order.get_date()
+        new_dates = (date1, date2)
         email = order.get_customer_email()
         order_number = order.get_order_no()
         bonus_insurance = order.get_bonus_insurance()
         
 
         if choice == "1":
-            self.changed_order = Order(order_number, original_reg_number, \
-            joined_date, email, bonus_insurance)
+            changed_order = Order(order_number, original_reg_number, \
+            new_dates, email, bonus_insurance)
             self.__order_repo.remove_order(order)
-            self.__order_repo.add_order(self.changed_order)
+            self.__order_repo.add_order(changed_order)
 
         elif choice == "2":
-            changed_order = Order(order_number,  reg_number, \
-            original_joined_date, email, bonus_insurance)
+            changed_order = Order(order_number,  new_reg_number, \
+            original_dates, email, bonus_insurance)
             self.__order_repo.remove_order(order)
             self.__order_repo.add_order(changed_order)
             
@@ -139,3 +141,11 @@ class OrderService:
         for order in all_orders:
             if order.get_customer_email() == email:
                 self.delete_order(order)
+    
+    def calculate_price(self, car_price, pickup_date, return_date):
+        """Tekur inn dagsetningar"""
+        time_d = datetime.strptime(return_date, "%d%m%Y") - datetime.\
+        strptime(pickup_date, "%d%m%Y")
+        price = (time_d.days + 1) * car_price
+        price_insured = round(price*OrderService.INSURANCE_COEFFICIENT)
+        return price, price_insured, time_d

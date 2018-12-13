@@ -17,7 +17,6 @@ class CustomerRepo:
 		with open(self.__link, "r", encoding="utf-8") as customer_file:
 			csv_reader = csv.DictReader(customer_file)
 			for line in csv_reader:
-				#banned = False
 				email = line["Email"]
 				name = line["Nafn"]
 				card_no = line["Kort"]
@@ -62,7 +61,6 @@ class CustomerRepo:
 	def find_customer_by_name(self, name):
 		"""Tekur við nafni sem streng og skilar lista yfir þá viðskiptavini 
 		sem eru með nafnbútinn í nafninu sínu. Skilar False ef ekkert finnst"""
-		#list_of_customers = self.__customer_repo.get_customer_list()
 		list_of_found_customers = []
 		for customer in self.__customers:
 			if name.lower() in customer.get_name().lower():
@@ -147,7 +145,6 @@ class CustomerRepo:
 			history += ";"
 		history = history[:-1]
 		return history
-
 
 	def __str__(self):
 		return self.__customers

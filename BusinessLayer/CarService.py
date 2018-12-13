@@ -59,8 +59,9 @@ class CarService:
                 while pickup_date <= return_date:
                     reserved_dates.append(pickup_date)
                     pickup_date += timedelta(days=1)
-            #reserved_dates = [date for date_tuple in car.get_reserved_dates() for date in date_tuple]
-            dates_ok = [not (wanted_pickup_date <= date <= wanted_return_date) for date in reserved_dates]
+            dates_ok = [not (wanted_pickup_date <= date <= wanted_return_date)\
+            for date in reserved_dates]
+
             if all(dates_ok) and not car.get_broken():
                 free_car_list.append(car)
 
@@ -121,7 +122,7 @@ class CarService:
         self.refresh_car(car)
 
     def cars_of_same_type(self, list_of_cars, car_to_compare):
-        """Tekur við lista af bílum og einu car object - skilar lista af þeim\
+        """Tekur við lista af bílum og einu car object - skilar lista af þeim
          bílum sem eru með sama type og bíllinn"""
         car_list = []
         for car in list_of_cars:

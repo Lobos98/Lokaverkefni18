@@ -275,7 +275,7 @@ class ErrorCatch:
         except ValueError:
             return True
 
-    def integer_input(self, message, max_int):
+    def integer_input(self, message, max_int=''):
         """
         While loopa sem biður um heiltölu input frá 
         einum og upp að efra markinu sem er sett inn í fallið
@@ -285,8 +285,9 @@ class ErrorCatch:
         while True:
             try:
                 check_if_int = int(input(str(message)))
-                if check_if_int not in range(1, max_int + 1):
-                    raise ValueError
+                if max_int:
+                    if check_if_int not in range(1, max_int + 1):
+                        raise ValueError
             except:
                 print("Vinsamlegast sláðu inn heiltölu.")
             else:

@@ -177,7 +177,11 @@ class StaffInterface:
             if not email:
                 return self.go_to_menu()
             order_list = self.order_service.get_customer_orders(email)
-            active_orders = self.order_service.get_active_orders(order_list)
+            if order_list:
+                active_orders = self.order_service.get_active_orders(order_list)
+            else:
+                active_orders = False
+
             if active_orders == False:
                 print("Virk pöntun finnst ekki á þessu netfangi.")
             elif len(active_orders) == 1:
@@ -185,7 +189,7 @@ class StaffInterface:
             else:
                 print("Eftirfarandi pantanir eru virkar á þessu netfangi:")
                 self.print_orders(active_orders)
-                order_choice = self.error_catch.integer_input("Veldu bíl til þess að skila: ")
+                order_choice = self.error_catch.integer_input("Veldu bíl til þess að skila: ", len(active_orders))
                 order = active_orders[order_choice-1]#TODO: ATH við gætum fengið error hér ef of há tala er sett inn!
         self.payment_type(order)
         reg_num = self.car_service.return_car(order)
@@ -369,6 +373,8 @@ class StaffInterface:
                     rented_car = car
                     break
             if not rented_car:
+                if reg_number == "":
+                    self.go_to_menu()
                 print("Vinsamlegast veldu bíl á listanum")
                 reg_number = self.error_catch.input_reg_num()
             else:

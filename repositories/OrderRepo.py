@@ -90,7 +90,9 @@ class OrderRepo:
         sem streng á forminu 01012019--02012019 til þess að skrifa í skrá
         """
         pickup_date, return_date = order.get_date()
-        date_string = pickup_date + "--" + return_date
+        pickup_date_string = datetime.strftime(pickup_date, "%d%m%Y")
+        return_date_string = datetime.strftime(return_date, "%d%m%Y")
+        date_string = "--".join([pickup_date_string, return_date_string])
         return date_string
 
     def __get_attribute_string(self, order):
@@ -129,7 +131,9 @@ class OrderRepo:
         order_list = []
         for line in dict_reader:
             order_no = int(line["Pontunarnr"])
-            pickup_and_return_dates = line["Dagsetning"]
+            
+            pickup_and_return_dates = self.__read_dates_from_string(\
+            line["Dagsetning"])
             if line["Aukatrygging"] == "True":
                 bonus_insurance = True
             elif line["Aukatrygging"] == "False":

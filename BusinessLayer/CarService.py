@@ -49,6 +49,8 @@ class CarService:
         af lausum bílum á tímabilinu """
 
         free_car_list = []
+        wanted_pickup_date = datetime.strptime(wanted_pickup_date, "%d%m%Y")
+        wanted_return_date = datetime.strptime(wanted_return_date, "%d%m%Y")
 
         for car in self.__car_repo.get_all_cars():
             reserved_dates = []
@@ -56,7 +58,7 @@ class CarService:
                 pickup_date, return_date = date_tuple
                 while pickup_date <= return_date:
                     reserved_dates.append(pickup_date)
-                    pickup_date += timedelta(1)
+                    pickup_date += timedelta(days=1)
             #reserved_dates = [date for date_tuple in car.get_reserved_dates() for date in date_tuple]
             dates_ok = [not (wanted_pickup_date <= date <= wanted_return_date) for date in reserved_dates]
             if all(dates_ok) and not car.get_broken():

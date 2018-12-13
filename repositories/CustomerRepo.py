@@ -5,7 +5,8 @@ class CustomerRepo:
 	def __init__(self):
 		self.__link = "./Data/list_of_customers.csv"
 		self.__customers = self.get_customer_list()
-		self.__header = ["Email","Nafn", "Kort", "Simi", "Kennitala", "Ban", "Fine", "History"]
+		self.__header = ["Email","Nafn", "Kort", "Simi", "Kennitala", "Ban",\
+		"Fine", "History"]
 
 	def get_customer_list(self):
 		"""
@@ -112,8 +113,8 @@ class CustomerRepo:
 		with open("./Data/list_of_customers.csv", "w") as customer_file:
 			customer_file.write(','.join(self.__header) + '\n')
 			for customer in self.__customers:
-				customer_file.write(','.join(self.__get_string_attributes(customer)) +\
-					'\n')
+				customer_file.write(','.join(self.\
+					__get_string_attributes(customer)) +'\n')
 
 	def __get_string_attributes(self, customer):
 		"""

@@ -34,8 +34,8 @@ class VehicleInterface:
         elif input_num == "7":
             self.broken_cars()
         elif input_num == "8":
-            self.__staff_interface.display_list_of_cars(self.__staff_interface.car_service.find_free_cars(\
-            "01012100", "01012100"))
+            self.__staff_interface.display_list_of_cars(self.\
+                __staff_interface.car_service.find_free_cars("01012100", "01012100"))
         elif input_num == "9":
             self.__staff_interface.main_menu()
         else:
@@ -74,7 +74,8 @@ class VehicleInterface:
             if model:
                 car_type = self.__staff_interface.error_catch.input_type()
                 color = self.__staff_interface.error_catch.input_color()
-                self.__staff_interface.car_service.add_car(reg_num, model, car_type, color)
+                self.__staff_interface.car_service.add_car(reg_num, model,\
+                    car_type, color)
                 self.__print_lines(80)
                 print("Bíllinn {} hefur verið skráður!".format(reg_num))
                 self.__print_lines(80)

@@ -23,7 +23,8 @@ class OrderInterface:
         elif input_num == "4":
             self.__staff_interface.delete_order()
         elif input_num == "5":
-            self.__staff_interface.print_orders(self.__staff_interface.order_service.get_list_of_orders())
+            self.__staff_interface.print_orders(self.__staff_interface.\
+                order_service.get_list_of_orders())
         elif input_num == "6":
             self.__staff_interface.main_menu()
         else:
@@ -43,9 +44,10 @@ class OrderInterface:
 
         while True:
             self.__clear_scren()
-            free_cars = self.__staff_interface.car_service.find_free_cars(old_pickup_date,
-            old_return_date)
-            free_cars_of_same_type = self.__staff_interface.car_service.cars_of_same_type(\
+            free_cars = self.__staff_interface.car_service.\
+            find_free_cars(old_pickup_date, old_return_date)
+            free_cars_of_same_type = self.__staff_interface.car_service.\
+            cars_of_same_type(\
             free_cars, car)
             print("Birta lausa bíla")
             self.__print_lines()
@@ -63,7 +65,8 @@ class OrderInterface:
                     print("Þú hefur leigt {}".format(new_car_reg_num))
                     self.__print_lines(60)
                     self.__staff_interface.car_service.remove_order(chosen_order)
-                    self.__staff_interface.car_service.add_reservation_dates(a_car, chosen_order)
+                    self.__staff_interface.car_service.add_reservation_dates(a_car,
+                        chosen_order)
                     return \
                     self.__staff_interface.order_service.change_order\
                     (order, "2", reg_number=new_car_reg_num)
@@ -92,7 +95,8 @@ class OrderInterface:
             car_price = self.__staff_interface.car_service.get_price(vehicle)
             price = self.__staff_interface.order_service.calculate_price\
             (car_price, pickup_date, return_date)[1]
-            print("Þú hefur breytt dagsetningunni, nýja verðið er: {:,d} Kr".format(price))
+            print("Þú hefur breytt dagsetningunni, nýja verðið er: {:,d} Kr".\
+                format(price))
             self.__staff_interface.order_service.change_order\
             (car, "1", pickup_date, return_date)
             self.__print_lines(57)

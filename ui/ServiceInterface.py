@@ -44,7 +44,8 @@ class ServiceInterface:
         return self.__staff_interface.go_to_menu()
 
     def cost_amount(self):
-        pickup_date, return_date = self.__staff_interface.error_catch.input_rental_dates()
+        pickup_date, return_date = self.__staff_interface.error_catch.\
+        input_rental_dates()
         car_type_list = ["jeppi", "smabill", "folksbill", \
         "husbill", "sportbill"]
         car_dict = {"jeppi":5000, "folksbill":4000, "smabill":3000, \

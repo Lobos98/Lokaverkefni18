@@ -116,14 +116,17 @@ class Customer:
 
 	def __str__(self):
 		if self.__history:
-			history_string = ", ".join([str(order_no) for order_no in self.__history])
+			history_string = ", ".join([str(order_no) for order_no in self.\
+				__history])
 		else:
 			history_string = "Þessi viðskiptavinur á sér enga sögu"
 		if self.__ssn == "":
 			return "Nafn: {}\nEmail: {}\nKortanúmer: {}\nSímanúmer: {}\
-			\nFyrri pöntunarnúmer: {}".format(self.__name, self.__email,self.__card_no,\
+			\nFyrri pöntunarnúmer: {}".format(self.__name, self.__email,self.\
+				__card_no,\
 				self.__phone_no, history_string)
 		else:
 			return "Nafn: {}\nEmail: {}\nKortanúmer: {}\nSímanúmer: {}\
-			\nKennitala: {}\nFyrri pöntunarnúmer: {}".format(self.__name, self.__email,\
+			\nKennitala: {}\nFyrri pöntunarnúmer: {}".format(self.__name, self.\
+				__email,\
 				self.__card_no, self.__phone_no, self.__ssn, history_string)

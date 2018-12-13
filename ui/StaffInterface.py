@@ -42,6 +42,7 @@ class StaffInterface:
         """
         print("{:<8}{:<11}{:<14}{:<12}{:<20}".format(\
         "Nr.", "Frá", "Til", "Bílnúmer", "Viðbótartrygging"))
+        self.print_divider(61)
         list_no = 1
         for order in list_of_orders:
             print("{:<8}".format(list_no) + order.__str__())
@@ -97,7 +98,7 @@ class StaffInterface:
     def register_customer(self):
         self.clear_screen()
         print("Skrá nýjann viðskiptavin")
-        print("-"*57)
+        self.print_divider(57)
         name = self.error_catch.input_name()
         if not name:
             return self.go_to_menu()
@@ -118,11 +119,11 @@ class StaffInterface:
         else:
             ssn = ""
         
-        print("-"*57)
+        self.print_divider(57)
         
         if self.customer_service.add_customer(email, name, card_number, phone, ssn):
             print("Viðskiptavinur {} hefur verið skráður".format(name))
-            print("-"*57)
+            self.print_divider(57)
             new_customer = self.customer_service.find_customer(email = email)
             return new_customer
         else:
@@ -191,69 +192,87 @@ class StaffInterface:
         self.order_service.move_to_past(order.get_order_no())
         self.customer_service.add_old_order(order.get_customer_email(),\
         order.get_order_no())
-        print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+        self.print_divider(27 + len(reg_num))
         print("Bílnum {} hefur verið skilað!".format(reg_num))
-        print("-"*len("Bílnum {} hefur verið skilað!".format(reg_num)))
+        self.print_divider(27 + len(reg_num))
     
     def find_customer_menu(self):
         """
-        Býður að leita eftir nafni, kennitölu eða netfangi, kallar í 
-        customer_interface föll til að finna vsk vin og skilar Customer object
+        Býður að leita eftir nafni, kennitölu, netfangi eða símanúemeri, 
+        kallar í customer_interface föll til að finna vsk vin sem skila 
+        Customer object eða lista af vskvinum ef leitað er eftir nafni eða snr
+        síðasta sem fallið gerir er að kalla í select customer til að velja 
+        vskvin ef lista var skilað. Skilar alltaf customer object nema 
+        hætt sé við
         """
         self.clear_screen()
         print("Fletta upp viðskiptavin")
-        self.print_divider()
+        self.print_divider(23)
         print("Leita eftir:")
-        menu_list = ["Nafni", "Netfangi", "Kennitölu", "Símanúmer"]
+        menu_list = ["Nafni", "Netfangi", "Kennitölu", "Símanúmeri"]
         self.print_menu(menu_list)
-        self.print_divider()
+        self.print_divider(23)
         choice = input("Val: ")
         if choice == "1":
-            return self.customer.find_by_name()
+            customer_list = self.customer.find_by_name()
+            return self.customer.select_customer(customer_list)
         elif choice == "2":
             return self.customer.find_by_email()
         elif choice == "3":
             return self.customer.find_by_ssn()
         elif choice == "4":
-            return self.customer.find_by_phone_no()
+            customer_list = self.customer.find_by_phone_no()
+            return self.customer.select_customer(customer_list)
         self.go_to_menu()
 
     def delete_order(self):
         self.clear_screen()
         print("Bakfæra pöntun")
-        print("-"*34)
-        email = self.error_catch.input_email()
-        if not email:
-            return self.go_to_menu()
+        self.print_divider(34)
+        found_customer = self.find_customer_menu()
+        if not found_customer:
+            self.go_to_menu()
+        if type(found_customer) == list:
+            found_customer = self.customer.select_customer(found_customer)
         self.clear_screen()
         print("Bakfæra pöntun")
-        list_of_orders = self.order_service.get_customer_orders(email)
+        self.print_divider(61)
+        list_of_orders = self.order_service.get_customer_orders(found_customer.get_email())
+        if not list_of_orders:
+            print("Enginn pöntun fannst fyrir {}".format(found_customer.get_name()))
+            choice = input("Viltu reyna aftur? (j/n eða q til að hætta): ")
+            if choice == "j":
+                return self.delete_order()
+            elif choice == "n":
+                return self.go_to_menu()
+            else:
+                exit()
+
         print("-"*72)
         self.print_orders(list_of_orders)
-        print("-"*72)
+        self.print_divider(61)
         val = self.error_catch.integer_input("Veldu pöntun: ")
-        print("-"*72)
+        self.print_divider(61)
         chosen_order = list_of_orders[int(val)-1]#TODO:ATH hér gæti komið crash ef of há tala kemur inn
-        print("Þessi pöntun hefur verið valin: {}"\
-        .format(chosen_order))
-        print("-"*72)
+        print("Pöntun: {}".format(chosen_order))
+        self.print_divider(61)
         choice = input("Viltu eyða þessari pöntun? (j/n): ")
-        print("-"*72)
+        self.print_divider(61)
 
         if choice == "j":
             self.order_service.delete_order(chosen_order)
             self.car_service.remove_order(chosen_order)
-            print("Pöntuninni hefur verið eytt")
-            print("-"*34)
+            print("Pöntuninni hefur verið eytt") 
         else:
             print("Hætt við")
-            print("-"*34)
+            
+        self.print_divider(61)
         return self.go_to_menu()  
 
     def change_order(self):
         self.clear_screen()
         print("Breyta Pöntun")
-        print("-"*(20))
+        self.print_divider(20)
         customer = self.find_customer_menu()
         if not customer:#TODO: ATH kannski gerist þetta aldrei?
             email = self.register_customer()
@@ -271,12 +290,12 @@ class StaffInterface:
             else:
                 exit()
         print("Breyta Pöntun")
-        print("-"*(27 + len(cust.get_name())))
+        self.print_divider(27 + len(cust.get_name()))
         print("Hverju viltu breyta fyrir {}?".format(cust.get_name()))
-        print("-"*(27 + len(cust.get_name())))
+        self.print_divider(27 + len(cust.get_name()))
         menu_list = ["Dagsetningu", "Bíl", "Til baka"]
         self.print_menu(menu_list)
-        print("-"*(27 + len(cust.get_name())))
+        self.print_divider(27 + len(cust.get_name()))
         input_num = input("Val: ")
 
         self.clear_screen()
@@ -339,20 +358,25 @@ class StaffInterface:
         - datetime.strptime(pickup_date, "%d%m%Y")
 
         self.clear_screen()
-
+        
         price = time_d.days * rented_car.get_price()
+        price_rounded = round(price*insurance_price_coeff)
+        print("Skrá pöntun")
+        self.print_divider(62 + len("{:,d}".format(price_rounded)))
+
         print("Kostnaður fyrir bílinn {} í {} daga er: {:,d} kr."\
         .format(reg_number, time_d.days, price))
-        
         print("Auka trygging kostar 50% af verði bílsins, kostnaður er þá {:,d} kr"\
-        .format(round(price*insurance_price_coeff)))
+        .format(price_rounded))
+        self.print_divider(62 + len("{:,d}".format(price_rounded)))
         extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
         if extra_insurance.lower() == "j":
             insurance = "True"
             print("Nýja verðið er {:,d} kr."\
-            .format(round(price*insurance_price_coeff)))
+            .format(price_rounded))
         else:
             insurance = "False"
+        self.print_divider(62 + len("{:,d}".format(price_rounded)))
 
         interim_order = self.order_service.log_order(reg_number,\
         pickup_date, return_date, email, insurance)
@@ -362,6 +386,7 @@ class StaffInterface:
         self.car_service.refresh_car(rented_car)
 
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))
+        self.print_divider(62 + len("{:,d}".format(price_rounded)))
     
     def start_menu(self):
         """Prentar logo fyrirtækisins og spyr hvort keyra skuli forritið"""
@@ -390,10 +415,10 @@ class StaffInterface:
         fjögurra yfirvalmynda"""
         self.clear_screen()
         print("Veldu eitt af eftirfarandi")
-        print("-"*len("Veldu eitt af eftirfarandi"))
+        self.print_divider(len("Veldu eitt af eftirfarandi"))
         
         self.print_menu(self.__menu_list)
-        print("-"*len("Veldu eitt af eftirfarandi"))
+        self.print_divider(len("Veldu eitt af eftirfarandi"))
         input_num = input("Val: ")
         print()
         if input_num == "1":
@@ -413,3 +438,5 @@ class StaffInterface:
         choice = input("Fara aftur á aðalvalmynd? (j/n): ")
         if choice.lower() == "j":
             return self.main_menu()
+        else:
+            exit()

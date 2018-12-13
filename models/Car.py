@@ -102,6 +102,7 @@ class Car:
         for date_tuple in old_reservation_list:
             if not date_tuple == (pickup_date, return_date):
                 new_reservation_list.append(date_tuple)
+        self.__reserved_dates = new_reservation_list
 
     def get_dates_from_order(self, order):
         """tekur við order og skilar pickup date og return date sem 

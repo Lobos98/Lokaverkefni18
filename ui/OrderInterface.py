@@ -8,10 +8,10 @@ class OrderInterface:
     def menu(self):
         self.__staff_interface.clear_screen()
         print("Pantanir")
-        self.__staff_interface.print_divider(21)
+        self.__staff_interface.print_divider(25)
         
         self.__staff_interface.print_menu(self.__menu_list)
-        self.__staff_interface.print_divider(21)
+        self.__staff_interface.print_divider(25)
         input_num = input("Val: ")
         if input_num == "1":
             self.__staff_interface.create_order()
@@ -54,7 +54,7 @@ class OrderInterface:
             pickup_print, return_print))
             self.__staff_interface.display_list_of_cars(free_cars_of_same_type)
             new_car_reg_num = self.__staff_interface.error_catch.input_reg_num()
-            if  new_car_reg_num == "":
+            if  not new_car_reg_num:
                 self.__staff_interface.go_to_menu()
 
             for a_car in free_cars_of_same_type:
@@ -123,7 +123,12 @@ class OrderInterface:
         self.__staff_interface.clear_screen()
         print("Finna pöntun")
         print("-"*34)
-        email = self.__staff_interface.email_input()
+        email = self.__staff_interface.error_catch.input_email()
+        if not email:
+            self.__staff_interface.go_to_menu()
         self.__staff_interface.clear_screen() 
         order_list = self.__staff_interface.order_service.get_customer_orders(email)
+        if not order_list:
+            print("Það er engin pöntun á þessu netfangi")
+            self.__staff_interface.go_to_menu()
         self.__staff_interface.print_orders(order_list)

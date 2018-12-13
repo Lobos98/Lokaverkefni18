@@ -1,13 +1,16 @@
 class Customer:
 	def __init__(self, email, name, card_no, phone_no, ssn = "", ban = False,\
-		fine = "0", history = ""):
+		fine = "0", history = None):
 		self.__email = email
 		self.__name = name
 		self.__card_no = card_no
 		self.__phone_no = phone_no
 		self.__ssn = ssn
 		self.__banned = ban
-		self.__history = history
+		if history == None:
+			self.__history = []
+		else:
+			self.__history = history
 		self.__fine = fine
 
 	def get_name(self):
@@ -100,7 +103,7 @@ class Customer:
 
 	def add_history(self, old_order_no):
 		"""Tekur við pöntunarnúmeri sem int og bætir því í customer history"""
-		self.__history = self.__history + ";" + str(old_order_no)
+		self.__history = self.__history.append(old_order_no)
 
 	def __repr__(self):
 		if self.__ssn == "":
@@ -111,14 +114,15 @@ class Customer:
 				self.__card_no, self.__phone_no, self.__ssn, self.__history)
 
 	def __str__(self):
+		if self.__history:
+			history_string = ", ".join([str(order_no) for order_no in self.__history])
+		else:
+			history_string = "Þessi viðskiptavinur á sér enga sögu"
 		if self.__ssn == "":
 			return "Nafn: {}\nEmail: {}\nKortanúmer: {}\nSímanúmer: {}\
 			\nSaga: {}".format(self.__name, self.__email,self.__card_no,\
-				self.__phone_no, self.__history)
+				self.__phone_no, history_string)
 		else:
 			return "Nafn: {}\nEmail: {}\nKortanúmer: {}\nSímanúmer: {}\
-			\nKennitala: {}\nSaga: ".format(self.__name, self.__email,\
-				self.__card_no, self.__phone_no, self.__ssn, self.__history)
-
-
-
+			\nKennitala: {}\nSaga: {}".format(self.__name, self.__email,\
+				self.__card_no, self.__phone_no, self.__ssn, history_string)

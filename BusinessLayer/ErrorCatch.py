@@ -114,7 +114,7 @@ class ErrorCatch:
             name = input("Sláðu inn nafn viðskiptavinar: ")  
         if name.lower() == "q":
             return ""    
-        return name
+        return name.title()
 
 
     def input_rental_dates(self):

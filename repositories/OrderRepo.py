@@ -15,7 +15,7 @@ class OrderRepo:
         '''Tekur við nýjum order object og bætir í framtíðarskrána og 
         í self.__order_list'''
         order_string = self.__get_attribute_string(new_order)
-        with open(self.__future_orders_file_path, "a") as order_file:
+        with open(self.__future_orders_file_path, "a", encoding = "utf-8") as order_file:
             order_file.write("\n" +  order_string) 
             self.__order_list.append(new_order)
 
@@ -32,7 +32,7 @@ class OrderRepo:
         Skrifar alla future_orders skrána upp á nýtt útfrá 
         order_list eigindi reposins
         """
-        with open(self.__future_orders_file_path, "w", newline='') as file:
+        with open(self.__future_orders_file_path, "w", newline='', encoding = "utf-8") as file:
             file.write(self.__header)
             for order in self.__order_list:
                 order_string = self.__get_attribute_string(order)
@@ -42,7 +42,7 @@ class OrderRepo:
         '''Les úr skrá og bætir öllum framtíðarpöntunum í self.__order_list.
         Uppfærir largest_orderno eigindi reposins 
         Skilar lista af framtíðarpöntunum'''
-        with open(self.__future_orders_file_path, "r") as order_file:
+        with open(self.__future_orders_file_path, "r", encoding = "utf-8") as order_file:
             reader = csv.DictReader(order_file)
             self.__order_list = self.__read_orders_from_file(reader)
             for order in self.__order_list:
@@ -64,14 +64,14 @@ class OrderRepo:
     def add_to_past_orders(self, old_order): 
         '''Tekur við pöntun og skrifar hana í skrá yfir eldri pantanir og 
         eigindið past_order_list'''
-        with open(self.__past_orders_file_path, "a") as past_order_file:
+        with open(self.__past_orders_file_path, "a", encoding = "utf-8") as past_order_file:
             old_order_string = self.__get_attribute_string(old_order)
             past_order_file.write("\n" +  old_order_string) 
             self.__past_order_list.append(old_order)
 
     def get_past_orders(self):
         '''Gerir lista yfir allar eldri pantanir'''
-        with open(self.__past_orders_file_path, "r") as past_order_file:
+        with open(self.__past_orders_file_path, "r", encoding = "utf-8") as past_order_file:
             reader = csv.DictReader(past_order_file)
             self.__past_order_list = self.__read_orders_from_file(reader)
             for order in self.__past_order_list:

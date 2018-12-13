@@ -195,6 +195,31 @@ class StaffInterface:
         self.print_divider(27 + len(reg_num))
         print("Bílnum {} hefur verið skilað!".format(reg_num))
         self.print_divider(27 + len(reg_num))
+
+    def payment_type(self, order):
+        menu_list = ["Debit/Kreditkort", "Reiðufé", "Til baka"]
+
+        print("Veldu tegund greiðslu")
+        print(menu_list)
+        input_num = input("Val: ")
+        if input_num == "1":
+            print("Kostnaður er: ")
+            self.confirm_payment()
+        elif input_num == "2":
+            print("Korstnaður er: ")
+            self.confirm_payment()
+            
+    def confirm_payment(self):
+        confirm = input("Staðfesta greiðslu viðskiptavinar(j/n eða q til að hætta): ")
+        if confirm.lower() == "j":
+            print("Greiðslu lokið")
+        elif confirm.lower() == "n":
+            print("Hætt hefur verið við greiðslu")
+            self.go_to_menu()
+        else:
+            exit()
+
+            
     
     def find_customer_menu(self):
         """
@@ -387,7 +412,7 @@ class StaffInterface:
 
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))
         self.print_divider(62 + len("{:,d}".format(price_rounded)))
-    
+
     def start_menu(self):
         """Prentar logo fyrirtækisins og spyr hvort keyra skuli forritið"""
         self.clear_screen()

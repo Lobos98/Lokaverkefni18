@@ -118,11 +118,11 @@ class OrderInterface:
     def order_pick(self, ordered_cars):
         while True:
             order_num = self.__staff_interface.error_catch.integer_input(
-            "Veldu númer pöntunarinnar til að breyta: ")
+            "Veldu númer pöntunar: ")
             if order_num not in range(1, len(ordered_cars) + 1): 
                 print("Vinsamlegast veldu pöntun á listanum")
                 order_num = self.__staff_interface.error_catch.integer_input(
-                "Veldu númer pöntunarinnar til að breyta: ")
+                "Veldu númer pöntunar: ")
             else:
                 return order_num
     

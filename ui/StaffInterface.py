@@ -349,6 +349,36 @@ class StaffInterface:
         
         else:
             return self.go_to_menu()
+
+    def edit_customer(self, customer_found=0 ):
+        """Tekur við customer object, leitar að viðskiptavini ef enginn 
+        customer er sendur inn. Breytir svo customernum"""
+        if customer_found != 0:
+            customer = customer_found
+        else:
+            customer = self.find_customer_menu()
+        
+        self.clear_screen()
+        print("Uppfæra viðskiptavin")
+        self.print_divider(57)
+        print(customer)
+        self.print_divider(57)
+        print("Hverju viltu breyta?: ")
+        self.print_divider(57)
+        menu_list = ["Símanúmeri", "Netfangi", "Kortanúmeri", "Til baka"]
+        self.print_menu(menu_list)
+        self.print_divider(57)
+        val = input("Val: ")
+        self.print_divider(57)
+
+        if val == "1":
+            self.customer.change_phone_no(customer)
+        elif val == "2":
+            self.customer.change_email(customer)
+        elif val == "3":
+            self.customer.change_card_no(customer)
+        else:
+            return self.go_to_menu()
     
     def create_order(self):
         '''
@@ -393,12 +423,13 @@ class StaffInterface:
         (car_price, pickup_date, return_date)
 
         self.clear_screen()
+        print("Skrá pöntun")
+        self.print_divider(52)
         print("Kostnaður fyrir bílinn {} í {} daga er: {:,d} kr."\
         .format(reg_number, time_d.days, price))
-        print("Auka trygging kostar 150% af verði bílsins, kostnaður er þá"
-            " {:,d} kr"\
-        .format(price_insured))
-        self.print_divider(62 + len("{:,d}".format(price_insured)))
+        print("Auka trygging kostar 150% af verði bílsins,\n"
+        "kostnaður er þá {:,d} kr".format(price_insured))
+        self.print_divider(52)
         
         extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
         if extra_insurance.lower() == "j":
@@ -407,14 +438,14 @@ class StaffInterface:
             .format(price_insured))
         else:
             insurance = "False"
-        self.print_divider(62 + len("{:,d}".format(price_insured)))
+        self.print_divider(52)
 
         new_order = self.order_service.log_order(reg_number,\
         pickup_date, return_date, email, insurance)
         rented_car.add_reservation(new_order)
         self.car_service.refresh_car(rented_car)
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))
-        self.print_divider(62 + len("{:,d}".format(price_insured)))   
+        self.print_divider(52)   
 
     def start_menu(self):
         """Prentar logo fyrirtækisins og spyr hvort keyra skuli forritið"""

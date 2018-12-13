@@ -86,7 +86,11 @@ class OrderInterface:
         self.__print_lines(57)
         free_reg_numbers = [a_car.get_reg_num() for a_car in free_cars]
         if car.get_car_reg_num() in free_reg_numbers:
-            print("Þú hefur breytt dagsetningunni")
+            car_price = self.__staff_interface.car_service.get_price(car)
+            price = self.__staff_interface.order_service.calculate_price\
+            (car_price, pickup_date, return_date)
+            print("Þú hefur breytt dagsetningunni, nýja verðið er: " + price +\
+            "Kr")
             self.__staff_interface.order_service.change_order\
             (car, "1", pickup_date, return_date)
             self.__print_lines(57)

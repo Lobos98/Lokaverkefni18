@@ -51,7 +51,7 @@ class StaffInterface:
     def clear_screen(self):
         os.system('cls')
 
-    ## Á þetta heima hér?
+
     def display_free_cars(self, date1='', date2=''):
         """Biður um tvær dagsetningar og prentar þá bíla sem 
         eru lausir yfir allt tímabilið"""
@@ -167,7 +167,8 @@ class StaffInterface:
 
     def return_car(self):
         """Biður um email pöntunar í input, kallar á ErrorCheck
-        og sendir emailið svo í CarService til að skila viðkomandi bíl"""
+        og sendir emailið svo í CarService til að skila viðkomandi bíl
+        , það er bara hægt að skila bíl sem er í leigu"""
         self.clear_screen()
         print("Skila bíl")
 
@@ -190,7 +191,7 @@ class StaffInterface:
                 print("Eftirfarandi pantanir eru virkar á þessu netfangi:")
                 self.print_orders(active_orders)
                 order_choice = self.error_catch.integer_input("Veldu bíl til þess að skila: ", len(active_orders))
-                order = active_orders[order_choice-1]#TODO: ATH við gætum fengið error hér ef of há tala er sett inn!
+                order = active_orders[order_choice-1]
         self.payment_type(order)
         reg_num = self.car_service.return_car(order)
         self.order_service.move_to_past(order.get_order_no())
@@ -283,7 +284,7 @@ class StaffInterface:
         print("-"*72)
         self.print_orders(list_of_orders)
         self.print_divider(61)
-        val = self.error_catch.integer_input("Veldu pöntun: ")
+        val = self.error_catch.integer_input("Veldu pöntun: ", len(list_of_orders))
         self.print_divider(61)
         chosen_order = list_of_orders[int(val)-1]#TODO:ATH hér gæti komið crash ef of há tala kemur inn
         print("Pöntun: {}".format(chosen_order))

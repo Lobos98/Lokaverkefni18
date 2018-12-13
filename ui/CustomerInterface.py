@@ -75,10 +75,13 @@ class CustomerInterface:
     def select_customer(self, list_of_customers):
         """
         Tekur inn lista af customer objects, prentar vskvinina út og
-        býður manni að velja einn. Skilar customer object.
+        býður manni að velja einn ef það eru fleiri en einn.
+        Skilar customer object.
         """
         if len(list_of_customers) == 1:
             customer_found = list_of_customers[0]
+            print("Viðskiptavinurinn {} hefur verið valinn".format(\
+            customer_found.get_name()))
             return customer_found
         elif len(list_of_customers) > 1:
 

@@ -16,6 +16,7 @@ class CustomerRepo:
 		with open(self.__link, "r") as customer_file:
 			csv_reader = csv.DictReader(customer_file)
 			for line in csv_reader:
+				banned = False
 				email = line["Email"]
 				name = line["Nafn"]
 				card_no = line["Kort"]
@@ -23,8 +24,8 @@ class CustomerRepo:
 				ssn = line["Kennitala"]
 				if line["Ban"] == "True":
 					banned = True
-				elif line["Ban"] == "False":
-					banned = False
+				#elif line["Ban"] == "False":
+					#banned = False
 				fine = int(line["Fine"])
 				history_string = line["History"]
 				history_list_of_strings = history_string.split(";")

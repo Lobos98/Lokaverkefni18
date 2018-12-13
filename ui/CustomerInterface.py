@@ -43,6 +43,10 @@ class CustomerInterface:
     #         .is_banned() == "true":
     #             print("Þessi viðskiptavinur er bannaður")
     #             return self.__staff_interface.go_to_menu()
+    def is_banned(self, email):
+        customer = self.__staff_interface.customer_service.find_customer(email)
+        return customer.is_banned()
+        
 
     # def is_banned(self, email):
     #     customer = self.__staff_interface.customer_service.find_customer(email)

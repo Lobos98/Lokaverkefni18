@@ -354,6 +354,8 @@ class StaffInterface:
             self.main_menu()
         else:
             email = customer.get_email()
+            
+        print(customer)
 
         pickup_date, return_date, free_cars = self.display_free_cars()
         if free_cars == False:

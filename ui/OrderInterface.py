@@ -123,7 +123,10 @@ class OrderInterface:
         self.__staff_interface.clear_screen()
         print("Finna pöntun")
         print("-"*34)
-        email = self.__staff_interface.email_input()
+        email = self.__staff_interface.error_catch.input_email()
         self.__staff_interface.clear_screen() 
         order_list = self.__staff_interface.order_service.get_customer_orders(email)
+        if not order_list:
+            print("Það er engin pöntun á þessu netfangi")
+            self.__staff_interface.go_to_menu()
         self.__staff_interface.print_orders(order_list)

@@ -108,10 +108,11 @@ class ErrorCatch:
         Biður um nafn þangað til löglegt nafn er skrifað inn. 
         Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng
         """
+        name = input("Sláðu inn nafn viðskiptavinar: ")
         r = re.compile("[a-zA-Z\s.'-,]+")
-        if r.match(name):
-                name = input("Sláðu inn nafn viðskiptavinar: ")
-                return name
+        while not r.match(name):
+            name = input("Sláðu inn nafn viðskiptavinar: ")
+        return name
 
 
     def input_rental_dates(self):

@@ -17,8 +17,8 @@ class Car:
             self.__reserved_dates = []
         else:
             self.__reserved_dates = reserved_dates
-        self.__price_list = {"jeppi":5000, "folksbill":4000, "smabill":3000, \
-        "husbill":6000, "sportbill":7000}
+        self.__price_list = {"jeppi":5000, "fólksbíll":4000, "smábíll":3000, \
+        "húsbíll":6000, "sportbíll":7000}
 
     def __repr__(self):
         return "Car({}, {}, {}, {}, {}, {}, {})".format(self.__reg_num,\

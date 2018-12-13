@@ -8,9 +8,7 @@ EUN45,2015,smabill,grar,False,liljag@ru.is:12032018/20032018;22042018/22052018--
 SB463,2017,folksbill,raudur,False,top_tester@internet.is:12012017/20012017;02022018/20032018--test2@zuism.is:22012017/01022017,01012019/23012019
 IO345,2017,folksbill,grar,True,,
 XX999,2018,sportbill,raudur,False,,
-HFT42,2017,husbill,brunn,False,,
 GFH45,2018,sportbill,raudur,False,,
-DFR76,2018,sportbill,graenn,False,,
 TRI91,2017,sportbill,fjolublar,False,,
 DP940,2017,husbill,brunn,False,,
 UFP09,2018,smabill,gulur,False,,
@@ -23,3 +21,6 @@ POW10,2018,jeppi,fjolublar,False,,
 YFT30,2018,jeppi,grar,False,,
 MLD20,2018,jeppi,brunn,False,,
 KP309,2017,folksbill,hvitur,False,,
+HFT42,2017,husbill,brunn,False,,06092019/16092019
+DFR76,2018,sportbill,graenn,False,,
+KX165,2008,folksbill,blar,False,,

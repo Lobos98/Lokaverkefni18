@@ -63,7 +63,17 @@ class CustomerInterface:
         customer_found_list = self.__staff_interface.customer_service.find_customer(name = name)
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
-        if len(customer_found_list) == 1:
+        if not customer_found_list:
+            print("Enginn viðskiptavinur fundinn á þessu nafni")
+            choice = input("Viltu reyna aftur (j/n) eða skrá nýjan viðskiptavin (s)?: ")
+            if choice.lower() == "j":
+                 return self.find_by_name()
+            elif choice.lower() == "s":
+                return self.__staff_interface.register_customer()
+            else:
+                self.__staff_interface.go_to_menu()
+
+        elif len(customer_found_list) == 1:
             customer_found = customer_found_list[0]
             return customer_found
         elif len(customer_found_list) > 1:
@@ -77,15 +87,7 @@ class CustomerInterface:
             choice = int(input("Veldu einn viðskiptavin hér fyrir ofan: ")) - 1 #TODO
             customer_found = customer_found_list[choice]
             return customer_found
-        else:
-            print("Enginn viðskiptavinur fundinn á þessu nafni")
-            choice = input("Viltu reyna aftur (j/n) eða skrá nýjan viðskiptavin (s)?: ")
-            if choice.lower() == "j":
-                 return self.find_by_name()
-            elif choice.lower() == "s":
-                return self.__staff_interface.register_customer()
-            else:
-                self.__staff_interface.go_to_menu()
+            
 
     def find_by_ssn(self):
         """"

@@ -5,10 +5,10 @@ import csv
 class OrderRepo:
     def __init__(self):
         self.largest_orderno = 0
-        self.__order_list = self.get_all_orders()
-        self.__past_order_list = self.get_past_orders()
         self.__future_orders_file_path = "./Data/futureorders.csv"
         self.__past_orders_file_path = "./Data/pastorders.csv"
+        self.__order_list = self.get_all_orders()
+        self.__past_order_list = self.get_past_orders()
         self.__header = "Pontunarnr,Bilnr,Dagsetning,Email,Aukatrygging"
 
     def add_order(self, new_order):
@@ -21,7 +21,7 @@ class OrderRepo:
 
     def remove_order(self, order_to_remove):
         '''Tekur við order object, fjarlægir úr eigindum 
-        reposins og uppfærir skrána'''
+        reposins og uppfærir framtíðarpantanaskrána'''
         for order in self.__order_list:
             if order_to_remove == order:
                 self.__order_list.remove(order)
@@ -143,3 +143,13 @@ class OrderRepo:
         Hækkar self.largest_orderno um 1
         """
         self.largest_orderno += 1
+
+    def find_order_by_order_no(self, order_no):
+        """
+        Tekur við pöntunarnúmeri sem int og skilar viðeigandi order object. 
+        Skilar False ef hún finnst ekki.
+        """
+        for order in self.__order_list:
+            if order.get_order_no() == order_no:
+                return order
+        return False

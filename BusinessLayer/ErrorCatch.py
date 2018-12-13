@@ -49,7 +49,6 @@ class ErrorCatch:
         check = False
         while check == False:
             model = input("Árgerð: ")
-            #TODO bæta við stuðning fyrir 5 stafa ár fyrir árið 10000 
             if len(model) == 4:
                 if model.isdigit() == True:
                     if int(model) <= datetime.today().year:
@@ -123,14 +122,7 @@ class ErrorCatch:
         Hér er ekki boðið upp á að hætta við."""
         pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
         return_date_string = input("Dagsetning skila (ddmmáááá): ")
-#        Hér mætti skrifa inn virkni til að taka við 12-03-2018, 12.03.2018, 12/03/2018
-#        o.s.frv.
-#        if dates_with_slashes(pickup_date_string, return_date_string):
-#            pass
-#        elif dates_with_dots(pickup_date_string, return_date_string):
-#            pass
-#        elif dates_clean(pickup_date_string, return_date_string):
-#            pass
+
         while self.check_rental_date(\
         pickup_date_string, return_date_string) == False:
             if pickup_date_string.lower == "q":

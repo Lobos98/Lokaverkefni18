@@ -11,7 +11,6 @@ class VehicleInterface:
 
     def menu(self):
         """Setur bíla-valmyndina í gang"""
-        #tilbúið
         self.__clear_scren()
         print("Bílafloti")
         self.__print_lines(24)
@@ -49,7 +48,6 @@ class VehicleInterface:
     def display_currently_rented_cars(self):
         """Sækir lista af bílum sem eru í útleigu 
         í augnablikinu og prentar þá"""
-        #tilbúið
         self.__clear_scren()
         print("Eftirfarandi bílar eru í útleigu í augnablikinu")
         self.__staff_interface.print_divider()
@@ -64,7 +62,6 @@ class VehicleInterface:
         """Biður um bílnúmer, árgerð, tegund og lit bíls, 
         sendir svo þessar upplýsingar til CarService sem sér um að
         búa til Car object. Prentar staðfestingu"""
-        #tilbúið
         self.__clear_scren()
         print("Skrá bíl")
         self.__print_lines(80)
@@ -86,7 +83,6 @@ class VehicleInterface:
         """Biður um bílnúmer þangað til bíll fæst sem er til í kerfinu.
         sendir svo bílnúmerið í CarService svo bílnum verði eytt.
         Prentar staðfestingu"""
-        #Tilbúið
         self.__clear_scren()
 
         print("Afskrá bíl")
@@ -124,7 +120,6 @@ class VehicleInterface:
     def print_car(self):
         """Biður um bílnúmer þangað til bíll finnst og 
         prentar svo bílinn á skjáinn"""
-        #tilbúið
         self.__clear_scren()
         print("Leita að bíl")
         self.__print_lines(30)
@@ -142,7 +137,6 @@ class VehicleInterface:
 
     def broken_cars(self):
         """Setur bilaðra-bíla valmyndina í gang"""
-        #Tilbúið
         self.__clear_scren()
         print("Bilaðir bílar")
         self.__staff_interface.print_divider(21)
@@ -162,7 +156,6 @@ class VehicleInterface:
         elif input_num == "4":
             self.menu()
         return self.__staff_interface.go_to_menu()
-        #return self.vehicle_menu()
 
     def log_broken_car(self):
         #TODO: ættum kannski að færa virkni fallsins í CarService...
@@ -208,7 +201,6 @@ class VehicleInterface:
             print("Hætt var við.")
 
     def print_broken_cars(self):
-        # tilbúið
         self.__clear_scren()
         print("Bilaðir bílar")
         broken_cars = self.__staff_interface.car_service.get_broken_cars()
@@ -221,7 +213,6 @@ class VehicleInterface:
 
     def __find_car(self):
         """Biður um bílnúmer þangað til bíll finnst og skilar car object"""
-        #Tilbúið
         car = False
         while car == False:
             reg_num = self.__staff_interface.error_catch.input_reg_num()

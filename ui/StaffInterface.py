@@ -51,7 +51,7 @@ class StaffInterface:
     def clear_screen(self):
         os.system('cls')
 
-    ## Á þetta heima hér?
+
     def display_free_cars(self, date1='', date2=''):
         """Biður um tvær dagsetningar og prentar þá bíla sem 
         eru lausir yfir allt tímabilið"""
@@ -172,7 +172,8 @@ class StaffInterface:
 
     def return_car(self):
         """Biður um email pöntunar í input, kallar á ErrorCheck
-        og sendir emailið svo í CarService til að skila viðkomandi bíl"""
+        og sendir emailið svo í CarService til að skila viðkomandi bíl
+        , það er bara hægt að skila bíl sem er í leigu"""
         self.clear_screen()
         print("Skila bíl")
 
@@ -233,8 +234,6 @@ class StaffInterface:
         else:
             exit()
 
-            
-    
     def find_customer_menu(self):
         """
         Býður að leita eftir nafni, kennitölu, netfangi eða símanúemeri, 
@@ -316,7 +315,7 @@ class StaffInterface:
         print("Breyta Pöntun")
         self.print_divider(20)
         customer = self.find_customer_menu()
-        if not customer:#TODO: ATH kannski gerist þetta aldrei?
+        if not customer:
             email = self.register_customer()
             customer = self.customer_service.find_customer(email)
         email = customer.get_email()
@@ -415,9 +414,7 @@ class StaffInterface:
         rented_car.add_reservation(new_order)
         self.car_service.refresh_car(rented_car)
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))
-        self.print_divider(62 + len("{:,d}".format(price_insured)))
-
-    
+        self.print_divider(62 + len("{:,d}".format(price_insured)))   
 
     def start_menu(self):
         """Prentar logo fyrirtækisins og spyr hvort keyra skuli forritið"""

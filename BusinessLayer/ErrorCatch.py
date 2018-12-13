@@ -289,7 +289,7 @@ class ErrorCatch:
                     if check_if_int not in range(1, max_int + 1):
                         raise ValueError
             except:
-                print("Vinsamlegast sláðu inn heiltölu.")
+                print("Vinsamlegast sláðu inn heiltölu á réttu bili.")
             else:
                 return check_if_int
 

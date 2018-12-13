@@ -19,39 +19,6 @@ class StaffInterface:
         self.order_service = OrderService()
         self.customer_service = CustomerService()
         self.error_catch = ErrorCatch()
-
-
-    def main_menu(self):
-        cls()
-        print("Veldu eitt af eftirfarandi")
-        print("-"*len("Veldu eitt af eftirfarandi"))
-        print("1.  Viðskiptavinir")
-        print("2.  Bílafloti")
-        print("3.  Afgreiðsla")
-        print("4.  Pantanir")
-        print("5.  Hætta")
-        print("-"*len("Veldu eitt af eftirfarandi"))
-        input_num = input("Val: ")
-        print()
-        if input_num == "1":
-            staff.customer_menu()
-        elif input_num == "2":
-            staff.vehicle_menu()
-        elif input_num == "3":
-            staff.service_menu()
-        elif input_num == "4":
-            staff.order_menu()
-        elif input_num == "5":
-            exit()
-        else:
-            staff.main_menu()
-
-    def go_to_menu(self):
-        choice = input("Fara aftur á valmynd? (j/n): ")
-        if choice.lower() == "j":
-            staff.main_menu()
-        else:
-            pass
         
         self.vehicle = VehicleInterface(self)
         self.customer = CustomerInterface(self)

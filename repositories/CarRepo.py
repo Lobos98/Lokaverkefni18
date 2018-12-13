@@ -13,7 +13,7 @@ class CarRepo:
         """Skilar lista af Car objects sem eru skráð hjá okkur"""
         if self.__cars == []:
            
-            file = open(self.__filepath, newline='', encoding = "utf-8")
+            file = open(self.__filepath, newline='', encoding="utf-8")
             file_contents = csv.reader(file)
             self.__header = next(file_contents)
             for line in file_contents:
@@ -103,7 +103,7 @@ class CarRepo:
 
     def add_car(self, car):
         self.__cars.append(car)
-        file = open(self.__filepath, "a", encoding = "utf-8")
+        file = open(self.__filepath, "a", encoding="utf-8")
         reg_num = car.get_reg_num()
         model = car.get_model()
         car_type = car.get_type()
@@ -145,7 +145,7 @@ class CarRepo:
     def delete_car(self, car):
         self.__cars.remove(car)
         file_path = "./Data/list_of_cars.csv"
-        file = open(file_path, newline='', encoding = "utf-8")
+        file = open(file_path, newline='', encoding="utf-8")
         file_contents = csv.reader(file)
         r_string = ''
         for line in file_contents:
@@ -153,6 +153,6 @@ class CarRepo:
                 r_string += ",".join(line) + "\n"
         r_string = r_string.strip("\n")
         file.close()
-        file = open(file_path, "w", encoding = "utf-8")
+        file = open(file_path, "w", encoding="utf-8")
         file.write(r_string)
         file.close()

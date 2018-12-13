@@ -49,6 +49,7 @@ class ErrorCatch:
         check = False
         while check == False:
             model = input("Árgerð: ")
+            #TODO bæta við stuðning fyrir 5 stafa ár fyrir árið 10000 
             if len(model) == 4:
                 if model.isdigit() == True:
                     if int(model) <= datetime.today().year:
@@ -107,15 +108,11 @@ class ErrorCatch:
         Biður um nafn þangað til löglegt nafn er skrifað inn. 
         Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng
         """
-        check = False
-        while check == False:
-            name = input("Sláðu inn nafn viðskiptavinar: ")
-            return name
-            # if name.isalpha() == True:
-            #     if name.isascii() == True:
-            #         return name
-            # print("Vinsamlegast skrifið inn nafn.\n"
-            # "Athugið að nafn má ekki innihalda íslenska sérstafi.")
+        r = re.compile("[a-zA-Z\s.'-,]+")
+        if r.match(name):
+                name = input("Sláðu inn nafn viðskiptavinar: ")
+                return name
+
 
     def input_rental_dates(self):
         """Biður um tvö inputs á forminu ddmmáááá þangað til þau passa við 

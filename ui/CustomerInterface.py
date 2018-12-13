@@ -90,7 +90,7 @@ class CustomerInterface:
                 if index < len(list_of_customers):
                     print()
                 index += 1
-            print("-"*(50))
+            self.__staff_interface.print_divider()
             choice = int(input("Veldu einn viðskiptavin hér fyrir ofan: ")) - 1 #TODO
             customer_found = list_of_customers[choice]
             return customer_found
@@ -191,11 +191,12 @@ class CustomerInterface:
         customer_found = self.__staff_interface.find_customer_menu()
         self.__staff_interface.clear_screen()
         print("Fletta upp viðskiptavin")
-        print("-"*(33+len(customer_found.get_name())))
+        name_printer = customer_found.get_name()
+        self.__staff_interface.print_divider((33+len(name_printer)))
         print(customer_found)
-        print("-"*(33+len(customer_found.get_name())))
+        self.__staff_interface.print_divider((33+len(name_printer)))
         choice = input("Viltu breyta viðskiptavin? (j/n): ")
-        print("-"*(33+len(customer_found.get_name())))
+        self.__staff_interface.print_divider((33+len(name_printer)))
 
 
         if choice.lower() == "j":
@@ -236,8 +237,7 @@ class CustomerInterface:
         self.__staff_interface.clear_screen()
         print("Uppfæra viðskiptavin")
         print("-"*30)
-        print("Stimplið inn nýtt símanúmer.")
-        #phone_no = input("Nýtt Símanúmer: ")
+        print("Núverandi símanúmer: {}".format(customer.get_phone_no))
         #print("-"*30)
         phone_no = self.__staff_interface.error_catch.input_phone()
         if not phone_no:

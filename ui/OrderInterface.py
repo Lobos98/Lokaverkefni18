@@ -8,10 +8,10 @@ class OrderInterface:
     def menu(self):
         self.__staff_interface.clear_screen()
         print("Pantanir")
-        self.__staff_interface.print_divider(21)
+        self.__staff_interface.print_divider(25)
         
         self.__staff_interface.print_menu(self.__menu_list)
-        self.__staff_interface.print_divider(21)
+        self.__staff_interface.print_divider(25)
         input_num = input("Val: ")
         if input_num == "1":
             self.__staff_interface.create_order()
@@ -128,4 +128,7 @@ class OrderInterface:
             self.__staff_interface.go_to_menu()
         self.__staff_interface.clear_screen() 
         order_list = self.__staff_interface.order_service.get_customer_orders(email)
+        if not order_list:
+            print("Það er engin pöntun á þessu netfangi")
+            self.__staff_interface.go_to_menu()
         self.__staff_interface.print_orders(order_list)

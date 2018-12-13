@@ -257,7 +257,7 @@ class StaffInterface:
     def find_customer_menu(self):
         """
         Býður að leita eftir nafni, kennitölu, netfangi eða símanúemeri, 
-        kallar í customer_interface föll til að finna vsk vin sem skila 
+        kallar í customer_interface föll til að finna vsk vin sem skila
         Customer object eða lista af vskvinum ef leitað er eftir nafni eða snr
         síðasta sem fallið gerir er að kalla í select customer til að velja 
         vskvin ef lista var skilað. Skilar alltaf customer object nema 

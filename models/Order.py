@@ -5,7 +5,10 @@ class Order:
     customer_email, bonus_insurance):
         self.__order_no = order_no 
         self.__car_reg_num = car_reg_num
-        self.__pickup_and_return_date = pickup_and_return_date 
+        pickup_date_string, return_date_string = pickup_and_return_date.split("--")
+        pickup_date = datetime.strptime(pickup_date_string, "%d%m%Y")
+        return_date = datetime.strptime(return_date_string, "%d%m%Y")
+        self.__pickup_and_return_date = (pickup_date, return_date)
         self.__customer_email = customer_email
         self.__bonus_insurance = bonus_insurance
         self.__pickup_date = self.get_pickup_date()

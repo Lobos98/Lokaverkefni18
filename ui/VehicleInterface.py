@@ -67,7 +67,7 @@ class VehicleInterface:
         #tilbúið
         self.__clear_scren()
         print("Skrá bíl")
-        self.__print_lines(80)
+        self.__print_lines()
         reg_num = self.__staff_interface.error_catch.input_reg_num()
         if reg_num:
             model = self.__staff_interface.error_catch.input_model()
@@ -76,9 +76,9 @@ class VehicleInterface:
                 color = self.__staff_interface.error_catch.input_color()
                 self.__staff_interface.car_service.add_car(reg_num, model,\
                     car_type, color)
-                self.__print_lines(80)
+                self.__print_lines()
                 print("Bíllinn {} hefur verið skráður!".format(reg_num))
-                self.__print_lines(80)
+                self.__print_lines()
         else:
             print("Hætt var við")
             

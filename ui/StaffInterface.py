@@ -205,15 +205,15 @@ class StaffInterface:
         reg_num = order.get_car_reg_num()
         car = self.car_service.find_car(reg_num)
         price = self.order_service.calculate_price(self.car_service.get_price(car),\
-        order.get_pickup_date(), order.get_return_date())
+        order.get_pickup_date(), order.get_return_date())[1]
         print("Veldu tegund greiðslu")
-        print(menu_list)
+        self.print_menu(menu_list)
         input_num = input("Val: ")
         if input_num == "1":
-            print("Kostnaður er: " + price + "Kr")
+            print("Kostnaður er: {} kr".format(price))
             self.confirm_payment()
         elif input_num == "2":
-            print("Korstnaður er: " + price + "kr")
+            print("Korstnaður er: {} kr".format(price))
             self.confirm_payment()
             
     def confirm_payment(self):

@@ -195,36 +195,54 @@ class StaffInterface:
     
     def find_customer_menu(self):
         """
-        Býður að leita eftir nafni, kennitölu eða netfangi, kallar í 
-        customer_interface föll til að finna vsk vin og skilar Customer object
+        Býður að leita eftir nafni, kennitölu, netfangi eða símanúemeri, 
+        kallar í customer_interface föll til að finna vsk vin sem skila 
+        Customer object eða lista af vskvinum ef leitað er eftir nafni eða snr
+        síðasta sem fallið gerir er að kalla í select customer til að velja 
+        vskvin ef lista var skilað. Skilar alltaf customer object nema 
+        hætt sé við
         """
         self.clear_screen()
         print("Fletta upp viðskiptavin")
         self.print_divider()
         print("Leita eftir:")
-        menu_list = ["Nafni", "Netfangi", "Kennitölu"]
+        menu_list = ["Nafni", "Netfangi", "Kennitölu", "símanúmeri"]
         self.print_menu(menu_list)
         self.print_divider()
         choice = input("Val: ")
         if choice == "1":
-            return self.customer.find_by_name()
+            customer_list = self.customer.find_by_name()
+            return self.customer.select_customer(customer_list)
         elif choice == "2":
             return self.customer.find_by_email()
         elif choice == "3":
             return self.customer.find_by_ssn()
         elif choice == "4":
-            return self.customer.find_by_phone_no()
+            customer_list = self.customer.find_by_phone_no()
+            return self.customer.select_customer(customer_list)
 
     def delete_order(self):
         self.clear_screen()
         print("Bakfæra pöntun")
         print("-"*34)
-        email = self.error_catch.input_email()
-        if not email:
-            return self.go_to_menu()
+        found_customer = self.find_customer_menu()
+        if not found_customer:
+            self.go_to_menu()
+        if type(found_customer) == list:
+            found_customer = self.customer.select_customer(found_customer)
         self.clear_screen()
         print("Bakfæra pöntun")
-        list_of_orders = self.order_service.get_customer_orders(email)
+        list_of_orders = self.order_service.get_customer_orders(found_customer.get_email())
+        if not list_of_orders:
+            print("Enginn pöntun fannst fyrir {}".format(found_customer.get_name()))
+            choice = input("Viltu reyna aftur? (j/n eða q til að hætta): ")
+            if choice == "j":
+                return self.delete_order()
+            elif choice == "n":
+                return self.go_to_menu()
+            else:
+                exit()
+
         print("-"*72)
         self.print_orders(list_of_orders)
         print("-"*72)

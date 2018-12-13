@@ -208,7 +208,7 @@ class StaffInterface:
         self.print_divider(23)
         print("Leita eftir:")
         self.print_divider(23)
-        menu_list = ["Nafni", "Netfangi", "Kennitölu", "símanúmeri"]
+        menu_list = ["Nafni", "Netfangi", "Kennitölu", "Símanúmeri"]
         self.print_menu(menu_list)
         self.print_divider(23)
         choice = input("Val: ")

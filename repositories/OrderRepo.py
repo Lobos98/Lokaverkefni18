@@ -129,8 +129,7 @@ class OrderRepo:
         order_list = []
         for line in dict_reader:
             order_no = int(line["Pontunarnr"])
-            pickup_and_return_dates = \
-            self.__read_dates_from_string(line["Dagsetning"])
+            pickup_and_return_dates = line["Dagsetning"]
             if line["Aukatrygging"] == "True":
                 bonus_insurance = True
             elif line["Aukatrygging"] == "False":

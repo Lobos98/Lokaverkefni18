@@ -1,1 +1,1 @@
-print(len("Ef bílnum er eytt verður tilsvarandi pöntunum einnig eytt."))
+print(len("Fyrri pöntunarnúmer: Þessi viðskiptavinur á sér enga sögu"))

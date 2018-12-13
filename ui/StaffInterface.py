@@ -209,7 +209,6 @@ class StaffInterface:
                 order_choice = self.error_catch.integer_input("Veldu bíl til "
                     "þess að skila: ", len(active_orders))
                 order = active_orders[order_choice-1]
-            print(order)
         self.payment_type(order)
         reg_num = self.car_service.return_car(order)
         self.order_service.move_to_past(order.get_order_no())

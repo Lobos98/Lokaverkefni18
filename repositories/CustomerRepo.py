@@ -95,37 +95,6 @@ class CustomerRepo:
 		else:
 			return False
 
-	# def remove_customer(self, take_out):
-	# 	#index = 0
-	# 	for customer in self.__customers:
-	# 		try:
-	# 			if(take_out == customer.get_email()):
-	# 				self.__customers.remove(customer)
-	# 		except AttributeError:
-	# 			pass
-	# 	with open("./Data/list_of_customers.csv", "w") as customer_file:
-	# 		index = 0
-	# 		for customer in self.__customers:
-	# 			if index == 0:
-	# 				customer_file.write(','.join(customer))
-	# 				customer_file.write("\n")
-	# 				index += 1
-	# 			else:
-	# 				attribute_list = customer.get_attribute_list()
-	# 				#self.add_customer(customer, attribute_list)
-	# 				email = customer.get_email()
-	# 				name = customer.get_name()
-	# 				card_no = customer.get_card_no()
-	# 				phone_no = customer.get_phone_no()
-	# 				ssn = customer.get_ssn()
-	# 				ban = customer.get_banned()
-	# 				fine = customer.get_fine()
-	# 				#customer_file.write("{},{},{},{},{},{},{}\n".format(email, name, card_no, phone_no, ssn, ban, fine))
-	# 				#attribute_list = customer.get_attribute_list()
-	# 				customer_file.write('\n' + ','.join(attribute_list))
-	# 		customer_file.write("\n")
-	# 	#print(self.__customers)
-
 	def remove_customer(self, customer):
 		"""
 		Tekur við customer object sem skal eyða og eyðir 

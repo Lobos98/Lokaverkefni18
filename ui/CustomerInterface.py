@@ -34,31 +34,46 @@ class CustomerInterface:
             pass
         return self.__staff_interface.go_to_menu()
 
-    def __is_banned(self, email):
-        if self.__staff_interface.customer_service.find_customer(email):
-            if self.__staff_interface.customer_service.find_customer(email)\
-            .is_banned() == "true":
-                print("Þessi viðskiptavinur er bannaður")
-                return self.__staff_interface.go_to_menu()
+    # def __is_banned(self, email):
+    #     if self.__staff_interface.customer_service.find_customer(email):
+    #         if self.__staff_interface.customer_service.find_customer(email)\
+    #         .is_banned() == "true":
+    #             print("Þessi viðskiptavinur er bannaður")
+    #             return self.__staff_interface.go_to_menu()
 
-    def is_banned(self, email):
-        customer = self.__staff_interface.customer_service.find_customer(email)
-        if customer:
-            return customer.is_banned() == "true"
+    # def is_banned(self, email):
+    #     customer = self.__staff_interface.customer_service.find_customer(email)
+    #     if customer:
+    #         return customer.is_banned() == "true"
 
     def find_by_name(self):
-
+        """"
+        leitar að vskvini eftir nafnstrengi og býður að búa hann til 
+        ef hann er ekki til. Skilar lista af vskvininum sem hafa 
+        nafnstrenginn í nafninu sínu.
+        """
         self.__staff_interface.clear_screen()
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
         name = self.__staff_interface.error_catch.input_name()
+        if not name:
+            return self.__staff_interface.go_to_menu()
         self.__staff_interface.clear_screen()
 
-        customer_found_list = self.__staff_interface.customer_service.\
-        find_customer_by_name(name)
+        customer_found_list = self.__staff_interface.customer_service.find_customer(name = name)
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
-        if len(customer_found_list) == 1:
+        if not customer_found_list:
+            print("Enginn viðskiptavinur fundinn á þessu nafni")
+            choice = input("Viltu reyna aftur (j/n) eða skrá nýjan viðskiptavin (s)?: ")
+            if choice.lower() == "j":
+                 return self.find_by_name()
+            elif choice.lower() == "s":
+                return self.__staff_interface.register_customer()
+            else:
+                self.__staff_interface.go_to_menu()
+
+        elif len(customer_found_list) == 1:
             customer_found = customer_found_list[0]
             return customer_found
         elif len(customer_found_list) > 1:
@@ -72,26 +87,25 @@ class CustomerInterface:
             choice = int(input("Veldu einn viðskiptavin hér fyrir ofan: ")) - 1 #TODO
             customer_found = customer_found_list[choice]
             return customer_found
-        else:
-            print("Enginn viðskiptavinur fundinn á þessu nafni")
-            choice = input("Viltu reyna aftur (j/n) eða skrá nýjan viðskiptavin (s)?: ")
-            if choice.lower() == "j":
-                 return self.find_by_name()
-            elif choice.lower() == "s":
-                return self.__staff_interface.register_customer()
-            else:
-                self.__staff_interface.go_to_menu()
+            
 
     def find_by_ssn(self):
+        """"
+        leitar að vskvini eftir kennitölu og býður að búa hann til 
+        ef hann er ekki til. Skilar vskvininum.
+        """
         self.__staff_interface.clear_screen()
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
 
         customer_found = False
         while customer_found == False:
-            ssn = self.__staff_interface.ssn_checker()
-            customer_found = self.__staff_interface.customer_service.find_customer_by_ssn(ssn)
-            if customer_found == False:
+            ssn = self.__staff_interface.error_catch.input_ssn()
+            if not ssn:
+                return self.__staff_interface.go_to_menu()
+
+            customer_found = self.__staff_interface.customer_service.find_customer(ssn = ssn)
+            if not customer_found:
 
                 choice = input("Kennitala er ekki á skrá, reyndu aftur eða ýttu á s til að skrá nýjan viðskiptavin: ")
 
@@ -101,15 +115,21 @@ class CustomerInterface:
 
         
     def find_by_email(self):
+        """"
+        leitar að vskvini eftir emaili og býður að búa hann til 
+        ef hann er ekki til. Skilar vskvininum.
+        """
         self.__staff_interface.clear_screen()
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
 
         customer_found = False
         while customer_found == False:
-            email = self.__staff_interface.email_input()
-            customer_found = self.__staff_interface.customer_service.find_customer(email)
-            if customer_found == False:
+            email = self.__staff_interface.error_catch.input_email()
+            if not email:
+                return self.__staff_interface.go_to_menu()
+            customer_found = self.__staff_interface.customer_service.find_customer(email = email)
+            if not customer_found:
                 self.__staff_interface.clear_screen()
                 print("Fletta upp viðskiptavin")
                 print("-"*81)
@@ -120,24 +140,32 @@ class CustomerInterface:
         return customer_found
 
     def find_by_phone_no(self):
+        """"
+        leitar að vskvini eftir snr og býður að búa hann til 
+        ef hann er ekki til. Skilar lista af vskvinum sem nota þetta snr.
+        """
         self.__staff_interface.clear_screen()
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
-        phone_no = input("Sláðu inn símanúmer: ")
-        while not self.__staff_interface.error_catch.check_phone_no(phone_no):
-            print("Ekki var selgið inn gilt símanúmer")
-            phone_no = input("Reyndu aftur eða sláðu inn q til að hætta: ")
-            if phone_no.lower() == "q":
-                pass
-        
+        phone_no = self.__staff_interface.error_catch.input_phone()
+        if not phone_no:
+            return self.__staff_interface.go_to_menu()
+
         self.__staff_interface.clear_screen()
 
-
-        phone_no_list = self.__staff_interface.customer_service.\
-        find_customer_by_phone_no(phone_no)
+        phone_no_list = self.__staff_interface.customer_service.find_customer(phone_no = phone_no)
         print("Fletta upp viðskiptavin")
         self.__staff_interface.print_divider()
-        if len(phone_no_list) == 1:
+        if not phone_no_list:
+            print("Enginn viðskiptavinur fundinn á þessu símanúmeri")
+            choice = input("Viltu reyna aftur (j/n) eða skrá nýjan viðskiptavin (s)?: ")
+            if choice.lower() == "j":
+                 return self.find_by_phone_no()
+            elif choice.lower() == "s":
+                return self.__staff_interface.register_customer()
+            else:
+                self.__staff_interface.go_to_menu()
+        elif len(phone_no_list) == 1:
             customer_found = phone_no_list[0]
             return customer_found
         elif len(phone_no_list) > 1:
@@ -150,16 +178,7 @@ class CustomerInterface:
             print("-"*(50))
             choice = int(input("Veldu einn viðskiptavin hér fyrir ofan: ")) - 1 #TODO
             customer_found = phone_no_list[choice]
-            return customer_found
-        else:
-            print("Enginn viðskiptavinur fundinn á þessu símanúmeri")
-            choice = input("Viltu reyna aftur (j/n) eða skrá nýjan viðskiptavin (s)?: ")
-            if choice.lower() == "j":
-                 return self.find_by_phone_no()
-            elif choice.lower() == "s":
-                return self.__staff_interface.register_customer()
-            else:
-                self.__staff_interface.go_to_menu()
+            return customer_found            
     
     def find_customer(self):
         customer_found = self.__staff_interface.find_customer_menu()
@@ -176,6 +195,8 @@ class CustomerInterface:
             self.edit_customer(customer_found)
 
     def edit_customer(self, customer_found=0 ):
+        """Tekur við customer object, leitar að viðskiptavini ef enginn 
+        customer er sendur inn. Breytir svo customernum"""
         if customer_found != 0:
             customer = customer_found
         else:
@@ -204,43 +225,54 @@ class CustomerInterface:
             print("-"*(6+len(customer.get_email())))
 
     def change_phone_no(self, customer):
+        email = customer.get_email()
         self.__staff_interface.clear_screen()
         print("Uppfæra viðskiptavin")
         print("-"*30)
+        print("Stimplið inn nýtt símanúmer.")
         #phone_no = input("Nýtt Símanúmer: ")
         #print("-"*30)
-        phone_no = self.__staff_interface.phone_input()
+        phone_no = self.__staff_interface.error_catch.input_phone()
+        if not phone_no:
+            return self.__staff_interface.go_to_menu()
         #if self.error_catch.check_phone_no(phone_no):
-        self.__staff_interface.customer_service.edit_customer_phone_no(customer.\
-            get_email(),phone_no)
+        self.__staff_interface.customer_service.edit_customer_phone_no(\
+        email, phone_no)
         print("Símanúmeri hefur verið breytt.")
         print("-"*30)
 
     def change_email(self, customer):
         self.__staff_interface.clear_screen()
+        old_email = customer.get_email()
         print("Uppfæra viðskiptavin")
         print("-"*40)
+        print("Stimplið inn nýtt netfang.")
         #netfang = input("Nýtt netfang: ")
         #print("-"*40)
-        email = self.__staff_interface.email_input()
-        orders_list = self.__staff_interface.order_service.find_order(customer.get_email())
-        if orders_list != False:
+        new_email = self.__staff_interface.error_catch.input_email()
+        if not new_email:
+            return self.__staff_interface.go_to_menu()
+        orders_list = self.__staff_interface.order_service.\
+        get_customer_orders(old_email)
+        if orders_list:
             for order in orders_list:
-                self.__staff_interface.order_service.change_email(email, order)
-        self.__staff_interface.customer_service.edit_customer_email(customer.get_email()\
-            , email)
+                self.__staff_interface.order_service.change_email(new_email, order)
+        self.__staff_interface.customer_service.edit_customer_email(old_email, new_email)
         print("Netfangi hefur verið breytt.")
         print("-"*40)
 
     def change_card_no(self, customer):
+        email = customer.get_email()
         self.__staff_interface.clear_screen()
         print("Uppfæra viðskiptavin")
         print("-"*(62))
-        card_no = self.__staff_interface.card_input()
+        print("Stimplið inn nýtt kortanúmer.")
+        card_no = self.__staff_interface.error_catch.input_card()
+        if not card_no:
+            self.__staff_interface.go_to_menu()
         #kortanumer = self.card_input()
         #print("-"*(62))
-        self.__staff_interface.customer_service.edit_customer_card_no(customer.\
-            get_email(),card_no)
+        self.__staff_interface.customer_service.edit_customer_card_no(email,card_no)
         print("Kortanúmeri hefur verið breytt.")
         print("-"*(62))
         
@@ -254,13 +286,13 @@ class CustomerInterface:
 
         print("Setja á bannlista")
         print("-"*(31 + len(customer.get_name()) + len(customer.get_email())))
-        if customer != False:
-            stadfesta = input("Setja á bannlista: {}, {}? (j/n): ".\
-                format(customer.get_name(), customer.get_email()))
-            self.__staff_interface.customer_service.ban_customer(customer.get_email())
+        if customer:
+            stadfesta = input("Setja á bannlista: {}, {}? (j/n): ".format(\
+            customer.get_name(), customer.get_email()))
             if stadfesta == "j":
-                print("{} hefur verið færður á bannlista.".\
-                    format(customer.get_name()))
+                self.__staff_interface.customer_service.ban_customer(customer.get_email())
+                print("{} hefur verið færður á bannlista.".format(\
+                customer.get_name()))
             else:
                 print("Hætt við.")
             print("-"*(31 + len(customer.get_name()) + len(customer.\
@@ -277,13 +309,13 @@ class CustomerInterface:
 
         print("Taka af bannlista")
         print("-"*(31 + len(customer.get_name()) + len(customer.get_email())))
-        if customer != False:
+        if customer:
             stadfesta = input("Taka af bannlista: {}, {}? (j/n): ".\
                 format(customer.get_name(), customer.get_email()))
             print("-"*(31 + len(customer.get_name()) + len(customer.\
                 get_email())))
-            self.__staff_interface.customer_service.unban_customer(customer.get_email())
             if stadfesta == "j":
+                self.__staff_interface.customer_service.unban_customer(customer.get_email())
                 print("{} hefur verið tekinn af bannlista.".\
                     format(customer.get_name()))
             else:
@@ -301,7 +333,7 @@ class CustomerInterface:
         self.__staff_interface.clear_screen()
 
         print("Sekta viðskiptavin")
-        if customer != False:
+        if customer:
             print("-"*(19 + len(customer.get_name()) + len(customer.\
                 get_email())))
             stadfesta = input("Sekta: {}, {}? (j/n): "\

@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta
 import string
 import re
 
@@ -9,6 +9,8 @@ class ErrorCatch:
         pass
 
     def input_reg_num(self):
+        """Biður um bílnúmer þangað til löglegt bílnúmer er skrifað inn. 
+        Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng"""
         check = False
         r = re.compile(r"^[a-zA-Z]{2}\w[0-9]{2}$")
         while check == False:
@@ -25,6 +27,8 @@ class ErrorCatch:
             
 
     def input_email(self):
+        """Biður um netfang þangað til löglegt netfang er skrifað inn. 
+        Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng"""
         check = False
         r = re.compile(r"^\w+@\w+\.[a-zA-Z]+[a-zA-Z.]{0,}[a-zA-Z]+$")
         while check == False:
@@ -33,19 +37,21 @@ class ErrorCatch:
                 if r.match(email) is not None:
                     return email.lower()
             elif email.lower() == "q":
-                return email.lower()
+                return ""
 
             print("Athugið að netfang skal skrifa inn á forminu\n"
             "nafn@lén.is og má ekki innihalda íslenska sérstafi\n"
             "q til að hætta.")
 
     def input_model(self):
+        """Biður um árgerð þangað til lögleg árgerð er skrifuð inn. 
+        Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng"""
         check = False
         while check == False:
             model = input("Árgerð: ")
             if len(model) == 4:
                 if model.isdigit() == True:
-                    if int(model) <= datetime.datetime.today().year:
+                    if int(model) <= datetime.today().year:
                         return model
             if model.lower() == "q":
                 return ""
@@ -54,6 +60,10 @@ class ErrorCatch:
             "'q' til að hætta")
 
     def input_type(self):
+        """
+        Biður um bíltegund þangað til lögleg bíltegund er skrifuð inn. 
+        Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng
+        """
         check = False
         model_list = ["jeppi", "folksbill", "smabill", "husbill", "sportbill"]
         while check == False:
@@ -71,34 +81,55 @@ class ErrorCatch:
             "'q' til að hætta")
 
     def input_color(self):
+        """
+        Biður um lit á bíl þangað til löglegur litur er skrifaður inn. 
+        Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng
+        """
+        list_of_colors = ["gulur", "raudur", "graenn", "blar", "svartur", \
+        "hvitur", "fjolublar", "brunn", "bleikur", "appelsinugulur", \
+        "grar", "silfur", "gull"]
         check = False
         while check == False:
+            
             color = input("Litur: ")
-            if len(color) < 15:
-                if color.isalpha() == True:
-                    if color.isascii() == True:
-                        return color.lower()
+            if color in list_of_colors:
+                return color.lower()
             if color.lower() == "q":
                 return ""
             print("Vinsamlegast skrifið inn lit."\
-            " Tölustafir og íslenskir sérstafir eru ekki leyfðir"
-            "'q' til að hætta")
+            " Tölustafir og íslenskir sérstafir eru ekki leyfðir")
+            color_string = ", ".join(list_of_colors)
+            print("Eftirfarandi eru löglegir litir: {}".format(color_string))
+            print("'q' til að hætta")
 
     def input_name(self):
+        """
+        Biður um nafn þangað til löglegt nafn er skrifað inn. 
+        Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng
+        """
         check = False
         while check == False:
             name = input("Sláðu inn nafn viðskiptavinar: ")
             if name.isalpha() == True:
                 if name.isascii() == True:
-                    return name.lower()
+                    return name
             print("Vinsamlegast skrifið inn nafn.\n"
             "Athugið að nafn má ekki innihalda íslenska sérstafi.")
 
     def input_rental_dates(self):
-        """Biður um tvö inputs á forminu ddmmáááá og skilar strengjunum ef 
-        þeir passa við okkar reglur"""
+        """Biður um tvö inputs á forminu ddmmáááá þangað til þau passa við 
+        okkar reglur og skilar svo strengjunum.
+        Hér er ekki boðið upp á að hætta við."""
         pickup_date_string = input("Dagsetning leigu (ddmmáááá): ")
         return_date_string = input("Dagsetning skila (ddmmáááá): ")
+#        Hér mætti skrifa inn virkni til að taka við 12-03-2018, 12.03.2018, 12/03/2018
+#        o.s.frv.
+#        if dates_with_slashes(pickup_date_string, return_date_string):
+#            pass
+#        elif dates_with_dots(pickup_date_string, return_date_string):
+#            pass
+#        elif dates_clean(pickup_date_string, return_date_string):
+#            pass
         while self.check_rental_date(\
         pickup_date_string, return_date_string) == False:
             print("-"*27)
@@ -112,16 +143,90 @@ class ErrorCatch:
             return_date_string = input("Dagsetning skila (ddmmáááá): ")
         return pickup_date_string, return_date_string
 
+    def input_phone(self):
+        """
+        Biður um snr þangað til löglegt snr er skrifað inn. 
+        Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng 
+        """
+        phone = input("Símanúmer: ")
+        while not self.check_phone_no(phone):
+            if phone.lower() == "q":
+                return ""
+            else:
+                print("Ógilt símanúmer, reyndu aftur eða 'q' til að hætta")
+                phone = input("Símanúmer: ")
+        return phone
+
+    def input_card(self):
+        """
+        Biður um kortanr þangað til löglegt kortanr er skrifað inn. 
+        Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng 
+        """
+        card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
+        while not self.check_card_number(card_number):
+            if card_number.lower() == "q":
+                return ""
+            else:
+                print("Ógilt kortanúmer, reyndu aftur eða 'q' til að hætta")
+                card_number = input("Kreditkortanr. (xxxx-xxxx-xxxx-xxxx): ")
+        return card_number
+
+    def input_ssn(self):
+        """
+        Biður um kennitölu þangað til lögleg kennitala er skrifuð inn. 
+        Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng 
+        """
+        ssn = input("Kennitala: ")
+        print("-"*52)
+        while not self.check_SSN(ssn):
+            if ssn.lower() == "q":
+                return ""
+            else:
+                print("Kennitala er ógild, reyndu aftur eða 'q' " 
+                "til að hætta")
+                ssn = input("Kennitala: ")
+        print("Kennitala er gild")
+        return ssn
+    
 
     def check_SSN(self, SSN):
-        if len(SSN) == 10:
-            if SSN[0] in ['0','1','2','3'] and\
-            int(SSN[2] + SSN[3]) in range(1,13):
-                return True
-        else: 
+        """
+        Skilar false ef lengd kennitölu er röng, dagsetning er ólögleg eða 
+        ef viðkomandi er of ungur að árum til þess að vera með bílpróf
+        """
+        if len(SSN) != 10:
             return False
+        day_date = int(SSN[0:2])
+        month = int(SSN[2:4])
+        year_now = datetime.today().year
+        if int(SSN[4:6]) < year_now-2000:
+            birth_year = int(SSN[4:6]) + 2000
+        else:
+            birth_year = int(SSN[4:6]) + 1900
+        if year_now - birth_year < 17:
+            return False
+        if day_date not in range(1,32):
+            return False
+        if month not in range(1,13):
+            return False
+        if month in [4, 6, 9,11] and day_date == 31:
+            return False
+        if month == 2 and birth_year % 4 != 0 and day_date > 28:
+            return False
+        elif month == 2 and birth_year % 4:
+            if day_date > 29:
+                return False
+        return True
 
     def check_email(self, email):
+        """
+        Tekur við email streng sem input, skilar False 
+        ef hann uppgyllir eitthvað af eftirfarandi skilyrðum:
+        er með @ fremst
+        hefur ekki @
+        hefur ekki punkt
+        hefur punktinn aftast
+        """
         if email[0] != '@' and '@' in email and\
         email[-1] != '.' and '.' in email:
             return True
@@ -129,20 +234,34 @@ class ErrorCatch:
             return False
 
     def check_phone_no(self, phone_number):
+        """
+        Tekur við símanúmeri á strengjaformi, losar það við 
+        bandstrik og bil og skilar False ef númerið er er styttra en 
+        2 stafir eða inniheldur eitthvað annað en tölur
+        """
         phone_number = phone_number.replace('-', '').replace(' ', '')
-        if len(phone_number) in range(2, 21):
-            return True
-        else:
+        if not phone_number.isdigit():
             return False
+        if len(phone_number) not in range(2, 21):
+            return False
+        return True
 
     def check_card_number(self, card_number):
+        """
+        Tekur við kreditkortanúmeri sem er strengur, fjarlægir bandstrik og 
+        bil og skilar False ef númerið er ekki 13, 15, 16 eða 19 tölustafir
+        """
         card_number.replace('-', '').replace(' ', '')
-        if len(card_number) in [13,15,16,19]:
-            return True
-        else:
+        if not card_number.isdigit():
             return False
+        if not len(card_number) in [13,15,16,19]:
+            return False
+        return True
     
     def check_reg_num(self, reg_num):
+        """
+        Skilar True fyrir ólöglegt bílnúmer
+        """
         try:
             int(reg_num[3] + reg_num[4])
         except ValueError:
@@ -163,9 +282,9 @@ class ErrorCatch:
 
     def check_rental_date(self, date1, date2):
         try:
-            first_date = datetime.datetime.strptime(date1, "%d%m%Y").date()
-            second_date = datetime.datetime.strptime(date2, "%d%m%Y").date()
-            todays_date = datetime.datetime.today().date()
+            first_date = datetime.strptime(date1, "%d%m%Y").date()
+            second_date = datetime.strptime(date2, "%d%m%Y").date()
+            todays_date = datetime.today().date()
         except ValueError:
             return False
         else:
@@ -173,14 +292,14 @@ class ErrorCatch:
             if first_date < todays_date:
                 return False
             # Longest rental-time is one year.
-            elif first_date - todays_date > datetime.timedelta(days=365):
+            elif first_date - todays_date > timedelta(days=365):
                 return False
-            if second_date - first_date > datetime.timedelta(days=365):
+            if second_date - first_date > timedelta(days=365):
                 return False
             # If the second date is before the first date
             # or the difference is less than 1 day, return False
             if second_date < first_date:
                 return False
-            elif  (second_date - first_date) < datetime.timedelta(days=0):
+            elif  (second_date - first_date) < timedelta(days=0):
                 return False
             return True

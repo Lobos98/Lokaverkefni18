@@ -6,94 +6,140 @@ class CustomerService:
 	def __init__(self):
 		self.__customer_repo = CustomerRepo()
 		self.__order_repo = OrderRepo()
-		self.__customers = self.__customer_repo.get_customer_list()
 
-	def update_customer(self, customer_email, customer):
-		'''uppfærir viðskiptavin með því að taka hann út
-		og setja aftur inn'''
-		self.__customer_repo.remove_customer(customer_email)
-		attribute_list = customer.get_attribute_list()
-		self.__customer_repo.add_customer(customer, attribute_list)
+	def update_customer(self, customer):
+		'''Tekur inn customer object og uppfærir viðskiptavin með því
+		 að taka hann úr skránniog setja aftur inn'''
+		self.__customer_repo.remove_customer(customer)
+		self.__customer_repo.add_customer(customer)
 
 
 	def edit_customer_email(self, customer_email, new_email):
-		'''breytir email hjá viðskiptavin og uppfærir hann í repóinu'''
-		customer = self.find_customer(customer_email)
+		'''Tekur við gömlu netfangi og nýju netfangi, lætur repo taka hann 
+		úr skrá, breytir netfanginu og lætur skrifa hann aftur í skrá. 
+		Skilar False ef vskvinur finnst ekki'''
+		customer = self.__customer_repo.find_customer_by_email(customer_email)
+		if not customer:
+			return False
+		self.__customer_repo.remove_customer(customer)
 		customer.set_email(new_email)
-		self.__customer_repo.remove_customer(customer_email)
-		#self.update_customer(customer_email, customer)
+		self.__customer_repo.add_customer(customer)
 
 	def edit_customer_phone_no(self, customer_email, new_phone_no):
-		'''breytir símanúmer hjá viðskiptavin og uppfærir hann í repóinu'''
-		customer = self.find_customer(customer_email)
+		'''Tekur við netfangi og nýju símanúmeri, finnur vskvin, 
+		lætur repo taka hann úr skrá, breytir símanúmeri og lætur repo 
+		skrifa hann aftur í skrá. Skilar False ef vskvinur finnst ekki'''
+		customer = self.__customer_repo.find_customer_by_email(customer_email)
+		if not customer:
+			return False
+		self.__customer_repo.remove_customer(customer)
 		customer.set_phone_no(new_phone_no)
-		self.update_customer(customer_email, customer)
+		self.__customer_repo.add_customer(customer)
 
 	def edit_customer_card_no(self, customer_email, new_card_no):
-		'''breytir kortanúmeri hjá viðskiptavin og uppfærir hann í repóinu'''
-		customer = self.find_customer(customer_email)
+		'''Tekur við netfangi og nýju kortanúmeri, finnur vskvin, 
+		lætur repo taka hann úr skrá, breytir símanúmeri og lætur repo 
+		skrifa hann aftur í skrá. Skilar False ef vskvinur finnst ekki'''
+		customer = self.__customer_repo.find_customer_by_email(customer_email)
+		if not customer:
+			return False
+		self.__customer_repo.remove_customer(customer)
 		customer.set_card_no(new_card_no)
-		self.update_customer(customer_email, customer)
+		self.__customer_repo.add_customer(customer)
 
 	def delete_customer(self, customer_email):
-		'''eyðir viðskiptavin með því að kalla á repóið'''
-		self.__customer_repo.remove_customer(customer_email)
-		#else:
+		'''Tekur við netfangi og eyðir vskvini. Skilar False 
+		ef vskvinur finnst ekki'''
+		customer = self.__customer_repo.find_customer_by_email(customer_email)
+		if not customer:
+			return False
+		self.__customer_repo.remove_customer(customer)
 
-	def find_customer(self, customer_email):
-		return self.__customer_repo.find_customer_by_email(customer_email)
+	def ban_customer(self, customer_email):
+		'''finnur vskvin eftir netfangi, tekur hann úr skrá, 
+		bannar hann og skrifar aftur í skrá
+		Skilar false ef vskvinur finnst ekki'''
+		customer = self.__customer_repo.find_customer_by_email(customer_email)
+		if not customer:
+			return False
+		self.__customer_repo.remove_customer(customer)
+		customer.set_ban(True)
+		self.__customer_repo.add_customer(customer)
 
-	def find_customer_by_name(self, name):
-		return self.__customer_repo.find_customer_by_name(name)
-
-	def find_customer_by_ssn(self, ssn):
-		return self.__customer_repo.find_customer_by_ssn(ssn)
-
-	def find_customer_by_phone_no(self, phone_no):
-		return self.__customer_repo.find_customer_by_phone_no(phone_no)
-
-	def ban_customer(self, banned_customer):
-		'''bannar viðskiptavin og uppfærir hann í repóinu'''
-		customer = self.find_customer(banned_customer)
-		customer.set_ban("true")
-		self.update_customer(banned_customer, customer)
-
-	def unban_customer(self, unbanned_customer):
-		'''afbannar viðskiptavin og uppfærir hann í repóinu'''
-		customer = self.find_customer(unbanned_customer)
-		customer.set_ban("false")
-		self.update_customer(unbanned_customer, customer)
+	def unban_customer(self, customer_email):
+		'''finnur vskvin eftir netfangi, tekur hann úr skrá, afbannar hann og 
+		skrifar aftur í skrá. Skilar false ef vskvinur finnst ekki'''
+		customer = self.__customer_repo.find_customer_by_email(customer_email)
+		if not customer:
+			return False
+		self.__customer_repo.remove_customer(customer)
+		customer.set_ban(False)
+		self.__customer_repo.add_customer(customer)
 
 	def fine_customer(self, customer_email, fine_amount):
-		'''sektar viðskiptavin og uppfærir hann í repóinu'''
-		customer = self.find_customer(customer_email)
+		'''Tekur við netfangi og int upphæð, finnur vskvin eftir netfangi, 
+		lætur taka hann úr repo, gefur honum sekt og skrifar aftur í skrána'''
+		customer = self.__customer_repo.find_customer_by_email(customer_email)
+		if not customer:
+			return False
+		self.__customer_repo.remove_customer(customer)
 		customer.set_fine(fine_amount)
-		self.update_customer(customer_email, customer)
+		self.__customer_repo.add_customer(customer)
 
 	def add_customer(self, email, name, card_no, phone_no, ssn = "0"):
-		'''bætir við viðskiptavin og kallar á repóið til að bæta hann í
-		skránni'''
-		if not self.find_customer(email):
-			new_customer = Customer(email, name, card_no, phone_no, ssn)
-			customer_list = new_customer.get_attribute_list()
-			self.__customer_repo.add_customer(new_customer, customer_list)
-			return True
-		else:
+		'''Tekur við netfangi, nafni, kortanúmeri, símanúmeri og kennitölu og 
+		býr til Customer object sem er svo bætt í skrána og skilar True til 
+		staðfestingar. Skilar False ef netfang vskvinar er þegar í notkun'''
+		if self.__customer_repo.find_customer_by_email(email):
 			return False
+		new_customer = Customer(email, name, card_no, phone_no, ssn)
+		self.__customer_repo.add_customer(new_customer)
+		return True
 
 	def add_old_order(self, email, order_num):
-		'''bætir við gamla pöntun í customer history og uppfærir hann í
-		repóinu'''
-		customer = self.find_customer(email)
-		if customer != False:
-			customer.add_history(order_num)
-		self.update_customer(email, customer)
+		'''Tekur inn netfang vskvinar og pöntunarnúmer, finnur vskvin 
+		frá netfangi, eyðir vskvini úr skrá, bætir pöntunarnúmerinu í 
+		customer_history og skrifar vskvin aftur í skrána.
+		Skilar False ef vskvinur finnst ekki'''
+		customer = self.__customer_repo.find_customer_by_email(email)
+		if not customer:
+			return False
+		self.__customer_repo.remove_customer(customer)
+		customer.add_history(order_num)
+		self.__customer_repo.add_customer(customer)
 
 	def list_of_banned_customers(self):
-		'''safnar saman viðskiptavini sem eru bannaðir'''
+		'''Skilar lista af vskvinum sem eru bannaðir. 
+		Skilar False ef engir vskvinir eru bannaðir'''
+		all_customers = self.__customer_repo.get_customer_list()
 		banned_customer_list = []
-		for customer in self.__customers:
-			if customer.get_banned() == "true":
+		for customer in all_customers:
+			if customer.is_banned():
 				banned_customer_list.append(customer)
-		return banned_customer_list
-
+		if banned_customer_list:
+			return banned_customer_list
+		else:
+			return False
+	def find_customer(self, email = "", ssn = "", phone_no = "", name = ""):
+		"""
+		Tekur inn eina færibreytu sem verður að vera strengur.
+		Skrifið email = "test@test.is" eða ssn = "2903983209" eða 
+		phone_no = "5812345" eða name = "robert" eftir því sem á við.
+		Skilar alltaf customer nema ef leitað er eftir nafni eða snr, 
+		þá skilast listi af Customers
+		skilar False ef ekkert finnst
+		"""
+		#TODO: Ath köll í þetta fall - hvort það skili false
+		if email:
+			customer = self.__customer_repo.find_customer_by_email(email)
+			return customer
+		elif ssn:
+			customer = self.__customer_repo.find_customer_by_ssn(ssn)
+			return customer
+		elif phone_no:
+			customer_list = self.__customer_repo.find_customer_by_phone_no(phone_no)
+			return customer_list
+		elif name:
+			customer_list = self.__customer_repo.find_customer_by_name(name)
+			return customer_list
+		return False

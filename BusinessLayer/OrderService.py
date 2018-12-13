@@ -19,6 +19,10 @@ class OrderService:
         return self.new_order
 
     def change_email(self, email, order):
+        """"
+        Tekur inn nýtt netfang og order object, fjarlægir pöntunina úr skránni, 
+        breytir emailinu á order objectinu og bætir því aftur í skrána
+        """
         self.__order_repo.remove_order(order)
         order.set_customer_email(email)
         self.__order_repo.add_order(order)
@@ -124,4 +128,14 @@ class OrderService:
         list_of_orders = self.get_list_of_orders()
         for order in list_of_orders:
             if order.get_car_reg_num() == reg_num:
+                self.delete_order(order)
+
+    def customer_deleted(self, email):
+        """"
+        Tekur við netfangi vskvinar sem verið er að eyða og eyðir 
+        öllum hans pöntunum
+        """
+        all_orders = self.get_list_of_orders()
+        for order in all_orders:
+            if order.get_customer_email() == email:
                 self.delete_order(order)

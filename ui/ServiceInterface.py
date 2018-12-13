@@ -56,7 +56,10 @@ class ServiceInterface:
                 print("4.  Húsbíll")
                 print("5.  Sportbíll")
                 car_type = int(input("Veldu tegund bíls: "))
-                car = car_type_list[car_type-1]
+                if car_type in range(1,6):
+                    car = car_type_list[car_type-1]
+                else:
+                    raise ValueError
             except (IndexError, ValueError):
                 print("Vinsamlegast sláðu inn heiltölu á bilinu 1-5.")
             else:

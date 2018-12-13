@@ -110,11 +110,12 @@ class ErrorCatch:
         check = False
         while check == False:
             name = input("Sláðu inn nafn viðskiptavinar: ")
-            if name.isalpha() == True:
-                if name.isascii() == True:
-                    return name
-            print("Vinsamlegast skrifið inn nafn.\n"
-            "Athugið að nafn má ekki innihalda íslenska sérstafi.")
+            return name
+            # if name.isalpha() == True:
+            #     if name.isascii() == True:
+            #         return name
+            # print("Vinsamlegast skrifið inn nafn.\n"
+            # "Athugið að nafn má ekki innihalda íslenska sérstafi.")
 
     def input_rental_dates(self):
         """Biður um tvö inputs á forminu ddmmáááá þangað til þau passa við 

@@ -1,1 +1,0 @@
-print(len("Fyrri pöntunarnúmer: Þessi viðskiptavinur á sér enga sögu"))

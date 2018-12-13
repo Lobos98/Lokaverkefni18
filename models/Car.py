@@ -86,7 +86,7 @@ class Car:
         """Tekur inn pöntun þegar henni er lokið og bætir henni í\
         notkunarsögu bílsins og af-frátekur dagsetningarnar"""
         renter = order.get_customer_email()
-        reservation = self.get_dates_from_order(order)
+        reservation = order.get_date(order)
         if renter in self.__history:
             self.__history[renter].append(reservation)
         else:
@@ -96,21 +96,10 @@ class Car:
     def remove_order(self, order):
         """Tekur við order object og fjarlægir viðeigandi reservations
          úr eigindum bílsins"""
-        pickup_date, return_date = self.get_dates_from_order(order)
+        pickup_date, return_date = order.get_date()
         old_reservation_list = self.get_reserved_dates()
         new_reservation_list = []
         for date_tuple in old_reservation_list:
             if not date_tuple == (pickup_date, return_date):
                 new_reservation_list.append(date_tuple)
         self.__reserved_dates = new_reservation_list
-
-    def get_dates_from_order(self, order):
-        """tekur við order og skilar pickup date og return date sem 
-        datetime object því EINHVER ákvað að það væri sniðugt að 
-        geyma dagsetningar sem streng, bara í þessum klasa"""
-        pickup_date_string = order.get_pickup_date()
-        return_date_string = order.get_return_date()
-        pickup_date = datetime.strptime(pickup_date_string, "%d%m%Y")
-        return_date = datetime.strptime(return_date_string, "%d%m%Y")
-        return pickup_date, return_date
-        

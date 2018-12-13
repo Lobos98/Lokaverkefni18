@@ -14,7 +14,7 @@ class CustomerRepo:
 		 __customers eigindinu, sem er listi af customer objects
 		"""
 		self.__customers = []
-		with open(self.__link, "r", encoding = "utf-8") as customer_file:
+		with open(self.__link, "r", encoding="utf-8") as customer_file:
 			csv_reader = csv.DictReader(customer_file)
 			for line in csv_reader:
 				#banned = False
@@ -45,7 +45,7 @@ class CustomerRepo:
 		tekur inn customer object, skrifar það í skrána og 
 		bætir við í __customers eigindið
 		"""
-		with open(self.__link, "a+", newline="") as customer_file:
+		with open(self.__link, "a+", newline="", encoding="utf-8") as customer_file:
 			csv_writer = csv.writer(customer_file)
 			customer_attributes = self.__get_string_attributes(new_customer)
 			csv_writer.writerow(customer_attributes)
@@ -110,7 +110,7 @@ class CustomerRepo:
 		"""
 		Skrifar skrána upp á nýtt út frá Customer objects í __customers eigindi
 		"""
-		with open("./Data/list_of_customers.csv", "w") as customer_file:
+		with open("./Data/list_of_customers.csv", "w", encoding="utf-8") as customer_file:
 			customer_file.write(','.join(self.__header) + '\n')
 			for customer in self.__customers:
 				customer_file.write(','.join(self.\

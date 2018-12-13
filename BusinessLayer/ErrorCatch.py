@@ -110,7 +110,7 @@ class ErrorCatch:
         Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng
         """
         name = input("Sláðu inn nafn viðskiptavinar: ")
-        while name:
+        while not name:
             name = input("Sláðu inn nafn viðskiptavinar: ")  
         if name.lower() == "q":
             return ""    

@@ -227,8 +227,6 @@ class StaffInterface:
         else:
             exit()
 
-            
-    
     def find_customer_menu(self):
         """
         Býður að leita eftir nafni, kennitölu, netfangi eða símanúemeri, 
@@ -286,7 +284,7 @@ class StaffInterface:
         self.print_divider(61)
         val = self.error_catch.integer_input("Veldu pöntun: ", len(list_of_orders))
         self.print_divider(61)
-        chosen_order = list_of_orders[int(val)-1]#TODO:ATH hér gæti komið crash ef of há tala kemur inn
+        chosen_order = list_of_orders[int(val)-1]
         print("Pöntun: {}".format(chosen_order))
         self.print_divider(61)
         choice = input("Viltu eyða þessari pöntun? (j/n): ")
@@ -307,7 +305,7 @@ class StaffInterface:
         print("Breyta Pöntun")
         self.print_divider(20)
         customer = self.find_customer_menu()
-        if not customer:#TODO: ATH kannski gerist þetta aldrei?
+        if not customer:
             email = self.register_customer()
             customer = self.customer_service.find_customer(email)
         email = customer.get_email()
@@ -405,9 +403,7 @@ class StaffInterface:
         rented_car.add_reservation(new_order)
         self.car_service.refresh_car(rented_car)
         print("Þér hefur tekist að panta bílinn {}".format(reg_number))
-        self.print_divider(62 + len("{:,d}".format(price_insured)))
-
-    
+        self.print_divider(62 + len("{:,d}".format(price_insured)))   
 
     def start_menu(self):
         """Prentar logo fyrirtækisins og spyr hvort keyra skuli forritið"""

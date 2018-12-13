@@ -89,6 +89,8 @@ class VehicleInterface:
         print("Afskrá bíl")
         print("-"*30)
         car_to_delete = self.__find_car()
+        if not car_to_delete:
+            self.__staff_interface.go_to_menu()
         reg_num = car_to_delete.get_reg_num()
         if car_to_delete.get_reserved_dates() == []:
             self.__staff_interface.car_service.delete_car(reg_num)

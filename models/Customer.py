@@ -120,9 +120,9 @@ class Customer:
 			history_string = "Þessi viðskiptavinur á sér enga sögu"
 		if self.__ssn == "":
 			return "Nafn: {}\nEmail: {}\nKortanúmer: {}\nSímanúmer: {}\
-			\nSaga: {}".format(self.__name, self.__email,self.__card_no,\
+			\nFyrri pantanir: {}".format(self.__name, self.__email,self.__card_no,\
 				self.__phone_no, history_string)
 		else:
 			return "Nafn: {}\nEmail: {}\nKortanúmer: {}\nSímanúmer: {}\
-			\nKennitala: {}\nSaga: {}".format(self.__name, self.__email,\
+			\nKennitala: {}\nFyri pantanir: {}".format(self.__name, self.__email,\
 				self.__card_no, self.__phone_no, self.__ssn, history_string)

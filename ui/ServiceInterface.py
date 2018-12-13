@@ -9,9 +9,10 @@ class ServiceInterface:
         "Afskrá viðskiptavin", "Bakfæra pöntun", "Uppfæra viðskiptavin",
         "Breyta pöntun", "Til baka"]
         self.__print_lines = self.__staff_interface.print_divider
+        self.__clear_screen = self.__staff_interface.clear_screen
 
     def menu(self):
-        self.__staff_interface.clear_screen()
+        self.__clear_screen()
         print("Afgreiðsla")
         self.__print_lines(27)
         
@@ -44,19 +45,29 @@ class ServiceInterface:
         return self.__staff_interface.go_to_menu()
 
     def cost_amount(self):
+        self.__clear_screen()
+        print("Kostnaðarmat")
+        self.__print_lines()
         pickup_date, return_date = self.__staff_interface.error_catch.\
         input_rental_dates()
         car_type_list = ["jeppi", "smabill", "folksbill", \
         "husbill", "sportbill"]
         car_dict = {"jeppi":5000, "folksbill":4000, "smabill":3000, \
         "husbill":6000, "sportbill":7000}
+        self.__clear_screen()
+        print("Kostnaðarmat")
+
         while True:
             try:
+                self.__clear_screen()
+                print("Kostnaðarmat")
+                self.__print_lines()
                 print("1.  Jeppi")
                 print("2.  Smábíll")
                 print("3.  Fólksbíll")
                 print("4.  Húsbíll")
                 print("5.  Sportbíll")
+                self.__print_lines()
                 car_type = int(input("Veldu tegund bíls: "))
                 if car_type in range(1,6):
                     car = car_type_list[car_type-1]
@@ -66,12 +77,14 @@ class ServiceInterface:
                 print("Vinsamlegast sláðu inn heiltölu á bilinu 1-5.")
             else:
                 break
+        self.__print_lines()
         time_d = datetime.strptime(return_date, "%d%m%Y")\
         - datetime.strptime(pickup_date, "%d%m%Y")
         price = (time_d.days + 1) * car_dict[car]
         print("Verð á völdu tímabili: {:,d} kr".format(price))
-
+        self.__print_lines()
         choice = input("Viltu leigja bíl? (j/n): ")
+        self.__print_lines()
         if choice.lower() == "j":
             return self.__staff_interface.create_order()
         else:

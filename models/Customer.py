@@ -1,13 +1,16 @@
 class Customer:
 	def __init__(self, email, name, card_no, phone_no, ssn = "", ban = False,\
-		fine = "0", history = ""):
+		fine = "0", history = None):
 		self.__email = email
 		self.__name = name
 		self.__card_no = card_no
 		self.__phone_no = phone_no
 		self.__ssn = ssn
 		self.__banned = ban
-		self.__history = history
+		if history == None:
+			self.__history = []
+		else:
+			self.__history = history
 		self.__fine = fine
 
 	def get_name(self):
@@ -100,7 +103,7 @@ class Customer:
 
 	def add_history(self, old_order_no):
 		"""Tekur við pöntunarnúmeri sem int og bætir því í customer history"""
-		self.__history = self.__history + ";" + str(old_order_no)
+		self.__history = self.__history.append(old_order_no)
 
 	def __repr__(self):
 		if self.__ssn == "":

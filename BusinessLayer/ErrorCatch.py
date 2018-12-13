@@ -66,18 +66,20 @@ class ErrorCatch:
         Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng
         """
         check = False
+
         model_list = ["jeppi", "fólksbíll", "smábíll", "húsbíll", "sportbíll"]
+
         while check == False:
             model = input("Tegund bíls: ")
             if model.isalpha():
-                if model.isascii():
-                    for item in model_list:
-                        if model.lower() == item:
-                            return model.lower()
+                for item in model_list:
+                    if model.lower() == item:
+                        return model.lower()
             if model.lower() == "q":
                 return ""
             print("Athugið að tegund bíls getur verið jeppi, "\
             "fólksbíll, smábíll, húsbíll eða sportbíll\n"\
+
             "'q' til að hætta")
 
     def input_color(self):
@@ -108,9 +110,10 @@ class ErrorCatch:
         Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng
         """
         name = input("Sláðu inn nafn viðskiptavinar: ")
-        r = re.compile("[a-zA-Z\s.'-,]+")
-        while not r.match(name):
-            name = input("Sláðu inn nafn viðskiptavinar: ")
+        while name:
+            name = input("Sláðu inn nafn viðskiptavinar: ")  
+        if name.lower() == "q":
+            return ""    
         return name
 
 

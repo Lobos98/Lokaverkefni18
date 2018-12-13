@@ -1,5 +1,4 @@
 Bilnumer,Argerd,Tegund,Litur,Biladur,Notkunarsaga,FrateknarDagsetningar
-CC222,2016,smabill,gulur,False,bjorgvinb@ru.is:12032016/20062016;15122016/15012017;12042017/20082017;01012018/06122018,03012019/10032019;05052019/10062019
 DD444,2018,smabill,svartur,True,sigmundur_david69@nocco.is:12012018/15022018--einar@tvaerthrjar.is:15062018/12072018,
 MAT69,2018,jeppi,svartur,False,,03122018/30122018
 AA293,2016,jeppi,raudur,False,,05022019/06042019;01122019/20122019
@@ -10,7 +9,6 @@ IO345,2017,folksbill,grar,True,,
 XX999,2018,sportbill,raudur,False,,
 HFT42,2017,husbill,brunn,False,,
 GFH45,2018,sportbill,raudur,False,,
-DFR76,2018,sportbill,graenn,False,,
 TRI91,2017,sportbill,fjolublar,False,,
 DP940,2017,husbill,brunn,False,,
 UFP09,2018,smabill,gulur,False,,
@@ -21,5 +19,7 @@ RT982,2018,folksbill,gulur,False,,
 PL925,2017,folksbill,hvitur,False,,
 POW10,2018,jeppi,fjolublar,False,,
 YFT30,2018,jeppi,grar,False,,
+KP309,2017,folksbill,hvitur,False,,14122018/20122018
+DFR76,2018,sportbill,graenn,False,,14122018/19122018
 MLD20,2018,jeppi,brunn,False,,
-KP309,2017,folksbill,hvitur,False,,
+CC222,2016,smabill,gulur,False,bjorgvinb@ru.is:12032016/20062016;15122016/15012017;12042017/20082017;01012018/06122018,03012019/10032019;05052019/10062019

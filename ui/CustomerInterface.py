@@ -37,17 +37,9 @@ class CustomerInterface:
             pass
         return self.__staff_interface.go_to_menu()
 
-    # def __is_banned(self, email):
-    #     if self.__staff_interface.customer_service.find_customer(email):
-    #         if self.__staff_interface.customer_service.find_customer(email)\
-    #         .is_banned() == "true":
-    #             print("Þessi viðskiptavinur er bannaður")
-    #             return self.__staff_interface.go_to_menu()
-
-    # def is_banned(self, email):
-    #     customer = self.__staff_interface.customer_service.find_customer(email)
-    #     if customer:
-    #         return customer.is_banned() == "true"
+    def is_banned(self, email):
+        customer = self.__staff_interface.customer_service.find_customer(email)
+        return customer.is_banned()
 
     def find_by_name(self):
         """"
@@ -199,6 +191,8 @@ class CustomerInterface:
     
     def find_customer(self):
         customer_found = self.__staff_interface.find_customer_menu()
+        if not customer_found:
+            print("Viðskiptavinur fannst ekki.")
         self.__clear_scren()
         print("Fletta upp viðskiptavin")
         name_printer = customer_found.get_name()
@@ -207,7 +201,6 @@ class CustomerInterface:
         self.__print_lines((33+len(name_printer)))
         choice = input("Viltu breyta viðskiptavin? (j/n): ")
         self.__print_lines((33+len(name_printer)))
-
 
         if choice.lower() == "j":
             self.__staff_interface.edit_customer(customer_found)
@@ -222,7 +215,6 @@ class CustomerInterface:
         phone_no = self.__staff_interface.error_catch.input_phone()
         if not phone_no:
             return self.__staff_interface.go_to_menu()
-        #if self.error_catch.check_phone_no(phone_no):
         self.__staff_interface.customer_service.edit_customer_phone_no(\
         email, phone_no)
         print("Símanúmeri hefur verið breytt.")
@@ -260,7 +252,6 @@ class CustomerInterface:
         print("Kortanúmeri hefur verið breytt.")
         self.__print_lines((62))
         
-
     def ban_customer(self):
         self.__clear_scren()
         print("Setja á bannlista")

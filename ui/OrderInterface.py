@@ -77,7 +77,6 @@ class OrderInterface:
         print("Breyta Pöntun")
         self.__print_lines(46)
         ordered_cars, order_info = self.return_ord_cars_and_info(email)
-        #TODO passa að viðskiptavinurinn velji tölu á réttu bili
 
         order_num = self.order_pick(ordered_cars)
 

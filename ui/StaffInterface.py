@@ -403,6 +403,10 @@ class StaffInterface:
             email = customer.get_email()
             
         print(customer)
+        if self.customer.is_banned(email):
+            self.print_divider(StaffInterface.LONG_DIVIDER)
+            print("Viðskiptavinur er bannaður, ekki er hægt að skrá pöntun")
+            self.go_to_menu()
 
         pickup_date, return_date, free_cars = self.display_free_cars()
         if free_cars == False:

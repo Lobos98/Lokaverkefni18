@@ -120,6 +120,7 @@ class CustomerService:
 			return banned_customer_list
 		else:
 			return False
+			
 	def find_customer(self, email = "", ssn = "", phone_no = "", name = ""):
 		"""
 		Tekur inn eina færibreytu sem verður að vera strengur.
@@ -129,7 +130,6 @@ class CustomerService:
 		þá skilast listi af Customers
 		skilar False ef ekkert finnst
 		"""
-		#TODO: Ath köll í þetta fall - hvort það skili false
 		if email:
 			customer = self.__customer_repo.find_customer_by_email(email)
 			return customer

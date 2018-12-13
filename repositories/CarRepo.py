@@ -17,8 +17,7 @@ class CarRepo:
             file_contents = csv.reader(file)
             self.__header = next(file_contents)
             for line in file_contents:
-                # line = reg_number, model, car_type, color, 
-                # broken, history, future_reservations
+                
                 reg_number = line[0]
                 model = line[1]
                 car_type = line[2]

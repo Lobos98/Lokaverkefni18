@@ -72,8 +72,12 @@ class StaffInterface:
         self.print_divider()
         free_car_list = self.car_service.find_free_cars(\
         pickup_date_string, return_date_string)
-        pickup_print = "{}{}.{}{}.{}{}{}{}".format(*pickup_date_string)
-        return_print = "{}{}.{}{}.{}{}{}{}".format(*return_date_string)
+        try:
+            pickup_print = "{}{}.{}{}.{}{}{}{}".format(*pickup_date_string)
+            return_print = "{}{}.{}{}.{}{}{}{}".format(*return_date_string)
+        except TypeError:
+            pickup_print = pickup_date_string.strftime("%d.%m.%Y")
+            return_print = return_date_string.strftime("%d.%m.%Y")
         print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
         pickup_print, return_print))
         self.display_list_of_cars(free_car_list)

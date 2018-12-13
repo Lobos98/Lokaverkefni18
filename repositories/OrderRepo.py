@@ -85,9 +85,7 @@ class OrderRepo:
         sem streng á forminu 01012019--02012019 til þess að skrifa í skrá
         """
         pickup_date, return_date = order.get_date()
-        pickup_date_string = datetime.strftime(pickup_date, "%d%m%Y")
-        return_date_string = datetime.strftime(return_date, "%d%m%Y")
-        date_string = pickup_date_string + "--" + return_date_string
+        date_string = pickup_date + "--" + return_date
         return date_string
 
     def __get_attribute_string(self, order):
@@ -99,9 +97,9 @@ class OrderRepo:
         reg_num = order.get_car_reg_num()
         pickup_return_date_string = self.get_date_string_from_order(order)
         email = order.get_customer_email()
-        if order.get_bonus_insurance() == True:
+        if order.get_bonus_insurance() == "True":
             bonus_insurance = "True"
-        elif order.get_bonus_insurance == False:
+        elif order.get_bonus_insurance == "False":
             bonus_insurance = "False"
         attribute_list = [order_no, reg_num, pickup_return_date_string,\
          email, bonus_insurance]

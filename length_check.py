@@ -1,1 +1,1 @@
-print(len("Ef bílnum er eytt verður tilsvarandi pöntunum einnig eytt."))
+print(len("Staðfesta greiðslu viðskiptavinar(j/n eða q til að hætta):"))

@@ -185,7 +185,8 @@ class StaffInterface:
         self.print_divider()
         order = False
         while bool(order) == False:
-            email = self.error_catch.input_email()
+            customer = self.find_customer_menu()
+            email = customer.get_email()
             if not email:
                 return self.go_to_menu()
             order_list = self.order_service.get_customer_orders(email)
@@ -209,7 +210,7 @@ class StaffInterface:
                 order_choice = self.error_catch.integer_input("Veldu bíl til "
                     "þess að skila: ", len(active_orders))
                 order = active_orders[order_choice-1]
-            print(order)
+
         self.payment_type(order)
         reg_num = self.car_service.return_car(order)
         self.order_service.move_to_past(order.get_order_no())
@@ -220,20 +221,27 @@ class StaffInterface:
         self.print_divider(27 + len(reg_num))
 
     def payment_type(self, order):
+        self.clear_screen()
+        print("Skila bíl")
+        self.print_divider()
         menu_list = ["Debit/Kreditkort", "Reiðufé", "Til baka"]
         reg_num = order.get_car_reg_num()
         car = self.car_service.find_car(reg_num)
+        if not car:
+            print("Það er enginn bíll í útleigu")
         price = self.order_service.calculate_price(self.car_service.\
             get_price(car),order.get_pickup_date(), order.get_return_date())[1]
         print("Veldu tegund greiðslu")
+        self.print_divider()
         self.print_menu(menu_list)
+        self.print_divider()
         input_num = input("Val: ")
-        if input_num == "1":
-            print("Kostnaður er: {} kr".format(price))
+        self.print_divider()
+        if input_num in ("1", "2"):
+            print("Kostnaður er: {:,d} kr".format(price))
             self.confirm_payment()
-        elif input_num == "2":
-            print("Korstnaður er: {} kr".format(price))
-            self.confirm_payment()
+        else:
+            self.go_to_menu()
             
     def confirm_payment(self):
         confirm = input("Staðfesta greiðslu viðskiptavinar(j/n eða q til að "

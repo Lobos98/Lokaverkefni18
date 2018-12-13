@@ -84,7 +84,8 @@ class CustomerInterface:
 
             for index, customer in enumerate(list_of_customers):
                 print("{}. {}".format(index + 1, customer))
-                print()
+                if index < len(list_of_customers)-1:
+                    print()
             self.__staff_interface.print_divider()
             choice = self.__staff_interface.error_catch.integer_input\
             ("Vinsamlegast veldu viðskiptavin hér fyrir ofan: ",

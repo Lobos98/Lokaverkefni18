@@ -66,7 +66,7 @@ class ErrorCatch:
         Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng
         """
         check = False
-        model_list = ["jeppi", "folksbill", "smabill", "husbill", "sportbill"]
+        model_list = ["jeppi", "fólksbíll", "smábíll", "húsbíll", "sportbíll"]
         while check == False:
             model = input("Tegund bíls: ")
             if model.isalpha():
@@ -77,8 +77,7 @@ class ErrorCatch:
             if model.lower() == "q":
                 return ""
             print("Athugið að tegund bíls getur verið jeppi, "\
-            "folksbill, smabill, husbill eða sportbill\n"\
-            "og skal skrifa án íslenskra sérstafa\n"
+            "fólksbíll, smábíll, húsbíll eða sportbíll\n"\
             "'q' til að hætta")
 
     def input_color(self):
@@ -86,9 +85,9 @@ class ErrorCatch:
         Biður um lit á bíl þangað til löglegur litur er skrifaður inn. 
         Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng
         """
-        list_of_colors = ["gulur", "raudur", "graenn", "blar", "svartur", \
-        "hvitur", "fjolublar", "brunn", "bleikur", "appelsinugulur", \
-        "grar", "silfur", "gull"]
+        list_of_colors = ["gulur", "rauður", "grænn", "blár", "svartur", \
+        "hvítur", "fjólublár", "brúnn", "bleikur", "appelsínugulur", \
+        "grár", "silfur", "gull"]
         check = False
         while check == False:
             
@@ -98,7 +97,7 @@ class ErrorCatch:
             if color.lower() == "q":
                 return ""
             print("Vinsamlegast skrifið inn lit."\
-            " Tölustafir og íslenskir sérstafir eru ekki leyfðir")
+            " Tölustafir eru ekki leyfðir")
             color_string = ", ".join(list_of_colors)
             print("Eftirfarandi eru löglegir litir: {}".format(color_string))
             print("'q' til að hætta")

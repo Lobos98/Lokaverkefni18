@@ -252,7 +252,7 @@ class ErrorCatch:
         Tekur við kreditkortanúmeri sem er strengur, fjarlægir bandstrik og 
         bil og skilar False ef númerið er ekki 13, 15, 16 eða 19 tölustafir
         """
-        card_number.replace('-', '').replace(' ', '')
+        card = card_number.replace('-', '').replace(' ', '')
         if not card_number.isdigit():
             return False
         if not len(card_number) in [13,15,16,19]:

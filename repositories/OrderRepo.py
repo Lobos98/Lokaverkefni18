@@ -84,7 +84,7 @@ class OrderRepo:
         Tekur við order object og skilar leigu- og skiladagsetningum 
         sem streng á forminu 01012019--02012019 til þess að skrifa í skrá
         """
-        pickup_date, return_date = order.get_date()
+        pickup_date, return_date = order.get_date()#ATH skilar string
         pickup_date_string = datetime.strftime(pickup_date, "%d%m%Y")
         return_date_string = datetime.strftime(return_date, "%d%m%Y")
         date_string = pickup_date_string + "--" + return_date_string

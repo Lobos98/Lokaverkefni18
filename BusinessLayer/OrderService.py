@@ -10,7 +10,7 @@ class OrderService:
         self.__order_repo = OrderRepo()
         self.__order_list = self.__order_repo.get_all_orders()
 
-    def log_order(self, reg_number, date1, date2, email, extra_insurance):
+    def log_order(self, reg_number, date1, date2, email, extra_insurance):#TODO: date1 og date2 eru strengir!
         '''Tekur inn bílnr streng, leigudags datetime, skiladags datetime, 
         email streng og aukatryggingu bool, býr til pöntun og bætir í skrána.
         Skilar order objectinu sem var skapað'''

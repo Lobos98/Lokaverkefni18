@@ -14,7 +14,7 @@ class CustomerRepo:
 		 __customers eigindinu, sem er listi af customer objects
 		"""
 		self.__customers = []
-		with open(self.__link, "r") as customer_file:
+		with open(self.__link, "r", encoding = "utf-8") as customer_file:
 			csv_reader = csv.DictReader(customer_file)
 			for line in csv_reader:
 				#banned = False

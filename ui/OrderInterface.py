@@ -85,12 +85,14 @@ class OrderInterface:
         print("Breyta Pöntun")
         self.__print_lines(57)
         free_reg_numbers = [a_car.get_reg_num() for a_car in free_cars]
-        if car.get_car_reg_num() in free_reg_numbers:
-            car_price = self.__staff_interface.car_service.get_price(car)
+        reg_num = car.get_car_reg_num()
+
+        if reg_num in free_reg_numbers:
+            vehicle = self.__staff_interface.car_service.find_car(reg_num)
+            car_price = self.__staff_interface.car_service.get_price(vehicle)
             price = self.__staff_interface.order_service.calculate_price\
-            (car_price, pickup_date, return_date)
-            print("Þú hefur breytt dagsetningunni, nýja verðið er: " + price +\
-            "Kr")
+            (car_price, pickup_date, return_date)[1]
+            print("Þú hefur breytt dagsetningunni, nýja verðið er: {:,d} Kr".format(price))
             self.__staff_interface.order_service.change_order\
             (car, "1", pickup_date, return_date)
             self.__print_lines(57)

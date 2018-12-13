@@ -107,21 +107,21 @@ class Customer:
 
 	def __repr__(self):
 		if self.__ssn == "":
-			return "{},{},{},{}".format(self.__email, self.__name,\
-				self.__card_no, self.__phone_no)
-		else:
 			return "{},{},{},{},{}".format(self.__email, self.__name,\
-				self.__card_no, self.__phone_no, self.__ssn)
+				self.__card_no, self.__phone_no, self.__history)
+		else:
+			return "{},{},{},{},{},{}".format(self.__email, self.__name,\
+				self.__card_no, self.__phone_no, self.__ssn, self.__history)
 
 	def __str__(self):
 		if self.__ssn == "":
 			return "Nafn: {}\nEmail: {}\nKortanúmer: {}\nSímanúmer: {}\
-			".format(self.__name, self.__email,self.__card_no,\
-				self.__phone_no)
+			\nSaga: {}".format(self.__name, self.__email,self.__card_no,\
+				self.__phone_no, self.__history)
 		else:
 			return "Nafn: {}\nEmail: {}\nKortanúmer: {}\nSímanúmer: {}\
-			\nKennitala: {}".format(self.__name, self.__email,self.__card_no,\
-				self.__phone_no, self.__ssn)
+			\nKennitala: {}\nSaga: ".format(self.__name, self.__email,\
+				self.__card_no, self.__phone_no, self.__ssn, self.__history)
 
 
 

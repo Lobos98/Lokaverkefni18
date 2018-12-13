@@ -112,7 +112,7 @@ class ErrorCatch:
             name = input("Sláðu inn nafn viðskiptavinar: ")
             if name.isalpha() == True:
                 if name.isascii() == True:
-                    return name.lower()
+                    return name
             print("Vinsamlegast skrifið inn nafn.\n"
             "Athugið að nafn má ekki innihalda íslenska sérstafi.")
 

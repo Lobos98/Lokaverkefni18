@@ -1,17 +1,18 @@
 class OrderInterface:
     def __init__(self, staff_interface):
         self.__staff_interface = staff_interface
-
         self.__menu_list = ["Skrá pöntun", "Breyta pöntun", "Fletta upp pöntun",
         "Bakfæra pöntun", "Prenta allar pantanir", "Til baka"]
+        self.__print_lines = self.__staff_interface.print_divider
+        self.__clear_scren = self.__staff_interface.clear_screen
 
     def menu(self):
-        self.__staff_interface.clear_screen()
+        self.__clear_scren()
         print("Pantanir")
-        self.__staff_interface.print_divider(25)
+        self.__print_lines(25)
         
         self.__staff_interface.print_menu(self.__menu_list)
-        self.__staff_interface.print_divider(25)
+        self.__print_lines(25)
         input_num = input("Val: ")
         if input_num == "1":
             self.__staff_interface.create_order()
@@ -41,13 +42,13 @@ class OrderInterface:
         old_return_date = order.get_return_date()
 
         while True:
-            self.__staff_interface.clear_screen()
+            self.__clear_scren()
             free_cars = self.__staff_interface.car_service.find_free_cars(old_pickup_date,
             old_return_date)
             free_cars_of_same_type = self.__staff_interface.car_service.cars_of_same_type(\
             free_cars, car)
             print("Birta lausa bíla")
-            self.__staff_interface.print_divider()
+            self.__print_lines()
             pickup_print = "{}{}.{}{}.{}{}{}{}".format(*old_pickup_date)
             return_print = "{}{}.{}{}.{}{}{}{}".format(*old_return_date)
             print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
@@ -60,7 +61,7 @@ class OrderInterface:
             for a_car in free_cars_of_same_type:
                 if a_car.get_reg_num() == new_car_reg_num:
                     print("Þú hefur leigt {}".format(new_car_reg_num))
-                    print("-"*60)
+                    self.__print_lines(60)
                     self.__staff_interface.car_service.remove_order(chosen_order)
                     self.__staff_interface.car_service.add_reservation_dates(a_car, chosen_order)
                     return \
@@ -71,7 +72,7 @@ class OrderInterface:
     def change_date(self, customer_object):
         email = customer_object.get_email()
         print("Breyta Pöntun")
-        print("-"*(46))
+        self.__print_lines(46)
         ordered_cars, order_info = self.return_ord_cars_and_info(email)
         #TODO passa að viðskiptavinurinn velji tölu á réttu bili
 
@@ -80,15 +81,15 @@ class OrderInterface:
         car = ordered_cars[order_num - 1]
         pickup_date, return_date, free_cars\
          = self.__staff_interface.display_free_cars()
-        self.__staff_interface.clear_screen()
+        self.__clear_scren()
         print("Breyta Pöntun")
-        print("-"*(57))
+        self.__print_lines(57)
         free_reg_numbers = [a_car.get_reg_num() for a_car in free_cars]
         if car.get_car_reg_num() in free_reg_numbers:
             print("Þú hefur breytt dagsetningunni")
             self.__staff_interface.order_service.change_order\
             (car, "1", pickup_date, return_date)
-            print("-"*(57))
+            self.__print_lines(57)
             return self.__staff_interface.go_to_menu
         print("Bíll sem er bundinn pöntun er frátekinn á þessu timabili.")
         choice = input("Viltu reyna aftur? (j/n eða q til að hætta): ")
@@ -101,7 +102,7 @@ class OrderInterface:
     
     def return_ord_cars_and_info(self, email):
         print("Breyta Pöntun")
-        print("-"*(46))
+        self.__print_lines(46)
         order_info = self.__staff_interface.order_service.find_order(email)
         ordered_cars = []  
         if order_info:
@@ -112,7 +113,7 @@ class OrderInterface:
                 order[1].get_car_reg_num(),
                 order[1].get_pickup_date(),
                 order[1].get_return_date()))
-        print("-"*(46))
+        self.__print_lines(46)
         return ordered_cars, order_info
         
     def order_pick(self, ordered_cars):
@@ -127,13 +128,13 @@ class OrderInterface:
                 return order_num
     
     def find_order(self):
-        self.__staff_interface.clear_screen()
+        self.__clear_scren()
         print("Finna pöntun")
-        print("-"*34)
+        self.__print_lines(34)
         email = self.__staff_interface.error_catch.input_email()
         if not email:
             self.__staff_interface.go_to_menu()
-        self.__staff_interface.clear_screen() 
+        self.__clear_scren() 
         order_list = self.__staff_interface.order_service.get_customer_orders(email)
         if not order_list:
             print("Það er engin pöntun á þessu netfangi")

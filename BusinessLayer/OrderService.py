@@ -70,14 +70,12 @@ class OrderService:
         sem fjarlægir pöntunina úr skránni'''
         self.__order_repo.remove_order(order_to_delete)
 
-    def get_list_of_orders(self):
-        '''Sækir lista yfir allar pantanir úr repoinu'''
-        return self.__order_repo.get_all_orders()
-
     def get_customer_orders(self,email):
-        """Tekur inn email, skilar lista af pöntunum
+        """
+        Tekur inn email, skilar lista af pöntunum
         sem eru skráðar á þetta email. Skilar False ef pöntun er ekki
-        í skrá"""
+        í skrá
+        """
         list_of_orders = self.__order_repo.get_all_orders()
         list_of_orders_for_email = []
         for order in list_of_orders:
@@ -88,12 +86,15 @@ class OrderService:
         return list_of_orders_for_email
 
     def get_active_orders(self, list_of_orders):
-        """Tekur við lista af order items og skila lista af þeim pöntunum 
-        sem eru í gangi núna. Skilar False ef engar pantanir eru í gangi"""
+        """
+        Tekur við lista af order items og skilar lista af þeim pöntunum á 
+        listanum sem eru í gangi núna. Skilar False ef engar pantanir á 
+        listanum eru í gangi
+        """
         active_orders = []
         for order in list_of_orders:
-            pickup_date = self.__read_date(order.get_pickup_date())
-            return_date = self.__read_date(order.get_return_date())
+            pickup_date = order.get_pickup_date()
+            return_date = order.get_return_date()
             if pickup_date <= datetime.today() <= return_date:
                 active_orders.append(order)
         if active_orders == []:
@@ -101,16 +102,12 @@ class OrderService:
         else:
             return active_orders
 
-    def __read_date(self, date_string):
-        return datetime.strptime(date_string, "%d%m%Y")
-
-
     def find_order_by_order_no(self, order_no):
-        """Tekur við pöntunarnúmeri og skilar order object"""
-        list_of_orders = self.get_list_of_orders()
-        for order in list_of_orders:
-            if order.get_order_no() == order_no:
-                return order
+        """
+        Tekur við pöntunarnúmeri og skilar order object.
+        Skilar False ef pöntun finnst ekki
+        """
+        return self.__order_repo.find_order_by_order_no(order_no)
 
     def move_to_past(self, order_no):
         '''Tekur inn pöntunarnr, færir pöntun í skrá yfir eldri 
@@ -127,7 +124,7 @@ class OrderService:
     def car_deleted(self, reg_num):
         """Tekur inn bílnúmer bíls sem er verið að eyða og eyðir öllum
         pöntunum sem eru skráðar á þennan bíl"""
-        list_of_orders = self.get_list_of_orders()
+        list_of_orders = self.__order_repo.get_all_orders()
         for order in list_of_orders:
             if order.get_car_reg_num() == reg_num:
                 self.delete_order(order)
@@ -137,7 +134,7 @@ class OrderService:
         Tekur við netfangi vskvinar sem verið er að eyða og eyðir 
         öllum hans pöntunum
         """
-        all_orders = self.get_list_of_orders()
+        all_orders = self.__order_repo.get_all_orders()
         for order in all_orders:
             if order.get_customer_email() == email:
                 self.delete_order(order)

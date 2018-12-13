@@ -144,7 +144,8 @@ class OrderService:
     
     def calculate_price(self, car_price, pickup_date, return_date):
         """Tekur inn dagsetningar"""
-        time_d = datetime.strptime(return_date, "%d%m%Y") - datetime.strptime(pickup_date, "%d%m%Y")
+        time_d = datetime.strptime(return_date, "%d%m%Y") - datetime.\
+        strptime(pickup_date, "%d%m%Y")
         price = (time_d.days + 1) * car_price
         price_insured = round(price*OrderService.INSURANCE_COEFFICIENT)
         return price, price_insured, time_d

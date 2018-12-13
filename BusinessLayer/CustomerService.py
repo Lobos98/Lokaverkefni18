@@ -137,7 +137,8 @@ class CustomerService:
 			customer = self.__customer_repo.find_customer_by_ssn(ssn)
 			return customer
 		elif phone_no:
-			customer_list = self.__customer_repo.find_customer_by_phone_no(phone_no)
+			customer_list = self.__customer_repo.\
+			find_customer_by_phone_no(phone_no)
 			return customer_list
 		elif name:
 			customer_list = self.__customer_repo.find_customer_by_name(name)

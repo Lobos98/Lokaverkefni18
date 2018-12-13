@@ -75,6 +75,8 @@ class StaffInterface:
         try:
             pickup_print = "{}{}.{}{}.{}{}{}{}".format(*pickup_date_string)
             return_print = "{}{}.{}{}.{}{}{}{}".format(*return_date_string)
+            pickup_date_string = datetime.strptime(pickup_date_string, "%d%m%Y")
+            return_date_string = datetime.strptime(return_date_string, "%d%m%Y")
         except TypeError:
             pickup_print = pickup_date_string.strftime("%d.%m.%Y")
             return_print = return_date_string.strftime("%d.%m.%Y")
@@ -182,9 +184,8 @@ class StaffInterface:
         print("Skila bíl")
         self.print_divider()
         order = False
-        while order == False:
-            customer = self.find_customer_menu()
-            email = customer.get_email()
+        while bool(order) == False:
+            email = self.error_catch.input_email()
             if not email:
                 return self.go_to_menu()
             order_list = self.order_service.get_customer_orders(email)
@@ -208,6 +209,7 @@ class StaffInterface:
                 order_choice = self.error_catch.integer_input("Veldu bíl til "
                     "þess að skila: ", len(active_orders))
                 order = active_orders[order_choice-1]
+            print(order)
         self.payment_type(order)
         reg_num = self.car_service.return_car(order)
         self.order_service.move_to_past(order.get_order_no())

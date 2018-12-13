@@ -64,6 +64,8 @@ class StaffInterface:
         else:
             pickup_date_string, return_date_string =\
             self.error_catch.input_rental_dates()
+            if pickup_date_string == False or return_date_string == False:
+                return False, False, False
 
         self.clear_screen()
         print("Birta lausa bíla")
@@ -207,8 +209,7 @@ class StaffInterface:
         print("Fletta upp viðskiptavin")
         self.print_divider(23)
         print("Leita eftir:")
-        self.print_divider(23)
-        menu_list = ["Nafni", "Netfangi", "Kennitölu", "símanúmeri"]
+        menu_list = ["Nafni", "Netfangi", "Kennitölu", "Símanúmeri"]
         self.print_menu(menu_list)
         self.print_divider(23)
         choice = input("Val: ")
@@ -222,6 +223,7 @@ class StaffInterface:
         elif choice == "4":
             customer_list = self.customer.find_by_phone_no()
             return self.customer.select_customer(customer_list)
+        self.go_to_menu()
 
     def delete_order(self):
         self.clear_screen()
@@ -334,6 +336,9 @@ class StaffInterface:
         #   self.main_menu()
 
         pickup_date, return_date, free_cars = self.display_free_cars()
+        if free_cars == False:
+            print("Hætt var við")
+            return
         reg_number = self.error_catch.input_reg_num()
         rented_car = ''
         insurance_price_coeff = 1.5

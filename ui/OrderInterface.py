@@ -92,6 +92,13 @@ class OrderInterface:
             self.__print_lines(57)
             return self.__staff_interface.go_to_menu
         print("Bíll sem er bundinn pöntun er frátekinn á þessu timabili.")
+        choice = input("Viltu reyna aftur? (j/n eða q til að hætta): ")
+        if choice.lower() == "n":
+            return self.__staff_interface.go_to_menu()
+        elif choice.lower() == "j":
+            return self.change_date(customer_object)
+        else:
+            exit()
     
     def return_ord_cars_and_info(self, email):
         print("Breyta Pöntun")

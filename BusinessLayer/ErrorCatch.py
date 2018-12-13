@@ -49,6 +49,7 @@ class ErrorCatch:
         check = False
         while check == False:
             model = input("Árgerð: ")
+            #TODO bæta við stuðning fyrir 5 stafa ár fyrir árið 10000 
             if len(model) == 4:
                 if model.isdigit() == True:
                     if int(model) <= datetime.today().year:
@@ -107,15 +108,12 @@ class ErrorCatch:
         Biður um nafn þangað til löglegt nafn er skrifað inn. 
         Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng
         """
-        check = False
-        while check == False:
+        name = input("Sláðu inn nafn viðskiptavinar: ")
+        r = re.compile("[a-zA-Z\s.'-,]+")
+        while not r.match(name):
             name = input("Sláðu inn nafn viðskiptavinar: ")
-            return name
-            # if name.isalpha() == True:
-            #     if name.isascii() == True:
-            #         return name
-            # print("Vinsamlegast skrifið inn nafn.\n"
-            # "Athugið að nafn má ekki innihalda íslenska sérstafi.")
+        return name
+
 
     def input_rental_dates(self):
         """Biður um tvö inputs á forminu ddmmáááá þangað til þau passa við 
@@ -133,6 +131,10 @@ class ErrorCatch:
 #            pass
         while self.check_rental_date(\
         pickup_date_string, return_date_string) == False:
+            if pickup_date_string.lower == "q":
+                return False, False
+            if return_date_string == "q":
+                return False, False
             print("-"*27)
             print("Athugið eftirfarandi:\n"
             "Dagsetningar skal skrifa inn á forminu ddmmáááá.\n"
@@ -252,7 +254,7 @@ class ErrorCatch:
         Tekur við kreditkortanúmeri sem er strengur, fjarlægir bandstrik og 
         bil og skilar False ef númerið er ekki 13, 15, 16 eða 19 tölustafir
         """
-        card_number.replace('-', '').replace(' ', '')
+        card_number = card_number.replace('-', '').replace(' ', '')
         if not card_number.isdigit():
             return False
         if not len(card_number) in [13,15,16,19]:

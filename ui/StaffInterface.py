@@ -102,7 +102,7 @@ class StaffInterface:
         phone = self.error_catch.input_phone()
         if not phone:
             return self.go_to_menu()
-        email = self.error_catch.input_email
+        email = self.error_catch.input_email()
         if not email:
             return self.go_to_menu()
         card_number = self.error_catch.input_card()
@@ -119,7 +119,7 @@ class StaffInterface:
         if self.customer_service.add_customer(email, name, card_number, phone, ssn):
             print("Viðskiptavinur {} hefur verið skráður".format(name))
             print("-"*57)
-            new_customer = self.customer_service.find_customer(email)
+            new_customer = self.customer_service.find_customer(email = email)
             return new_customer
         else:
             print("Viðskiptavinur með sama netfang er þegar til í kerfinu.")
@@ -306,10 +306,10 @@ class StaffInterface:
         # print("Skrá pöntun")
         # self.customer.__is_banned(email) # Ef viðskiptavinurinn er bannaður
         # þá er maður sendur aftur í main menu
-
-        if self.customer.is_banned(email):
-            print("Þessi notandi er bannaður.")
-            self.main_menu()
+        #TODO: kommemtaði þetta fyrir neðan burt útaf villu
+        #if self.customer.is_banned(email):
+        #    print("Þessi notandi er bannaður.")
+        #   self.main_menu()
 
         pickup_date, return_date, free_cars = self.display_free_cars()
         reg_number = self.error_catch.input_reg_num()

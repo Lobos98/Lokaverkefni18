@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import string
 import re
 
@@ -51,7 +51,7 @@ class ErrorCatch:
             model = input("Árgerð: ")
             if len(model) == 4:
                 if model.isdigit() == True:
-                    if int(model) <= datetime.datetime.today().year:
+                    if int(model) <= datetime.today().year:
                         return model
             if model.lower() == "q":
                 return ""
@@ -282,9 +282,9 @@ class ErrorCatch:
 
     def check_rental_date(self, date1, date2):
         try:
-            first_date = datetime.datetime.strptime(date1, "%d%m%Y").date()
-            second_date = datetime.datetime.strptime(date2, "%d%m%Y").date()
-            todays_date = datetime.datetime.today().date()
+            first_date = datetime.strptime(date1, "%d%m%Y").date()
+            second_date = datetime.strptime(date2, "%d%m%Y").date()
+            todays_date = datetime.today().date()
         except ValueError:
             return False
         else:
@@ -292,14 +292,14 @@ class ErrorCatch:
             if first_date < todays_date:
                 return False
             # Longest rental-time is one year.
-            elif first_date - todays_date > datetime.timedelta(days=365):
+            elif first_date - todays_date > timedelta(days=365):
                 return False
-            if second_date - first_date > datetime.timedelta(days=365):
+            if second_date - first_date > timedelta(days=365):
                 return False
             # If the second date is before the first date
             # or the difference is less than 1 day, return False
             if second_date < first_date:
                 return False
-            elif  (second_date - first_date) < datetime.timedelta(days=0):
+            elif  (second_date - first_date) < timedelta(days=0):
                 return False
             return True

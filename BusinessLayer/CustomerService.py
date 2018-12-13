@@ -129,6 +129,7 @@ class CustomerService:
 		þá skilast listi af Customers
 		skilar False ef ekkert finnst
 		"""
+		#TODO: Ath köll í þetta fall - hvort það skili false
 		if email:
 			customer = self.__customer_repo.find_customer_by_email(email)
 			return customer

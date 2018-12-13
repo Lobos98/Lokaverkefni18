@@ -1,1 +1,0 @@
-print(len("Staðfesta greiðslu viðskiptavinar(j/n eða q til að hætta):"))

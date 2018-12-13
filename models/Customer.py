@@ -103,7 +103,8 @@ class Customer:
 
 	def add_history(self, old_order_no):
 		"""Tekur við pöntunarnúmeri sem int og bætir því í customer history"""
-		self.__history = self.__history.append(old_order_no)
+		self.__history.append(old_order_no)
+
 
 	def __repr__(self):
 		if self.__ssn == "":

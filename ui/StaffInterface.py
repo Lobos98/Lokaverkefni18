@@ -143,7 +143,7 @@ class StaffInterface:
                 order_list = self.order_service.get_customer_orders(email)
                 if not order_list:
                     self.customer_service.delete_customer(email)
-                    print("Viðskiptavinur {} er ekki lengur í okkar kerfi.".format(cust.get_name()))
+                    print("Viðskiptavinurinn {} hefur verið eytt.".format(cust.get_name()))
                 else:
                     print("{} er með pantaðan bíl hjá okkur".format(cust.get_name()))
                     choice = input("Ertu viss að þú viljir afskrá þennan viðskiptavin? \n"

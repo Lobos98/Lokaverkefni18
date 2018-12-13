@@ -6,16 +6,18 @@ class VehicleInterface:
         self.__menu_list = ["Birta lausa bíla", "Birta bíla í útleigu",
         "Skila bíl", "Skrá bíl", "Afskrá bíl", "Leita að bíl",
         "Bilaðir bílar", "Birta alla bíla", "Til baka"]
+        self.__print_lines = self.__staff_interface.print_divider
+        self.__clear_scren = self.__staff_interface.clear_screen
 
     def menu(self):
         """Setur bíla-valmyndina í gang"""
         #tilbúið
-        self.__staff_interface.clear_screen()
+        self.__clear_scren()
         print("Bílafloti")
-        print("-"*len("2.  Birta bíla í útleigu"))
+        self.__print_lines(24)
         
         self.__staff_interface.print_menu(self.__menu_list)
-        print("-"*len("2.  Birta útleigða bíla"))
+        self.__print_lines(24)
         input_num = input("Val: ")
         if input_num == "1":
             self.__staff_interface.display_free_cars()
@@ -48,7 +50,7 @@ class VehicleInterface:
         """Sækir lista af bílum sem eru í útleigu 
         í augnablikinu og prentar þá"""
         #tilbúið
-        self.__staff_interface.clear_screen()
+        self.__clear_scren()
         print("Eftirfarandi bílar eru í útleigu í augnablikinu")
         self.__staff_interface.print_divider()
         self.print_car_header()
@@ -63,9 +65,9 @@ class VehicleInterface:
         sendir svo þessar upplýsingar til CarService sem sér um að
         búa til Car object. Prentar staðfestingu"""
         #tilbúið
-        self.__staff_interface.clear_screen()
+        self.__clear_scren()
         print("Skrá bíl")
-        print("-"*80)
+        self.__print_lines(80)
         reg_num = self.__staff_interface.error_catch.input_reg_num()
         if reg_num:
             model = self.__staff_interface.error_catch.input_model()
@@ -73,9 +75,9 @@ class VehicleInterface:
                 car_type = self.__staff_interface.error_catch.input_type()
                 color = self.__staff_interface.error_catch.input_color()
                 self.__staff_interface.car_service.add_car(reg_num, model, car_type, color)
-                print("-"*80)
+                self.__print_lines(80)
                 print("Bíllinn {} hefur verið skráður!".format(reg_num))
-                print("-"*80)
+                self.__print_lines(80)
         else:
             print("Hætt var við")
             
@@ -84,10 +86,10 @@ class VehicleInterface:
         sendir svo bílnúmerið í CarService svo bílnum verði eytt.
         Prentar staðfestingu"""
         #Tilbúið
-        self.__staff_interface.clear_screen()
+        self.__clear_scren()
 
         print("Afskrá bíl")
-        print("-"*30)
+        self.__print_lines(30)
         car_to_delete = self.__find_car()
         if not car_to_delete:
             self.__staff_interface.go_to_menu()
@@ -95,12 +97,12 @@ class VehicleInterface:
         if car_to_delete.get_reserved_dates() == []:
             self.__staff_interface.car_service.delete_car(reg_num)
                 
-            self.__staff_interface.clear_screen()
+            self.__clear_scren()
 
             print("Afskrá bíl")
-            print("-"*(31 + len(reg_num)))
+            self.__print_lines((31 + len(reg_num)))
             print("Bíllinn {} hefur verið afskráður!".format(reg_num))
-            print("-"*(31 + len(reg_num)))
+            self.__print_lines((31 + len(reg_num)))
         else:
             choice = input("Þessi bíll er frátekinn fyrir viðskiptavin.\n\
             Ef bílnum er eytt verður tilsvarandi pöntunum einnig eytt.\n\
@@ -108,12 +110,12 @@ class VehicleInterface:
             if choice == "j":
                 self.__staff_interface.car_service.delete_car(reg_num)
                 self.__staff_interface.order_service.car_deleted(reg_num)
-                self.__staff_interface.clear_screen()
+                self.__clear_scren()
 
                 print("Afskrá bíl")
-                print("-"*(31 + len(reg_num)))
+                self.__print_lines((31 + len(reg_num)))
                 print("Bíllinn {} hefur verið afskráður!".format(reg_num))
-                print("-"*(31 + len(reg_num)))
+                self.__print_lines((31 + len(reg_num)))
             else:
                 print("Þú hefur hætt við að eyða bílnum {}".format(reg_num))
         
@@ -122,13 +124,13 @@ class VehicleInterface:
         """Biður um bílnúmer þangað til bíll finnst og 
         prentar svo bílinn á skjáinn"""
         #tilbúið
-        self.__staff_interface.clear_screen()
+        self.__clear_scren()
         print("Leita að bíl")
-        print("-"*30)
+        self.__print_lines(30)
         car = self.__find_car()
         
         if car != False:        
-            self.__staff_interface.clear_screen()
+            self.__clear_scren()
             print("Leita að bíl")
             self.__staff_interface.print_divider()
             self.print_car_header()
@@ -141,7 +143,7 @@ class VehicleInterface:
     def broken_cars(self):
         """Setur bilaðra-bíla valmyndina í gang"""
         #Tilbúið
-        self.__staff_interface.clear_screen()
+        self.__clear_scren()
         print("Bilaðir bílar")
         self.__staff_interface.print_divider(21)
         print("1.  Skrá bilaðan bíl")
@@ -164,39 +166,39 @@ class VehicleInterface:
 
     def log_broken_car(self):
         #TODO: ættum kannski að færa virkni fallsins í CarService...
-        self.__staff_interface.clear_screen()
+        self.__clear_scren()
         print("Skrá bilaðan bíl")
-        print("-"*30)
+        self.__print_lines(30)
         car = self.__find_car()
         reg_num = car.get_reg_num()
         if car.get_broken() == False:
             car.change_broken_status()
-            self.__staff_interface.clear_screen()
+            self.__clear_scren()
             print("Skrá bilaðan bíl")
-            print("-"*(41 + len(reg_num)))
+            self.__print_lines((41 + len(reg_num)))
             print("Bíllinn {} hefur verið skráður sem bilaður."\
             .format(reg_num))
-            print("-"*(41 + len(reg_num)))
+            self.__print_lines((41 + len(reg_num)))
         else:
             print("Bíllinn {} er þegar bilaður.".format(reg_num))
 
     def log_car_as_fixed(self):
         #TODO: Ættum kannsk að færa virkni fallsins í CarService...
-        self.__staff_interface.clear_screen()
+        self.__clear_scren()
         print("Afskrá bilaðan bíl")
-        print("-"*30)
+        self.__print_lines(30)
         self.print_broken_cars()
         car = self.__find_car()
         if car:
             reg_num = car.get_reg_num()
             if car.get_broken() == True:
                 car.change_broken_status()
-                self.__staff_interface.clear_screen()
+                self.__clear_scren()
                 print("Afskrá bilaðan bíl")
-                print("-"*(45 + len(reg_num)))
+                self.__print_lines((45 + len(reg_num)))
                 print("Bíllinn {} hefur verið lagaður og er skráður á ný."\
                 .format(reg_num))
-                print("-"*(44 + len(reg_num)))
+                self.__print_lines((44 + len(reg_num)))
             else:
                 print("Bíllinn {} er ekki bilaður.".format(reg_num))
         else:
@@ -204,7 +206,7 @@ class VehicleInterface:
 
     def print_broken_cars(self):
         # tilbúið
-        self.__staff_interface.clear_screen()
+        self.__clear_scren()
         print("Bilaðir bílar")
         broken_cars = self.__staff_interface.car_service.get_broken_cars()
         self.__staff_interface.print_divider()

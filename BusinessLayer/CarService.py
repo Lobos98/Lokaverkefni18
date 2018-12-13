@@ -45,11 +45,8 @@ class CarService:
         self.__car_repo.delete_car(car_to_be_deleted)
 
     def find_free_cars(self, wanted_pickup_date, wanted_return_date):
-        """Tekur við 2 dags.str. á forminu ddmmáááá og skilar lista
+        """Tekur við 2 datetime og skilar lista
         af lausum bílum á tímabilinu """
-
-        wanted_pickup_date = datetime.strptime(wanted_pickup_date, "%d%m%Y")
-        wanted_return_date = datetime.strptime(wanted_return_date, "%d%m%Y")
 
         free_car_list = []
 

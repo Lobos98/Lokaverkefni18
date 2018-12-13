@@ -62,8 +62,10 @@ class StaffInterface:
             pickup_date_string = date1
             return_date_string = date2
         else:
-            pickup_date_string, return_date_string\
-            = self.error_catch.input_rental_dates()
+            pickup_date_string, return_date_string =\
+            self.error_catch.input_rental_dates()
+            if pickup_date_string == False or return_date_string == False:
+                return False, False, False
 
         self.clear_screen()
         print("Birta lausa bíla")
@@ -141,7 +143,7 @@ class StaffInterface:
                 order_list = self.order_service.get_customer_orders(email)
                 if not order_list:
                     self.customer_service.delete_customer(email)
-                    print("Viðskiptavinur {} er ekki lengur í okkar kerfi.".format(cust.get_name()))
+                    print("Viðskiptavinurinn {} hefur verið eytt.".format(cust.get_name()))
                 else:
                     print("{} er með pantaðan bíl hjá okkur".format(cust.get_name()))
                     choice = input("Ertu viss að þú viljir afskrá þennan viðskiptavin? \n"
@@ -207,7 +209,6 @@ class StaffInterface:
         print("Fletta upp viðskiptavin")
         self.print_divider(23)
         print("Leita eftir:")
-        self.print_divider(23)
         menu_list = ["Nafni", "Netfangi", "Kennitölu", "Símanúmeri"]
         self.print_menu(menu_list)
         self.print_divider(23)
@@ -222,6 +223,7 @@ class StaffInterface:
         elif choice == "4":
             customer_list = self.customer.find_by_phone_no()
             return self.customer.select_customer(customer_list)
+        self.go_to_menu()
 
     def delete_order(self):
         self.clear_screen()
@@ -326,6 +328,9 @@ class StaffInterface:
             email = customer.get_email()
 
         pickup_date, return_date, free_cars = self.display_free_cars()
+        if free_cars == False:
+            print("Hætt var við")
+            return
         reg_number = self.error_catch.input_reg_num()
         rented_car = ''
         while True:

@@ -8,14 +8,15 @@ class ServiceInterface:
         "Skrá pöntun", "Kostnaðarmat", "Skila bíl", 
         "Afskrá viðskiptavin", "Bakfæra pöntun", "Uppfæra viðskiptavin",
         "Breyta pöntun", "Til baka"]
+        self.__print_lines = self.__staff_interface.print_divider
 
     def menu(self):
         self.__staff_interface.clear_screen()
         print("Afgreiðsla")
-        print("-"*27)
+        self.__print_lines(27)
         
         self.__staff_interface.print_menu(self.__menu_list)
-        print("-"*27)
+        self.__print_lines(27)
         input_num = input("Val: ")
 
         if input_num == "1":

@@ -131,6 +131,10 @@ class ErrorCatch:
 #            pass
         while self.check_rental_date(\
         pickup_date_string, return_date_string) == False:
+            if pickup_date_string.lower == "q":
+                return False, False
+            if return_date_string == "q":
+                return False, False
             print("-"*27)
             print("Athugið eftirfarandi:\n"
             "Dagsetningar skal skrifa inn á forminu ddmmáááá.\n"

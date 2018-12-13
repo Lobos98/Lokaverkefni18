@@ -187,7 +187,7 @@ class StaffInterface:
                 self.print_orders(active_orders)
                 order_choice = self.error_catch.integer_input("Veldu bíl til þess að skila: ")
                 order = active_orders[order_choice-1]#TODO: ATH við gætum fengið error hér ef of há tala er sett inn!
-
+        self.payment_type(order)
         reg_num = self.car_service.return_car(order)
         self.order_service.move_to_past(order.get_order_no())
         self.customer_service.add_old_order(order.get_customer_email(),\
@@ -198,15 +198,18 @@ class StaffInterface:
 
     def payment_type(self, order):
         menu_list = ["Debit/Kreditkort", "Reiðufé", "Til baka"]
-
+        reg_num = order.get_car_reg_num()
+        car = self.car_service.find_car(reg_num)
+        price = self.order_service.calculate_price(self.car_service.get_price(car),\
+        order.get_pickup_date(), order.get_return_date())
         print("Veldu tegund greiðslu")
         print(menu_list)
         input_num = input("Val: ")
         if input_num == "1":
-            print("Kostnaður er: ")
+            print("Kostnaður er: " + price + "Kr")
             self.confirm_payment()
         elif input_num == "2":
-            print("Korstnaður er: ")
+            print("Korstnaður er: " + price + "kr")
             self.confirm_payment()
             
     def confirm_payment(self):

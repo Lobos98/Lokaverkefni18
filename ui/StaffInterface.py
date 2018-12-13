@@ -326,6 +326,8 @@ class StaffInterface:
             self.main_menu()
         else:
             email = customer.get_email()
+
+        print(customer)
             
         # print("Skrá pöntun")
         # self.customer.__is_banned(email) # Ef viðskiptavinurinn er bannaður

@@ -126,8 +126,8 @@ class VehicleInterface:
         print("Leita að bíl")
         print("-"*30)
         car = self.__find_car()
-
-        if car == True:        
+        
+        if car != False:        
             self.__staff_interface.clear_screen()
             print("Leita að bíl")
             self.__staff_interface.print_divider()

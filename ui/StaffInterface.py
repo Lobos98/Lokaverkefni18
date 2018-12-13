@@ -109,10 +109,12 @@ class StaffInterface:
         if not card_number:
             return self.go_to_menu()
         ssn_check = input("Er viðskiptavinur með kennitölu? (j/n): ")
-        if ssn_check:
+        if ssn_check.lower() == "j":
             ssn = self.error_catch.input_ssn()
             if not ssn:
                 return self.go_to_menu()
+        else:
+            ssn = ""
         
         print("-"*57)
         

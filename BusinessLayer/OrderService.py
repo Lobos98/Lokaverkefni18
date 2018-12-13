@@ -70,7 +70,7 @@ class OrderService:
         sem fjarlægir pöntunina úr skránni'''
         self.__order_repo.remove_order(order_to_delete)
 
-    def get_customer_orders(self,email):
+    def get_customer_orders(self, email):
         """
         Tekur inn email, skilar lista af pöntunum
         sem eru skráðar á þetta email. Skilar False ef pöntun er ekki
@@ -146,3 +146,7 @@ class OrderService:
         price = (time_d.days + 1) * car_price
         price_insured = round(price*OrderService.INSURANCE_COEFFICIENT)
         return price, price_insured, time_d
+
+    def get_list_of_orders(self):
+        '''Sækir lista yfir allar pantanir úr repoinu'''
+        return self.__order_repo.get_all_orders()

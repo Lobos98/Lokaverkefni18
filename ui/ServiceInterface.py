@@ -34,7 +34,7 @@ class ServiceInterface:
         elif input_num == "7":
             self.__staff_interface.delete_order()
         elif input_num == "8":
-            self.__staff_interface.find_customer_menu()
+            self.__staff_interface.edit_customer()
         elif input_num == "9":
             self.__staff_interface.change_order()
         elif input_num == "10":

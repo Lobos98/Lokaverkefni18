@@ -51,8 +51,8 @@ class OrderInterface:
             free_cars, car)
             print("Birta lausa bíla")
             self.__print_lines()
-            pickup_print = "{}{}.{}{}.{}{}{}{}".format(*old_pickup_date)
-            return_print = "{}{}.{}{}.{}{}{}{}".format(*old_return_date)
+            pickup_print = old_pickup_date.strftime("%d.%m.%Y")
+            return_print = old_return_date.strftime("%d.%m.%Y")
             print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
             pickup_print, return_print))
             self.__staff_interface.display_list_of_cars(free_cars_of_same_type)
@@ -77,7 +77,6 @@ class OrderInterface:
         print("Breyta Pöntun")
         self.__print_lines(46)
         ordered_cars, order_info = self.return_ord_cars_and_info(email)
-        #TODO passa að viðskiptavinurinn velji tölu á réttu bili
 
         order_num = self.order_pick(ordered_cars)
 
@@ -116,13 +115,13 @@ class OrderInterface:
         order_info = self.__staff_interface.order_service.find_order(email)
         ordered_cars = []  
         if order_info:
-            for order in enumerate(order_info):
-                ordered_cars.append(order[1])
+            for index, order in enumerate(order_info):
+                ordered_cars.append(order)
                 print("{}. Pöntun á bíl {} frá {} til {}"\
-                .format(order[0] + 1,
-                order[1].get_car_reg_num(),
-                order[1].get_pickup_date(),
-                order[1].get_return_date()))
+                .format(index + 1,
+                order.get_car_reg_num(),
+                order.get_pickup_date().strftime("%d.%m.%Y"),
+                order.get_return_date().strftime("%d.%m.%Y")))
         self.__print_lines(46)
         return ordered_cars, order_info
         

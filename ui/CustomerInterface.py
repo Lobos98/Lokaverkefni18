@@ -24,7 +24,7 @@ class CustomerInterface:
         elif input_num == "3":
             self.__staff_interface.deregister_customer()
         elif input_num == "4":
-            self.edit_customer()
+            self.__staff_interface.edit_customer()
         elif input_num == "5":
             self.ban_customer()
         elif input_num == "6":
@@ -37,17 +37,9 @@ class CustomerInterface:
             pass
         return self.__staff_interface.go_to_menu()
 
-    # def __is_banned(self, email):
-    #     if self.__staff_interface.customer_service.find_customer(email):
-    #         if self.__staff_interface.customer_service.find_customer(email)\
-    #         .is_banned() == "true":
-    #             print("Þessi viðskiptavinur er bannaður")
-    #             return self.__staff_interface.go_to_menu()
-
-    # def is_banned(self, email):
-    #     customer = self.__staff_interface.customer_service.find_customer(email)
-    #     if customer:
-    #         return customer.is_banned() == "true"
+    def is_banned(self, email):
+        customer = self.__staff_interface.customer_service.find_customer(email)
+        return customer.is_banned()
 
     def find_by_name(self):
         """"
@@ -199,6 +191,8 @@ class CustomerInterface:
     
     def find_customer(self):
         customer_found = self.__staff_interface.find_customer_menu()
+        if not customer_found:
+            print("Viðskiptavinur fannst ekki.")
         self.__clear_scren()
         print("Fletta upp viðskiptavin")
         name_printer = customer_found.get_name()
@@ -208,39 +202,9 @@ class CustomerInterface:
         choice = input("Viltu breyta viðskiptavin? (j/n): ")
         self.__print_lines((33+len(name_printer)))
 
-
         if choice.lower() == "j":
-            self.edit_customer(customer_found)
+            self.__staff_interface.edit_customer(customer_found)
 
-    def edit_customer(self, customer_found=0 ):
-        """Tekur við customer object, leitar að viðskiptavini ef enginn 
-        customer er sendur inn. Breytir svo customernum"""
-        if customer_found != 0:
-            customer = customer_found
-        else:
-            customer = self.__staff_interface.find_customer_menu()
-        
-        self.__clear_scren()
-        print("Uppfæra viðskiptavin")
-        self.__print_lines((42))
-        print(customer)
-        self.__print_lines((42))
-        print("Hverju viltu breyta?: ")
-        self.__print_lines((42))
-        menu_list = ["Símanúmeri", "Netfangi", "Kortanúmeri"]
-        self.__staff_interface.print_menu(menu_list)
-        self.__print_lines((42))
-        val = input("Val: ")
-        self.__print_lines((42))
-
-        if val == "1":
-            self.change_phone_no(customer)
-        elif val == "2":
-            self.change_email(customer)
-        elif val == "3":
-            self.change_card_no(customer)
-        elif val == "4":
-            self.__print_lines((42))
 
     def change_phone_no(self, customer):
         email = customer.get_email()
@@ -251,7 +215,6 @@ class CustomerInterface:
         phone_no = self.__staff_interface.error_catch.input_phone()
         if not phone_no:
             return self.__staff_interface.go_to_menu()
-        #if self.error_catch.check_phone_no(phone_no):
         self.__staff_interface.customer_service.edit_customer_phone_no(\
         email, phone_no)
         print("Símanúmeri hefur verið breytt.")
@@ -289,7 +252,6 @@ class CustomerInterface:
         print("Kortanúmeri hefur verið breytt.")
         self.__print_lines((62))
         
-
     def ban_customer(self):
         self.__clear_scren()
         print("Setja á bannlista")

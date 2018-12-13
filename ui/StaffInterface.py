@@ -182,7 +182,7 @@ class StaffInterface:
         , það er bara hægt að skila bíl sem er í leigu"""
         self.clear_screen()
         print("Skila bíl")
-
+        self.print_divider()
         order = False
         while bool(order) == False:
             email = self.error_catch.input_email()
@@ -196,6 +196,11 @@ class StaffInterface:
 
             if active_orders == False:
                 print("Virk pöntun finnst ekki á þessu netfangi.")
+                choice = input("Viltu reyna aftur? (j/n): ")
+                if choice == "j":
+                    pass
+                else:
+                     return self.go_to_menu()
             elif len(active_orders) == 1:
                 order = active_orders[0]
             else:
@@ -254,6 +259,7 @@ class StaffInterface:
         print("Fletta upp viðskiptavin")
         self.print_divider(23)
         print("Leita eftir:")
+        self.print_divider(23)
         menu_list = ["Nafni", "Netfangi", "Kennitölu", "Símanúmeri"]
         self.print_menu(menu_list)
         self.print_divider(23)

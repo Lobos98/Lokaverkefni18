@@ -143,7 +143,7 @@ class CustomerInterface:
             if not email:
                 return self.__staff_interface.go_to_menu()
             customer_found = self.__staff_interface.customer_service.\
-            find_customer(email = email)
+            find_customer(email=email)
             if not customer_found:
                 self.__clear_screen()
                 print("Fletta upp viðskiptavin")
@@ -223,6 +223,9 @@ class CustomerInterface:
         self.__print_lines(40)
         print("Stimplið inn nýtt netfang.")
         new_email = self.__staff_interface.error_catch.input_email()
+        if self.__staff_interface.customer_service.find_customer(email=new_email):
+            print("Þessi viðskiptavinur er nú þegar til")
+            self.__staff_interface.go_to_menu()
         if not new_email:
             return self.__staff_interface.go_to_menu()
         orders_list = self.__staff_interface.order_service.\

@@ -273,7 +273,6 @@ class StaffInterface:
         choice = input("Val: ")
         if choice == "1":
             customer_list = self.customer.find_by_name()
-            print(customer_list)
             return self.customer.select_customer(customer_list)
         elif choice == "2":
             return self.customer.find_by_email()
@@ -370,10 +369,10 @@ class StaffInterface:
         else:
             return self.go_to_menu()
 
-    def edit_customer(self, customer_found=0 ):
+    def edit_customer(self, customer_found=""):
         """Tekur við customer object, leitar að viðskiptavini ef enginn 
         customer er sendur inn. Breytir svo customernum"""
-        if customer_found != 0:
+        if customer_found:
             customer = customer_found
         else:
             customer = self.find_customer_menu()

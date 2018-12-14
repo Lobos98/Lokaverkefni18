@@ -1,8 +1,12 @@
-from ui.StaffInterface import StaffInterface
+try:
+    from ui.StaffInterface import StaffInterface
 
-def main(): 
-    staff = StaffInterface()
-    staff.start_menu()
-    
+    def main(): 
+        staff = StaffInterface()
+        staff.start_menu()
+        
 
-main()
+    main()
+
+except KeyboardInterrupt:
+    print("Ýttu frekar á hætta kjáni")

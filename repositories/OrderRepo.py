@@ -159,3 +159,13 @@ class OrderRepo:
             if order.get_order_no() == order_no:
                 return order
         return False
+
+    def find_old_order_by_order_no(self, order_no):
+        """
+        Tekur við pöntunarnúmeri sem int og skilar viðeigandi order object. 
+        Skilar False ef hún finnst ekki.
+        """
+        for order in self.__past_order_list:
+            if order.get_order_no() == order_no:
+                return order
+        return False

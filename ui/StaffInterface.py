@@ -423,9 +423,7 @@ class StaffInterface:
             print("Viðskiptavinur er bannaður, ekki er hægt að skrá pöntun")
             self.go_to_menu()
 
-        pickup_date_string, return_date_string, free_cars = self.display_free_cars()
-        pickup_date = datetime.strftime(pickup_date_string, "%d%m%Y")
-        return_date = datetime.strftime(return_date_string, "%d%m%Y")
+        pickup_date, return_date, free_cars = self.display_free_cars()
         if free_cars == False:
             print("Hætt var við")
             return

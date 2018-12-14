@@ -1,12 +1,12 @@
 Pontunarnr,Bilnr,Dagsetning,Email,Aukatrygging
 16,MAT69,03122018--30122018,einar@tvaerthrjar.is,False
-17,BB111,04122018--24122018,mfrid@bmail.com,False
 18,SB463,01012019--23012019,skuldari@kviabryggja.is,False
 19,CC222,03012019--10032019,test2@zuism.is,True
-20,EUN45,02022019--03032019,kjartanb@gmail.com,False
 21,AA293,05022019--06042019,robertelis98@gmail.com,False
 22,EUN45,05042019--10042019,robertelis98@gmail.com,True
 23,CC222,05052019--10062019,liljag@ru.is,True
 24,BB111,30082019--12092019,bjorgvinb@ru.is,False
-25,EUN45,20092019--25092019,mfrid@bmail.com,False
 26,AA293,01122019--20122019,sigmundur_david69@nocco.is,False
+27,POW10,01022019--05022019,kjartanb@gmail.com,True
+20,POR60,02022019--03032019,kjartanb@gmail.com,False
+29,GFH45,14122018--14122018,joey_king@internet.is,False

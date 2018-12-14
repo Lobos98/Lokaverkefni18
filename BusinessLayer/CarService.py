@@ -48,6 +48,8 @@ class CarService:
         """Tekur við 2 datetime og skilar lista
         af lausum bílum á tímabilinu """
 
+        
+
         free_car_list = []
 
         for car in self.__car_repo.get_all_cars():
@@ -57,7 +59,7 @@ class CarService:
                 while pickup_date <= return_date:
                     reserved_dates.append(pickup_date)
                     pickup_date += timedelta(days=1)
-            dates_ok = [not (wanted_pickup_date <= date <= wanted_return_date)\
+            dates_ok = [not (wanted_pickup_date < date < wanted_return_date)\
             for date in reserved_dates]
 
             if all(dates_ok) and not car.get_broken():

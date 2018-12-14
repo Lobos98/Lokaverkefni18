@@ -95,7 +95,7 @@ class OrderService:
         for order in list_of_orders:
             pickup_date = order.get_pickup_date()
             return_date = order.get_return_date()
-            if pickup_date <= datetime.today() <= return_date:
+            if pickup_date.date() <= datetime.today().date() <= return_date.date():
                 active_orders.append(order)
         if active_orders == []:
             return False

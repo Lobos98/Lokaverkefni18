@@ -70,7 +70,7 @@ class OrderInterface:
                         chosen_order)
                     return \
                     self.__staff_interface.order_service.change_order\
-                    (order, "2", reg_number=new_car_reg_num)
+                    (order, "2", new_reg_number=new_car_reg_num)
         
         
     def change_date(self, customer_object):
@@ -145,10 +145,11 @@ class OrderInterface:
         self.__clear_screen()
         print("Finna pöntun")
         self.__print_lines(34)
-        email = self.__staff_interface.error_catch.input_email()
-        if not email:
-            self.__staff_interface.go_to_menu()
+        customer = self.__staff_interface.find_customer_menu()
+        email = customer.get_email()
         self.__clear_screen() 
+        print("Finna pöntun")
+        self.__print_lines(34)
         order_list = self.__staff_interface.order_service.get_customer_orders(email)
         if not order_list:
             print("Það er engin pöntun á þessu netfangi")

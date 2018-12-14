@@ -36,7 +36,8 @@ class VehicleInterface:
             self.broken_cars()
         elif input_num == "8":
             self.__staff_interface.display_list_of_cars(self.\
-                __staff_interface.car_service.find_free_cars("01012100", "01012100"))
+                __staff_interface.car_service.find_free_cars\
+                (datetime(2100, 1, 1), datetime(2100, 1, 2)))
         elif input_num == "9":
             self.print_car_prices()
         elif input_num == "10":

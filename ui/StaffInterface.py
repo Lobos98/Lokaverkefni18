@@ -34,7 +34,7 @@ class StaffInterface:
 
     def print_menu(self, menu_list):
         for index, text in enumerate(menu_list):
-            print("{}.  {}".format(index + 1, text))
+            print("{:<4}{}".format(str(index + 1) + ".", text))
 
     def print_orders(self, list_of_orders):
         """

@@ -274,6 +274,7 @@ class StaffInterface:
         choice = input("Val: ")
         if choice == "1":
             customer_list = self.customer.find_by_name()
+            print(customer_list)
             return self.customer.select_customer(customer_list)
         elif choice == "2":
             return self.customer.find_by_email()

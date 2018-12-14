@@ -5,7 +5,7 @@ class VehicleInterface:
 
         self.__menu_list = ["Birta lausa bíla", "Birta bíla í útleigu",
         "Skila bíl", "Skrá bíl", "Afskrá bíl", "Leita að bíl",
-        "Bilaðir bílar", "Birta alla bíla", "Til baka"]
+        "Bilaðir bílar", "Birta alla bíla", "Prenta verðlista","Til baka"]
         self.__print_lines = self.__staff_interface.print_divider
         self.__clear_screen = self.__staff_interface.clear_screen
 
@@ -36,6 +36,8 @@ class VehicleInterface:
             self.__staff_interface.display_list_of_cars(self.\
                 __staff_interface.car_service.find_free_cars("01012100", "01012100"))
         elif input_num == "9":
+            self.print_car_prices()
+        elif input_num == "10":
             self.__staff_interface.main_menu()
         else:
             pass
@@ -44,6 +46,16 @@ class VehicleInterface:
     def print_car_header(self):
         print("{:<12}{:<14}{:<8}{:<14}{:<12}".format(\
         "Bílnúmer", "Tegund", "Árgerð", "Litur", "Verð"))
+
+    def print_car_prices(self):
+        self.__clear_screen()
+        print("Verðlisti")
+        self.__print_lines()
+        for key, value in {"jeppi":5000, "fólksbíll":4000, "smábíll":3000, \
+        "húsbíll":6000, "sportbíll":7000}.items():
+            print(key.capitalize() + ": " + str(value) + "kr/dag")
+        self.__print_lines()
+
 
     def display_currently_rented_cars(self):
         """Sækir lista af bílum sem eru í útleigu 

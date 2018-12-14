@@ -193,10 +193,10 @@ class VehicleInterface:
                 car.change_broken_status()
                 self.__clear_screen()
                 print("Afskrá bilaðan bíl")
-                self.__print_lines((45 + len(reg_num)))
+                self.__print_lines((48 + len(reg_num)))
                 print("Bíllinn {} hefur verið lagaður og er skráður á ný."\
                 .format(reg_num))
-                self.__print_lines((44 + len(reg_num)))
+                self.__print_lines((48 + len(reg_num)))
             else:
                 print("Bíllinn {} er ekki bilaður.".format(reg_num))
         else:

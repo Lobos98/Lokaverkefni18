@@ -82,6 +82,7 @@ class CustomerInterface:
             customer_found = list_of_customers[0]
             print("Viðskiptavinurinn {} hefur verið valinn".format(\
             customer_found.get_name()))
+            self.__print_lines()
             return customer_found
         elif len(list_of_customers) > 1:
 
@@ -94,6 +95,9 @@ class CustomerInterface:
             ("Vinsamlegast veldu viðskiptavin hér fyrir ofan: ",
             len(list_of_customers))
             customer_found = list_of_customers[choice - 1]
+            print("Viðskiptavinurinn {} hefur verið valinn".format(\
+            customer_found.get_name()))
+            self.__print_lines()
             return customer_found
             
 

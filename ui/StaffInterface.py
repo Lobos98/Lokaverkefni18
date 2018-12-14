@@ -59,31 +59,31 @@ class StaffInterface:
         print("Birta lausa bíla")
         self.print_divider(self.SHORT_DIVIDER)
         if date1 and date2:
-            pickup_date_string = date1
-            return_date_string = date2
+            pickup_date = date1
+            return_date = date2
         else:
-            pickup_date_string, return_date_string =\
-            self.error_catch.input_rental_dates()
-            if pickup_date_string == False or return_date_string == False:
+            pickup_date, return_date\
+            = self.error_catch.input_rental_dates()
+            if pickup_date == False or return_date == False:
                 return False, False, False
 
         self.clear_screen()
         print("Birta lausa bíla")
         self.print_divider()
         free_car_list = self.car_service.find_free_cars(\
-        pickup_date_string, return_date_string)
+        pickup_date, return_date)
         try:
-            pickup_print = "{}{}.{}{}.{}{}{}{}".format(*pickup_date_string)
-            return_print = "{}{}.{}{}.{}{}{}{}".format(*return_date_string)
-            pickup_date_string = datetime.strptime(pickup_date_string, "%d%m%Y")
-            return_date_string = datetime.strptime(return_date_string, "%d%m%Y")
+            pickup_print = "{}{}.{}{}.{}{}{}{}".format(*pickup_date)
+            return_print = "{}{}.{}{}.{}{}{}{}".format(*return_date)
+            pickup_date = datetime.strptime(pickup_date, "%d%m%Y")
+            return_date = datetime.strptime(return_date, "%d%m%Y")
         except TypeError:
-            pickup_print = pickup_date_string.strftime("%d.%m.%Y")
-            return_print = return_date_string.strftime("%d.%m.%Y")
+            pickup_print = pickup_date.strftime("%d.%m.%Y")
+            return_print = return_date.strftime("%d.%m.%Y")
         print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
         pickup_print, return_print))
         self.display_list_of_cars(free_car_list)
-        return pickup_date_string, return_date_string, free_car_list
+        return pickup_date, return_date, free_car_list
 
     def display_list_of_cars(self, list_of_cars):
         """Tekur við lista af bílum og prentar þá"""
@@ -221,7 +221,6 @@ class StaffInterface:
         self.print_divider(27 + len(reg_num))
 
     def payment_type(self, order):
-        self.clear_screen()
         print("Skila bíl")
         self.print_divider()
         menu_list = ["Debit/Kreditkort", "Reiðufé", "Til baka"]
@@ -425,9 +424,7 @@ class StaffInterface:
             print("Viðskiptavinur er bannaður, ekki er hægt að skrá pöntun")
             self.go_to_menu()
 
-        pickup_date_string, return_date_string, free_cars = self.display_free_cars()
-        pickup_date = datetime.strftime(pickup_date_string, "%d%m%Y")
-        return_date = datetime.strftime(return_date_string, "%d%m%Y")
+        pickup_date, return_date, free_cars = self.display_free_cars()
         if free_cars == False:
             print("Hætt var við")
             return

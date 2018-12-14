@@ -73,20 +73,18 @@ class Car:
             self.__broken = True
     
     def add_reservation(self, order):
-        """Tekur inn pöntun og skráir allar dagsetningarnar sem bíllinn\
+        """Tekur inn pöntun og skráir allar dagsetningarnar sem bíllinn
         er frátekinn í eigindi bílsins sem lista af túplum"""
-        pickup_date = order.get_pickup_date().replace(".","")
-        return_date = order.get_return_date().replace(".","")
-        pickup_date = datetime.strptime(pickup_date, "%d%m%Y")
-        return_date = datetime.strptime(return_date, "%d%m%Y")
+        pickup_date = order.get_pickup_date()
+        return_date = order.get_return_date()
         reservation = (pickup_date, return_date)
         self.__reserved_dates.append(reservation)
     
     def add_to_history(self, order):
-        """Tekur inn pöntun þegar henni er lokið og bætir henni í\
+        """Tekur inn pöntun þegar henni er lokið og bætir henni í
         notkunarsögu bílsins og af-frátekur dagsetningarnar"""
         renter = order.get_customer_email()
-        reservation = order.get_date(order)
+        reservation = order.get_date()
         if renter in self.__history:
             self.__history[renter].append(reservation)
         else:

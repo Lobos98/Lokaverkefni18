@@ -61,7 +61,8 @@ class OrderService:
 
     def find_order(self, email):
         '''Tekur inn email á pöntun sem á að finna og kallar 
-        á OrderRepo.get_order() til að sækja þá pöntun'''
+        á OrderRepo.get_order() til að sækja þá lista af þeim pöntunum sem eru 
+        á netfanginu. skilar lista'''
         return self.__order_repo.get_order(email)
 
 
@@ -161,3 +162,16 @@ class OrderService:
             order = self.__order_repo.find_old_order_by_order_no(order_no)
             list_of_past_orders.append(order)
         return list_of_past_orders
+
+    def find_future_orders(self, email):
+        """
+        Tekur við netfangi vskvinar og skilar þeim framtíðarpöntunum 
+        sem hann á sem eru ekki í gangi núna. Skilar False ef ekkert finnst
+        """
+        customer_orders = self.get_customer_orders(email)
+        if not customer_orders:
+            return False
+        active_customer_orders = self.get_active_orders(customer_orders)
+        for order in active_customer_orders:
+            customer_orders.remove(order)
+        return customer_orders

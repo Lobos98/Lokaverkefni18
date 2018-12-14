@@ -142,17 +142,19 @@ class ErrorCatch:
 
     def input_phone(self):
         """
-        Biður um snr þangað til löglegt snr er skrifað inn. 
-        Býður upp á að skrifa inn q til að hætta við og skilar þá tómum streng 
+        Biður um snr og losar nr við bandstrik og bil þangað til löglegt 
+        snr er skrifað inn. Býður upp á að skrifa 
+        inn q til að hætta við og skilar þá tómum streng 
         """
         phone = input("Símanúmer: ")
-        while not self.check_phone_no(phone):
-            if phone.lower() == "q":
+        phone_number = phone.replace('-', '').replace(' ', '')
+        while not self.check_phone_no(phone_number):
+            if phone_number.lower() == "q":
                 return ""
             else:
                 print("Ógilt símanúmer, reyndu aftur eða 'q' til að hætta")
                 phone = input("Símanúmer: ")
-        return phone
+        return phone_number
 
     def input_card(self):
         """
@@ -233,14 +235,13 @@ class ErrorCatch:
 
     def check_phone_no(self, phone_number):
         """
-        Tekur við símanúmeri á strengjaformi, losar það við 
-        bandstrik og bil og skilar False ef númerið er er styttra en 
+        Tekur við símanúmeri á strengjaformi og skilar False ef númerið er er styttra en 
         2 stafir eða inniheldur eitthvað annað en tölur
         """
-        phone_number = phone_number.replace('-', '').replace(' ', '')
         if not phone_number.isdigit():
             return False
         if len(phone_number) not in range(2, 21):
+            #Leyfum hér erlend símanúmer líka
             return False
         return True
 

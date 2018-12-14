@@ -260,17 +260,18 @@ class VehicleInterface:
 
     def print_history(self, car):
         """
-        Tekur við car object og prentar út notkunarsögu hans eftir viðskiptavinum
+        Tekur við car object og prentar út 
+        notkunarsögu hans eftir viðskiptavinum
         """
         history_dict = car.get_history()
         for email, list_of_date_tuples in history_dict.items():
-            print("Viðskiptavinurinnn {}\nleigði bílinn {} út á eftirfarandi dagsetningum:".format(email, car.get_reg_num()))
+            print("Viðskiptavinurinnn {}\nleigði bílinn {} "
+            "út á eftirfarandi dagsetningum:".format(email, car.get_reg_num()))
             print()
             for datetime_tuple in list_of_date_tuples:
-                pickup_date = datetime_tuple[0]
-                return_date = datetime_tuple[1]
-                pickup_date_string = datetime.strftime(pickup_date, "%d%m%Y")
-                return_date_string = datetime.strftime(return_date, "%d%m%Y")
+                pickup_date, return_date = datetime_tuple
+                pickup_date_string = datetime.strftime(pickup_date, "%d.%m.%Y")
+                return_date_string = datetime.strftime(return_date, "%d.%m.%Y")
                 print("Frá {} til {}".format(pickup_date_string, return_date_string))
             self.__print_lines()
 

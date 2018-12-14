@@ -68,7 +68,7 @@ class CustomerInterface:
             if choice.lower() == "j":
                  return self.find_by_name()
             elif choice.lower() == "s":
-                return self.__staff_interface.register_customer()
+                return [self.__staff_interface.register_customer()]
             else:
                 self.__staff_interface.go_to_menu()
         else:
@@ -181,7 +181,7 @@ class CustomerInterface:
             if choice.lower() == "j":
                  return self.find_by_phone_no()
             elif choice.lower() == "s":
-                return self.__staff_interface.register_customer()
+                return [self.__staff_interface.register_customer()]
             else:
                 self.__staff_interface.go_to_menu()
         

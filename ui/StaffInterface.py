@@ -102,6 +102,9 @@ class StaffInterface:
             print("Engir bílar eru lausir á þessu tímabili")
 
     def register_customer(self):
+        """
+        Skráir nýjan vskvin og skilar customer objectinu
+        """
         self.clear_screen()
         print("Skrá nýjann viðskiptavin")
         self.print_divider(57)

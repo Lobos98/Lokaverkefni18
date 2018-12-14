@@ -1,0 +1,16 @@
+Pontunarnr,Bilnr,Dagsetning,Email,Aukatrygging
+1,BB111,22122015--05122016,kjartanb@gmail.com,True
+2,CC222,12032016--20062016,bjorgvinb@ru.is,True
+3,CC222,15122016--12012017,bjorgvinb@ru.is,True
+4,SB463,12012017--20122017,top_tester@internet.is,False
+5,SB463,22012017--01022017,test2@zuism.is,False
+6,BB111,30012017--12022017,mfrid@bmail.com,False
+7,CC222,12042017--20082017,bjorgvinb@ru.is,False
+8,EUN45,31082017--20092017,robertelis98@gmail.com,True
+9,BB111,22122017--03122018,mfrid@bmail.com,False
+10,CC222,01012018--06122018,bjorgvinb@ru.is,True
+11,DD444,12012018--15022018,sigmundur_david69@nocco.is,False
+12,SB463,02022018--20032018,top_tester@internet.is,False
+13,EUN45,12032018--20032018,liljag@ru.is,True
+14,EUN45,22042018--22052018,liljag@ru.is,True
+15,DD444,15062018--12072018,einar@tvaerthrjar.is,False

@@ -86,7 +86,7 @@ class CustomerService:
 		customer.set_fine(fine_amount)
 		self.__customer_repo.add_customer(customer)
 
-	def add_customer(self, email, name, card_no, phone_no, ssn = "0"):
+	def add_customer(self, email, name, card_no, phone_no, ssn="0"):
 		'''Tekur við netfangi, nafni, kortanúmeri, símanúmeri og kennitölu og 
 		býr til Customer object sem er svo bætt í skrána og skilar True til 
 		staðfestingar. Skilar False ef netfang vskvinar er þegar í notkun'''

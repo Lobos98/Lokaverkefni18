@@ -77,32 +77,36 @@ class OrderInterface:
         email = customer_object.get_email()
         print("Breyta Pöntun")
         self.__print_lines(46)
-        ordered_cars, order_info = self.return_ord_cars_and_info(email)
+        list_of_orders, order_info = self.return_ord_cars_and_info(email)
 
-        order_num = self.order_pick(ordered_cars)
+        order_num = self.order_pick(list_of_orders)
 
-        car = ordered_cars[order_num - 1]
+        order = list_of_orders[order_num - 1]
         pickup_date, return_date, free_cars\
          = self.__staff_interface.display_free_cars()
         if free_cars:
             self.__clear_screen()
             print("Breyta Pöntun")
             self.__print_lines(57)
-            free_reg_numbers = [a_car.get_reg_num() for a_car in free_cars]
-            reg_num = car.get_car_reg_num()
+            free_reg_numbers = [car.get_reg_num() for car in free_cars]
+            reg_num = order.get_car_reg_num()
         else:
             print("Hætt var við")
             return self.__staff_interface.go_to_menu()
 
         if reg_num in free_reg_numbers:
-            vehicle = self.__staff_interface.car_service.find_car(reg_num)
-            car_price = self.__staff_interface.car_service.get_price(vehicle)
-            price = self.__staff_interface.order_service.calculate_price\
-            (car_price, pickup_date, return_date)[1]
+            car = self.__staff_interface.car_service.find_car(reg_num)
+            car_price = self.__staff_interface.car_service.get_price(car)
+            if order.get_bonus_insurance():                
+                price = self.__staff_interface.order_service.calculate_price\
+                (car_price, pickup_date, return_date)[1]
+            elif not order.get_bonus_insurance():
+                price = self.__staff_interface.order_service.calculate_price\
+                (car_price, pickup_date, return_date)[0]
             print("Þú hefur breytt dagsetningunni, nýja verðið er: {:,d} Kr".\
                 format(price))
             self.__staff_interface.order_service.change_order\
-            (car, "1", pickup_date, return_date)
+            (order, "1", pickup_date, return_date)
             self.__print_lines(57)
             return self.__staff_interface.go_to_menu
         print("Bíll sem er bundinn pöntun er frátekinn á þessu timabili.")
@@ -117,10 +121,10 @@ class OrderInterface:
     def return_ord_cars_and_info(self, email):
         print("Breyta Pöntun")
         self.__print_lines(46)
-        order_info = self.__staff_interface.order_service.find_order(email)
+        order_list = self.__staff_interface.order_service.find_order(email)
         ordered_cars = []  
-        if order_info:
-            for index, order in enumerate(order_info):
+        if order_list:
+            for index, order in enumerate(order_list):
                 ordered_cars.append(order)
                 print("{}. Pöntun á bíl {} frá {} til {}"\
                 .format(index + 1,
@@ -128,7 +132,7 @@ class OrderInterface:
                 order.get_pickup_date().strftime("%d.%m.%Y"),
                 order.get_return_date().strftime("%d.%m.%Y")))
         self.__print_lines(46)
-        return ordered_cars, order_info
+        return ordered_cars, order_list
         
     def order_pick(self, ordered_cars):
         while True:

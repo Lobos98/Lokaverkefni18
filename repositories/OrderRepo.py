@@ -54,8 +54,8 @@ class OrderRepo:
         return self.__order_list
 
     def get_order(self, email):
-        '''Tekur við emaili sem streng og leitar í lista og skilar svo pöntun
-        ef pöntun finnst ekki skilar fallið False'''
+        '''Tekur við emaili sem streng og leitar í lista og skilar 
+        svo lista af pöntunum ef pöntun finnst ekki skilar fallið False'''
         found_orders = []
         for order in self.__order_list:
             if email == order.get_customer_email():

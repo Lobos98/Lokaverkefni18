@@ -345,13 +345,12 @@ class StaffInterface:
         self.print_divider(20)
         customer = self.find_customer_menu()
         if not customer:
-            email = self.register_customer()
-            customer = self.customer_service.find_customer(email)
+            self.go_to_menu()
         email = customer.get_email()
+        name = customer.get_name()
         self.clear_screen()
-        cust = self.customer_service.find_customer(email)
-        if not self.order_service.find_order(email):
-            print("Enginn pöntun fannst fyrir {}".format(cust.get_name()))
+        if not self.order_service.find_future_orders(email):
+            print("Enginn pöntun fannst fyrir {}".format(name))
             choice = input("Viltu reyna aftur? (j/n eða q til að hætta): ")
             if choice == "j":
                 return self.change_order()
@@ -360,12 +359,12 @@ class StaffInterface:
             else:
                 exit()
         print("Breyta Pöntun")
-        self.print_divider(27 + len(cust.get_name()))
-        print("Hverju viltu breyta fyrir {}?".format(cust.get_name()))
-        self.print_divider(27 + len(cust.get_name()))
+        self.print_divider(27 + len(name))
+        print("Hverju viltu breyta fyrir {}?".format(name))
+        self.print_divider(27 + len(name))
         menu_list = ["Dagsetningu", "Bíl", "Til baka"]
         self.print_menu(menu_list)
-        self.print_divider(27 + len(cust.get_name()))
+        self.print_divider(27 + len(name))
         input_num = input("Val: ")
 
         self.clear_screen()
@@ -531,4 +530,8 @@ class StaffInterface:
         if choice.lower() == "j":
             return self.main_menu()
         else:
-            exit()
+            second_choice = input("Forritið mun loka. Ertu alveg viss? (j/n): ")
+            if second_choice.lower() == "j":
+                exit()
+            else:
+                return self.main_menu()

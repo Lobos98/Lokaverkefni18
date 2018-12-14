@@ -23,6 +23,7 @@ class OrderInterface:
         elif input_num == "4":
             self.__staff_interface.delete_order()
         elif input_num == "5":
+            self.__clear_screen()
             self.__staff_interface.print_orders(self.__staff_interface.\
                 order_service.get_list_of_orders())
         elif input_num == "6":

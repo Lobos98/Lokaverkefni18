@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class VehicleInterface:
 
     def __init__(self, staff_interface):
@@ -5,7 +7,7 @@ class VehicleInterface:
 
         self.__menu_list = ["Birta lausa bíla", "Birta bíla í útleigu",
         "Skila bíl", "Skrá bíl", "Afskrá bíl", "Leita að bíl",
-        "Bilaðir bílar", "Birta alla bíla", "Prenta verðlista","Til baka"]
+        "Bilaðir bílar", "Birta alla bíla", "Prenta verðlista", "Prenta notkunarsögu bíls", "Til baka"]
         self.__print_lines = self.__staff_interface.print_divider
         self.__clear_screen = self.__staff_interface.clear_screen
 
@@ -38,6 +40,8 @@ class VehicleInterface:
         elif input_num == "9":
             self.print_car_prices()
         elif input_num == "10":
+            self.print_car_history()
+        elif input_num == "11":
             self.__staff_interface.main_menu()
         else:
             pass
@@ -235,4 +239,38 @@ class VehicleInterface:
             car = self.__staff_interface.car_service.find_car(reg_num)
             if car == False:
                 print("Bíllinn {} finnst ekki.".format(reg_num.upper()))
+                print("Sláið inn 'q' til að hætta við eða reynið aftur")
         return car
+    
+    def print_car_history(self):
+        """
+        Kallar í fall til að finna bíl og prentar svo notkunarsögu bílsins
+        """
+        self.__clear_screen()
+        print("Leita að bíl")
+        self.__print_lines(30)
+        car = self.__find_car()
+        if car:        
+            self.__staff_interface.clear_screen()
+            print("Notkunarsaga bíls")
+            self.__staff_interface.print_divider()
+            self.print_history(car)
+        else:
+            print("Hætt var við að leita að bíl.")
+
+    def print_history(self, car):
+        """
+        Tekur við car object og prentar út notkunarsögu hans eftir viðskiptavinum
+        """
+        history_dict = car.get_history()
+        for email, list_of_date_tuples in history_dict.items():
+            print("Viðskiptavinurinnn {}\nleigði bílinn {} út á eftirfarandi dagsetningum:".format(email, car.get_reg_num()))
+            print()
+            for datetime_tuple in list_of_date_tuples:
+                pickup_date = datetime_tuple[0]
+                return_date = datetime_tuple[1]
+                pickup_date_string = datetime.strftime(pickup_date, "%d%m%Y")
+                return_date_string = datetime.strftime(return_date, "%d%m%Y")
+                print("Frá {} til {}".format(pickup_date_string, return_date_string))
+            self.__print_lines()
+

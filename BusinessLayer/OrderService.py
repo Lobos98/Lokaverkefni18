@@ -149,3 +149,15 @@ class OrderService:
     def get_list_of_orders(self):
         '''Sækir lista yfir allar pantanir úr repoinu'''
         return self.__order_repo.get_all_orders()
+
+    def get_customers_past_orders(self, customer):
+        """
+        Tekur við customer object og skilar lista af þeim pöntunum 
+        sem hann hefur klárað í fortíðinni 
+        """
+        list_of_order_numbers = customer.get_history()
+        list_of_past_orders = []
+        for order_no in list_of_order_numbers:
+            order = self.__order_repo.find_old_order_by_order_no(order_no)
+            list_of_past_orders.append(order)
+        return list_of_past_orders

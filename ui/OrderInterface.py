@@ -84,11 +84,15 @@ class OrderInterface:
         car = ordered_cars[order_num - 1]
         pickup_date, return_date, free_cars\
          = self.__staff_interface.display_free_cars()
-        self.__clear_screen()
-        print("Breyta Pöntun")
-        self.__print_lines(57)
-        free_reg_numbers = [a_car.get_reg_num() for a_car in free_cars]
-        reg_num = car.get_car_reg_num()
+        if free_cars:
+            self.__clear_screen()
+            print("Breyta Pöntun")
+            self.__print_lines(57)
+            free_reg_numbers = [a_car.get_reg_num() for a_car in free_cars]
+            reg_num = car.get_car_reg_num()
+        else:
+            print("Hætt var við")
+            return self.__staff_interface.go_to_menu()
 
         if reg_num in free_reg_numbers:
             vehicle = self.__staff_interface.car_service.find_car(reg_num)

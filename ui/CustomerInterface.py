@@ -1,10 +1,10 @@
 class CustomerInterface:
     def __init__(self, staff_interface):
         self.__staff_interface = staff_interface
-        self.__menu_list = ["Skrá viðskiptavin", "Fletta upp viðskiptavin",\
-        "Afskrá viðskiptavin", 
-        "Uppfæra viðskiptavin", "Setja á bannlista", "Taka af bannlista", 
-        "Sekta viðskiptavin", "Prenta leigusögu viðskiptavinar","Til baka"]
+        self.__menu_list = ["Skrá viðskiptavin", "Fletta upp viðskiptavin",
+        "Afskrá viðskiptavin", "Uppfæra viðskiptavin", "Setja á bannlista", 
+        "Taka af bannlista", "Sekta viðskiptavin", 
+        "Prenta leigusögu viðskiptavinar", "Til baka"]
         self.__print_lines = self.__staff_interface.print_divider
         self.__clear_screen = self.__staff_interface.clear_screen
 

@@ -219,7 +219,7 @@ class CustomerInterface:
         self.__clear_screen()
         print("Uppfæra viðskiptavin")
         self.__print_lines(30)
-        print("Núverandi símanúmer: {}".format(customer.get_phone_no))
+        print("Núverandi símanúmer: {}".format(customer.get_phone_no()))
         phone_no = self.__staff_interface.error_catch.input_phone()
         if not phone_no:
             return self.__staff_interface.go_to_menu()

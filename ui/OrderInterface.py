@@ -4,10 +4,10 @@ class OrderInterface:
         self.__menu_list = ["Skrá pöntun", "Breyta pöntun", "Fletta upp pöntun",
         "Bakfæra pöntun", "Prenta allar pantanir", "Til baka"]
         self.__print_lines = self.__staff_interface.print_divider
-        self.__clear_scren = self.__staff_interface.clear_screen
+        self.__clear_screen = self.__staff_interface.clear_screen
 
     def menu(self):
-        self.__clear_scren()
+        self.__clear_screen()
         print("Pantanir")
         self.__print_lines(25)
         
@@ -43,7 +43,7 @@ class OrderInterface:
         old_return_date = order.get_return_date()
 
         while True:
-            self.__clear_scren()
+            self.__clear_screen()
             free_cars = self.__staff_interface.car_service.\
             find_free_cars(old_pickup_date, old_return_date)
             free_cars_of_same_type = self.__staff_interface.car_service.\
@@ -83,7 +83,7 @@ class OrderInterface:
         car = ordered_cars[order_num - 1]
         pickup_date, return_date, free_cars\
          = self.__staff_interface.display_free_cars()
-        self.__clear_scren()
+        self.__clear_screen()
         print("Breyta Pöntun")
         self.__print_lines(57)
         free_reg_numbers = [a_car.get_reg_num() for a_car in free_cars]
@@ -137,13 +137,13 @@ class OrderInterface:
                 return order_num
     
     def find_order(self):
-        self.__clear_scren()
+        self.__clear_screen()
         print("Finna pöntun")
         self.__print_lines(34)
         email = self.__staff_interface.error_catch.input_email()
         if not email:
             self.__staff_interface.go_to_menu()
-        self.__clear_scren() 
+        self.__clear_screen() 
         order_list = self.__staff_interface.order_service.get_customer_orders(email)
         if not order_list:
             print("Það er engin pöntun á þessu netfangi")

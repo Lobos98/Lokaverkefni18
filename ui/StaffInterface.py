@@ -309,7 +309,6 @@ class StaffInterface:
             else:
                 exit()
 
-        print("-"*72)
         self.print_orders(list_of_orders)
         self.print_divider(61)
         val = self.error_catch.integer_input("Veldu pöntun: ", \

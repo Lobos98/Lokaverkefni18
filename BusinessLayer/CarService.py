@@ -49,8 +49,6 @@ class CarService:
         af lausum bílum á tímabilinu """
 
         free_car_list = []
-        wanted_pickup_date = datetime.strptime(wanted_pickup_date, "%d%m%Y")
-        wanted_return_date = datetime.strptime(wanted_return_date, "%d%m%Y")
 
         for car in self.__car_repo.get_all_cars():
             reserved_dates = []
@@ -74,7 +72,7 @@ class CarService:
         for car in list_of_cars:
             reserved_dates = car.get_reserved_dates()
             for date_tuple in reserved_dates:
-                if date_tuple[0] <= datetime.today() < date_tuple[1]:
+                if date_tuple[0] <= datetime.today() <= date_tuple[1]:
                     rented_cars.append(car)
         return rented_cars
 

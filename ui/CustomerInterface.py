@@ -4,17 +4,17 @@ class CustomerInterface:
         self.__menu_list = ["Skrá viðskiptavin", "Fletta upp viðskiptavin",\
         "Afskrá viðskiptavin", 
         "Uppfæra viðskiptavin", "Setja á bannlista", "Taka af bannlista", 
-        "Sekta viðskiptavin", "Til baka"]
+        "Sekta viðskiptavin", "Prenta leigusögu viðskiptavinar","Til baka"]
         self.__print_lines = self.__staff_interface.print_divider
         self.__clear_screen = self.__staff_interface.clear_screen
 
     def menu(self):
         self.__clear_screen()
         print("Viðskiptavinir")
-        self.__print_lines(27)
+        self.__print_lines(31)
         
         self.__staff_interface.print_menu(self.__menu_list)
-        self.__print_lines(27)
+        self.__print_lines(31)
         input_num = input("Val: ")
 
         if input_num == "1":
@@ -32,6 +32,8 @@ class CustomerInterface:
         elif input_num == "7":
             self.fine_customer()
         elif input_num == "8":
+            self.print_past_orders()
+        elif input_num == "9":
             self.__staff_interface.main_menu()
         else:
             pass
@@ -342,3 +344,19 @@ class CustomerInterface:
             self.__print_lines(num_chars)
         else:
             print("Notandi fannst ekki")
+
+    def print_past_orders(self):
+        found_customer = self.__staff_interface.find_customer_menu()
+        if not found_customer:
+            print("Viðskiptavinur fannst ekki.")
+            self.__staff_interface.go_to_menu()
+        self.__clear_screen()
+        if found_customer.get_history == []:
+            print("Viðskiptavinur hefur ekki leigt bíl áður")
+        else:
+            name = found_customer.get_name()
+            print("Leigusaga viðskiptavinar {}".format(name))
+            self.__print_lines(61)
+            order_list = self.__staff_interface.order_service.get_customers_past_orders(found_customer)
+            self.__staff_interface.print_orders(order_list)
+            self.__print_lines(61)

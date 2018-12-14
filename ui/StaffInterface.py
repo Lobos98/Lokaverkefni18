@@ -70,8 +70,6 @@ class StaffInterface:
         self.clear_screen()
         print("Birta lausa bíla")
         self.print_divider()
-        free_car_list = self.car_service.find_free_cars(\
-        pickup_date, return_date)
         try:
             pickup_print = "{}{}.{}{}.{}{}{}{}".format(*pickup_date)
             return_print = "{}{}.{}{}.{}{}{}{}".format(*return_date)
@@ -80,6 +78,8 @@ class StaffInterface:
         except TypeError:
             pickup_print = pickup_date.strftime("%d.%m.%Y")
             return_print = return_date.strftime("%d.%m.%Y")
+        free_car_list = self.car_service.find_free_cars(\
+        pickup_date, return_date)
         print("Eftirfarandi bílar eru lausir frá {} til {}:".format(\
         pickup_print, return_print))
         self.display_list_of_cars(free_car_list)
@@ -219,6 +219,8 @@ class StaffInterface:
         self.order_service.move_to_past(order.get_order_no())
         self.customer_service.add_old_order(order.get_customer_email(),\
         order.get_order_no())
+        self.clear_screen()
+        print("Skila bíl")
         self.print_divider(27 + len(reg_num))
         print("Bílnum {} hefur verið skilað!".format(reg_num))
         self.print_divider(27 + len(reg_num))
@@ -231,8 +233,13 @@ class StaffInterface:
         car = self.car_service.find_car(reg_num)
         if not car:
             print("Það er enginn bíll í útleigu")
-        price = self.order_service.calculate_price(self.car_service.\
-            get_price(car),order.get_pickup_date(), order.get_return_date())[1]
+            return self.go_to_menu()
+        if order.get_bonus_insurance():
+            price = self.order_service.calculate_price(self.car_service.\
+                get_price(car),order.get_pickup_date(), order.get_return_date())[1]
+        else:
+            price = self.order_service.calculate_price(self.car_service.\
+                get_price(car),order.get_pickup_date(), order.get_return_date())[0]
         print("Veldu tegund greiðslu")
         self.print_divider()
         self.print_menu(menu_list)
@@ -452,18 +459,18 @@ class StaffInterface:
         print("Skrá pöntun")
         self.print_divider(52)
         print("Kostnaður fyrir bílinn {} í {} daga er: {:,d} kr."\
-        .format(reg_number, time_d.days, price))
+        .format(reg_number, time_d.days + 1, price))
         print("Auka trygging kostar 150% af verði bílsins,\n"
         "kostnaður er þá {:,d} kr".format(price_insured))
         self.print_divider(52)
         
         extra_insurance = input("Má bjóða þér auka tryggingu? (j/n): ")
         if extra_insurance.lower() == "j":
-            insurance = "True"
+            insurance = True
             print("Nýja verðið er {:,d} kr."\
             .format(price_insured))
         else:
-            insurance = "False"
+            insurance = False
         self.print_divider(52)
 
         new_order = self.order_service.log_order(reg_number,\

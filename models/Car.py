@@ -86,7 +86,7 @@ class Car:
         """Tekur inn pöntun þegar henni er lokið og bætir henni í\
         notkunarsögu bílsins og af-frátekur dagsetningarnar"""
         renter = order.get_customer_email()
-        reservation = order.get_date(order)
+        reservation = order.get_date()
         if renter in self.__history:
             self.__history[renter].append(reservation)
         else:

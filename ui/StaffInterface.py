@@ -221,7 +221,6 @@ class StaffInterface:
         self.print_divider(27 + len(reg_num))
 
     def payment_type(self, order):
-        self.clear_screen()
         print("Skila bíl")
         self.print_divider()
         menu_list = ["Debit/Kreditkort", "Reiðufé", "Til baka"]

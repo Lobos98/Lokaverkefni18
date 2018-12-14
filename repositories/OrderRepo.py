@@ -104,10 +104,9 @@ class OrderRepo:
         reg_num = order.get_car_reg_num()
         pickup_return_date_string = self.get_date_string_from_order(order)
         email = order.get_customer_email()
-        interim_order_val = order.get_bonus_insurance()
-        if interim_order_val == "True":
+        if order.get_bonus_insurance():
             bonus_insurance = "True"
-        elif interim_order_val == "False":
+        elif not order.get_bonus_insurance():
             bonus_insurance = "False"
         attribute_list = [order_no, reg_num, pickup_return_date_string,\
          email, bonus_insurance]
